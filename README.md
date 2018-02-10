@@ -15,7 +15,7 @@ onvif-nvt is not available via npm (yet!) while some of the functionality is bei
 * Media
   * Profiles, Video/Audio/PTZ/Analytics/Metadata Configurations, Video sources, Audio sources, Stream Uri, Snapshot Uri, Multicast, and OSD.
 * Snapshot
-  * Using the **snapshot* module, you can retrieve ssnapshots from the device.
+  * Using the **snapshot** module, you can retrieve ssnapshots from the device.
 * Other modules
   * Access, Access Rules, Action, Analytics, Credential, DeviceIO, Display, Door, Events, Imaging, Media2, Receiver, Recording, Replay, Schedule, Search, Security, Thermal and Video Analytics.
 
