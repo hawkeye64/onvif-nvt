@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: modules/ptz.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: modules/ptz.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Soap = require('../utils/soap')
+const Util = require('../utils/util')
+
+/**
+ * @class Ptz
+ * &lt;p>
+ * {@link https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1712.pdf}&lt;br>
+ * {@link https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl}&lt;br>
+ * &lt;/p>
+ * &lt;h3>Functions&lt;/h3>
+ * {@link Ptz#getNodes},{@link Ptz#getNode}, {@link Ptz#getConfigurations}, {@link Ptz#getConfiguration},
+ * {@link Ptz#getConfigurationOptions}, {@link Ptz#setConfiguration}, {@link Ptz#getCompatibleConfigurations},
+ * {@link Ptz#absoluteMove}, {@link Ptz#relativeMove}, {@link Ptz#continuousMove},{@link Ptz#geoMove},
+ * {@link Ptz#stop}, {@link Ptz#getStatus}, {@link Ptz#getStatus}, {@link Ptz#setPreset},
+ * {@link Ptz#getPresets}, {@link Ptz#gotoPreset}, {@link Ptz#removePreset},
+ * {@link Ptz#gotoHomePosition}, {@link Ptz#setHomePosition}, {@link Ptz#sendAuxiliaryCommand}
+ * &lt;br>&lt;br>
+ * &lt;h3>Overview&lt;/h3>
+ * The PTZ model groups the possible movements of the PTZ unit into a Pan/Tilt component and
+ * into a Zoom component. To steer the PTZ unit, the service provides absolute move, relative
+ * move and continuous move operations. Different coordinate systems and units are used to feed
+ * these operations.&lt;br>
+ * The PTZ service provides an AbsoluteMove operation to move the PTZ device to an absolute
+ * position. The service expects the absolute position as an argument referencing an absolute
+ * coordinate system. The speed of the Pan/Tilt movement and the Zoom movement can be
+ * specified optionally. Speed values are positive scalars and do not contain any directional
+ * information. It is not possible to specify speeds for Pan and Tilt separately without knowledge
+ * about the current position. This approach to specifying a desired position generally produces a
+ * non-smooth and non-intuitive action.&lt;br>
+ * A RelativeMove operation is introduced by the PTZ service in order to steer the dome relative to
+ * the current position, but without the need to know the current position. The operation expects a
+ * positional translation as an argument referencing a relative coordinate system. This
+ * specification distinguishes between relative and absolute coordinate systems, since there are
+ * cases where no absolute coordinate system exists for a well-defined relative coordinate system.
+ * An optional speed argument can be added to the RelativeMove operation with the same
+ * meaning as for the AbsoluteMove operation.&lt;br>
+ * Finally, the PTZ device can be moved continuously via the ContinuousMove command in a
+ * certain direction with a certain speed. Thereby, a velocity vector represents both, the direction
+ * and the speed information. The latter is expressed by the length of the vector.
+ * The Pan/Tilt and Zoom coordinates can be uniquely specified by augmenting the coordinates
+ * with appropriate space URIs. A space URI uniquely represents the underlying coordinate system.
+ * Section 5.7 defines a standard set of coordinate systems. A PTZ Node shall implement these
+ * coordinate systems if the corresponding type of movement is supported by the PTZ Node. In
+ * many cases, the Pan/Tilt position is represented by pan and tilt angles in a spherical coordinate
+ * system. A digital PTZ, operating on a fixed megapixel camera, may express the camera’s
+ * viewing direction by a pixel position on a static projection plane. Therefore, different coordinate
+ * systems are needed in this case in order to capture the physical or virtual movements of the
+ * PTZ device. Optionally, the PTZ Node may define its own device specific coordinate systems to
+ * enable clients to take advantage of the specific properties of this PTZ Node.
+ * The PTZ Node description retrieved via the GetNode or GetNodes operation contains all
+ * coordinate systems supported by a specific PTZ Node. Each coordinate system belongs to one
+ * of the following groups:
+ * &lt;ul>
+ * &lt;li>AbsolutePanTiltPositionSpace&lt;/li>
+ * &lt;li>RelativePanTiltTranslationSpace&lt;/li>
+ * &lt;li>ContinuousPanTiltVelocitySpace&lt;/li>
+ * &lt;li>PanTiltSpeedSpace&lt;/li>
+ * &lt;li>AbsoluteZoomPositionSpace&lt;/li>
+ * &lt;li>RelativeZoomTranslationSpace&lt;/li>
+ * &lt;li>ContinuousZoomVelocitySpace&lt;/li>
+ * &lt;li>ZoomSpeedSpace&lt;/li>
+ * &lt;/ul>
+ * If the PTZ node does not support the coordinate systems of a certain group, the corresponding
+ * move operation will not be available for this PTZ node. For instance, if the list does not contain
+ * an AbsolutePanTiltPositionSpace, the AbsoluteMove operation shall fail when an absolute
+ * Pan/Tilt position is specified. The corresponding command section describes those spaces that
+ * are required for a specific move command.&lt;br>
+ * &lt;br>
+ */
+class Ptz {
+  constructor () {
+    this.timeDiff = 0
+    this.serviceAddress = null
+    this.username = null
+    this.password = null
+    this.defaultProfileToken = null
+
+    this.namespaceAttributes = [
+      'xmlns:env="http://www.w3.org/2003/05/soap-envelope "',
+      'xmlns:ter="http://www.onvif.org/ver10/error"',
+      'xmlns:xs="http://www.w3.org/2001/XMLSchema"',
+      'xmlns:tt="http://www.onvif.org/ver10/schema"',
+      'xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl"'
+    ]
+  }
+
+  /**
+   * Call this function directly after instantiating a Ptz object
+   * @param {number} timeDiff The onvif device's time difference
+   * @param {object} serviceAddress An url object from url package - require('url')
+   * @param {string=} username Optional only if the device does NOT have a user
+   * @param {string=} password Optional only if the device does NOT have a password
+   */
+  init (timeDiff, serviceAddress, username, password) {
+    this.timeDiff = timeDiff
+    this.serviceAddress = serviceAddress
+    this.username = username
+    this.password = password
+  }
+
+  /**
+   * Sets the default profile token. This comes from media#getProfiles method.
+   * @param {string} profileToken The profileToken to use when one is not passed to a method requiring one.
+   */
+  setProfileToken (profileToken) {
+    this.defaultProfileToken = profileToken
+  }
+
+  /**
+   * Private function for creating a SOAP request
+   * @param {*} body
+   */
+  createRequest (body) {
+    let soapEnvelope = Soap.createRequest({
+      'body': body,
+      'xmlns': this.namespaceAttributes,
+      'diff': this.timeDiff,
+      'username': this.username,
+      'password': this.password
+    })
+    return soapEnvelope
+  };
+
+  /**
+   * Creates xml where PanTilt (x|y) and Zoom (z) are needed.
+   * @param {*} vectors
+   */
+  panTiltZoomOptions (vectors) {
+    let soapBody = ''
+    if ('x' in vectors &amp;&amp; 'y' in vectors) {
+      soapBody += '&lt;tt:PanTilt x="' + vectors['x'] + '" y="' + vectors['y'] + '"/>'
+    }
+    if ('z' in vectors) {
+      soapBody += '&lt;tt:Zoom x="' + vectors['z'] + '"/>'
+    }
+    return soapBody
+  };
+
+  // ---------------------------------------------
+  // PTZ API
+  // ---------------------------------------------
+
+  /**
+   * A PTZ-capable device shall implement this operation and return all PTZ nodes available on the device.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getNodes (callback) {
+    let promise = new Promise((resolve, reject) => {
+      let soapBody = '&lt;tptz:GetNodes/>'
+      let soapEnvelope = this.createRequest(soapBody)
+      return Soap.makeRequest(this.serviceAddress, 'GetNodes', soapEnvelope)
+        .then(results => {
+          try {
+            let d = results['data']['PTZNode']
+            if (!Array.isArray(d)) {
+              results['data']['PTZNode'] = [d]
+            }
+          }
+          catch (e) {}
+          resolve(results)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A PTZ-capable device shall implement the GetNode operation and return the properties of the
+   * requested PTZ node, if it exists. Otherwise, the device shall respond with an appropriate fault
+   * message.
+   * @param {*} nodeToken Reference to the requested PTZNode.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getNode (nodeToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(nodeToken, 'string'))) {
+        reject(new Error('The "nodeToken" argument for getNode is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GetNode>'
+      soapBody += '&lt;tptz:NodeToken>' + nodeToken + '&lt;/tptz:NodeToken>'
+      soapBody += '&lt;/tptz:GetNode>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetNode', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * The PTZConfiguration contains a reference to the PTZ node in which it belongs. This reference
+   * cannot be changed by a client.&lt;br>
+   * The following elements are part of the PTZ Configuration:
+   * &lt;ul>
+   * &lt;li>PTZNodeToken – A mandatory reference to the PTZ node that the PTZ Configuration
+   * belongs to.&lt;/li>
+   * &lt;li>DefaultAbsolutePanTiltPositionSpace – If the PTZ node supports absolute Pan/Tilt
+   * movements, it shall specify one Absolute Pan/Tilt Position Space as default.&lt;/li>
+   * &lt;li>DefaultRelativePanTiltTranslationSpace – If the PTZ node supports relative Pan/Tilt
+   * movements, it shall specify one RelativePan/Tilt Translation Space as default.&lt;/li>
+   * &lt;li>DefaultContinuousPanTiltVelocitySpace – If the PTZ node supports continuous
+   * Pan/Tilt movements, it shall specify one continuous Pan/Tilt velocity space as default.&lt;/li>
+   * &lt;li>DefaultPanTiltSpeedSpace – If the PTZ node supports absolute or relative
+   * movements, it shall specify one Pan/Tilt speed space as default.&lt;/li>
+   * &lt;li>DefaultAbsoluteZoomPositionSpace – If the PTZ node supports absolute zoom
+   * movements, it shall specify one absolute zoom position space as default.&lt;/li>
+   * &lt;li>DefaultRelativeZoomTranslationSpace – If the PTZ node supports relative zoom
+   * movements, it shall specify one relative zoom translation space as default.&lt;/li>
+   * &lt;li>DefaultContinuousZoomVelocitySpace – If the PTZ node supports continuous zoom
+   * movements, it shall specify one continuous zoom velocity space as default.&lt;/li>
+   * &lt;li>DefaultPTZSpeed – If the PTZ node supports absolute or relative PTZ movements, it
+   * shall specify corresponding default Pan/Tilt and Zoom speeds.&lt;/li>
+   * &lt;li>DefaultPTZTimeout – If the PTZ node supports continuous movements, it shall
+   * specify a default timeout, after which the movement stops.&lt;/li>
+   * &lt;li>PanTiltLimits – The Pan/Tilt limits element should be present for a PTZ node that
+   * supports an absolute Pan/Tilt. If the element is present it signals the support for
+   * configurable Pan/Tilt limits. If limits are enabled, the Pan/Tilt movements shall
+   * always stay within the specified range. The Pan/Tilt limits are disabled by setting the
+   * limits to –INF or +INF.&lt;/li>
+   * &lt;li>ZoomLimits – The zoom limits element should be present for a PTZ node that
+   * supports absolute zoom. If the element is present it signals the supports for
+   * configurable zoom limits. If limits are enabled the zoom movements shall always stay
+   * within the specified range. The Zoom limits are disabled by settings the limits to –INF
+   * and +INF.&lt;/li>
+   * &lt;li>MoveRamp – The optional acceleration ramp used by the device when moving.&lt;/li>
+   * &lt;li>PresetRamp – The optional acceleration ramp used by the device when recalling
+   * presets.&lt;/li>
+   * &lt;li>PresetTourRamp – The optional acceleration ramp used by the device when
+   * executing PresetTours.&lt;/li>
+   * &lt;/ul>
+   * The default position/translation/velocity spaces are introduced to allow clients sending move
+   * requests without the need to specify a certain coordinate system. The default speeds are
+   * introduced to control the speed of move requests (absolute, relative, preset), where no explicit
+   * speed has been set.&lt;br>
+   * The allowed pan and tilt range for Pan/Tilt limits is defined by a two-dimensional space range
+   * that is mapped to a specific absolute Pan/Tilt position space. At least one Pan/Tilt position
+   * space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported
+   * absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the
+   * coordinate system for which the limits have been specified. That means that even if movements
+   * are specified in a different coordinate system, the requested movements shall be transformed to
+   * the coordinate system of the limits where the limits can be checked. When a relative or
+   * continuous movements is specified, which would leave the specified limits, the PTZ unit has to
+   * move along the specified limits. The Zoom Limits have to be interpreted accordingly.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getConfigurations (callback) {
+    let promise = new Promise((resolve, reject) => {
+      let soapBody = '&lt;tptz:GetConfigurations/>'
+      let soapEnvelope = this.createRequest(soapBody)
+      return Soap.makeRequest(this.serviceAddress, 'GetConfigurations', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A PTZ-capable device shall implement the GetConfigurationOptions operation. It returns the list
+   * of supported coordinate systems including their range limitations. Therefore, the options MAY
+   * differ depending on whether the PTZ configuration is assigned to a profile(see ONVIF Media
+   * Service Specification) containing a VideoSourceConfiguration. In that case, the options may
+   * additionally contain coordinate systems referring to the image coordinate system described by
+   * the VideoSourceConfiguration. Each listed coordinate system belongs to one of the groups
+   * listed in Section 4. If the PTZ node supports continuous movements, it shall return a timeout
+   * range within which timeouts are accepted by the PTZ node.
+   * @param {string} configurationToken Reference to the requested PTZ configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getConfiguration (configurationToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
+        reject(new Error('The "configurationToken" argument for getConfiguration is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GetConfiguration>'
+      soapBody += '&lt;tptz:PTZConfigurationToken>' + configurationToken + '&lt;/tptz:PTZConfigurationToken>'
+      soapBody += '&lt;/tptz:GetConfiguration>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetConfiguration', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A PTZ-capable device shall implement the GetConfigurationOptions operation. It returns the list
+   * of supported coordinate systems including their range limitations. Therefore, the options MAY
+   * differ depending on whether the PTZ configuration is assigned to a profile(see ONVIF Media
+   * Service Specification) containing a VideoSourceConfiguration. In that case, the options may
+   * additionally contain coordinate systems referring to the image coordinate system described by
+   * the VideoSourceConfiguration. Each listed coordinate system belongs to one of the groups
+   * listed in Section 4. If the PTZ node supports continuous movements, it shall return a timeout
+   * range within which timeouts are accepted by the PTZ node.
+   * @param {string} configurationToken Reference to the requested PTZ configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getConfigurationOptions (configurationToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
+        reject(new Error('The "configurationToken" argument for getConfigurationOptions is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GetConfigurationOptions>'
+      soapBody += '&lt;tptz:ConfigurationToken>' + configurationToken + '&lt;/tptz:ConfigurationToken>'
+      soapBody += '&lt;/tptz:GetConfigurationOptions>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetConfigurationOptions', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * &lt;strong>+++ TODO: This function is incomplete and requires a LOT of work for little return.&lt;/strong>&lt;br>
+   * &lt;strong>+++ Alternatively, you can pass XML in for ptzConfigurationOptions in the desired&lt;/strong>&lt;br>
+   * &lt;strong>+++ way required by the spec, in which case the function will work.&lt;/strong>&lt;br>
+   * A PTZ-capable device shall implement the SetConfiguration operation. The ForcePersistence
+   * flag indicates if the changes remain after reboot of the device.
+   * @param {string} configurationToken Reference to the PTZ configuration to be modified.
+   * @param {xml} ptzConfigurationOptions The requested PTZ node configuration options.
+   * @param {boolean} forcePersistence Deprecated modifier for temporary settings if supported by the device.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  setConfiguration (configurationToken, ptzConfigurationOptions, forcePersistence, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
+        reject(new Error('The "configurationToken" argument for setConfiguration is invalid: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(ptzConfigurationOptions, 'object'))) {
+        reject(new Error('The "ptzConfigurationOptions" argument for setConfiguration is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:SetConfiguration>'
+      soapBody += '&lt;tptz:PTZConfigurationToken>' + configurationToken + '&lt;/tptz:PTZConfigurationToken>'
+      soapBody += '&lt;tptz:PTZConfigurationOptions>' + ptzConfigurationOptions + '&lt;/tptz:PTZConfigurationOptions>'
+      soapBody += '&lt;/tptz:SetConfiguration>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetConfiguration', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A device signalling support for GetCompatibleConfigurations via the capability
+   * GetCompatibleConfigurations shall return all available PTZConfigurations that can be added to
+   * the referenced media profile through the GetComatibleConfigurations operation.&lt;br>
+   * A device providing more than one PTZConfiguration or more than one
+   * VideoSourceConfiguration or which has any other resource interdependency between
+   * PTZConfiguration entities and other resources listable in a media profile should implement this
+   * operation. PTZConfiguration entities returned by this operation shall not fail on adding them to
+   * the referenced media profile.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleConfigurations (profileToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for getCompatibleConfigurations is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GetCompatibleConfigurations>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;/tptz:GetCompatibleConfigurations>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetCompatibleConfigurations', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * If a PTZ node supports absolute Pan/Tilt or absolute Zoom movements, it shall support the
+   * AbsoluteMove operation. The position argument of this command specifies the absolute position
+   * to which the PTZ unit moves. It splits into an optional Pan/Tilt element and an optional Zoom
+   * element. If the Pan/Tilt position is omitted, the current Pan/Tilt movement shall NOT be affected
+   * by this command. The same holds for the zoom position.&lt;br>
+   * The spaces referenced within the position shall be absolute position spaces supported by the
+   * PTZ node. If the space information is omitted, the corresponding default spaces of the PTZ
+   * configuration, a part of the specified Media Profile, is used. A device may support absolute
+   * Pan/Tilt movements, absolute Zoom movements or no absolute movements by providing only
+   * absolute position spaces for the supported cases.&lt;br>
+   * An existing Speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
+   * during movement to the requested position. If spaces are referenced within the Speed argument,
+   * they shall be Speed Spaces supported by the PTZ Node.&lt;br>
+   * The operation shall fail if the requested absolute position is not reachable
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {object} position Vector specifying the absolute target position.
+   * @param {float=} position.x
+   * @param {float=} position.y
+   * @param {float=} position.z
+   * @param {object=} speed Optional speed vector.
+   * @param {float=} speed.x
+   * @param {float=} speed.y
+   * @param {float=} speed.z
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  absoluteMove (profileToken, position, speed, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for absoluteMove is invalid: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(position, 'object'))) {
+        reject(new Error('The "position" argument for absoluteMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (speed) {
+        if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
+          reject(new Error('The "speed" argument for absoluteMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:AbsoluteMove>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;tptz:Position>' + this.panTiltZoomOptions(position) + '&lt;/tptz:Position>'
+      if (speed) {
+        soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
+      }
+      soapBody += '&lt;/tptz:AbsoluteMove>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'AbsoluteMove', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * If a PTZ node supports relative Pan/Tilt or relative Zoom movements, then it shall support the
+   * RelativeMove operation. The translation argument of this operation specifies the difference from
+   * the current position to the position to which the PTZ device is instructed to move. The operation
+   * is split into an optional Pan/Tilt element and an optional Zoom element. If the Pan/Tilt element is
+   * omitted, the current Pan/Tilt movement shall NOT be affected by this command. The same holds
+   * for the zoom element.&lt;br>
+   * The spaces referenced within the translation element shall be translation spaces supported by
+   * the PTZ node. If the space information is omitted for the translation argument, the
+   * corresponding default spaces of the PTZ configuration, which is part of the specified Media
+   * Profile, is used. A device may support relative Pan/Tilt movements, relative Zoom movements or
+   * no relative movements by providing only translation spaces for the supported cases.
+   * An existing speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
+   * during movement by the requested translation. If spaces are referenced within the speed
+   * argument, they shall be speed spaces supported by the PTZ node.
+   * ONVIF™ – 13 – PTZ Spec. – Ver. 17.12&lt;br>
+   * The command can be used to stop the PTZ unit at its current position by sending zero values for
+   * Pan/Tilt and Zoom. Stopping shall have the very same effect independent of the relative space
+   * referenced.&lt;br>
+   * If the requested translation leads to an absolute position which cannot be reached, the PTZ
+   * Node shall move to a reachable position along the border of valid positions.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {object} translation Vector specifying the positional Translation relative to the current position.
+   * @param {float=} translation.x
+   * @param {float=} translation.y
+   * @param {float=} translation.z
+   * @param {object=} speed Optional speed vector.
+   * @param {float=} speed.x
+   * @param {float=} speed.y
+   * @param {float=} speed.z
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  relativeMove (profileToken, translation, speed, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for relativeMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (translation) {
+        if ((errMsg = Util.isInvalidValue(translation, 'object'))) {
+          reject(new Error('The "translation" argument for relativeMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (speed) {
+        if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
+          reject(new Error('The "speed" argument for relativeMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:RelativeMove>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      if (translation) {
+        soapBody += '&lt;tptz:Translation>' + this.panTiltZoomOptions(translation) + '&lt;/tptz:Translation>'
+      }
+      if (speed) {
+        soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
+      }
+      soapBody += '&lt;/tptz:RelativeMove>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'RelativeMove', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A PTZ-capable device shall support continuous movements. The velocity argument of this
+   * command specifies a signed speed value for the Pan, Tilt and Zoom. The combined Pan/Tilt
+   * element is optional and the Zoom element itself is optional. If the Pan/Tilt element is omitted,
+   * the current Pan/Tilt movement shall NOT be affected by this command. The same holds for the
+   * Zoom element. The spaces referenced within the velocity element shall be velocity spaces
+   * supported by the PTZ Node. If the space information is omitted for the velocity argument, the
+   * corresponding default spaces of the PTZ configuration belonging to the specified Media Profile
+   * is used. A device MAY support continuous Pan/Tilt movements and/or continuous Zoom
+   * movements by providing only velocity spaces for the supported cases.&lt;br>
+   * An existing timeout argument overrides the DefaultPTZTimeout parameter of the corresponding
+   * PTZ configuration for this Move operation. The timeout parameter specifies how long the PTZ
+   * node continues to move.&lt;br>
+   * A device shall stop movement in a particular axis (Pan, Tilt, or Zoom) when zero is sent as the
+   * ContinuousMove parameter for that axis. Stopping shall have the same effect independent of
+   * the velocity space referenced. This command has the same effect on a continuous move as the
+   * stop command specified in section 5.3.5.&lt;br>
+   * If the requested velocity leads to absolute positions which cannot be reached, the PTZ node
+   * shall move to a reachable position along the border of its range. A typical application of the
+   * continuous move operation is controlling PTZ via joystick.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {object} velocity One of PanTilt (x,y) or Zoom (z), or both, is required.
+   * @param {float=} velocity.x
+   * @param {float=} velocity.y
+   * @param {float=} velocity.z
+   * @param {integer=} timeout
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  continuousMove (profileToken, velocity, timeout, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for continuousMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (velocity) {
+        if ((errMsg = Util.isInvalidValue(velocity, 'object'))) {
+          reject(new Error('The "velocity" argument for continuousMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (typeof timeout !== 'undefined' &amp;&amp; timeout !== null) {
+        if ((errMsg = Util.isInvalidValue(timeout, 'integer'))) {
+          reject(new Error('The "timeout" property for continuousMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:ContinuousMove>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      if (velocity) {
+        soapBody += '&lt;tptz:Velocity>' + this.panTiltZoomOptions(velocity) + '&lt;/tptz:Velocity>'
+      }
+      if (timeout) {
+        soapBody += '&lt;tptz:Timeout>PT' + timeout + 'S&lt;/tptz:Timeout>'
+      }
+      soapBody += '&lt;/tptz:ContinuousMove>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'ContinuousMove', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * &lt;strong>+++ This function is untested as I do not have any cameras that support this feature.&lt;/strong>&lt;br>
+   * A device signaling GeoMove in one of its PTZ nodes shall support this command.
+   * The optional AreaHeight and AreaWidth parameters can be added to the request, so that the
+   * PTZ-capable device can internally determine the zoom factor. In case both AreaHeight and
+   * AreaWidth are not provided, the unit will not change the zoom. AreaHeight and AreaWidth are
+   * expressed in meters.&lt;br>
+   * An existing speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
+   * during movement by the requested translation. If spaces are referenced within the speed
+   * argument, they shall be speed spaces supported by the PTZ node.&lt;br>
+   * If the PTZ-capable device does not support automatic retrieval of the geolocation, it shall be
+   * configured by using SetGeoLocation before it can perform geo-referenced commands. In case
+   * the client requests a GeoMove command before the geolocation of the device is configured,
+   * the device shall return an error.&lt;br>
+   * Depending on the kinematics of the PTZ-capable device, the requested position may not be
+   * reachable. In this situation the device shall return an error, signalling that it cannot perform the
+   * requested action due to physical limitations.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {object} geoLocation Target coordinates.
+   * @param {float} geoLocation.lon East west location as angle.
+   * @param {float} geoLocation.lat North south location as angle.
+   * @param {float} geoLocation.elevation Height in meters above sea level.
+   * @param {object=} speed Speed vector specifying the velocity of pan, tilt and zoom.
+   * @param {float=} speed.x
+   * @param {float=} speed.y
+   * @param {float=} speed.z
+   * @param {float=} areaWidth Optional area to be shown.
+   * @param {float=} areaHeight Optional area to be shown.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  geoMove (profileToken, geoLocation, speed, areaWidth, areaHeight, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for geoMove is invalid: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(geoLocation, 'object'))) {
+        reject(new Error('The "position" argument for geoMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (!('lat' in geoLocation)) {
+        reject(new Error('The "geoLocation.lat" is a required argument for geoMove: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(geoLocation.lat, 'float'))) {
+        reject(new Error('The "geoLocation.lat" argument for geoMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (!('lon' in geoLocation)) {
+        reject(new Error('The "geoLocation.lon" is a required argument for geoMove: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(geoLocation.lon, 'float'))) {
+        reject(new Error('The "geoLocation.lon" argument for geoMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (!('elevation' in geoLocation)) {
+        reject(new Error('The "geoLocation.elevation" is a required argument for geoMove: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(geoLocation.elevation, 'float'))) {
+        reject(new Error('The "geoLocation.elevation" argument for geoMove is invalid: ' + errMsg))
+        return
+      }
+
+      if (speed) {
+        if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
+          reject(new Error('The "speed" argument for geoMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (typeof areaWidth !== 'undefined' &amp;&amp; areaWidth !== null) {
+        if ((errMsg = Util.isInvalidValue(areaWidth, 'float'))) {
+          reject(new Error('The "areaWidth" argument for geoMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (typeof areaHeight !== 'undefined' &amp;&amp; areaHeight !== null) {
+        if ((errMsg = Util.isInvalidValue(areaHeight, 'float'))) {
+          reject(new Error('The "areaHeight" argument for geoMove is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GeoMove>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;tptz:Target lat="' + geoLocation.lat + '" lon="' + geoLocation.lon + '" elevation="' + geoLocation.elevation + '" />'
+      if (speed) {
+        soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
+      }
+      if (typeof areaWidth !== 'undefined' &amp;&amp; areaWidth !== null) {
+        soapBody += '&lt;tptz:AreaWidth>' + areaWidth + '&lt;/tptz:AreaWidth>'
+      }
+      if (typeof areaHeight !== 'undefined' &amp;&amp; areaHeight !== null) {
+        soapBody += '&lt;tptz:AreaHeight>' + areaWidth + '&lt;/tptz:AreaHeight>'
+      }
+      soapBody += '&lt;/tptz:GeoMove>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GeoMove', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A PTZ-capable device shall support the stop operation. If no stop filter arguments are present,
+   * this command stops all ongoing pan, tilt and zoom movements. The stop operation can be
+   * filtered to stop a specific movement by setting the corresponding stop argument.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {boolean=} panTilt Defaults to true
+   * @param {boolean=} zoom Defaults to true
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  stop (profileToken, panTilt, zoom, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for stop is invalid: ' + errMsg))
+        return
+      }
+
+      if (typeof panTilt !== 'undefined' &amp;&amp; panTilt !== null) {
+        if ((errMsg = Util.isInvalidValue(panTilt, 'boolean'))) {
+          reject(new Error('The "panTilt" property for stop is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (typeof zoom !== 'undefined' &amp;&amp; zoom !== null) {
+        if ((errMsg = Util.isInvalidValue(zoom, 'boolean'))) {
+          reject(new Error('The "zoom" property for stop is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:Stop>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      if (typeof panTilt !== 'undefined' &amp;&amp; panTilt !== null) {
+        soapBody += '&lt;tptz:PanTilt>' + panTilt + '&lt;/tptz:PanTilt>'
+      }
+      if (typeof zoom !== 'undefined' &amp;&amp; zoom !== null) {
+        soapBody += '&lt;tptz:Zoom>' + zoom + '&lt;/tptz:Zoom>'
+      }
+      soapBody += '&lt;/tptz:Stop>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'Stop', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * A PTZ-capable device shall be able to report its PTZ status through the GetStatus command.
+   * The PTZ status contains the following information:
+   * &lt;ul>
+   * &lt;li>Position (optional) – Specifies the absolute position of the PTZ unit together with the
+   * space references. The default absolute spaces of the corresponding PTZ configuration
+   * shall be referenced within the position element. This information shall be present if the
+   * device signals support via the capability StatusPosition.&lt;/li>
+   * &lt;li>MoveStatus (optional) – Indicates if the Pan/Tilt/Zoom device unit is currently moving, idle
+   * or in an unknown state. This information shall be present if the device signals support
+   * via the capability MoveStatus. The state Unknown shall not be used during normal
+   * operation, but is reserved to initialization or error conditions.&lt;/li>
+   * &lt;li>Error (optional) – States a current PTZ error condition. This field shall be present if the
+   * MoveStatus signals Unknown.&lt;/li>
+   * &lt;li>UTC Time – Specifies the UTC time when this status was generated.&lt;/li>
+   * &lt;/ul>
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getStatus (profileToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for relativeMove is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GetStatus>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;/tptz:GetStatus>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetStatus', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * The SetPreset command saves the current device position parameters so that the device can
+   * move to the saved preset position through the GotoPreset operation.&lt;br>
+   * If the PresetToken parameter is absent, the device shall create a new preset. Otherwise it shall
+   * update the stored position and optionally the name of the given preset. If creation is successful,
+   * the response contains the PresetToken which uniquely identifies the preset. An existing preset
+   * can be overwritten by specifying the PresetToken of the corresponding preset. In both cases
+   * (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ
+   * device is moving during the SetPreset operation.&lt;br>
+   * ONVIF™ – 17 – PTZ Spec. – Ver. 17.12&lt;br>
+   * The device MAY internally save additional states such as imaging properties in the PTZ preset
+   * which then should be recalled in the GotoPreset operation. A device shall accept a valid
+   * SetPresetRequest that does not include the optional element PresetName.
+   * Devices may require unique preset names and reject a request that contains an already existing
+   * PresetName by responding with the error message ter:PresetExist.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {string=} presetToken Optional existing preset token to update a preset position.
+   * @param {string=} presetName Optional name to be assigned to the preset position.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  setPreset (profileToken, presetToken, presetName, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for setPreset is invalid: ' + errMsg))
+        return
+      }
+
+      if (typeof presetToken !== 'undefined' &amp;&amp; presetToken !== null) {
+        if ((errMsg = Util.isInvalidValue(presetToken, 'string'))) {
+          reject(new Error('The "presetToken" argument for setPreset is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (typeof presetName !== 'undefined' &amp;&amp; presetName !== null) {
+        if ((errMsg = Util.isInvalidValue(presetName, 'string'))) {
+          reject(new Error('The "presetName" argument for setPreset is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (!presetToken &amp;&amp; !presetName) {
+        reject(new Error('Either the "profileToken" or the "presetName" argument must be specified in method "setPreset".'))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:SetPreset>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      if (presetToken) {
+        soapBody += '&lt;tptz:PresetToken>' + presetToken + '&lt;/tptz:PresetToken>'
+      }
+      if (presetName) {
+        soapBody += '&lt;tptz:PresetName>' + presetName + '&lt;/tptz:PresetName>'
+      }
+      soapBody += '&lt;/tptz:SetPreset>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'SetPreset', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * The GetPresets operation returns the saved presets consisting of the following elements:
+   * &lt;ul>
+   * &lt;li>Token – A unique identifier to reference the preset.&lt;/li>
+   * &lt;li>Name – An optional mnemonic name.&lt;/li>
+   * &lt;li>PTZ Position – An optional absolute position. If the PTZ node supports absolute
+   * Pan/Tilt position spaces, the Pan/Tilt position shall be specified. If the PTZ node
+   * supports absolute zoom position spaces, the zoom position shall be specified.&lt;/li>
+   * &lt;/ul>
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {string=} name An optional mnemonic name.
+   * @param {object=} position An optional absolute position.
+   * @param {float=} position.x
+   * @param {float=} position.y
+   * @param {float=} position.z
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getPresets (profileToken, name, position, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for getPresets is invalid: ' + errMsg))
+        return
+      }
+
+      if (typeof name !== 'undefined' &amp;&amp; name !== null) {
+        if ((errMsg = Util.isInvalidValue(name, 'string'))) {
+          reject(new Error('The "name" argument for getPresets is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      if (typeof position !== 'undefined' &amp;&amp; position !== null) {
+        if ((errMsg = Util.isInvalidValue(position, 'object'))) {
+          reject(new Error('The "position" argument for getPresets is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GetPresets>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;/tptz:GetPresets>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GetPresets', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * The GotoPreset operation recalls a previously set preset. If the speed parameter is omitted, the
+   * default speed of the corresponding PTZ configuration shall be used. The speed parameter can
+   * only be specified when speed spaces are available for the PTZ node. The GotoPreset command
+   * is a non-blocking operation and can be interrupted by other move commands.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {string} presetToken Reference to an existing preset token.
+   * @param {object=} speed Optional speed vector.
+   * @param {float=} speed.x
+   * @param {float=} speed.y
+   * @param {float=} speed.z
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  gotoPreset (profileToken, presetToken, speed, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for gotoPreset is invalid: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(presetToken, 'string'))) {
+        reject(new Error('The "presetToken" argument for gotoPreset is invalid: ' + errMsg))
+        return
+      }
+
+      if (speed) {
+        if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
+          reject(new Error('The "speed" argument for gotoPreset is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GotoPreset>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;tptz:PresetToken>' + presetToken + '&lt;/tptz:PresetToken>'
+      if (speed) {
+        soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
+      }
+      soapBody += '&lt;/tptz:GotoPreset>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GotoPreset', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * The RemovePreset operation removes a previously set preset.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {string} presetToken Existing preset token to be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removePreset (profileToken, presetToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for removePreset is invalid: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(presetToken, 'string'))) {
+        reject(new Error('The "presetToken" argument for removePreset is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:RemovePreset>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;tptz:PresetToken>' + presetToken + '&lt;/tptz:PresetToken>'
+      soapBody += '&lt;/tptz:RemovePreset>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'RemovePreset', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * This operation moves the PTZ unit to its home position. If the speed parameter is omitted, the
+   * default speed of the corresponding PTZ configuration shall be used. The speed parameter can
+   * only be specified when speed spaces are available for the PTZ node.The command is nonblocking
+   * and can be interrupted by other move commands.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {object=} speed Optional speed vector.
+   * @param {float=} speed.x
+   * @param {float=} speed.y
+   * @param {float=} speed.z
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  gotoHomePosition (profileToken, speed, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for gotoHomePosition is invalid: ' + errMsg))
+        return
+      }
+
+      if (speed) {
+        if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
+          reject(new Error('The "speed" argument for gotoHomePosition is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:GotoHomePosition>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      if (speed) {
+        soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
+      }
+      soapBody += '&lt;/tptz:GotoHomePosition>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'GotoHomePosition', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * The SetHome operation saves the current position parameters as the home position, so that the
+   * GotoHome operation can request that the device move to the home position.&lt;br>
+   * The SetHomePosition command shall return with a failure if the “home” position is fixed and
+   * cannot be overwritten. If the SetHomePosition is successful, it shall be possible to recall the
+   * home position with the GotoHomePosition command.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  setHomePosition (profileToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for setHomePosition is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:SetHomePosition>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;/tptz:SetHomePosition>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'SetHomePosition', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  /**
+   * This operation is used to call an auxiliary operation on the device. The supported commands
+   * can be retrieved via the PTZ node properties. The AuxiliaryCommand should match the
+   * supported command listed in the PTZ node; no other syntax is supported. If the PTZ node lists
+   * the tt:IRLamp command, then the parameter of AuxiliaryCommand command shall conform to
+   * the syntax specified in Section 8.6 Auxiliary operation of ONVIF Core Specification. The
+   * SendAuxiliaryCommand shall be implemented when the PTZ node supports auxiliary commands.
+   * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
+   * @param {string} auxiliaryData
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  sendAuxiliaryCommand (profileToken, auxiliaryData, callback) {
+    let promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken
+
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error('The "profileToken" argument for sendAuxiliaryCommand is invalid: ' + errMsg))
+        return
+      }
+
+      if ((errMsg = Util.isInvalidValue(auxiliaryData, 'string'))) {
+        reject(new Error('The "profileauxiliaryDataToken" argument for sendAuxiliaryCommand is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tptz:SendAuxiliaryCommand>'
+      soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
+      soapBody += '&lt;tptz:AuxiliaryData>' + auxiliaryData + '&lt;tptz:AuxiliaryData>'
+      soapBody += '&lt;/tptz:SendAuxiliaryCommand>'
+      let soapEnvelope = this.createRequest(soapBody)
+
+      return Soap.makeRequest(this.serviceAddress, 'SetHomePosition', soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+}
+
+module.exports = new Ptz()
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 09 2018 07:54:38 GMT-0700 (MST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

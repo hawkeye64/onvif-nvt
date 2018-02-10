@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/soap.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils/soap.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Xml2js = require('xml2js')
+const Crypto = require('crypto')
+const Http = require('http')
+const Save = require('./save-xml')
+// const Request = require('request')
+
+/**
+ * SOAP management (sending, receiving, parsing) class for ONVIF modules.
+ */
+class Soap {
+  constructor () {
+    this.HTTP_TIMEOUT = 3000 // ms
+  }
+
+  parse (soap) {
+    let promise = new Promise((resolve, reject) => {
+      let opts = {
+        'explicitRoot': false,
+        'explicitArray': false,
+        // 'ignoreAttrs'      : true,
+        'ignoreAttrs': false,
+        'tagNameProcessors': [function (name) {
+          /* eslint-disable no-useless-escape */
+          let m = name.match(/^([^\:]+)\:([^\:]+)$/)
+          /* eslint-enable no-useless-escape */
+          return (m ? m[2] : name)
+        }]
+      }
+
+      Xml2js.parseString(soap, opts, (error, results) => {
+        if (error) {
+          reject(error)
+        }
+        else {
+          resolve({parsed: results, soap})
+        }
+      })
+    })
+    return promise
+  };
+
+  /**
+   * Private function used by the module classes.
+   * @param {object} params
+   * @param {string} params.body description in the &amp;lt;s:Body&amp;gt; of the generated xml
+   * @param {array} params.xmlns a list of xmlns attributes used in the body
+   *            e.g., xmlns:tds="http://www.onvif.org/ver10/device/wsdl"
+   * @param {number} params.diff time difference [ms]
+   * @param {string} params.username user name
+   * @param {string} params.password password
+   */
+  createRequest (params) {
+    let soap = ''
+    soap += '&lt;?xml version="1.0" encoding="UTF-8"?>'
+    soap += '&lt;s:Envelope'
+    soap += ' xmlns:s="http://www.w3.org/2003/05/soap-envelope"'
+    if (params['xmlns'] &amp;&amp; Array.isArray(params['xmlns'])) {
+      params['xmlns'].forEach((ns) => {
+        soap += ' ' + ns
+      })
+    }
+    soap += '>'
+    soap += '&lt;s:Header>'
+    if (params['username']) {
+      soap += this.createUserToken(params['diff'], params['username'], params['password'])
+    }
+    soap += '&lt;/s:Header>'
+    soap += '&lt;s:Body>' + params['body'] + '&lt;/s:Body>'
+    soap += '&lt;/s:Envelope>'
+
+    /* eslint-disable no-useless-escape */
+    soap = soap.replace(/\>\s+\&lt;/g, '>&lt;')
+    /* eslint-enable no-useless-escape */
+    return soap
+  };
+
+  makeRequest (serviceAddress, methodName, soap) {
+    let promise = new Promise((resolve, reject) => {
+      /* debugging */
+      Save.saveXml(methodName + '.Request', soap)
+      /* debugging */
+      let xml = ''
+      return this.runRequest(serviceAddress, methodName, soap)
+        .then(res => {
+          xml = res
+          return this.parse(xml)
+        })
+        .then(results => {
+          let fault = this.getFaultReason(results['parsed'])
+          if (fault) {
+            /* debugging */
+            Save.saveXml(methodName + '.Error', xml)
+            /* debugging */
+            let err = new Error(fault)
+            reject(err)
+          }
+          else {
+            let parsed = this.parseResponse(methodName, results['parsed'])
+            if (parsed) {
+              let res = {
+                'soap': xml,
+                // 'formatted': mHtml ? mHtml.prettyPrint(xml, {indent_size: 2}) : '',
+                'converted': results['parsed'],
+                'data': parsed
+              }
+
+              /* debugging */
+              Save.saveXml(methodName + '.Response', xml)
+              /* debugging */
+
+              resolve(res)
+            }
+            else {
+              let err = new Error('The device seems to not support the ' + methodName + '() method.')
+              reject(err)
+            }
+          }
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+    return promise
+  };
+
+  runRequest (serviceAddress, methodName, soapEnvelope) {
+    return new Promise((resolve, reject) => {
+      let postOptions = {
+        protocol: serviceAddress.protocol,
+        hostname: serviceAddress.hostname,
+        port: serviceAddress.port || 80,
+        path: serviceAddress.pathname,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/soap+xml; charset=utf-8;',
+          'Content-Length': Buffer.byteLength(soapEnvelope)
+        }
+      }
+
+      let req = Http.request(postOptions, (res) => {
+        res.setEncoding('utf8')
+        let xml = ''
+        res.on('data', (chunk) => {
+          xml += chunk
+        })
+        res.on('end', () => {
+          if (req) {
+            req.removeAllListeners('error')
+            req.removeAllListeners('timeout')
+            req = null
+          }
+          if (res) {
+            res.removeAllListeners('data')
+            res.removeAllListeners('end')
+          }
+          if (res.statusCode === 200) {
+            resolve(xml)
+            return
+          }
+          else {
+            debugger
+            let err = new Error(res.statusCode + ' ' + res.statusMessage)
+            let code = res.statusCode
+            let text = res.statusMessage
+            if (xml) {
+              this.parse(xml)
+                .then(results => {
+                  let msg = ''
+                  /* debugging */
+                  Save.saveXml(methodName + '.Error', xml)
+                  /* debugging */
+                  try {
+                    msg = results['parsed']['Body']['Fault']['Reason']['Text']
+                    if (typeof (msg) === 'object') {
+                      msg = msg['_']
+                    }
+                  }
+                  catch (e) {}
+                  if (msg) {
+                    let error = new Error(code + ' ' + text + ' - ' + msg)
+                    error.xml = xml
+                    reject(error)
+                  }
+                  else {
+                    err.xml = xml
+                    reject(err)
+                  }
+                })
+                .catch(error => {
+                  console.error(error)
+                  reject(err)
+                })
+            }
+            else {
+              reject(err)
+              return
+            }
+          }
+          res = null
+        })
+      })
+
+      req.setTimeout(this.HTTP_TIMEOUT)
+
+      req.on('timeout', () => {
+        req.abort()
+      })
+
+      req.on('error', error => {
+        req.removeAllListeners('error')
+        req.removeAllListeners('timeout')
+        req = null
+        reject(new Error('Network Error: ' + (error ? error.message : '')))
+      })
+
+      req.write(soapEnvelope, 'utf8')
+      req.end()
+    })
+  };
+
+  parseResponse (methodName, res) {
+    let s0 = res['Body']
+    if (!s0) {
+      return null
+    }
+    if ((methodName + 'Response') in s0) {
+      return s0
+    }
+    else {
+      return null
+    }
+  };
+
+  getFaultReason (r) {
+    let reason = ''
+    try {
+      let faultReason = r['Body']['Fault']['Reason']
+      if (faultReason['Text']) {
+        reason = faultReason['Text']
+      }
+      else {
+        let faultCode = r['Body']['Fault']['Code']
+        if (faultCode['Value']) {
+          reason = faultCode['Value']
+          let faultSubcode = faultCode['Subcode']
+          if (faultSubcode['Value']) {
+            reason += ' ' + faultSubcode['Value']
+          }
+        }
+      }
+    }
+    catch (e) {}
+    return reason
+  };
+
+  createUserToken (diff, user, pass) {
+    if (!diff) {
+      diff = 0
+    }
+    if (!pass) {
+      pass = ''
+    }
+    let date = (new Date(Date.now() + diff)).toISOString()
+    let nonceBuffer = this.createNonce(16)
+    let nonceBase64 = nonceBuffer.toString('base64')
+    let shasum = Crypto.createHash('sha1')
+    shasum.update(Buffer.concat([nonceBuffer, Buffer.from(date), Buffer.from(pass)]))
+    let digest = shasum.digest('base64')
+    let soap = ''
+    soap += '&lt;Security s:mustUnderstand="1" xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">'
+    soap += '  &lt;UsernameToken>'
+    soap += '    &lt;Username>' + user + '&lt;/Username>'
+    soap += '    &lt;Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">' + digest + '&lt;/Password>'
+    soap += '    &lt;Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">' + nonceBase64 + '&lt;/Nonce>'
+    soap += '    &lt;Created xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">' + date + '&lt;/Created>'
+    soap += '  &lt;/UsernameToken>'
+    soap += '&lt;/Security>'
+    return soap
+  };
+
+  createNonce (digit) {
+    // let nonce = new Buffer(16);
+    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 0, 4);
+    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 4, 4);
+    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 8, 4);
+    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 12, 4);
+
+    let nonce = Buffer.alloc(digit)
+    for (let i = 0; i &lt; digit; i++) {
+      nonce.writeUInt8(Math.floor(Math.random() * 256), i)
+    }
+    return nonce
+  };
+}
+
+module.exports = new Soap()
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 09 2018 07:54:38 GMT-0700 (MST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
