@@ -50,7 +50,7 @@
     <tds:GetCapabilitiesResponse>
       <tds:Capabilities>
         <tt:Device>
-          <tt:XAddr>http://192.168.0.23/onvif/device_service</tt:XAddr>
+          <tt:XAddr>http://192.168.0.19/onvif/device_service</tt:XAddr>
           <tt:Network>
             <tt:IPFilter>true</tt:IPFilter>
             <tt:ZeroConfiguration>true</tt:ZeroConfiguration>
@@ -88,13 +88,13 @@
           </tt:Security>
         </tt:Device>
         <tt:Events>
-          <tt:XAddr>http://192.168.0.23/onvif/services</tt:XAddr>
+          <tt:XAddr>http://192.168.0.19/onvif/services</tt:XAddr>
           <tt:WSSubscriptionPolicySupport>false</tt:WSSubscriptionPolicySupport>
           <tt:WSPullPointSupport>false</tt:WSPullPointSupport>
           <tt:WSPausableSubscriptionManagerInterfaceSupport>false</tt:WSPausableSubscriptionManagerInterfaceSupport>
         </tt:Events>
         <tt:Media>
-          <tt:XAddr>http://192.168.0.23/onvif/services</tt:XAddr>
+          <tt:XAddr>http://192.168.0.19/onvif/services</tt:XAddr>
           <tt:StreamingCapabilities>
             <tt:RTPMulticast>true</tt:RTPMulticast>
             <tt:RTP_TCP>true</tt:RTP_TCP>
@@ -107,7 +107,7 @@
           </tt:Extension>
         </tt:Media>
         <tt:PTZ>
-          <tt:XAddr>http://192.168.0.23/onvif/services</tt:XAddr>
+          <tt:XAddr>http://192.168.0.19/onvif/services</tt:XAddr>
         </tt:PTZ>
       </tds:Capabilities>
     </tds:GetCapabilitiesResponse>

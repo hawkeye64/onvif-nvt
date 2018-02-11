@@ -21,7 +21,7 @@ module.exports = {
     'promise/param-names': 'error',
     'promise/catch-or-return': 'error',
     'promise/no-native': 'off',
-    'promise/no-nesting': 'warn',
+    'promise/no-nesting': 'off',
     'promise/no-promise-in-callback': 'warn',
     'promise/no-callback-in-promise': 'off',
     'promise/avoid-new': 'off',

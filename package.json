@@ -5,8 +5,8 @@
   "main": "./lib/onvif-nvt.js",
   "scripts": {
     "jsdoc": "jsdoc ./lib/*.js ./lib/modules/*.js ./lib/utils/*.js --readme ./README.md --destination ./docs",
-    "lint": "eslint --ext .js lib test",
-    "lint-fix": "eslint --ext .js lib test --fix",
+    "lint": "eslint --ext .js lib test run",
+    "lint-fix": "eslint --ext .js lib test run --fix",
     "test": "jest",
     "test-ci": "jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
