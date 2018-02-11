@@ -1,0 +1,147 @@
+  https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v221.pdf
+  
+  GetNodes
+    Response: The response message contains a list of the existing PTZ Nodes on the device.
+      tt:PTZNode PTZNode[0][unbounded]
+    Fault: ter:PTZNotSupported
+  GetNode
+    Response: The PTZNode response message contains the requested PTZNode.
+      tt:PTZNode PTZNode[1][1]
+    Fault: ter:NoEntity (No such PTZNode on the device)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetConfigurations
+    Response: The response contains all existing PTZConfigurations on the device.
+      tt:PTZConfiguration PTZConfiguration [0][unbounded]
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetConfiguration
+    Response: The response contains the requested PTZConfiguration
+      tt:PTZConfiguration PTZConfiguration [1][1]
+    Fault: ter:NoConfig (The requested configuration does not exist.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetConfigurationOptions
+    Response: This message contains the PTZ configuration options.
+      tt:PTZConfigurationOptions PTZConfigurationOptions[1][1]
+    Fault: ter:NoConfig (The requested configuration does not exist.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  SetConfiguration
+    Response: The PTZConfiguration element contains the modified PTZ
+              configuration. The configuration shall exist in the device.
+              The ForcePersistence element determines if the configuration changes
+              shall be stored and remain after reboot. If true, changes shall be
+              persistent. If false, changes MAY revert to previous values after reboot.
+      tt:PTZConfiguration PTZConfigurati
+    Fault: ter:NoConfig (The requested configuration does not exist.)
+    Fault: ter:ConfigModify (The configuration parameters are not possible to set.)
+    Fault: ter:ConfigurationConflict (The new settings conflict with other uses of the configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  AbsoluteMove 
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:SpaceNotSupported (A space is referenced in an argument which is not supported by the PTZ Node.)
+    Fault: ter:InvalidPosition (The requested position is out of bounds.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  RelativeMove
+  Response: This message contains a reference to the media profile, a Position
+            vector specifying the absolute target position and an optional Speed.
+      tt:ReferenceToken ProfileToken [1][1]
+      tt:PTZVector Position [1][1]
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:SpaceNotSupported (A space is referenced in an argument which is not supported by the PTZ Node.)
+    Fault: ter:InvalidTranslation (The requested translation is out of bounds.)
+    Fault: ter:InvalidSpeed (The requested speed is out of bounds.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  ContinuousMove
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:SpaceNotSupported (A space is referenced in an argument which is not supported by the PTZ Node.)
+    Fault: ter:TimeoutNotSupported (The specified timeout argument is not within the supported timeout range.)
+    Fault: ter:InvalidVelocity (The requested velocity is out of bounds.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  Stop
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetStatus
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:NoStatus (No PTZ status is available in the requested Media Profile.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  SetPreset
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PresetExist (The requested name already exist for another preset.)
+    Fault: ter:InvalidPresetName (The PresetName is either too long or contains invalid characters.)
+    Fault: ter:MovingPTZ (Preset cannot be set while PTZ unit is moving)
+    Fault: ter:TooManyPresets (Maximum number of Presets reached.)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetPresets
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GotoPreset
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:SpaceNotSupported (A space is referenced in an argument which is not supported by the PTZ Node.)
+    Fault: ter:InvalidSpeed (The requested speed is out of bounds.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  RemovePreset
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GotoHomePosition
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoHomePosition (No home position has been defined for this Profile.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  SetHomePosition
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:CannotOverwriteHome (The home position is fixed and cannot be overwritten)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  SendAuxiliaryCommand
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZProfile (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetPresetTours
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZConfiguration (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetPresetTour
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:NoPTZConfiguration (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetPresetTourOptions
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  CreatePresetTour
+    Fault: ter.TooManyPresetTours (There is not enough space in the device to create the new preset tour to the profile.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZConfiguration (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  ModifyPresetTour
+    Fault: ter.InvalidPresetTour (The suggested PresetTour includes invalid parameter(s).)
+    Fault: ter.TooManyPresets (Too many TourSpots are included in the PresetTour.)
+    Fault: ter:SpaceNotSupported (A space is referenced in an argument which is not supported by the PTZ Node.)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZConfiguration (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  OperatePresetTour  
+    Fault: ter.InvalidPresetTour (The suggested PresetTour includes invalid parameter(s).)
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:ActivationFailed (The requested preset tour cannot be activated while PTZ unit is moving or another preset tour is now activated.)
+    Fault: ter:NoPTZConfiguration (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  RemovePresetTour
+    Fault: ter:NoToken (The requested preset token does not exist.)
+    Fault: ter:NoProfile (The requested profile token ProfileToken does not exist.)
+    Fault: ter:NoPTZConfiguration (The requested profile token does not reference a PTZ configuration.)
+    Fault: ter:PTZNotSupported (PTZ is not supported by the device.)
+  GetServiceCapabilities
+    Fault: none

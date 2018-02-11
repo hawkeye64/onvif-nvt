@@ -28,10 +28,9 @@
         <article>
             <pre class="prettyprint source linenums"><code>const Xml2js = require('xml2js')
 const Crypto = require('crypto')
-const Http = require('http')
 const Save = require('./save-xml')
 const Request = require('request')
-const RequestP = require('request-promise')
+const Config = require('./config')
 
 /**
  * SOAP management (sending, receiving, parsing) class for ONVIF modules.
@@ -43,6 +42,10 @@ class Soap {
     this.HTTP_TIMEOUT = 3000 // ms
   }
 
+  /**
+   * Internal method for parsing SOAP responses.
+   * @param {string} soap The XML to parse.
+   */
   parse (soap) {
     let promise = new Promise((resolve, reject) => {
       let opts = {
@@ -71,14 +74,14 @@ class Soap {
   };
 
   /**
-   * Private function used by the module classes.
-   * @param {object} params
-   * @param {string} params.body description in the &amp;lt;s:Body&amp;gt; of the generated xml
-   * @param {array} params.xmlns a list of xmlns attributes used in the body
-   *            e.g., xmlns:tds="http://www.onvif.org/ver10/device/wsdl"
-   * @param {number} params.diff time difference [ms]
-   * @param {string} params.username user name
-   * @param {string} params.password password
+   * Internal method used by the module classes.
+   * @param {object} params Object containing required parameters to create a SOAP request.
+   * @param {string} params.body Description in the &amp;lt;s:Body&amp;gt; of the generated xml.
+   * @param {array} params.xmlns A list of xmlns attributes used in the body
+   *            e.g., xmlns:tds="http://www.onvif.org/ver10/device/wsdl".
+   * @param {number} params.diff Time difference [ms].
+   * @param {string} params.username The user name.
+   * @param {string} params.password The user Password.
    */
   createRequest (params) {
     let soap = ''
@@ -107,11 +110,17 @@ class Soap {
     return soap
   };
 
-  makeRequest (serviceAddress, methodName, soap) {
+  /**
+   * Internal method to send a SOAP request to the specified serviceAddress.
+   * @param {object} serviceAddress The service address.
+   * @param {string} methodName The request name.
+   * @param {xml} soapEnvelope The request SOAP envelope.
+   */
+  makeRequest (serviceAddress, methodName, soapEnvelope) {
     let promise = new Promise((resolve, reject) => {
-      Save.saveXml(methodName + '.Request', soap)
+      Save.saveXml(methodName + '.Request', soapEnvelope)
       let xml = ''
-      return this.runRequest(serviceAddress, methodName, soap)
+      return this.runRequest(serviceAddress, methodName, soapEnvelope)
         .then(results => {
           xml = results
           return this.parse(xml)
@@ -121,7 +130,7 @@ class Soap {
           let fault = this.getFaultReason(results['parsed'])
           if (fault) {
             Save.saveXml(methodName + '.Error', xml)
-            let err = new Error(fault)
+            let err = new Error(`${methodName}: fault[${fault}]`)
             err.soap = xml
             reject(err)
           }
@@ -137,7 +146,7 @@ class Soap {
               resolve(res)
             }
             else {
-              let err = new Error('The device seems to not support the ' + methodName + '() method.')
+              let err = new Error(methodName + ':The device seems to not support the ' + methodName + '() method.')
               reject(err)
             }
           }
@@ -149,145 +158,64 @@ class Soap {
     return promise
   };
 
+  /**
+   * Internal method to send a SOAP request.
+   * @param {object} serviceAddress The service address.
+   * @param {string} methodName The request name.
+   * @param {xml} soapEnvelope The request SOAP envelope.
+   */
   runRequest (serviceAddress, methodName, soapEnvelope) {
-    // some cameras enable HTTP digest or digest realm,
-    // so using 'Request' to handle this for us.
     return new Promise((resolve, reject) => {
-      let options = {
-				method: 'POST',
-				uri: serviceAddress.href,
-				// gzip: true,
-        encoding: 'utf8',
-        headers: {
-          'Content-Type': 'application/soap+xml; charset=utf-8;',
-          'Content-Length': Buffer.byteLength(soapEnvelope)
-        },
-        body: soapEnvelope,
-				auth: {
-					user: this.username,
-					pass: this.password,
-					sendImmediately: false
-				}
-      }
-
-      function callback(error, response, body) {
-        if (error) {
-          console.error(error)
+      if (Config.isTest()) {
+        // in testing mode (for Jest)
+        const Fs = require('fs')
+        const Path = require('path')
+        const testCameraType = Config.getCameraType()
+        const testResponseOrError = Config.getResponseOrError()
+        let filePath = Path.resolve(__dirname, `../../test/data/xml/${testCameraType}/${methodName}.${testResponseOrError}.xml`)
+        // see if the file exists
+        if (!Fs.existsSync(filePath)) {
+          throw new Error(`File does not exist for test: ${filePath}`)
         }
-        else {
-          resolve(body)
-        }
+        // it's good, read it in
+        let xml = Fs.readFileSync(filePath, 'utf8')
+        resolve(xml)
       }
-
-      Request(options, callback)
-
-      // RequestP(options)
-      //   .then(results => {
-      //     console.log(results)
-      //   })
-      //   .catch(error => {
-      //     console.error(error)
-      //   })
-    })
-  };
-
-  runRequest2 (serviceAddress, methodName, soapEnvelope) {
-    return new Promise((resolve, reject) => {
-      let postOptions = {
-        protocol: serviceAddress.protocol,
-        hostname: serviceAddress.hostname,
-        port: serviceAddress.port || 80,
-        path: serviceAddress.pathname,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/soap+xml; charset=utf-8;',
-          'Content-Length': Buffer.byteLength(soapEnvelope)
-        }
-      }
-
-      let req = Http.request(postOptions, (res) => {
-        res.setEncoding('utf8')
-        let xml = ''
-        res.on('data', (chunk) => {
-          xml += chunk
-        })
-        res.on('end', () => {
-          if (req) {
-            req.removeAllListeners('error')
-            req.removeAllListeners('timeout')
-            req = null
+      else {
+        // some cameras enable HTTP digest or digest realm,
+        // so using 'Request' to handle this for us.
+        let options = {
+          method: 'POST',
+          uri: serviceAddress.href,
+          // gzip: true,
+          encoding: 'utf8',
+          headers: {
+            'Content-Type': 'application/soap+xml; charset=utf-8;',
+            'Content-Length': Buffer.byteLength(soapEnvelope)
+          },
+          body: soapEnvelope,
+          auth: {
+            user: this.username,
+            pass: this.password,
+            sendImmediately: false
           }
-          if (res) {
-            res.removeAllListeners('data')
-            res.removeAllListeners('end')
-          }
-          if (res.statusCode === 200) {
-            resolve(xml)
-            return
+        }
+
+        Request(options, (error, response, body) => {
+          if (error) {
+            console.error(error)
+            reject(error)
           }
           else {
-            debugger
-            let err = new Error(res.statusCode + ' ' + res.statusMessage)
-            let code = res.statusCode
-            let text = res.statusMessage
-            if (xml) {
-              this.parse(xml)
-                .then(results => {
-                  let msg = ''
-                  /* debugging */
-                  Save.saveXml(methodName + '.Error', xml)
-                  /* debugging */
-                  try {
-                    msg = results['parsed']['Body']['Fault']['Reason']['Text']
-                    if (typeof (msg) === 'object') {
-                      msg = msg['_']
-                    }
-                  }
-                  catch (e) {}
-                  if (msg) {
-                    let error = new Error(code + ' ' + text + ' - ' + msg)
-                    error.xml = xml
-                    reject(error)
-                  }
-                  else {
-                    err.xml = xml
-                    reject(err)
-                  }
-                })
-                .catch(error => {
-                  console.error(error)
-                  reject(err)
-                })
-            }
-            else {
-              reject(err)
-              return
-            }
+            resolve(body)
           }
-          res = null
         })
-      })
-
-      req.setTimeout(this.HTTP_TIMEOUT)
-
-      req.on('timeout', () => {
-        req.abort()
-      })
-
-      req.on('error', error => {
-        req.removeAllListeners('error')
-        req.removeAllListeners('timeout')
-        req = null
-        reject(new Error('Network Error: ' + (error ? error.message : '')))
-      })
-
-      req.write(soapEnvelope, 'utf8')
-      req.end()
+      }
     })
   };
 
-  parseResponse (methodName, res) {
-    let s0 = res['Body']
+  parseResponse (methodName, response) {
+    let s0 = response['Body']
     if (!s0) {
       return null
     }
@@ -299,28 +227,44 @@ class Soap {
     }
   };
 
-  getFaultReason (r) {
+  /**
+   * Parses results to see if there is a fault.
+   * @param {object} results The results of a communication with a server.
+   */
+  getFaultReason (results) {
     let reason = ''
-    try {
-      let faultReason = r['Body']['Fault']['Reason']
-      if (faultReason['Text']) {
-        reason = faultReason['Text']
-      }
-      else {
-        let faultCode = r['Body']['Fault']['Code']
-        if (faultCode['Value']) {
-          reason = faultCode['Value']
-          let faultSubcode = faultCode['Subcode']
-          if (faultSubcode['Value']) {
-            reason += ' ' + faultSubcode['Value']
+    if ('Fault' in results['Body']) {
+      try {
+        let fault = results['Body']['Fault']
+        let faultReason = fault['Reason']
+        if (faultReason['Text']) {
+          reason = faultReason['Text']
+          if ('_' in reason) {
+            reason = reason['_']
+          }
+        }
+        else {
+          let faultCode = fault['Code']
+          if (faultCode['Value']) {
+            reason = faultCode['Value']
+            let faultSubcode = faultCode['Subcode']
+            if (faultSubcode['Value']) {
+              reason += ' ' + faultSubcode['Value']
+            }
           }
         }
       }
+      catch (e) {}
     }
-    catch (e) {}
     return reason
   };
 
+  /**
+   * Internal method used to create the user token xml.
+   * @param {integer} diff The server timeDiff [ms].
+   * @param {string} user The user name.
+   * @param {string=} pass The user password.
+   */
   createUserToken (diff, user, pass) {
     if (!diff) {
       diff = 0
@@ -347,12 +291,6 @@ class Soap {
   };
 
   createNonce (digit) {
-    // let nonce = new Buffer(16);
-    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 0, 4);
-    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 4, 4);
-    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 8, 4);
-    // nonce.writeUIntLE(Math.ceil(Math.random() * 0x100000000), 12, 4);
-
     let nonce = Buffer.alloc(digit)
     for (let i = 0; i &lt; digit; i++) {
       nonce.writeUInt8(Math.floor(Math.random() * 256), i)
@@ -378,7 +316,7 @@ module.exports = new Soap()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 10 2018 08:19:57 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 11 2018 09:29:21 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

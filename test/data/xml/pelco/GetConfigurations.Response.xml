@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tptz:GetConfigurationsResponse>
+      <tptz:PTZConfiguration token="0">
+        <tt:Name>default</tt:Name>
+        <tt:UseCount>2</tt:UseCount>
+        <tt:NodeToken>PTZID-0</tt:NodeToken>
+        <tt:DefaultAbsolutePantTiltPositionSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:DefaultAbsolutePantTiltPositionSpace>
+        <tt:DefaultAbsoluteZoomPositionSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:DefaultAbsoluteZoomPositionSpace>
+        <tt:DefaultRelativePanTiltTranslationSpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace</tt:DefaultRelativePanTiltTranslationSpace>
+        <tt:DefaultRelativeZoomTranslationSpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace</tt:DefaultRelativeZoomTranslationSpace>
+        <tt:DefaultContinuousPanTiltVelocitySpace>http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace</tt:DefaultContinuousPanTiltVelocitySpace>
+        <tt:DefaultContinuousZoomVelocitySpace>http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace</tt:DefaultContinuousZoomVelocitySpace>
+        <tt:DefaultPTZSpeed>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace" y="1" x="1"></tt:PanTilt>
+        </tt:DefaultPTZSpeed>
+        <tt:DefaultPTZTimeout>PT16S</tt:DefaultPTZTimeout>
+        <tt:PanTiltLimits>
+          <tt:Range>
+            <tt:URI>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace</tt:URI>
+            <tt:XRange>
+              <tt:Min>-1</tt:Min>
+              <tt:Max>1</tt:Max>
+            </tt:XRange>
+            <tt:YRange>
+              <tt:Min>-1</tt:Min>
+              <tt:Max>1</tt:Max>
+            </tt:YRange>
+          </tt:Range>
+        </tt:PanTiltLimits>
+        <tt:ZoomLimits>
+          <tt:Range>
+            <tt:URI>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace</tt:URI>
+            <tt:XRange>
+              <tt:Min>0</tt:Min>
+              <tt:Max>0.08</tt:Max>
+            </tt:XRange>
+          </tt:Range>
+        </tt:ZoomLimits>
+      </tptz:PTZConfiguration>
+    </tptz:GetConfigurationsResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -113,11 +113,11 @@ class Ptz {
   }
 
   /**
-   * Call this function directly after instantiating a Ptz object
-   * @param {number} timeDiff The onvif device's time difference
-   * @param {object} serviceAddress An url object from url package - require('url')
-   * @param {string=} username Optional only if the device does NOT have a user
-   * @param {string=} password Optional only if the device does NOT have a password
+   * Call this function directly after instantiating a Ptz object.
+   * @param {number} timeDiff The onvif device's time difference.
+   * @param {object} serviceAddress An url object from url package - require('url').
+   * @param {string=} username Optional only if the device does NOT have a user.
+   * @param {string=} password Optional only if the device does NOT have a password.
    */
   init (timeDiff, serviceAddress, username, password) {
     this.timeDiff = timeDiff
@@ -127,7 +127,10 @@ class Ptz {
   }
 
   /**
-   * Sets the default profile token. This comes from media#getProfiles method.
+   * Sets the default profile token. This comes from media#getProfiles method.&lt;br>
+   * By default, this module will get the first Profile and use it as the default profile.
+   * You can change the default profile by setting this function.
+   * Note: This functionality is only used where API calls require a &lt;strong>ProfileToken&lt;/strong> and one is not provided.
    * @param {string} profileToken The profileToken to use when one is not passed to a method requiring one.
    */
   setProfileToken (profileToken) {
@@ -135,8 +138,8 @@ class Ptz {
   }
 
   /**
-   * Private function for creating a SOAP request
-   * @param {*} body
+   * Private function for creating a SOAP request.
+   * @param {string} body The body of the xml.
    */
   createRequest (body) {
     let soapEnvelope = Soap.createRequest({
@@ -150,8 +153,11 @@ class Ptz {
   };
 
   /**
-   * Creates xml where PanTilt (x|y) and Zoom (z) are needed.
-   * @param {*} vectors
+   * Used internally. Creates xml where PanTilt (x|y) and Zoom (z) are needed.
+   * @param {object} vectors One of PanTilt (x,y) or Zoom (z), or both, is required.
+   * @param {object=} vectors.x The x component corresponds to pan.
+   * @param {object=} vectors.y The y component corresponds to tilt.
+   * @param {object=} vectors.z The z component corresponds to zoom.
    */
   panTiltZoomOptions (vectors) {
     let soapBody = ''
@@ -517,16 +523,16 @@ class Ptz {
    * An existing Speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
    * during movement to the requested position. If spaces are referenced within the Speed argument,
    * they shall be Speed Spaces supported by the PTZ Node.&lt;br>
-   * The operation shall fail if the requested absolute position is not reachable
+   * The operation shall fail if the requested absolute position is not reachable.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
    * @param {object} position Vector specifying the absolute target position.
-   * @param {float=} position.x
-   * @param {float=} position.y
-   * @param {float=} position.z
-   * @param {object=} speed Optional speed vector.
-   * @param {float=} speed.x
-   * @param {float=} speed.y
-   * @param {float=} speed.z
+   * @param {float=} position.x The x component corresponds to pan.
+   * @param {float=} position.y The y component corresponds to tilt.
+   * @param {float=} position.z A zoom position.
+   * @param {object=} speed Speed vector specifying the velocity of pan, tilt and zoom.
+   * @param {float=} speed.x The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.
+   * @param {float=} speed.y The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected
+   * @param {float=} speed.z A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   absoluteMove (profileToken, position, speed, callback) {
@@ -594,8 +600,7 @@ class Ptz {
    * no relative movements by providing only translation spaces for the supported cases.
    * An existing speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
    * during movement by the requested translation. If spaces are referenced within the speed
-   * argument, they shall be speed spaces supported by the PTZ node.
-   * ONVIF™ – 13 – PTZ Spec. – Ver. 17.12&lt;br>
+   * argument, they shall be speed spaces supported by the PTZ node.&lt;br>
    * The command can be used to stop the PTZ unit at its current position by sending zero values for
    * Pan/Tilt and Zoom. Stopping shall have the very same effect independent of the relative space
    * referenced.&lt;br>
@@ -603,13 +608,13 @@ class Ptz {
    * Node shall move to a reachable position along the border of valid positions.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
    * @param {object} translation Vector specifying the positional Translation relative to the current position.
-   * @param {float=} translation.x
-   * @param {float=} translation.y
-   * @param {float=} translation.z
-   * @param {object=} speed Optional speed vector.
-   * @param {float=} speed.x
-   * @param {float=} speed.y
-   * @param {float=} speed.z
+   * @param {float=} translation.x The x component corresponds to pan.
+   * @param {float=} translation.y The y component corresponds to tilt.
+   * @param {float=} translation.z A zoom position.
+   * @param {object=} speed Speed vector specifying the velocity of pan, tilt and zoom.
+   * @param {float=} speed.x The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.
+   * @param {float=} speed.y The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected
+   * @param {float=} speed.z A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   relativeMove (profileToken, translation, speed, callback) {
@@ -690,10 +695,10 @@ class Ptz {
    * continuous move operation is controlling PTZ via joystick.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
    * @param {object} velocity One of PanTilt (x,y) or Zoom (z), or both, is required.
-   * @param {float=} velocity.x
-   * @param {float=} velocity.y
-   * @param {float=} velocity.z
-   * @param {integer=} timeout
+   * @param {float=} velocity.x Pan speed.
+   * @param {float=} velocity.y Tilt spped.
+   * @param {float=} velocity.z Zoom speed.
+   * @param {integer=} timeout Duration: An optional Timeout parameter.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   continuousMove (profileToken, velocity, timeout, callback) {
@@ -774,9 +779,9 @@ class Ptz {
    * @param {float} geoLocation.lat North south location as angle.
    * @param {float} geoLocation.elevation Height in meters above sea level.
    * @param {object=} speed Speed vector specifying the velocity of pan, tilt and zoom.
-   * @param {float=} speed.x
-   * @param {float=} speed.y
-   * @param {float=} speed.z
+   * @param {float=} speed.x The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.
+   * @param {float=} speed.y The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected
+   * @param {float=} speed.z A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.
    * @param {float=} areaWidth Optional area to be shown.
    * @param {float=} areaHeight Optional area to be shown.
    * @param {callback=} callback Optional callback, instead of a Promise.
@@ -887,7 +892,7 @@ class Ptz {
    * this command stops all ongoing pan, tilt and zoom movements. The stop operation can be
    * filtered to stop a specific movement by setting the corresponding stop argument.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
-   * @param {boolean=} panTilt Defaults to true
+   * @param {boolean=} panTilt Defaults to true..........
    * @param {boolean=} zoom Defaults to true
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
@@ -961,7 +966,7 @@ class Ptz {
    * &lt;li>Error (optional) – States a current PTZ error condition. This field shall be present if the
    * MoveStatus signals Unknown.&lt;/li>
    * &lt;li>UTC Time – Specifies the UTC time when this status was generated.&lt;/li>
-   * &lt;/ul>
+   * &lt;/ul>.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
@@ -1088,16 +1093,11 @@ class Ptz {
    * &lt;li>PTZ Position – An optional absolute position. If the PTZ node supports absolute
    * Pan/Tilt position spaces, the Pan/Tilt position shall be specified. If the PTZ node
    * supports absolute zoom position spaces, the zoom position shall be specified.&lt;/li>
-   * &lt;/ul>
+   * &lt;/ul>.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
-   * @param {string=} name An optional mnemonic name.
-   * @param {object=} position An optional absolute position.
-   * @param {float=} position.x
-   * @param {float=} position.y
-   * @param {float=} position.z
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
-  getPresets (profileToken, name, position, callback) {
+  getPresets (profileToken, callback) {
     let promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken
 
@@ -1105,20 +1105,6 @@ class Ptz {
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for getPresets is invalid: ' + errMsg))
         return
-      }
-
-      if (typeof name !== 'undefined' &amp;&amp; name !== null) {
-        if ((errMsg = Util.isInvalidValue(name, 'string'))) {
-          reject(new Error('The "name" argument for getPresets is invalid: ' + errMsg))
-          return
-        }
-      }
-
-      if (typeof position !== 'undefined' &amp;&amp; position !== null) {
-        if ((errMsg = Util.isInvalidValue(position, 'object'))) {
-          reject(new Error('The "position" argument for getPresets is invalid: ' + errMsg))
-          return
-        }
       }
 
       let soapBody = ''
@@ -1153,10 +1139,10 @@ class Ptz {
    * is a non-blocking operation and can be interrupted by other move commands.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
    * @param {string} presetToken Reference to an existing preset token.
-   * @param {object=} speed Optional speed vector.
-   * @param {float=} speed.x
-   * @param {float=} speed.y
-   * @param {float=} speed.z
+   * @param {object=} speed Speed vector specifying the velocity of pan, tilt and zoom.
+   * @param {float=} speed.x The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.
+   * @param {float=} speed.y The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected
+   * @param {float=} speed.z A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   gotoPreset (profileToken, presetToken, speed, callback) {
@@ -1263,10 +1249,10 @@ class Ptz {
    * only be specified when speed spaces are available for the PTZ node.The command is nonblocking
    * and can be interrupted by other move commands.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
-   * @param {object=} speed Optional speed vector.
-   * @param {float=} speed.x
-   * @param {float=} speed.y
-   * @param {float=} speed.z
+   * @param {object=} speed Speed vector specifying the velocity of pan, tilt and zoom.
+   * @param {float=} speed.x The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.
+   * @param {float=} speed.y The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected
+   * @param {float=} speed.z A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   gotoHomePosition (profileToken, speed, callback) {
@@ -1366,7 +1352,7 @@ class Ptz {
    * the syntax specified in Section 8.6 Auxiliary operation of ONVIF Core Specification. The
    * SendAuxiliaryCommand shall be implemented when the PTZ node supports auxiliary commands.
    * @param {string=} profileToken If no profileToken is provided, then the defaultProfileToken will be used.
-   * @param {string} auxiliaryData
+   * @param {string} auxiliaryData Auxiliary command to be applied.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   sendAuxiliaryCommand (profileToken, auxiliaryData, callback) {
@@ -1428,7 +1414,7 @@ module.exports = new Ptz()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 10 2018 08:19:57 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 11 2018 09:29:21 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

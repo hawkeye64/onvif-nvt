@@ -93,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line11">line 11</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -155,7 +155,7 @@
 
 
 <div class="description">
-    Private function used by the module classes.
+    Internal method used by the module classes.
 </div>
 
 
@@ -207,7 +207,7 @@
 
             
 
-            <td class="description last">
+            <td class="description last">Object containing required parameters to create a SOAP request.
                 <h6>Properties</h6>
                 
 
@@ -249,7 +249,7 @@
 
             
 
-            <td class="description last">description in the &lt;s:Body&gt; of the generated xml</td>
+            <td class="description last">Description in the &lt;s:Body&gt; of the generated xml.</td>
         </tr>
 
     
@@ -272,8 +272,8 @@
 
             
 
-            <td class="description last">a list of xmlns attributes used in the body
-           e.g., xmlns:tds="http://www.onvif.org/ver10/device/wsdl"</td>
+            <td class="description last">A list of xmlns attributes used in the body
+           e.g., xmlns:tds="http://www.onvif.org/ver10/device/wsdl".</td>
         </tr>
 
     
@@ -296,7 +296,7 @@
 
             
 
-            <td class="description last">time difference [ms]</td>
+            <td class="description last">Time difference [ms].</td>
         </tr>
 
     
@@ -319,7 +319,7 @@
 
             
 
-            <td class="description last">user name</td>
+            <td class="description last">The user name.</td>
         </tr>
 
     
@@ -342,7 +342,7 @@
 
             
 
-            <td class="description last">password</td>
+            <td class="description last">The user Password.</td>
         </tr>
 
     
@@ -390,7 +390,848 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line55">line 55</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createUserToken"><span class="type-signature"></span>createUserToken<span class="signature">(diff, user, pass<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Internal method used to create the user token xml.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>diff</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The server timeDiff [ms].</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The user name.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The user password.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line240">line 240</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getFaultReason"><span class="type-signature"></span>getFaultReason<span class="signature">(results)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Parses results to see if there is a fault.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>results</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The results of a communication with a server.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line206">line 206</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="makeRequest"><span class="type-signature"></span>makeRequest<span class="signature">(serviceAddress, methodName, soapEnvelope)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Internal method to send a SOAP request to the specified serviceAddress.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceAddress</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The service address.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>methodName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The request name.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>soapEnvelope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">xml</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The request SOAP envelope.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line91">line 91</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(soap)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Internal method for parsing SOAP responses.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>soap</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The XML to parse.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="runRequest"><span class="type-signature"></span>runRequest<span class="signature">(serviceAddress, methodName, soapEnvelope)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Internal method to send a SOAP request.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceAddress</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The service address.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>methodName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The request name.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>soapEnvelope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">xml</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The request SOAP envelope.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line139">line 139</a>
     </li></ul></dd>
     
 
@@ -440,7 +1281,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 10 2018 08:19:57 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 11 2018 09:29:22 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

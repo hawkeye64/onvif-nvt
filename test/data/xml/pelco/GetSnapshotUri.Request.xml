@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope 
+  xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:env="http://www.w3.org/2003/05/soap-envelope " 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:trt="http://www.onvif.org/ver10/media/wsdl">
+  <s:Header>
+    <Security s:mustUnderstand="1" 
+      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <UsernameToken>
+        <Username>admin</Username>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">mRDHTrvp6r7NbtyW3ywpKp/iAeM=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">PMS8skOmPk8BMusDS4qFBg==</Nonce>
+        <Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-09T17:15:15.997Z
+        </Created>
+      </UsernameToken>
+    </Security>
+  </s:Header>
+  <s:Body>
+    <trt:GetSnapshotUri>
+      <trt:ProfileToken>1</trt:ProfileToken>
+    </trt:GetSnapshotUri>
+  </s:Body>
+</s:Envelope>

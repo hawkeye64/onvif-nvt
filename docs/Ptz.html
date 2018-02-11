@@ -231,7 +231,7 @@ absolute position spaces for the supported cases.<br>
 An existing Speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
 during movement to the requested position. If spaces are referenced within the Speed argument,
 they shall be Speed Spaces supported by the PTZ Node.<br>
-The operation shall fail if the requested absolute position is not reachable
+The operation shall fail if the requested absolute position is not reachable.
 </div>
 
 
@@ -380,7 +380,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.</td>
         </tr>
 
     
@@ -413,7 +413,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.</td>
         </tr>
 
     
@@ -446,7 +446,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom position.</td>
         </tr>
 
     
@@ -486,7 +486,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last">Optional speed vector.
+            <td class="description last">Speed vector specifying the velocity of pan, tilt and zoom.
                 <h6>Properties</h6>
                 
 
@@ -540,7 +540,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.</td>
         </tr>
 
     
@@ -573,7 +573,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected</td>
         </tr>
 
     
@@ -606,7 +606,7 @@ The operation shall fail if the requested absolute position is not reachable
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.</td>
         </tr>
 
     
@@ -687,7 +687,7 @@ The operation shall fail if the requested absolute position is not reachable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line504">line 504</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line510">line 510</a>
     </li></ul></dd>
     
 
@@ -896,7 +896,7 @@ continuous move operation is controlling PTZ via joystick.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Pan speed.</td>
         </tr>
 
     
@@ -929,7 +929,7 @@ continuous move operation is controlling PTZ via joystick.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Tilt spped.</td>
         </tr>
 
     
@@ -962,7 +962,7 @@ continuous move operation is controlling PTZ via joystick.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Zoom speed.</td>
         </tr>
 
     
@@ -1002,7 +1002,7 @@ continuous move operation is controlling PTZ via joystick.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Duration: An optional Timeout parameter.</td>
         </tr>
 
     
@@ -1076,7 +1076,7 @@ continuous move operation is controlling PTZ via joystick.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line671">line 671</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line676">line 676</a>
     </li></ul></dd>
     
 
@@ -1118,7 +1118,7 @@ continuous move operation is controlling PTZ via joystick.
 
 
 <div class="description">
-    Private function for creating a SOAP request
+    Private function for creating a SOAP request.
 </div>
 
 
@@ -1160,7 +1160,7 @@ continuous move operation is controlling PTZ via joystick.
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">string</span>
 
 
             
@@ -1170,7 +1170,7 @@ continuous move operation is controlling PTZ via joystick.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The body of the xml.</td>
         </tr>
 
     
@@ -1211,7 +1211,7 @@ continuous move operation is controlling PTZ via joystick.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line113">line 113</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line116">line 116</a>
     </li></ul></dd>
     
 
@@ -1545,7 +1545,7 @@ requested action due to physical limitations.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.</td>
         </tr>
 
     
@@ -1578,7 +1578,7 @@ requested action due to physical limitations.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected</td>
         </tr>
 
     
@@ -1611,7 +1611,7 @@ requested action due to physical limitations.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.</td>
         </tr>
 
     
@@ -1758,7 +1758,7 @@ requested action due to physical limitations.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line756">line 756</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line761">line 761</a>
     </li></ul></dd>
     
 
@@ -1945,7 +1945,7 @@ the referenced media profile.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line443">line 443</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line449">line 449</a>
     </li></ul></dd>
     
 
@@ -2130,7 +2130,7 @@ range within which timeouts are accepted by the PTZ node.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line303">line 303</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -2315,7 +2315,7 @@ range within which timeouts are accepted by the PTZ node.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line348">line 348</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line354">line 354</a>
     </li></ul></dd>
     
 
@@ -2514,7 +2514,7 @@ move along the specified limits. The Zoom Limits have to be interpreted accordin
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line267">line 267</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line273">line 273</a>
     </li></ul></dd>
     
 
@@ -2694,7 +2694,7 @@ message.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line178">line 178</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -2841,7 +2841,7 @@ message.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line147">line 147</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -2875,7 +2875,7 @@ message.
     
 
     
-    <h4 class="name" id="getPresets"><span class="type-signature"></span>getPresets<span class="signature">(profileToken<span class="signature-attributes">opt</span>, name<span class="signature-attributes">opt</span>, position<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getPresets"><span class="type-signature"></span>getPresets<span class="signature">(profileToken<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2890,7 +2890,7 @@ message.
 <li>PTZ Position – An optional absolute position. If the PTZ node supports absolute
 Pan/Tilt position spaces, the Pan/Tilt position shall be specified. If the PTZ node
 supports absolute zoom position spaces, the zoom position shall be specified.</li>
-</ul>
+</ul>.
 </div>
 
 
@@ -2955,199 +2955,6 @@ supports absolute zoom position spaces, the zoom position shall be specified.</l
             
 
             <td class="description last">If no profileToken is provided, then the defaultProfileToken will be used.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">An optional mnemonic name.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>position</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">An optional absolute position.
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">float</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">float</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>z</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">float</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
         </tr>
 
     
@@ -3277,7 +3084,7 @@ operation, but is reserved to initialization or error conditions.</li>
 <li>Error (optional) – States a current PTZ error condition. This field shall be present if the
 MoveStatus signals Unknown.</li>
 <li>UTC Time – Specifies the UTC time when this status was generated.</li>
-</ul>
+</ul>.
 </div>
 
 
@@ -3415,7 +3222,7 @@ MoveStatus signals Unknown.</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line940">line 940</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line945">line 945</a>
     </li></ul></dd>
     
 
@@ -3557,7 +3364,7 @@ and can be interrupted by other move commands.
 
             
 
-            <td class="description last">Optional speed vector.
+            <td class="description last">Speed vector specifying the velocity of pan, tilt and zoom.
                 <h6>Properties</h6>
                 
 
@@ -3611,7 +3418,7 @@ and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.</td>
         </tr>
 
     
@@ -3644,7 +3451,7 @@ and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected</td>
         </tr>
 
     
@@ -3677,7 +3484,7 @@ and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.</td>
         </tr>
 
     
@@ -3758,7 +3565,7 @@ and can be interrupted by other move commands.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1244">line 1244</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1230">line 1230</a>
     </li></ul></dd>
     
 
@@ -3931,7 +3738,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last">Optional speed vector.
+            <td class="description last">Speed vector specifying the velocity of pan, tilt and zoom.
                 <h6>Properties</h6>
                 
 
@@ -3985,7 +3792,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.</td>
         </tr>
 
     
@@ -4018,7 +3825,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected</td>
         </tr>
 
     
@@ -4051,7 +3858,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.</td>
         </tr>
 
     
@@ -4132,7 +3939,7 @@ is a non-blocking operation and can be interrupted by other move commands.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1134">line 1134</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1120">line 1120</a>
     </li></ul></dd>
     
 
@@ -4174,7 +3981,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
 
 <div class="description">
-    Call this function directly after instantiating a Ptz object
+    Call this function directly after instantiating a Ptz object.
 </div>
 
 
@@ -4236,7 +4043,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last">The onvif device's time difference</td>
+            <td class="description last">The onvif device's time difference.</td>
         </tr>
 
     
@@ -4267,7 +4074,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last">An url object from url package - require('url')</td>
+            <td class="description last">An url object from url package - require('url').</td>
         </tr>
 
     
@@ -4300,7 +4107,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last">Optional only if the device does NOT have a user</td>
+            <td class="description last">Optional only if the device does NOT have a user.</td>
         </tr>
 
     
@@ -4333,7 +4140,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last">Optional only if the device does NOT have a password</td>
+            <td class="description last">Optional only if the device does NOT have a password.</td>
         </tr>
 
     
@@ -4416,7 +4223,7 @@ is a non-blocking operation and can be interrupted by other move commands.
 
 
 <div class="description">
-    Creates xml where PanTilt (x|y) and Zoom (z) are needed.
+    Used internally. Creates xml where PanTilt (x|y) and Zoom (z) are needed.
 </div>
 
 
@@ -4458,7 +4265,7 @@ is a non-blocking operation and can be interrupted by other move commands.
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">object</span>
 
 
             
@@ -4468,7 +4275,134 @@ is a non-blocking operation and can be interrupted by other move commands.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">One of PanTilt (x,y) or Zoom (z), or both, is required.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The x component corresponds to pan.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The y component corresponds to tilt.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>z</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The z component corresponds to zoom.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4509,7 +4443,7 @@ is a non-blocking operation and can be interrupted by other move commands.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line128">line 128</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -4564,8 +4498,7 @@ Profile, is used. A device may support relative Pan/Tilt movements, relative Zoo
 no relative movements by providing only translation spaces for the supported cases.
 An existing speed argument overrides the DefaultSpeed of the corresponding PTZ configuration
 during movement by the requested translation. If spaces are referenced within the speed
-argument, they shall be speed spaces supported by the PTZ node.
-ONVIF™ – 13 – PTZ Spec. – Ver. 17.12<br>
+argument, they shall be speed spaces supported by the PTZ node.<br>
 The command can be used to stop the PTZ unit at its current position by sending zero values for
 Pan/Tilt and Zoom. Stopping shall have the very same effect independent of the relative space
 referenced.<br>
@@ -4719,7 +4652,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.</td>
         </tr>
 
     
@@ -4752,7 +4685,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.</td>
         </tr>
 
     
@@ -4785,7 +4718,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom position.</td>
         </tr>
 
     
@@ -4825,7 +4758,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last">Optional speed vector.
+            <td class="description last">Speed vector specifying the velocity of pan, tilt and zoom.
                 <h6>Properties</h6>
                 
 
@@ -4879,7 +4812,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The x component corresponds to pan.  If omitted in a request, the current (if any) PanTilt movement should not be affected.</td>
         </tr>
 
     
@@ -4912,7 +4845,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The y component corresponds to tilt.  If omitted in a request, the current (if any) PanTilt movement should not be affected</td>
         </tr>
 
     
@@ -4945,7 +4878,7 @@ Node shall move to a reachable position along the border of valid positions.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.</td>
         </tr>
 
     
@@ -5026,7 +4959,7 @@ Node shall move to a reachable position along the border of valid positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line587">line 587</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line592">line 592</a>
     </li></ul></dd>
     
 
@@ -5237,7 +5170,7 @@ Node shall move to a reachable position along the border of valid positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1191">line 1191</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1177">line 1177</a>
     </li></ul></dd>
     
 
@@ -5379,7 +5312,7 @@ SendAuxiliaryCommand shall be implemented when the PTZ node supports auxiliary c
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Auxiliary command to be applied.</td>
         </tr>
 
     
@@ -5453,7 +5386,7 @@ SendAuxiliaryCommand shall be implemented when the PTZ node supports auxiliary c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1344">line 1344</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1330">line 1330</a>
     </li></ul></dd>
     
 
@@ -5697,7 +5630,7 @@ flag indicates if the changes remain after reboot of the device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line392">line 392</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line398">line 398</a>
     </li></ul></dd>
     
 
@@ -5881,7 +5814,7 @@ home position with the GotoHomePosition command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1298">line 1298</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1284">line 1284</a>
     </li></ul></dd>
     
 
@@ -6140,7 +6073,7 @@ PresetName by responding with the error message ter:PresetExist.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line995">line 995</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1000">line 1000</a>
     </li></ul></dd>
     
 
@@ -6182,7 +6115,10 @@ PresetName by responding with the error message ter:PresetExist.
 
 
 <div class="description">
-    Sets the default profile token. This comes from media#getProfiles method.
+    Sets the default profile token. This comes from media#getProfiles method.<br>
+By default, this module will get the first Profile and use it as the default profile.
+You can change the default profile by setting this function.
+Note: This functionality is only used where API calls require a <strong>ProfileToken</strong> and one is not provided.
 </div>
 
 
@@ -6275,7 +6211,7 @@ PresetName by responding with the error message ter:PresetExist.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line105">line 105</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line108">line 108</a>
     </li></ul></dd>
     
 
@@ -6416,7 +6352,7 @@ filtered to stop a specific movement by setting the corresponding stop argument.
 
             
 
-            <td class="description last">Defaults to true</td>
+            <td class="description last">Defaults to true..........</td>
         </tr>
 
     
@@ -6523,7 +6459,7 @@ filtered to stop a specific movement by setting the corresponding stop argument.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line866">line 866</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line871">line 871</a>
     </li></ul></dd>
     
 
@@ -6573,7 +6509,7 @@ filtered to stop a specific movement by setting the corresponding stop argument.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 10 2018 08:19:57 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 11 2018 09:29:21 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

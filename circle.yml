@@ -1,0 +1,6 @@
+machine:
+  node:
+    version: 9.4.0
+test:
+  override:
+    - npm run test-ci

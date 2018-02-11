@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tptz:GetPresetsResponse>
+      <tptz:Preset token="b8eb9b60-96b2-415e-aaa5-82a40217b93d">
+        <tt:Name>Shane's Room</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.8" x="-0.26"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
+      <tptz:Preset token="e1bda071-cfbf-4199-94bd-b4b9ed01ec61">
+        <tt:Name>Ashiq's Room</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.8" x="0.21"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
+      <tptz:Preset token="c9cf034b-3f77-4481-b61f-c93cb715a80a">
+        <tt:Name>The Real Lab</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.8" x="0.56"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
+      <tptz:Preset token="9e943b75-2880-4b38-b8f0-1728c0382490">
+        <tt:Name>Door Sign</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="1" x="0.56"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0.016"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
+      <tptz:Preset token="96fdea4f-3b13-4b02-b5bd-1c449e2b8a8b">
+        <tt:Name>Bottom of Door</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.93" x="0.56"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0.045"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
+      <tptz:Preset token="293ab6a2-235d-4b1d-906e-68bc7f8af514">
+        <tt:Name>Dev Room</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.88" x="-0.46"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
+    </tptz:GetPresetsResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

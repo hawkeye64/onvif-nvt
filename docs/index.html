@@ -46,6 +46,7 @@
         <article><h1>onvif-nvt</h1><p>ONVIF library for NVT (Network Video Transmitter) devices.</p>
 <p>This package is written with Javascript classes and ES6. Both Promises and Callbacks are supported.</p>
 <p>The aim of the <strong>onvif-nvt</strong> package is to have as much complete coverage of the <a href="https://www.onvif.org/">ONVIF</a> spec as possible.</p>
+<p>The <code>onvif-nvt</code> package will work only with <code>node</code> server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.</p>
 <h2>Installation</h2><p>onvif-nvt is not available via npm (yet!) while some of the functionality is being worked on. Once common functionality is hit, it will be released to npm. </p>
 <h2>Available Functionality</h2><ul>
 <li>Core (Device)<ul>
@@ -61,7 +62,7 @@
 </ul>
 </li>
 <li>Snapshot<ul>
-<li>Using the <strong>snapshot</strong> module, you can retrieve ssnapshots from the device.</li>
+<li>Using the <strong>snapshot</strong> module, you can retrieve snapshots from the device.</li>
 </ul>
 </li>
 <li>Other modules<ul>
@@ -74,8 +75,11 @@
 OnvifManager.add('discovery')
 OnvifManager.discovery.startProbe().then(deviceList => {
  console.log(deviceList)
-})</code></pre><h2>Example (Connect and Move)</h2><pre class="prettyprint source"><code>const OnvifManager = require('onvif-nvt')
-OnvifManager.connect('10.10.1.60', 80, 'admin', '12345')
+ // 'deviceList' contains all ONVIF devices that have responded.
+ // If it is empty, then no ONVIF devices
+ // responded back to the broadcst.
+})</code></pre><h2>Example (Connect and Continuous Move)</h2><pre class="prettyprint source"><code>const OnvifManager = require('onvif-nvt')
+OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
     if (camera.ptz) { // PTZ is supported on this device
@@ -87,7 +91,42 @@ OnvifManager.connect('10.10.1.60', 80, 'admin', '12345')
           }, 5000) // stop the camera after 5 seconds
         })
     }
-  })</code></pre><h2>Documentation</h2><p><a href="https://hawkeye64.github.io/onvif-nvt/">onvif-nvt documentation</a></p></article>
+  })</code></pre><h2>Example (Snapshot)</h2><pre class="prettyprint source"><code>const OnvifManager = require('onvif-nvt')
+OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
+  .then(results => {
+    let camera = results
+    // calling add method will automatically initialize snapshot
+    // with the defaultProfile's snapshotUri
+    camera.add('snapshot)
+    camera.snapshot.getSnapshot()
+      .then(results => {
+        let mimeType = results.mimeType
+        let rawImage = results.image
+        let prefix = 'data:' + mimeType + ';base64,'
+        let base64Image = Buffer.from(rawImage, 'binary').toString('base64')
+        let image = prefix + base64Image
+        // 'image' is now ready to be displayed on a web page
+        ...
+      })
+    }
+  })</code></pre><h2>Documentation</h2><p><a href="https://hawkeye64.github.io/onvif-nvt/">onvif-nvt documentation</a></p>
+<h2>Testing</h2><p>All functionality has been tested with Hikvision (fixed and ptz), Pelco (ptz), TrendNET (fixed) and Axis (ptz).</p>
+<h3>Functional Testing</h3><p>Functional testing is intended for 'live' testing with an actual ONVIF device. It is done with the <code>run.js</code> in the <code>run</code> folder. </p>
+<p>For <strong>discovery</strong> testing, just set the <code>runDiscovery</code> variable at the top of the file to <code>true</code>.</p>
+<p>For <strong>core</strong> testing, set the <code>runCore</code> variable at the top of the file.</p>
+<p>You can do this for other modules as well. See file for options.</p>
+<p>Set up your local camera by setting the appropriate variables near the top of the file, like this:</p>
+<pre class="prettyprint source"><code>const address = '192.168.0.19'
+const port = 80
+const username = 'root'
+const password = 'root'</code></pre><p>Run the <code>run.js</code> file via node (personally, I use VS Code - an amazing editor/debugger).</p>
+<p>The tests will only run what the camera supports, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.</p>
+<p>Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like <code>GetSystemDateAndTime</code>. In some cases, you might get a response back of <code>Action not supported</code>. If this happens, then the tests will fail. You can comment out the call to the part that is failing and re-run the tests.</p>
+<h3>Automated Testing</h3><p><strong>Jest</strong> is being used to do the automated testing and code coverage. All tests are in the <code>tests</code> folder, as well as XML Requests and Responses from various ONVIF devices.
+To start the tests, run the following:
+<code>npm run test</code></p>
+<p>Inside the <code>test</code> folder is a <code>config.js</code> file where you can set options for the tests.</p>
+<h2>Request</h2><p><code>onvif-nvt</code> uses <code>request</code> for device communication. Some people may believe this is too <em>heavy</em> of a package and that <em>http</em> should be used instead. <code>request</code> works quite well with HTTP digest and digest realm scenarios. In a lot of cases, this is needed for <code>snapshot</code> access. However, I am finding some ONVIF devices that allow you to turn on HTTP security (besides the ONVIF user token security) which provides a double layer (albeit, with the same username and password. It is these cases where <code>request</code> <em>just works</em>.</p></article>
     </section>
 
 
@@ -104,7 +143,7 @@ OnvifManager.connect('10.10.1.60', 80, 'admin', '12345')
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 10 2018 08:19:57 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 11 2018 09:29:21 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
