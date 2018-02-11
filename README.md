@@ -8,7 +8,10 @@ The aim of the **onvif-nvt** package is to have as much complete coverage of the
 The `onvif-nvt` package will work only with `node` server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.
 
 ## Installation
-onvif-nvt is not available via npm (yet!) while some of the functionality is being worked on. Once common functionality is hit, it will be released to npm. 
+Note: This is a work-in-progress
+
+```npm install onvif-nvt```
+
 ## Available Functionality
 * Core (Device)
   * Discovery Mode, Device Information, System Date and Time, Scopes, Services, Capabilities, ServiceCapabilities, DNS, Network, Reboot, Backup, Restore, GeoLocation, Certificates, Relay, Remote User and many more.
@@ -78,6 +81,8 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
 [onvif-nvt documentation](https://hawkeye64.github.io/onvif-nvt/)
 
 ## Testing
+Note: The code for testing is not available in the npm package.
+
 All functionality has been tested with Hikvision (fixed and ptz), Pelco (ptz), TrendNET (fixed) and Axis (ptz).
 
 ### Functional Testing
@@ -91,7 +96,7 @@ You can do this for other modules as well. See file for options.
 
 Set up your local camera by setting the appropriate variables near the top of the file, like this:
 ```
-const address = '192.168.0.19'
+const address = '10.10.1.20'
 const port = 80
 const username = 'root'
 const password = 'root'
