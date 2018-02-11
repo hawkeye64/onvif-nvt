@@ -59,7 +59,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
     let camera = results
     // calling add method will automatically initialize snapshot
     // with the defaultProfile's snapshotUri
-    camera.add('snapshot)
+    camera.add('snapshot')
     camera.snapshot.getSnapshot()
       .then(results => {
         let mimeType = results.mimeType
