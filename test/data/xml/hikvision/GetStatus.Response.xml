@@ -40,11 +40,11 @@
     <tptz:GetStatusResponse>
       <tptz:PTZStatus>
         <tt:Position>
-          <tt:PanTilt x="-0.490889" y="-0.804444" space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace"/>
-          <tt:Zoom x="0.000000" space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace"/>
+          <tt:PanTilt x="-0.784333" y="-0.999556" space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace"/>
+          <tt:Zoom x="0.196667" space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace"/>
         </tt:Position>
         <tt:Error>NO error</tt:Error>
-        <tt:UtcTime>2018-02-08T20:26:10Z</tt:UtcTime>
+        <tt:UtcTime>2018-02-12T14:25:28Z</tt:UtcTime>
       </tptz:PTZStatus>
     </tptz:GetStatusResponse>
   </env:Body>

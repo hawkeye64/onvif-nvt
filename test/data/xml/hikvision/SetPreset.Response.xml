@@ -38,7 +38,7 @@
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
   <env:Body>
     <tptz:SetPresetResponse>
-      <tptz:PresetToken>29</tptz:PresetToken>
+      <tptz:PresetToken>22</tptz:PresetToken>
     </tptz:SetPresetResponse>
   </env:Body>
 </env:Envelope>

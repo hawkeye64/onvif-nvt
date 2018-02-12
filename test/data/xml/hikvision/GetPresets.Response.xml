@@ -98,31 +98,6 @@
       <tptz:Preset token="21">
         <tt:Name>Preset 238</tt:Name>
       </tptz:Preset>
-      <tptz:Preset token="22">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="23">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="24">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="25">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="26">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="27">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="28">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="29"></tptz:Preset>
-      <tptz:Preset token="30"></tptz:Preset>
-      <tptz:Preset token="31"></tptz:Preset>
-      <tptz:Preset token="32"></tptz:Preset>
       <tptz:Preset token="33">
         <tt:Name>Auto-flip</tt:Name>
       </tptz:Preset>
@@ -159,15 +134,6 @@
       <tptz:Preset token="44">
         <tt:Name>Call pattern 4</tt:Name>
       </tptz:Preset>
-      <tptz:Preset token="45"></tptz:Preset>
-      <tptz:Preset token="46"></tptz:Preset>
-      <tptz:Preset token="47"></tptz:Preset>
-      <tptz:Preset token="48"></tptz:Preset>
-      <tptz:Preset token="49"></tptz:Preset>
-      <tptz:Preset token="50"></tptz:Preset>
-      <tptz:Preset token="51"></tptz:Preset>
-      <tptz:Preset token="52"></tptz:Preset>
-      <tptz:Preset token="53"></tptz:Preset>
       <tptz:Preset token="54"></tptz:Preset>
       <tptz:Preset token="55"></tptz:Preset>
       <tptz:Preset token="56"></tptz:Preset>
