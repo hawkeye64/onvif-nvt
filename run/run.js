@@ -40,7 +40,7 @@ const password = '12345'
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
 const runCore = true
-const runPtz = true
+const runPtz = false
 const runSnapshot = false
 const runReboot = false
 
@@ -64,6 +64,8 @@ let presets = [] // retrieved from GetPresets
 let presetToken = '' // retrieved from GetPresets
 let testPresetName = 'testPreset'
 let testPresetNameToken = ''
+let DynamicDNSType = ''
+let DynamicDNSName = ''
 
 OnvifManager.connect(address, port, username, password)
   .then(results => {
@@ -125,6 +127,24 @@ function testCore (core) {
       return testCoreGetNTP(core)
     }).then(() => {
       return testCoreSetNTP(core)
+    }).then(() => {
+      return testCoreGetDynamicDNS(core)
+    }).then(() => {
+      return testCoreSetDynamicDNS(core)
+    }).then(() => {
+      return testCoreGetNetworkInterfaces(core)
+    }).then(() => {
+      return testCoreGetNetworkProtocols(core)
+    }).then(() => {
+      return testCoreGetNetworkDefaultGateway(core)
+    }).then(() => {
+      return testCoreGetZeroConfiguration(core)
+    }).then(() => {
+      return testCoreGetIPAddressFilter(core)
+    }).then(() => {
+      return testCoreGetDot11Capabilities(core)
+    }).then(() => {
+      return testCoreGetDot11Status(core)
     })
       .catch(error => {
         console.error(error)
@@ -389,6 +409,158 @@ function testCoreSetNTP (core) {
       .catch(error => {
         apiErrors.push('SetNTP')
         console.error('SetNTP failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetDynamicDNS (core) {
+  return new Promise((resolve, reject) => {
+    core.getDynamicDNS()
+      .then(results => {
+        console.log('GetDynamicDNS successful')
+        try {
+          DynamicDNSType = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
+          DynamicDNSName = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
+        }
+        catch (e) {}
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetDynamicDNS')
+        console.error('GetDynamicDNS failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreSetDynamicDNS (core) {
+  return new Promise((resolve, reject) => {
+    if (String(DynamicDNSType).length === 0) {
+      DynamicDNSType = 'ClientUpdates'
+    }
+    core.setDynamicDNS(DynamicDNSType, DynamicDNSName)
+      .then(results => {
+        console.log('SetDynamicDNS successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('SetDynamicDNS')
+        console.error('SetDynamicDNS failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetNetworkInterfaces (core) {
+  return new Promise((resolve, reject) => {
+    core.getNetworkInterfaces()
+      .then(results => {
+        console.log('GetNetworkInterfaces successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetNetworkInterfaces')
+        console.error('GetNetworkInterfaces failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetNetworkProtocols (core) {
+  return new Promise((resolve, reject) => {
+    core.getNetworkProtocols()
+      .then(results => {
+        console.log('GetNetworkProtocols successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetNetworkProtocols')
+        console.error('GetNetworkProtocols failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetNetworkDefaultGateway (core) {
+  return new Promise((resolve, reject) => {
+    core.getNetworkDefaultGateway()
+      .then(results => {
+        console.log('GetNetworkDefaultGateway successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetNetworkDefaultGateway')
+        console.error('GetNetworkDefaultGateway failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetZeroConfiguration (core) {
+  return new Promise((resolve, reject) => {
+    core.getZeroConfiguration()
+      .then(results => {
+        console.log('GetZeroConfiguration successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetZeroConfiguration')
+        console.error('GetZeroConfiguration failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetIPAddressFilter (core) {
+  return new Promise((resolve, reject) => {
+    core.getIPAddressFilter()
+      .then(results => {
+        console.log('GetIPAddressFilter successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetIPAddressFilter')
+        console.error('GetIPAddressFilter failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetDot11Capabilities (core) {
+  return new Promise((resolve, reject) => {
+    core.getDot11Capabilities()
+      .then(results => {
+        console.log('GetDot11Capabilities successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetDot11Capabilities')
+        console.error('GetDot11Capabilities failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetDot11Status (core) {
+  return new Promise((resolve, reject) => {
+    core.getDot11Status()
+      .then(results => {
+        console.log('GetDot11Status successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetDot11Status')
+        console.error('GetDot11Status failed')
         console.error(error)
         resolve(error)
       })
