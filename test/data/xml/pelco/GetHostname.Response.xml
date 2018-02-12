@@ -13,7 +13,7 @@
     <tds:GetHostnameResponse>
       <tds:HostnameInformation>
         <tt:FromDHCP>false</tt:FromDHCP>
-        <tt:Name>D6230L-J250117</tt:Name>
+        <tt:Name>localhost</tt:Name>
       </tds:HostnameInformation>
     </tds:GetHostnameResponse>
   </SOAP-ENV:Body>
