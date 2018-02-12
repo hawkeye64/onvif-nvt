@@ -1,6 +1,6 @@
 {
   "name": "onvif-nvt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wrapper for ONVIF spec to control NVT (Network Video Transitter) devices.",
   "main": "./lib/onvif-nvt.js",
   "scripts": {
