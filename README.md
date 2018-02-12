@@ -11,9 +11,22 @@ The aim of the **onvif-nvt** package is to have as much complete coverage of the
 The `onvif-nvt` package will work only with `node` server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.
 
 ## Installation
-Note: This is a work-in-progress
+Note: This is a work-in-progress, and while so, there will be many updates. PRs are welcomed.
 
 ```npm install onvif-nvt```
+
+## Contributing
+Before making a PR please do the following:
+* Make sure you are consistent with style.
+* <i>npm run lint-fix</i>
+* Make sure you have updated any functionality with JSDoc notations.
+* <i>npm run jsdoc</i>
+* Make sure you have added to <i>run</i> tests (live testing).
+* If you have a specific camera not identified, create a folder for it in `test/data/xml/{camera}`. Run all <i>run</i> tests with `saveXml.setWritable(true)` (in `run.js`) and capture all the xml and put them into the new folder.
+* Make sure you have added to <i>jest</i> tests (uses the aforementioned xml). Update `test/config.js` with your camera.
+* <i>node run/run.js</i>
+* <i>npm run test</i>
+If all is well, make the PR.
 
 ## Available Functionality
 * Core (Device)
@@ -37,7 +50,7 @@ OnvifManager.discovery.startProbe().then(deviceList => {
  console.log(deviceList)
  // 'deviceList' contains all ONVIF devices that have responded.
  // If it is empty, then no ONVIF devices
- // responded back to the broadcst.
+ // responded back to the broadcast.
 })
 ```
 ## Example (Connect and Continuous Move)

@@ -8,16 +8,16 @@ const saveXml = require('../lib/utils/save-xml')
 saveXml.setWritable(true)
 
 // for Axis
-const address = '192.168.0.19'
-const port = 80
-const username = 'root'
-const password = 'root'
+// const address = '192.168.0.19'
+// const port = 80
+// const username = 'root'
+// const password = 'root'
 
 // for Hikvision (PTZ)
-// const address = '10.10.1.60'
-// const port = 80
-// const username = 'admin'
-// const password = '12345'
+const address = '10.10.1.60'
+const port = 80
+const username = 'admin'
+const password = '12345'
 
 // for Hikvision (Fixed)
 // const address = '10.10.1.65'
@@ -40,7 +40,7 @@ const password = 'root'
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
 const runCore = true
-const runPtz = false
+const runPtz = true
 const runSnapshot = false
 const runReboot = false
 
@@ -115,6 +115,8 @@ function testCore (core) {
       return testCoreGetHostname(core)
     }).then(() => {
       return testCoreSetHostname(core)
+    }).then(() => {
+      return testCoreSetHostnameFromDHCP(core)
     }).then(() => {
       return testCoreGetDNS(core)
     }).then(() => {
@@ -307,6 +309,22 @@ function testCoreSetHostname (core) {
       .catch(error => {
         apiErrors.push('SetHostname')
         console.error('SetHostname failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreSetHostnameFromDHCP (core) {
+  return new Promise((resolve, reject) => {
+    core.setHostnameFromDHCP(true)
+      .then(results => {
+        console.log('SetHostnameFromDHCP successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('SetHostnameFromDHCP')
+        console.error('SetHostnameFromDHCP failed')
         console.error(error)
         resolve(error)
       })

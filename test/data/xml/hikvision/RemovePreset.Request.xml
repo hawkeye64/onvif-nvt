@@ -11,10 +11,10 @@
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">M5s3LxzOy52c1Soi1zpPvjEiO9U=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">snaUhIyiKkIP4FYIr0r9+w==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">rqXJ9n963ltKNvuqlpfpiKOCgmY=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">s7XM5ifZsHbZFx/0tqbHSw==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-08T20:26:12.178Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-12T14:25:29.541Z
         </Created>
       </UsernameToken>
     </Security>
@@ -22,7 +22,7 @@
   <s:Body>
     <tptz:RemovePreset>
       <tptz:ProfileToken>Profile_1</tptz:ProfileToken>
-      <tptz:PresetToken>4</tptz:PresetToken>
+      <tptz:PresetToken>22</tptz:PresetToken>
     </tptz:RemovePreset>
   </s:Body>
 </s:Envelope>

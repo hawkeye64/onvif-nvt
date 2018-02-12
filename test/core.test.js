@@ -1,6 +1,36 @@
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
+// Extending jest with a custom matcher
+expect.extend({
+  toBeUndefinedNullOrEmpty(received, argument) {
+    let pass = false
+    if (typeof received === 'undefined') {
+      pass = true
+    }
+    else if(received === null) {
+      pass = true
+    }
+    else if (typeof received === 'string' && received.length === 0) {
+      pass = true
+    }
+    if (pass) {
+      return { // when used with expect(x).not.matcher
+        message: () =>
+          `expected ${received} not to be undefined or null`,
+          pass: true
+      }
+    }
+    else {
+      return {
+        message: () =>
+          `expected ${received} to be undefined or null`,
+          pass: true
+      }
+    }
+  }
+})
+
 // Applies to all tests in this file
 var Camera = null
 beforeEach(() => {
@@ -25,7 +55,12 @@ describe('Core', () => {
     return Camera.core.getWsdlUrl()
     .then(results => {
       let response = results.data.GetWsdlUrlResponse.WsdlUrl
-      expect(response).toMatch(TestConfig.address)
+      if (TestConfig.cameraType === 'axis') {
+        expect(response).toMatch(TestConfig.address)
+      }
+      else if (TestConfig.cameraType === 'hikvision') {
+        expect(response).toMatch('http://www.onvif.org/')
+      }
     })
   })
 
@@ -67,19 +102,23 @@ describe('Core', () => {
     return Camera.core.setHostname('localhost')
     .then(results => {
       let response = results.data.SetHostnameResponse
-      expect(response).toBe('')
+      // axis = ''
+      // hikvision = undefined
+      expect(response).toBeUndefinedNullOrEmpty()
       console.log(results)
     })
   })
 
-  // test('Camera.core.setHostnameFromDHCP', () => {
-  //   return Camera.core.setHostnameFromDHCP(true)
-  //   .then(results => {
-  //     let response = results.data.SetHostnameResponse
-  //     expect(response).toBe('')
-  //     console.log(results)
-  //   })
-  // })
+  test('Camera.core.setHostnameFromDHCP', () => {
+    return Camera.core.setHostnameFromDHCP(true)
+    .then(results => {
+      let response = results.data.SetHostnameResponse
+      // axis = ''
+      // hikvision = undefined
+      expect(response).toBeUndefinedNullOrEmpty()
+      console.log(results)
+    })
+  })
 
   test('Camera.core.getDNS', () => {
     return Camera.core.getDNS()
@@ -87,7 +126,9 @@ describe('Core', () => {
       let response = results.data.GetDNSResponse.DNSInformation
       expect(response).toHaveProperty('DNSFromDHCP')
       expect(response).toHaveProperty('FromDHCP')
-      expect(response).toHaveProperty('SearchDomain')
+      if (TestConfig.cameraType === 'axis') {
+        expect(response).toHaveProperty('SearchDomain')
+      }
     })
   })
 
@@ -95,7 +136,9 @@ describe('Core', () => {
     return Camera.core.setDNS(true)
     .then(results => {
       let response = results.data.SetDNSResponse
-      expect(response).toBe('')
+      // axis = ''
+      // hikvision = undefined
+      expect(response).toBeUndefinedNullOrEmpty()
     })
   })
 
@@ -104,7 +147,13 @@ describe('Core', () => {
     .then(results => {
       let response = results.data.GetNTPResponse.NTPInformation
       expect(response).toHaveProperty('FromDHCP')
-      expect(response).toHaveProperty('NTPManual')
+      if (TestConfig.cameraType === 'axis') {
+        expect(response).toHaveProperty('NTPManual')
+      }
+      else if (TestConfig.cameraType === 'hikvision') {
+        expect(response).toHaveProperty('NTPFromDHCP')
+      }
+
     })
   })
 
@@ -112,10 +161,10 @@ describe('Core', () => {
     return Camera.core.setNTP(true)
     .then(results => {
       let response = results.data.SetNTPResponse
-      expect(response).toBe('')
+      // axis = ''
+      // hikvision = undefined
+      expect(response).toBeUndefinedNullOrEmpty
       console.log(results)
     })
   })
-
-
 })
