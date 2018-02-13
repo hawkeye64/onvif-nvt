@@ -31,6 +31,26 @@ expect.extend({
   }
 })
 
+expect.extend({
+  toBeArray (received, argument) {
+    let pass = Array.isArray(received)
+    if (pass) {
+      return { // when used with expect(x).not.matcher
+        message: () =>
+          `expected ${received} not to be an array`,
+        pass: true
+      }
+    }
+    else {
+      return {
+        message: () =>
+          `expected ${received} to be an array`,
+        pass: true
+      }
+    }
+  }
+})
+
 // Applies to all tests in this file
 var Camera = null
 beforeEach(() => {
@@ -166,4 +186,212 @@ describe('Core', () => {
         console.log(results)
       })
   })
+
+  test('Camera.core.getDynamicDNS', () => {
+    return Camera.core.getDynamicDNS()
+      .then(results => {
+        let response = results.data.GetDynamicDNSResponse
+        expect(response).toHaveProperty('DynamicDNSInformation')
+        let info = response.DynamicDNSInformation
+        expect(info).toHaveProperty('Name')
+        expect(info).toHaveProperty('Type')
+        let name = info.Name
+        let type = info.Type
+        expect(name).toBeUndefinedNullOrEmpty()
+        expect(type).toMatch('ClientUpdates')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getNetworkInterfaces', () => {
+    return Camera.core.getNetworkInterfaces()
+      .then(results => {
+        let response = results.data.GetNetworkInterfacesResponse
+        expect(response).toHaveProperty('NetworkInterfaces')
+        let interfaces = response.NetworkInterfaces
+        expect(interfaces).toHaveProperty('$')
+        expect(interfaces).toHaveProperty('Enabled')
+        expect(interfaces).toHaveProperty('Info')
+        expect(interfaces).toHaveProperty('IPv4')
+        expect(interfaces).toHaveProperty('IPv6')
+        expect(interfaces).toHaveProperty('Link')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getNetworkProtocols', () => {
+    return Camera.core.getNetworkProtocols()
+      .then(results => {
+        let response = results.data.GetNetworkProtocolsResponse
+        expect(response).toHaveProperty('NetworkProtocols')
+        let protocols = response.NetworkProtocols
+        expect(protocols).toBeArray()
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getNetworkDefaultGateway', () => {
+    return Camera.core.getNetworkDefaultGateway()
+      .then(results => {
+        let response = results.data.GetNetworkDefaultGatewayResponse
+        expect(response).toHaveProperty('NetworkGateway')
+        let gateway = response.NetworkGateway
+        expect(gateway).toHaveProperty('IPv4Address')
+        expect(gateway).toHaveProperty('IPv6Address')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getZeroConfiguration', () => {
+    return Camera.core.getZeroConfiguration()
+      .then(results => {
+        let response = results.data.GetZeroConfigurationResponse
+        expect(response).toHaveProperty('ZeroConfiguration')
+        let zero = response.ZeroConfiguration
+        expect(zero).toHaveProperty('Addresses')
+        expect(zero).toHaveProperty('Enabled')
+        expect(zero).toHaveProperty('InterfaceToken')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getIPAddressFilter', () => {
+    return Camera.core.getIPAddressFilter()
+      .then(results => {
+        let response = results.data.GetIPAddressFilterResponse
+        expect(response).toHaveProperty('IPAddressFilter')
+        let filter = response.IPAddressFilter
+        expect(filter).toHaveProperty('Type')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getDeviceInformation', () => {
+    return Camera.core.getDeviceInformation()
+      .then(results => {
+        let response = results.data.GetDeviceInformationResponse
+        expect(response).toHaveProperty('FirmwareVersion')
+        expect(response).toHaveProperty('HardwareId')
+        expect(response).toHaveProperty('Manufacturer')
+        expect(response).toHaveProperty('Model')
+        expect(response).toHaveProperty('SerialNumber')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getSystemUris', () => {
+    return Camera.core.getSystemUris()
+      .then(results => {
+        let response = results.data.GetSystemUrisResponse
+        expect(response).toHaveProperty('SupportInfoUri')
+        expect(response).toHaveProperty('SystemBackupUri')
+        expect(response).toHaveProperty('SystemLogUris')
+        let logUris = response.SystemLogUris
+        expect(logUris).toHaveProperty('SystemLog')
+        let log = logUris.SystemLog
+        expect(log).toHaveProperty('Type')
+        expect(log).toHaveProperty('Uri')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getSystemDateAndTime', () => {
+    return Camera.core.getSystemDateAndTime()
+      .then(results => {
+        let response = results.data.GetSystemDateAndTimeResponse
+        expect(response).toHaveProperty('SystemDateAndTime')
+        let sdt = response.SystemDateAndTime
+        expect(sdt).toHaveProperty('DateTimeType')
+        expect(sdt).toHaveProperty('DaylightSavings')
+        expect(sdt).toHaveProperty('LocalDateTime')
+        expect(sdt).toHaveProperty('TimeZone')
+        expect(sdt).toHaveProperty('UTCDateTime')
+        console.log(results)
+      })
+  })
+
+  // test('Camera.core.getSystemLog', () => {
+  //   return Camera.core.getSystemLog()
+  //     .then(results => {
+  //       let response = results.data.GetSystemLogResponse
+  //       expect(response).toHaveProperty('SystemLog')
+  //       console.log(results)
+  //     })
+  // })
+
+  test('Camera.core.getSystemSupportInformation', () => {
+    return Camera.core.getSystemSupportInformation()
+      .then(results => {
+        let response = results.data.GetSystemSupportInformationResponse
+        expect(response).toHaveProperty('SupportInformation')
+        let info = response.SupportInformation
+        expect(info).toHaveProperty('String')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getScopes', () => {
+    return Camera.core.getScopes()
+      .then(results => {
+        let response = results.data.GetScopesResponse
+        expect(response).toHaveProperty('Scopes')
+        let scopes = response.Scopes
+        expect(scopes).toBeArray()
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getDiscoveryMode', () => {
+    return Camera.core.getDiscoveryMode()
+      .then(results => {
+        let response = results.data.GetDiscoveryModeResponse
+        expect(response).toHaveProperty('DiscoveryMode')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getRemoteDiscoveryMode', () => {
+    return Camera.core.getRemoteDiscoveryMode()
+      .then(results => {
+        let response = results.data.GetRemoteDiscoveryModeResponse
+        expect(response).toHaveProperty('RemoteDiscoveryMode')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getDPAddresses', () => {
+    return Camera.core.getDPAddresses()
+      .then(results => {
+        let response = results.data.GetDPAddressesResponse
+        expect(response).toHaveProperty('DPAddress')
+        let address = response.DPAddress
+        expect(address).toHaveProperty('IPv4Address')
+        expect(address).toHaveProperty('Type')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getAccessPolicy', () => {
+    return Camera.core.getAccessPolicy()
+      .then(results => {
+        let response = results.data.GetAccessPolicyResponse
+        expect(response).toHaveProperty('PolicyFile')
+        let file = response.PolicyFile
+        expect(file).toHaveProperty('Data')
+        console.log(results)
+      })
+  })
+
+  test('Camera.core.getUsers', () => {
+    return Camera.core.getUsers()
+      .then(results => {
+        let response = results.data.GetUsersResponse
+        expect(response).toHaveProperty('User')
+        let user = response.User
+        expect(user).toHaveProperty('UserLevel')
+        expect(user).toHaveProperty('Username')
+        console.log(results)
+      })
+  })
+
 })
