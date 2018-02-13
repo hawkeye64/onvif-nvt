@@ -43,6 +43,7 @@ const runCore = true
 const runPtz = false
 const runSnapshot = false
 const runReboot = false
+const runBackup = false
 
 const OnvifManager = require('../lib/onvif-nvt')
 
@@ -66,6 +67,7 @@ let testPresetName = 'testPreset'
 let testPresetNameToken = ''
 let DynamicDNSType = ''
 let DynamicDNSName = ''
+let interfaceToken = ''
 
 OnvifManager.connect(address, port, username, password)
   .then(results => {
@@ -78,7 +80,7 @@ OnvifManager.connect(address, port, username, password)
       return testSnapshot(camera)
     }).then(() => {
       // this should be the last test (obviously)
-      return testCoreReboot(camera.core)
+      return testCoreSystemReboot(camera.core)
     }).then(() => {
       let count = apiErrors.length
       if (count) {
@@ -102,7 +104,6 @@ OnvifManager.connect(address, port, username, password)
     console.error(error)
   })
 
-// testCoreReboot(camera.core)
 // //testPtzGetCompatibleConfigurations(camera.ptz)
 
 function testCore (core) {
@@ -145,6 +146,36 @@ function testCore (core) {
       return testCoreGetDot11Capabilities(core)
     }).then(() => {
       return testCoreGetDot11Status(core)
+    }).then(() => {
+      return testCoreScanAvailableDot11Networks(core)
+    }).then(() => {
+      return testCoreGetDeviceInformation(core)
+    }).then(() => {
+      return testCoreGetSystemUris(core)
+    }).then(() => {
+      return testCoreGetSystemBackup(core)
+    }).then(() => {
+      return testCoreGetSystemDateAndTime(core)
+    }).then(() => {
+      return testCoreGetSystemLog(core)
+    }).then(() => {
+      return testCoreGetSystemSupportInformation(core)
+    // }).then(() => {
+    //   return testCoreSystemReboot(core)
+    }).then(() => {
+      return testCoreGetScopes(core)
+    }).then(() => {
+      return testCoreGetGeoLocation(core)
+    }).then(() => {
+      return testCoreGetDiscoveryMode(core)
+    }).then(() => {
+      return testCoreGetRemoteDiscoveryMode(core)
+    }).then(() => {
+      return testCoreGetDPAddresses(core)
+    }).then(() => {
+      return testCoreGetAccessPolicy(core)
+    }).then(() => {
+      return testCoreGetUsers(core)
     })
       .catch(error => {
         console.error(error)
@@ -218,26 +249,6 @@ function testSnapshot (camera) {
     NOTE: All functional test should resolve(error)
     instead of calling reject(error)
     ------------------------------------------------- */
-function testCoreReboot (core) {
-  return new Promise((resolve, reject) => {
-    if (runReboot) {
-      core.systemReboot()
-        .then(results => {
-          console.log('Reboot successful')
-          resolve(results)
-        })
-        .catch(error => {
-          apiErrors.push('Reboot')
-          console.error('Reboot failed')
-          console.error(error)
-          resolve(error)
-        })
-    }
-    else {
-      resolve()
-    }
-  })
-}
 
 function testCoreGetWsdlUrl (core) {
   return new Promise((resolve, reject) => {
@@ -508,6 +519,10 @@ function testCoreGetZeroConfiguration (core) {
     core.getZeroConfiguration()
       .then(results => {
         console.log('GetZeroConfiguration successful')
+        try {
+          interfaceToken = results.data.GetZeroConfigurationResponse.ZeroConfiguration.InterfaceToken
+        }
+        catch (e) {}
         resolve(results)
       })
       .catch(error => {
@@ -553,7 +568,7 @@ function testCoreGetDot11Capabilities (core) {
 
 function testCoreGetDot11Status (core) {
   return new Promise((resolve, reject) => {
-    core.getDot11Status()
+    core.getDot11Status(interfaceToken)
       .then(results => {
         console.log('GetDot11Status successful')
         resolve(results)
@@ -561,6 +576,256 @@ function testCoreGetDot11Status (core) {
       .catch(error => {
         apiErrors.push('GetDot11Status')
         console.error('GetDot11Status failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreScanAvailableDot11Networks (core) {
+  return new Promise((resolve, reject) => {
+    core.scanAvailableDot11Networks(interfaceToken)
+      .then(results => {
+        console.log('ScanAvailableDot11Networks successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('ScanAvailableDot11Networks')
+        console.error('ScanAvailableDot11Networks failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetDeviceInformation (core) {
+  return new Promise((resolve, reject) => {
+    core.getDeviceInformation()
+      .then(results => {
+        console.log('GetDeviceInformation successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetDeviceInformation')
+        console.error('GetDeviceInformation failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetSystemUris (core) {
+  return new Promise((resolve, reject) => {
+    core.getSystemUris()
+      .then(results => {
+        console.log('GetSystemUris successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetSystemUris')
+        console.error('GetSystemUris failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetSystemBackup (core) {
+  return new Promise((resolve, reject) => {
+    if (runBackup) {
+      core.getSystemBackup()
+        .then(results => {
+          console.log('GetSystemBackup successful')
+          resolve(results)
+        })
+        .catch(error => {
+          apiErrors.push('GetSystemBackup')
+          console.error('GetSystemBackup failed')
+          console.error(error)
+          resolve(error)
+        })
+    }
+    else {
+      resolve()
+    }
+  })
+}
+
+function testCoreGetSystemDateAndTime (core) {
+  return new Promise((resolve, reject) => {
+    core.getSystemDateAndTime()
+      .then(results => {
+        console.log('GetSystemDateAndTime successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetSystemDateAndTime')
+        console.error('GetSystemDateAndTime failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetSystemLog (core) {
+  return new Promise((resolve, reject) => {
+    core.getSystemLog()
+      .then(results => {
+        console.log('GetSystemLog successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetSystemLog')
+        console.error('GetSystemLog failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetSystemSupportInformation (core) {
+  return new Promise((resolve, reject) => {
+    core.getSystemSupportInformation()
+      .then(results => {
+        console.log('GetSystemSupportInformation successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetSystemSupportInformation')
+        console.error('GetSystemSupportInformation failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreSystemReboot (core) {
+  return new Promise((resolve, reject) => {
+    if (runReboot) {
+      core.systemReboot()
+        .then(results => {
+          console.log('Reboot successful')
+          resolve(results)
+        })
+        .catch(error => {
+          apiErrors.push('Reboot')
+          console.error('Reboot failed')
+          console.error(error)
+          resolve(error)
+        })
+    }
+    else {
+      resolve()
+    }
+  })
+}
+
+function testCoreGetScopes (core) {
+  return new Promise((resolve, reject) => {
+    core.getScopes()
+      .then(results => {
+        console.log('GetScopes successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetScopes')
+        console.error('GetScopes failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetGeoLocation (core) {
+  return new Promise((resolve, reject) => {
+    core.getGeoLocation()
+      .then(results => {
+        console.log('GetGeoLocation successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetGeoLocation')
+        console.error('GetGeoLocation failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetDiscoveryMode (core) {
+  return new Promise((resolve, reject) => {
+    core.getDiscoveryMode()
+      .then(results => {
+        console.log('GetDiscoveryMode successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetDiscoveryMode')
+        console.error('GetDiscoveryMode failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetRemoteDiscoveryMode (core) {
+  return new Promise((resolve, reject) => {
+    core.getRemoteDiscoveryMode()
+      .then(results => {
+        console.log('GetRemoteDiscoveryMode successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetRemoteDiscoveryMode')
+        console.error('GetRemoteDiscoveryMode failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetDPAddresses (core) {
+  return new Promise((resolve, reject) => {
+    core.getDPAddresses()
+      .then(results => {
+        console.log('GetDPAddresses successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetDPAddresses')
+        console.error('GetDPAddresses failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetAccessPolicy (core) {
+  return new Promise((resolve, reject) => {
+    core.getAccessPolicy()
+      .then(results => {
+        console.log('GetAccessPolicy successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAccessPolicy')
+        console.error('GetAccessPolicy failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testCoreGetUsers (core) {
+  return new Promise((resolve, reject) => {
+    core.getUsers()
+      .then(results => {
+        console.log('GetUsers successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetUsers')
+        console.error('GetUsers failed')
         console.error(error)
         resolve(error)
       })

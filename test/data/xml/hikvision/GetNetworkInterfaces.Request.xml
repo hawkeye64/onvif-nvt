@@ -8,10 +8,10 @@
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">ejHeBdSRXdDnwNnahTNJf9eP8mY=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">TmB7HSt4UbudvQp3kJ2WWA==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">bWUdnTMIYOMe9KrkBh4TGz8pueQ=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">u53/JfXnMgDXsgkdcFY8dQ==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-12T21:20:56.339Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-13T14:49:20.729Z
         </Created>
       </UsernameToken>
     </Security>
