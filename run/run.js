@@ -65,8 +65,8 @@ let presets = [] // retrieved from GetPresets
 let presetToken = '' // retrieved from GetPresets
 let testPresetName = 'testPreset'
 let testPresetNameToken = ''
-let DynamicDNSType = ''
-let DynamicDNSName = ''
+// let DynamicDNSType = ''
+// let DynamicDNSName = ''
 let interfaceToken = ''
 
 OnvifManager.connect(address, port, username, password)
@@ -130,8 +130,8 @@ function testCore (core) {
       return testCoreSetNTP(core)
     }).then(() => {
       return testCoreGetDynamicDNS(core)
-    }).then(() => {
-      return testCoreSetDynamicDNS(core)
+    // }).then(() => {
+    //   return testCoreSetDynamicDNS(core)
     }).then(() => {
       return testCoreGetNetworkInterfaces(core)
     }).then(() => {
@@ -432,8 +432,8 @@ function testCoreGetDynamicDNS (core) {
       .then(results => {
         console.log('GetDynamicDNS successful')
         try {
-          DynamicDNSType = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
-          DynamicDNSName = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
+          // DynamicDNSType = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
+          // DynamicDNSName = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
         }
         catch (e) {}
         resolve(results)
@@ -447,24 +447,24 @@ function testCoreGetDynamicDNS (core) {
   })
 }
 
-function testCoreSetDynamicDNS (core) {
-  return new Promise((resolve, reject) => {
-    if (String(DynamicDNSType).length === 0) {
-      DynamicDNSType = 'ClientUpdates'
-    }
-    core.setDynamicDNS(DynamicDNSType, DynamicDNSName)
-      .then(results => {
-        console.log('SetDynamicDNS successful')
-        resolve(results)
-      })
-      .catch(error => {
-        apiErrors.push('SetDynamicDNS')
-        console.error('SetDynamicDNS failed')
-        console.error(error)
-        resolve(error)
-      })
-  })
-}
+// function testCoreSetDynamicDNS (core) {
+//   return new Promise((resolve, reject) => {
+//     if (String(DynamicDNSType).length === 0) {
+//       DynamicDNSType = 'ClientUpdates'
+//     }
+//     core.setDynamicDNS(DynamicDNSType, DynamicDNSName)
+//       .then(results => {
+//         console.log('SetDynamicDNS successful')
+//         resolve(results)
+//       })
+//       .catch(error => {
+//         apiErrors.push('SetDynamicDNS')
+//         console.error('SetDynamicDNS failed')
+//         console.error(error)
+//         resolve(error)
+//       })
+//   })
+// }
 
 function testCoreGetNetworkInterfaces (core) {
   return new Promise((resolve, reject) => {
@@ -669,7 +669,7 @@ function testCoreGetSystemDateAndTime (core) {
 
 function testCoreGetSystemLog (core) {
   return new Promise((resolve, reject) => {
-    core.getSystemLog()
+    core.getSystemLog('System')
       .then(results => {
         console.log('GetSystemLog successful')
         resolve(results)

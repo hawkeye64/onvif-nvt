@@ -413,7 +413,7 @@ then the device shall support this command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1552">line 1552</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1570">line 1570</a>
     </li></ul></dd>
     
 
@@ -859,7 +859,7 @@ GetDeviceInformation command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1441">line 1441</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1459">line 1459</a>
     </li></ul></dd>
     
 
@@ -1481,7 +1481,7 @@ configurations through the GetDNS command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1509">line 1509</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1527">line 1527</a>
     </li></ul></dd>
     
 
@@ -1779,7 +1779,7 @@ information via this command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1401">line 1401</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1419">line 1419</a>
     </li></ul></dd>
     
 
@@ -2810,7 +2810,7 @@ possible to get the NTP server settings through the GetNTP command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1475">line 1475</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1493">line 1493</a>
     </li></ul></dd>
     
 
@@ -2968,7 +2968,7 @@ mandatory, the device shall return a non-empty scope list in the response.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1353">line 1353</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1371">line 1371</a>
     </li></ul></dd>
     
 
@@ -3500,7 +3500,7 @@ the device.
     
 
     
-    <h4 class="name" id="getSystemLog"><span class="type-signature"></span>getSystemLog<span class="signature">(callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getSystemLog"><span class="type-signature"></span>getSystemLog<span class="signature">(logType, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3542,6 +3542,44 @@ the device.
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>logType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">System</span>
+|
+
+<span class="param-type"><a href="Access.html">Access</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Specifies the type of system log to get.
+<ul>
+<li>System: Indicates that a system log is requested.</li>
+<li>Access: Indicates that a access log is requested.</li>
+</ul></td>
+        </tr>
+
     
 
         <tr>
@@ -3613,7 +3651,7 @@ the device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1258">line 1258</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1263">line 1263</a>
     </li></ul></dd>
     
 
@@ -3760,7 +3798,7 @@ the device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1286">line 1286</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1304">line 1304</a>
     </li></ul></dd>
     
 
@@ -3994,7 +4032,7 @@ getSystemDateAndTime must be called first to get an accurate time.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1586">line 1586</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1604">line 1604</a>
     </li></ul></dd>
     
 
@@ -6329,7 +6367,7 @@ not are obtained via DHCP.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1315">line 1315</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1333">line 1333</a>
     </li></ul></dd>
     
 
@@ -6389,7 +6427,7 @@ not are obtained via DHCP.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 13 2018 07:48:42 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Feb 14 2018 08:17:06 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
