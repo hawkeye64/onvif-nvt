@@ -310,22 +310,34 @@ describe('Core', () => {
       })
   })
 
-  // test('Camera.core.getSystemLog', () => {
-  //   return Camera.core.getSystemLog()
-  //     .then(results => {
-  //       let response = results.data.GetSystemLogResponse
-  //       expect(response).toHaveProperty('SystemLog')
-  //       console.log(results)
-  //     })
-  // })
+  test('Camera.core.getSystemLog', () => {
+    return Camera.core.getSystemLog('System')
+      .then(results => {
+        if (TestConfig.cameraType === 'axis') {
+          expect(results).toHaveProperty('raw')
+          expect(results.raw).toBeTruthy('raw')
+        }
+        else if (TestConfig.cameraType === 'hikvision') {
+          let response = results.data.GetSystemLogResponse
+          expect(response).toHaveProperty('SystemLog')
+        }
+        console.log(results)
+      })
+  })
 
   test('Camera.core.getSystemSupportInformation', () => {
     return Camera.core.getSystemSupportInformation()
       .then(results => {
-        let response = results.data.GetSystemSupportInformationResponse
-        expect(response).toHaveProperty('SupportInformation')
-        let info = response.SupportInformation
-        expect(info).toHaveProperty('String')
+        if (TestConfig.cameraType === 'axis') {
+          expect(results).toHaveProperty('raw')
+          expect(results.raw).toBeTruthy('raw')
+        }
+        else if (TestConfig.cameraType === 'hikvision') {
+          let response = results.data.GetSystemSupportInformationResponse
+          expect(response).toHaveProperty('SupportInformation')
+          let info = response.SupportInformation
+          expect(info).toHaveProperty('String')
+        }
         console.log(results)
       })
   })
@@ -393,5 +405,4 @@ describe('Core', () => {
         console.log(results)
       })
   })
-
 })

@@ -8,14 +8,17 @@
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">oJWVg5j/1VU6AsUbJkXpvcnyDNs=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">4H5jG4yec/t1LHMyfntsFQ==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">ekhnujVUEy+VnYHNiDHkesPkaSY=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">u0Eocn55qI1l+9qT4khYSA==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-13T21:48:16.668Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-14T15:25:45.418Z
         </Created>
       </UsernameToken>
     </Security>
   </s:Header>
   <s:Body>
-  </tds:GetDot11Status>
-</s:Body>undefined</s:Envelope>
+    <tds:GetDot11Status>
+      <tt:InterfaceToken>eth0</tt:InterfaceToken>
+    </tds:GetDot11Status>
+  </s:Body>
+</s:Envelope>
