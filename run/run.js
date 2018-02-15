@@ -1334,7 +1334,7 @@ function testMediaGetAudioSourceConfigurations (media) {
 
 function testMediaGetAudioEncoderConfigurations (media) {
   return new Promise((resolve, reject) => {
-    media.getAudioSourceConfigurations()
+    media.getAudioEncoderConfigurations()
       .then(results => {
         console.log('GetAudioEncoderConfigurations successful')
         resolve(results)

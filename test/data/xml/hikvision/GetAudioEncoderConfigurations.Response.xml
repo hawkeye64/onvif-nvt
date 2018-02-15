@@ -37,38 +37,24 @@
   xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
   <env:Body>
-    <tds:GetSystemDateAndTimeResponse>
-      <tds:SystemDateAndTime>
-        <tt:DateTimeType>Manual</tt:DateTimeType>
-        <tt:DaylightSavings>true</tt:DaylightSavings>
-        <tt:TimeZone>
-          <tt:TZ>CST7:00:00DST01:00:00,M3.2.0/02:00:00,M11.1.0/02:00:00</tt:TZ>
-        </tt:TimeZone>
-        <tt:UTCDateTime>
-          <tt:Time>
-            <tt:Hour>18</tt:Hour>
-            <tt:Minute>0</tt:Minute>
-            <tt:Second>38</tt:Second>
-          </tt:Time>
-          <tt:Date>
-            <tt:Year>2018</tt:Year>
-            <tt:Month>2</tt:Month>
-            <tt:Day>15</tt:Day>
-          </tt:Date>
-        </tt:UTCDateTime>
-        <tt:LocalDateTime>
-          <tt:Time>
-            <tt:Hour>11</tt:Hour>
-            <tt:Minute>0</tt:Minute>
-            <tt:Second>38</tt:Second>
-          </tt:Time>
-          <tt:Date>
-            <tt:Year>2018</tt:Year>
-            <tt:Month>2</tt:Month>
-            <tt:Day>15</tt:Day>
-          </tt:Date>
-        </tt:LocalDateTime>
-      </tds:SystemDateAndTime>
-    </tds:GetSystemDateAndTimeResponse>
+    <trt:GetAudioEncoderConfigurationsResponse>
+      <trt:Configurations token="MainAudioEncoderToken">
+        <tt:Name>AudioEncoderConfig</tt:Name>
+        <tt:UseCount>3</tt:UseCount>
+        <tt:Encoding>G711</tt:Encoding>
+        <tt:Bitrate>64</tt:Bitrate>
+        <tt:SampleRate>8</tt:SampleRate>
+        <tt:Multicast>
+          <tt:Address>
+            <tt:Type>IPv4</tt:Type>
+            <tt:IPv4Address>0.0.0.0</tt:IPv4Address>
+          </tt:Address>
+          <tt:Port>8600</tt:Port>
+          <tt:TTL>1</tt:TTL>
+          <tt:AutoStart>false</tt:AutoStart>
+        </tt:Multicast>
+        <tt:SessionTimeout>PT5S</tt:SessionTimeout>
+      </trt:Configurations>
+    </trt:GetAudioEncoderConfigurationsResponse>
   </env:Body>
 </env:Envelope>
