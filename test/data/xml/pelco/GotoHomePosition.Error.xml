@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault>
+      <SOAP-ENV:Code>
+        <SOAP-ENV:Value>SOAP-ENV:Sender</SOAP-ENV:Value>
+        <SOAP-ENV:Subcode>
+          <SOAP-ENV:Value>ter:Action</SOAP-ENV:Value>
+          <SOAP-ENV:Subcode>
+            <SOAP-ENV:Value>ter:NoHomePosition</SOAP-ENV:Value>
+          </SOAP-ENV:Subcode>
+        </SOAP-ENV:Subcode>
+      </SOAP-ENV:Code>
+      <SOAP-ENV:Reason>
+        <SOAP-ENV:Text xml:lang="en">No home position has been defined for this Profile.</SOAP-ENV:Text>
+      </SOAP-ENV:Reason>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

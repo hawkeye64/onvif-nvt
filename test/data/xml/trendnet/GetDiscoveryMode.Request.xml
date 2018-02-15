@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope 
+  xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <s:Header>
+    <Security s:mustUnderstand="1" 
+      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <UsernameToken>
+        <Username>admin</Username>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">wptbkyJhlp4dSdOdWJiCKQxPorM=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">36IC/2bqF4eZ4uQRYxl7UQ==</Nonce>
+        <Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-15T15:44:22.853Z
+        </Created>
+      </UsernameToken>
+    </Security>
+  </s:Header>
+  <s:Body>
+    <tds:GetDiscoveryMode/>
+  </s:Body>
+</s:Envelope>

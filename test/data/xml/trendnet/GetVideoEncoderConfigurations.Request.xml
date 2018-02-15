@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope 
+  xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:env="http://www.w3.org/2003/05/soap-envelope " 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:trt="http://www.onvif.org/ver10/media/wsdl">
+  <s:Header>
+    <Security s:mustUnderstand="1" 
+      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <UsernameToken>
+        <Username>admin</Username>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">hQW1WklzfUsf28DObrov0njOuWs=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">G1AaQNyuDk0E+bx/5mlilg==</Nonce>
+        <Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-15T15:44:22.405Z
+        </Created>
+      </UsernameToken>
+    </Security>
+  </s:Header>
+  <s:Body>
+    <trt:GetVideoEncoderConfigurations/>
+  </s:Body>
+</s:Envelope>

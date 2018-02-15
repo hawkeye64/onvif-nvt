@@ -12,21 +12,21 @@
   <SOAP-ENV:Body>
     <tds:GetSystemDateAndTimeResponse>
       <tds:SystemDateAndTime>
-        <tt:DateTimeType>NTP</tt:DateTimeType>
+        <tt:DateTimeType>Manual</tt:DateTimeType>
         <tt:DaylightSavings>false</tt:DaylightSavings>
         <tt:TimeZone>
           <tt:TZ>MST7MDT,M3.2.0,M11.1.0</tt:TZ>
         </tt:TimeZone>
         <tt:UTCDateTime>
           <tt:Time>
-            <tt:Hour>15</tt:Hour>
-            <tt:Minute>18</tt:Minute>
-            <tt:Second>50</tt:Second>
+            <tt:Hour>18</tt:Hour>
+            <tt:Minute>23</tt:Minute>
+            <tt:Second>37</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
             <tt:Month>2</tt:Month>
-            <tt:Day>14</tt:Day>
+            <tt:Day>15</tt:Day>
           </tt:Date>
         </tt:UTCDateTime>
         <tt:Extension>

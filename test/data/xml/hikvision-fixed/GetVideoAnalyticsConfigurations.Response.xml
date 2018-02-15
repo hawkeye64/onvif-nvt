@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope 
+  xmlns:env="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:soapenc="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl" 
+  xmlns:trt="http://www.onvif.org/ver10/media/wsdl" 
+  xmlns:timg="http://www.onvif.org/ver20/imaging/wsdl" 
+  xmlns:tev="http://www.onvif.org/ver10/events/wsdl" 
+  xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl" 
+  xmlns:tan="http://www.onvif.org/ver20/analytics/wsdl" 
+  xmlns:tst="http://www.onvif.org/ver10/storage/wsdl" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:dn="http://www.onvif.org/ver10/network/wsdl" 
+  xmlns:tns1="http://www.onvif.org/ver10/topics" 
+  xmlns:tmd="http://www.onvif.org/ver10/deviceIO/wsdl" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl" 
+  xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12" 
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http" 
+  xmlns:d="http://schemas.xmlsoap.org/ws/2005/04/discovery" 
+  xmlns:wsadis="http://schemas.xmlsoap.org/ws/2004/08/addressing" 
+  xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2" 
+  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+  xmlns:wstop="http://docs.oasis-open.org/wsn/t-1" 
+  xmlns:wsrf-bf="http://docs.oasis-open.org/wsrf/bf-2" 
+  xmlns:wsntw="http://docs.oasis-open.org/wsn/bw-2" 
+  xmlns:wsrf-rw="http://docs.oasis-open.org/wsrf/rw-2" 
+  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
+  xmlns:wsrf-r="http://docs.oasis-open.org/wsrf/r-2" 
+  xmlns:trc="http://www.onvif.org/ver10/recording/wsdl" 
+  xmlns:tse="http://www.onvif.org/ver10/search/wsdl" 
+  xmlns:trp="http://www.onvif.org/ver10/replay/wsdl" 
+  xmlns:tnshik="http://www.hikvision.com/2011/event/topics" 
+  xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
+  xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
+  <env:Body>
+    <trt:GetVideoAnalyticsConfigurationsResponse>
+      <trt:Configurations token="VideoAnalyticsToken">
+        <tt:Name>VideoAnalyticsName</tt:Name>
+        <tt:UseCount>2</tt:UseCount>
+        <tt:AnalyticsEngineConfiguration>
+          <tt:AnalyticsModule Name="MyCellMotionModule" Type="tt:CellMotionEngine">
+            <tt:Parameters>
+              <tt:SimpleItem Name="Sensitivity" Value="60"/>
+              <tt:ElementItem Name="Layout">
+                <tt:CellLayout Columns="22" Rows="15">
+                  <tt:Transformation>
+                    <tt:Translate x="-1.000000" y="-1.000000"/>
+                    <tt:Scale x="0.090909" y="0.133333"/>
+                  </tt:Transformation>
+                </tt:CellLayout>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:AnalyticsModule>
+          <tt:AnalyticsModule Name="MyLineDetectorModule" Type="tt:LineDetectorEngine">
+            <tt:Parameters>
+              <tt:SimpleItem Name="Sensitivity" Value="50"/>
+              <tt:ElementItem Name="Layout">
+                <tt:Transformation>
+                  <tt:Translate x="-1.000000" y="-1.000000"/>
+                  <tt:Scale x="0.002000" y="0.002000"/>
+                </tt:Transformation>
+              </tt:ElementItem>
+              <tt:ElementItem Name="Field">
+                <tt:PolygonConfiguration>
+                  <tt:Polygon>
+                    <tt:Point x="0" y="0"/>
+                    <tt:Point x="0" y="1000"/>
+                    <tt:Point x="1000" y="1000"/>
+                    <tt:Point x="1000" y="0"/>
+                  </tt:Polygon>
+                </tt:PolygonConfiguration>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:AnalyticsModule>
+          <tt:AnalyticsModule Name="MyFieldDetectorModule" Type="tt:FieldDetectorEngine">
+            <tt:Parameters>
+              <tt:SimpleItem Name="Sensitivity" Value="50"/>
+              <tt:ElementItem Name="Layout">
+                <tt:Transformation>
+                  <tt:Translate x="-1.000000" y="-1.000000"/>
+                  <tt:Scale x="0.002000" y="0.002000"/>
+                </tt:Transformation>
+              </tt:ElementItem>
+              <tt:ElementItem Name="Field">
+                <tt:PolygonConfiguration>
+                  <tt:Polygon>
+                    <tt:Point x="0" y="0"/>
+                    <tt:Point x="0" y="1000"/>
+                    <tt:Point x="1000" y="1000"/>
+                    <tt:Point x="1000" y="0"/>
+                  </tt:Polygon>
+                </tt:PolygonConfiguration>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:AnalyticsModule>
+          <tt:AnalyticsModule Name="MyTamperDetecModule" Type="hikxsd:TamperEngine">
+            <tt:Parameters>
+              <tt:SimpleItem Name="Sensitivity" Value="0"/>
+              <tt:ElementItem Name="Transformation">
+                <tt:Transformation>
+                  <tt:Translate x="-1.000000" y="-1.000000"/>
+                  <tt:Scale x="0.002841" y="0.004167"/>
+                </tt:Transformation>
+              </tt:ElementItem>
+              <tt:ElementItem Name="Field">
+                <tt:PolygonConfiguration>
+                  <tt:Polygon>
+                    <tt:Point x="0" y="0"/>
+                    <tt:Point x="0" y="480"/>
+                    <tt:Point x="704" y="480"/>
+                    <tt:Point x="704" y="0"/>
+                  </tt:Polygon>
+                </tt:PolygonConfiguration>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:AnalyticsModule>
+        </tt:AnalyticsEngineConfiguration>
+        <tt:RuleEngineConfiguration>
+          <tt:Rule Name="MyMotionDetectorRule" Type="tt:CellMotionDetector">
+            <tt:Parameters>
+              <tt:SimpleItem Name="MinCount" Value="5"/>
+              <tt:SimpleItem Name="AlarmOnDelay" Value="1000"/>
+              <tt:SimpleItem Name="AlarmOffDelay" Value="1000"/>
+              <tt:SimpleItem Name="ActiveCells" Value="2P8AwA=="/>
+            </tt:Parameters>
+          </tt:Rule>
+          <tt:Rule Name="MyLineDetector1" Type="tt:LineDetector">
+            <tt:Parameters>
+              <tt:SimpleItem Name="Direction" Value="Any"/>
+              <tt:ElementItem Name="Segments">
+                <tt:Polyline>
+                  <tt:Point x="0.000000" y="0.000000"/>
+                  <tt:Point x="0.000000" y="0.000000"/>
+                </tt:Polyline>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:Rule>
+          <tt:Rule Name="MyFieldDetector1" Type="tt:FieldDetector">
+            <tt:Parameters>
+              <tt:ElementItem Name="Field">
+                <tt:Polygon>
+                  <tt:Point x="0.000000" y="0.000000"/>
+                  <tt:Point x="0.000000" y="0.000000"/>
+                  <tt:Point x="0.000000" y="0.000000"/>
+                  <tt:Point x="0.000000" y="0.000000"/>
+                </tt:Polygon>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:Rule>
+          <tt:Rule Name="MyTamperDetectorRule" Type="hikxsd:TamperDetector">
+            <tt:Parameters>
+              <tt:ElementItem Name="Field">
+                <tt:PolygonConfiguration>
+                  <tt:Polygon>
+                    <tt:Point x="0" y="0"/>
+                    <tt:Point x="0" y="0"/>
+                    <tt:Point x="0" y="0"/>
+                    <tt:Point x="0" y="0"/>
+                  </tt:Polygon>
+                </tt:PolygonConfiguration>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:Rule>
+        </tt:RuleEngineConfiguration>
+      </trt:Configurations>
+    </trt:GetVideoAnalyticsConfigurationsResponse>
+  </env:Body>
+</env:Envelope>
