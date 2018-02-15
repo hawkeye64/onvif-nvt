@@ -40,7 +40,8 @@ const password = '12345'
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
 const runCore = true
-const runPtz = false
+const runPtz = true
+const runMedia = true
 const runSnapshot = false
 const runReboot = false
 const runBackup = false
@@ -68,6 +69,7 @@ let testPresetNameToken = ''
 // let DynamicDNSType = ''
 // let DynamicDNSName = ''
 let interfaceToken = ''
+let profileToken = ''
 
 OnvifManager.connect(address, port, username, password)
   .then(results => {
@@ -76,6 +78,8 @@ OnvifManager.connect(address, port, username, password)
 
     testCore(camera.core).then(() => {
       return testPtz(camera.ptz)
+    }).then(() => {
+      return testMedia(camera.media)
     }).then(() => {
       return testSnapshot(camera)
     }).then(() => {
@@ -189,7 +193,7 @@ function testCore (core) {
 }
 
 function testPtz (ptz) {
-  if (runPtz) {
+  if (ptz && runPtz) {
     return testPtzGetNodes(ptz).then(() => {
       return testPtzGetNode(ptz)
     }).then(() => {
@@ -222,6 +226,48 @@ function testPtz (ptz) {
       return testPtzAbsoluteMove(ptz)
     }).then(() => {
       return testPtzContinuousMove(ptz)
+    })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+  else {
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
+  }
+}
+
+function testMedia (media) {
+  if (media && runMedia) {
+    return testMediaGetProfiles(media).then((results) => {
+      return testMediaGetProfile(media)
+    }).then(() => {
+      return testMediaGetVideoSources(media)
+    }).then(() => {
+      return testMediaGetVideoSourceConfigurations(media)
+    }).then(() => {
+      return testMediaGetVideoEncoderConfigurations(media)
+    }).then(() => {
+      return testMediaGetAudioSources(media)
+    }).then(() => {
+      return testMediaGetAudioSourceConfigurations(media)
+    }).then(() => {
+      return testMediaGetAudioEncoderConfigurations(media)
+    }).then(() => {
+      return testMediaGetVideoAnalyticsConfigurations(media)
+    }).then(() => {
+      return testMediaGetMetadataConfigurations(media)
+    }).then(() => {
+      return testMediaGetAudioOutputs(media)
+    }).then(() => {
+      return testMediaGetAudioOutputConfigurations(media)
+    }).then(() => {
+      return testMediaGetAudioDecoderConfigurations(media)
+    }).then(() => {
+      return testMediaGetStreamUri(media)
+    }).then(() => {
+      return testMediaGetSnapshotUri(media)
     })
       .catch(error => {
         console.error(error)
@@ -1168,17 +1214,264 @@ function testPtzSetHomePosition (ptz) {
   })
 }
 
+function testMediaGetProfiles (media) {
+  return new Promise((resolve, reject) => {
+    media.getProfiles()
+      .then(results => {
+        let response = results.data.GetProfilesResponse
+        let profiles = response.Profiles
+        if (profiles.length > 0) {
+          let profile = profiles[0]
+          profileToken = profile['$']['token']
+        }
+        console.log('GetProfiles successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetProfiles')
+        console.error('GetProfiles failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetProfile (media) {
+  return new Promise((resolve, reject) => {
+    media.getProfile(profileToken)
+      .then(results => {
+        console.log('GetProfile successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetProfile')
+        console.error('GetProfile failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetVideoSources (media) {
+  return new Promise((resolve, reject) => {
+    media.getVideoSources()
+      .then(results => {
+        console.log('GetVideoSources successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetVideoSources')
+        console.error('GetVideoSources failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetVideoSourceConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getVideoSourceConfigurations()
+      .then(results => {
+        console.log('GetVideoSourceConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetVideoSourceConfigurations')
+        console.error('GetVideoSourceConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetVideoEncoderConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getVideoEncoderConfigurations()
+      .then(results => {
+        console.log('GetVideoEncoderConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetVideoEncoderConfigurations')
+        console.error('GetVideoEncoderConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetAudioSources (media) {
+  return new Promise((resolve, reject) => {
+    media.getAudioSources()
+      .then(results => {
+        console.log('GetAudioSources successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAudioSources')
+        console.error('GetAudioSources failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetAudioSourceConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getAudioSourceConfigurations()
+      .then(results => {
+        console.log('GetAudioSourceConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAudioSourceConfigurations')
+        console.error('GetAudioSourceConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetAudioEncoderConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getAudioSourceConfigurations()
+      .then(results => {
+        console.log('GetAudioEncoderConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAudioEncoderConfigurations')
+        console.error('GetAudioEncoderConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetVideoAnalyticsConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getVideoAnalyticsConfigurations()
+      .then(results => {
+        console.log('GetVideoAnalyticsConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetVideoAnalyticsConfigurations')
+        console.error('GetVideoAnalyticsConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetMetadataConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getMetadataConfigurations()
+      .then(results => {
+        console.log('GetMetadataConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetMetadataConfigurations')
+        console.error('GetMetadataConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetAudioOutputs (media) {
+  return new Promise((resolve, reject) => {
+    media.getAudioOutputs()
+      .then(results => {
+        console.log('GetAudioOutputs successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAudioOutputs')
+        console.error('GetAudioOutputs failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetAudioOutputConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getAudioOutputConfigurations()
+      .then(results => {
+        console.log('GetAudioOutputConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAudioOutputConfigurations')
+        console.error('getSGetAudioOutputConfigurationsnapshot failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetAudioDecoderConfigurations (media) {
+  return new Promise((resolve, reject) => {
+    media.getAudioDecoderConfigurations()
+      .then(results => {
+        console.log('GetAudioDecoderConfigurations successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetAudioDecoderConfigurations')
+        console.error('GetAudioDecoderConfigurations failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetStreamUri (media) {
+  return new Promise((resolve, reject) => {
+    media.getStreamUri('RTP-Unicast', 'HTTP', profileToken)
+      .then(results => {
+        console.log('GetStreamUri successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetStreamUri')
+        console.error('GetStreamUri failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
+function testMediaGetSnapshotUri (media) {
+  return new Promise((resolve, reject) => {
+    media.getSnapshotUri(profileToken)
+      .then(results => {
+        console.log('GetSnapshotUri successful')
+        resolve(results)
+      })
+      .catch(error => {
+        apiErrors.push('GetSnapshotUri')
+        console.error('GetSnapshotUri failed')
+        console.error(error)
+        resolve(error)
+      })
+  })
+}
+
 function testGetSnapshot (camera) {
   return new Promise((resolve, reject) => {
     camera.add('snapshot')
     camera.snapshot.getSnapshot()
       .then(results => {
-        console.log('getSnapshot successful')
+        console.log('GetSnapshot successful')
         resolve(results)
       })
       .catch(error => {
-        apiErrors.push('getSnapshot')
-        console.error('getSnapshot failed')
+        apiErrors.push('GetSnapshot')
+        console.error('GetSnapshot failed')
+        console.error(error)
         resolve(error)
       })
   })
