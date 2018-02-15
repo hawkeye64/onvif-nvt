@@ -39,7 +39,7 @@
   <env:Body>
     <trt:GetStreamUriResponse>
       <trt:MediaUri>
-        <tt:Uri>rtsp://10.10.1.60:554/Streaming/Channels/3?transportmode=unicast&amp;profile=Profile_3</tt:Uri>
+        <tt:Uri>rtsp://10.10.1.60:80/Streaming/Channels/1?transportmode=unicast&amp;profile=Profile_1</tt:Uri>
         <tt:InvalidAfterConnect>false</tt:InvalidAfterConnect>
         <tt:InvalidAfterReboot>false</tt:InvalidAfterReboot>
         <tt:Timeout>PT60S</tt:Timeout>

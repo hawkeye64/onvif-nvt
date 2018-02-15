@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:pa="urn:schemas-pelco-com:onvif:analytics:1" 
+  xmlns:trt="http://www.onvif.org/ver10/media/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <trt:GetVideoAnalyticsConfigurationsResponse>
+      <trt:Configurations token="VACToken">
+        <tt:UseCount>0</tt:UseCount>
+        <tt:AnalyticsEngineConfiguration>
+          <tt:AnalyticsModule Name="SceneAnalyzer" Type="pa:SceneAnalyzerEngine">
+            <tt:Parameters>
+              <!-- default settings: Indoor(0), Still(0), Normal(1) -->
+              <tt:SimpleItem Name="SceneType" Value="0" />
+              <tt:SimpleItem Name="Background" Value="0" />
+              <tt:SimpleItem Name="Tuning" Value="1" />
+              <tt:SimpleItem Name="Sensitivity" Value="5" />
+              <tt:SimpleItem Name="Active" Value="0" />
+              <tt:ElementItem Name="Calibration">
+                <pa:Calibration>
+                  <pa:ObjectAtNearLeft left="1000" right="2700" top="6000" bottom="9000" />
+                  <pa:NearWidth>
+                    <tt:Point x="2500" y="8500" />
+                    <tt:Point x="7500" y="8500" />
+                  </pa:NearWidth>
+                  <pa:FarWidth>
+                    <tt:Point x="2500" y="3500" />
+                    <tt:Point x="7500" y="3500" />
+                  </pa:FarWidth>
+                  <pa:PhysicalHeight>170</pa:PhysicalHeight>
+                </pa:Calibration>
+              </tt:ElementItem>
+              <tt:SimpleItem Name="Calibrated" Value="0" />
+              <tt:ElementItem Name="ExcludeZones" />
+              <tt:ElementItem Name="ObjectSizeFilters">
+                <pa:ObjectSizeFilters>
+                  <pa:MaxSize left="2500" right="9800" top="2000" bottom="9999" />
+                  <pa:MinSize left="100" right="900" top="9000" bottom="9999" />
+                </pa:ObjectSizeFilters>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:AnalyticsModule>
+        </tt:AnalyticsEngineConfiguration>
+        <tt:RuleEngineConfiguration>
+          <tt:Rule Name="Region1" Type="pa:MotionDetection">
+            <tt:Parameters>
+              <tt:SimpleItem Name="Active" Value="0" />
+              <tt:SimpleItem Name="MinCount" Value="0" />
+              <tt:SimpleItem Name="AlarmOnDelay" Value="0" />
+              <tt:SimpleItem Name="AlarmOffDelay" Value="10000" />
+              <tt:SimpleItem Name="ActiveCells" Value="" />
+              <tt:SimpleItem Name="Sensitivity" Value="0" />
+              <tt:SimpleItem Name="AlarmEnabled" Value="0" />
+              <tt:ElementItem Name="Layout">
+                <tt:CellLayout Columns="120" Rows="68">
+                  <tt:Transformation>
+                    <tt:Translate x="-0.66666" y="0.6" />
+                    <tt:Scale x="0.1666666" y="-0.2" />
+                  </tt:Transformation>
+                </tt:CellLayout>
+              </tt:ElementItem>
+            </tt:Parameters>
+          </tt:Rule>
+        </tt:RuleEngineConfiguration>
+      </trt:Configurations>
+    </trt:GetVideoAnalyticsConfigurationsResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -39,7 +39,7 @@
   <env:Body>
     <tds:GetSystemDateAndTimeResponse>
       <tds:SystemDateAndTime>
-        <tt:DateTimeType>NTP</tt:DateTimeType>
+        <tt:DateTimeType>Manual</tt:DateTimeType>
         <tt:DaylightSavings>true</tt:DaylightSavings>
         <tt:TimeZone>
           <tt:TZ>CST7:00:00DST01:00:00,M3.2.0/02:00:00,M11.1.0/02:00:00</tt:TZ>
@@ -47,25 +47,25 @@
         <tt:UTCDateTime>
           <tt:Time>
             <tt:Hour>15</tt:Hour>
-            <tt:Minute>25</tt:Minute>
-            <tt:Second>45</tt:Second>
+            <tt:Minute>39</tt:Minute>
+            <tt:Second>14</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
             <tt:Month>2</tt:Month>
-            <tt:Day>14</tt:Day>
+            <tt:Day>15</tt:Day>
           </tt:Date>
         </tt:UTCDateTime>
         <tt:LocalDateTime>
           <tt:Time>
             <tt:Hour>8</tt:Hour>
-            <tt:Minute>25</tt:Minute>
-            <tt:Second>45</tt:Second>
+            <tt:Minute>39</tt:Minute>
+            <tt:Second>14</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
             <tt:Month>2</tt:Month>
-            <tt:Day>14</tt:Day>
+            <tt:Day>15</tt:Day>
           </tt:Date>
         </tt:LocalDateTime>
       </tds:SystemDateAndTime>
