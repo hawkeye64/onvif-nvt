@@ -16,6 +16,9 @@ Note: This is a work-in-progress, and while so, there will be many updates. PRs 
 
 ```npm install onvif-nvt```
 
+## Sample Application
+You can find the sample application that uses Vue and Quasar [here](https://github.com/hawkeye64/onvif-nvt-snapshot-vue-sample)
+
 ## Contributing
 Before making a PR please do the following:
 * Make sure you are consistent with style.
@@ -44,7 +47,7 @@ If all is well, make the PR.
 The library is made in such a way that only modules that will work with your device are automatically included. For others, you can choose whether or not to bring in the functionality.
 
 ## Example (Discovery)
-```
+``` cs
 const OnvifManager = require('onvif-nvt')
 OnvifManager.add('discovery')
 OnvifManager.discovery.startProbe().then(deviceList => {
@@ -54,8 +57,9 @@ OnvifManager.discovery.startProbe().then(deviceList => {
  // responded back to the broadcast.
 })
 ```
+
 ## Example (Connect and Continuous Move)
-```
+``` cs
 const OnvifManager = require('onvif-nvt')
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
@@ -71,8 +75,9 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
     }
   })
 ```
+
 ## Example (Snapshot)
-```
+``` cs
 const OnvifManager = require('onvif-nvt')
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
@@ -88,7 +93,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         let base64Image = Buffer.from(rawImage, 'binary').toString('base64')
         let image = prefix + base64Image
         // 'image' is now ready to be displayed on a web page
-        ...
+        // ...
       })
     }
   })
