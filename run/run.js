@@ -197,8 +197,6 @@ function testPtz (ptz) {
     return testPtzGetNodes(ptz).then(() => {
       return testPtzGetNode(ptz)
     }).then(() => {
-      return testPtzGetNode(ptz)
-    }).then(() => {
       return testPtzGetConfigurations(ptz)
     }).then(() => {
       testPtzGetCompatibleConfigurations(ptz)
