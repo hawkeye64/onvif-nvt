@@ -23,7 +23,7 @@ describe('Ptz', () => {
     expect(Camera.ptz.password).toMatch(TestConfig.pass)
   })
 
-  test('Camera.ptz.getNodes', () => {
+  test('Camera.ptz.getNodes (Promise)', () => {
     return Camera.ptz.getNodes()
       .then(results => {
         let response = results.data.GetNodesResponse
@@ -48,7 +48,34 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.getNode', () => {
+  test('Camera.ptz.getNodes (Callback)', (done) => {
+    Camera.ptz.getNodes((error, results) => {
+      if (!error) {
+        let response = results.data.GetNodesResponse
+        expect(response).toHaveProperty('PTZNode')
+        let node = response.PTZNode
+        expect(node).toHaveProperty('$')
+        expect(node.$).toHaveProperty('token')
+        nodeToken = node.$.token
+        expect(node).toHaveProperty('AuxiliaryCommands')
+        expect(node).toHaveProperty('HomeSupported')
+        expect(node).toHaveProperty('MaximumNumberOfPresets')
+        expect(node).toHaveProperty('Name')
+        expect(node).toHaveProperty('SupportedPTZSpaces')
+        let spaces = node.SupportedPTZSpaces
+        expect(spaces).toHaveProperty('AbsolutePanTiltPositionSpace')
+        expect(spaces).toHaveProperty('AbsoluteZoomPositionSpace')
+        expect(spaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
+        expect(spaces).toHaveProperty('ContinuousZoomVelocitySpace')
+        expect(spaces).toHaveProperty('PanTiltSpeedSpace')
+        expect(spaces).toHaveProperty('RelativePanTiltTranslationSpace')
+        expect(spaces).toHaveProperty('RelativeZoomTranslationSpace')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.getNode (Promise)', () => {
     return Camera.ptz.getNode(nodeToken)
       .then(results => {
         let response = results.data.GetNodeResponse
@@ -73,7 +100,34 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.getConfigurations', () => {
+  test('Camera.ptz.getNode (Callback)', (done) => {
+    Camera.ptz.getNode(nodeToken, (error, results) => {
+      if (!error) {
+        let response = results.data.GetNodeResponse
+        expect(response).toHaveProperty('PTZNode')
+        let node = response.PTZNode
+        expect(node).toHaveProperty('$')
+        expect(node.$).toHaveProperty('token')
+        nodeToken = node.$.token
+        expect(node).toHaveProperty('AuxiliaryCommands')
+        expect(node).toHaveProperty('HomeSupported')
+        expect(node).toHaveProperty('MaximumNumberOfPresets')
+        expect(node).toHaveProperty('Name')
+        expect(node).toHaveProperty('SupportedPTZSpaces')
+        let spaces = node.SupportedPTZSpaces
+        expect(spaces).toHaveProperty('AbsolutePanTiltPositionSpace')
+        expect(spaces).toHaveProperty('AbsoluteZoomPositionSpace')
+        expect(spaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
+        expect(spaces).toHaveProperty('ContinuousZoomVelocitySpace')
+        expect(spaces).toHaveProperty('PanTiltSpeedSpace')
+        expect(spaces).toHaveProperty('RelativePanTiltTranslationSpace')
+        expect(spaces).toHaveProperty('RelativeZoomTranslationSpace')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.getConfigurations (Promise)', () => {
     return Camera.ptz.getConfigurations()
       .then(results => {
         let response = results.data.GetConfigurationsResponse
@@ -127,7 +181,63 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.getConfiguration', () => {
+  test('Camera.ptz.getConfigurations (Callback)', (done) => {
+    Camera.ptz.getConfigurations((error, results) => {
+      if (error) {
+        let response = results.data.GetConfigurationsResponse
+        expect(response).toHaveProperty('PTZConfiguration')
+        let config = response.PTZConfiguration
+        expect(config).toHaveProperty('$')
+        expect(config.$).toHaveProperty('token')
+        configurationToken = config.$.token
+        if (TestConfig.cameraType === 'hikvision') {
+          // found a hikvision error - shame on them
+          expect(config).toHaveProperty('DefaultAbsolutePantTiltPositionSpace')
+        }
+        else {
+          expect(config).toHaveProperty('DefaultAbsolutePanTiltPositionSpace')
+        }
+        expect(config).toHaveProperty('DefaultAbsoluteZoomPositionSpace')
+        expect(config).toHaveProperty('DefaultContinuousPanTiltVelocitySpace')
+        expect(config).toHaveProperty('DefaultContinuousZoomVelocitySpace')
+        expect(config).toHaveProperty('DefaultPTZSpeed')
+        let speed = config.DefaultPTZSpeed
+        expect(speed).toHaveProperty('PanTilt')
+        expect(speed.PanTilt).toHaveProperty('$')
+        expect(speed.PanTilt.$).toHaveProperty('space')
+        expect(speed.PanTilt.$).toHaveProperty('x')
+        expect(speed.PanTilt.$).toHaveProperty('y')
+        expect(speed).toHaveProperty('Zoom')
+        expect(speed.Zoom).toHaveProperty('$')
+        expect(speed.Zoom.$).toHaveProperty('space')
+        expect(speed.Zoom.$).toHaveProperty('x')
+        expect(config).toHaveProperty('DefaultPTZTimeout')
+        expect(config).toHaveProperty('DefaultRelativePanTiltTranslationSpace')
+        expect(config).toHaveProperty('DefaultRelativeZoomTranslationSpace')
+        expect(config).toHaveProperty('Name')
+        expect(config).toHaveProperty('NodeToken')
+        expect(config).toHaveProperty('PanTiltLimits')
+        expect(config.PanTiltLimits).toHaveProperty('Range')
+        expect(config.PanTiltLimits.Range).toHaveProperty('URI')
+        expect(config.PanTiltLimits.Range).toHaveProperty('XRange')
+        expect(config.PanTiltLimits.Range.XRange).toHaveProperty('Max')
+        expect(config.PanTiltLimits.Range.XRange).toHaveProperty('Min')
+        expect(config.PanTiltLimits.Range).toHaveProperty('YRange')
+        expect(config.PanTiltLimits.Range.YRange).toHaveProperty('Max')
+        expect(config.PanTiltLimits.Range.YRange).toHaveProperty('Min')
+        expect(config).toHaveProperty('UseCount')
+        expect(config).toHaveProperty('ZoomLimits')
+        expect(config.ZoomLimits).toHaveProperty('Range')
+        expect(config.ZoomLimits.Range).toHaveProperty('URI')
+        expect(config.ZoomLimits.Range).toHaveProperty('XRange')
+        expect(config.ZoomLimits.Range.XRange).toHaveProperty('Max')
+        expect(config.ZoomLimits.Range.XRange).toHaveProperty('Min')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.getConfiguration (Promise)', () => {
     return Camera.ptz.getConfiguration(configurationToken)
       .then(results => {
         let response = results.data.GetConfigurationResponse
@@ -181,7 +291,63 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.getConfigurationOptions', () => {
+  test('Camera.ptz.getConfiguration (Callback)', (done) => {
+    return Camera.ptz.getConfiguration(configurationToken, (error, results) => {
+      if (!error) {
+        let response = results.data.GetConfigurationResponse
+        expect(response).toHaveProperty('PTZConfiguration')
+        let config = response.PTZConfiguration
+        expect(config).toHaveProperty('$')
+        expect(config.$).toHaveProperty('token')
+        configurationToken = config.$.token
+        if (TestConfig.cameraType === 'hikvision') {
+          // found a hikvision error - shame on them
+          expect(config).toHaveProperty('DefaultAbsolutePantTiltPositionSpace')
+        }
+        else {
+          expect(config).toHaveProperty('DefaultAbsolutePanTiltPositionSpace')
+        }
+        expect(config).toHaveProperty('DefaultAbsoluteZoomPositionSpace')
+        expect(config).toHaveProperty('DefaultContinuousPanTiltVelocitySpace')
+        expect(config).toHaveProperty('DefaultContinuousZoomVelocitySpace')
+        expect(config).toHaveProperty('DefaultPTZSpeed')
+        let speed = config.DefaultPTZSpeed
+        expect(speed).toHaveProperty('PanTilt')
+        expect(speed.PanTilt).toHaveProperty('$')
+        expect(speed.PanTilt.$).toHaveProperty('space')
+        expect(speed.PanTilt.$).toHaveProperty('x')
+        expect(speed.PanTilt.$).toHaveProperty('y')
+        expect(speed).toHaveProperty('Zoom')
+        expect(speed.Zoom).toHaveProperty('$')
+        expect(speed.Zoom.$).toHaveProperty('space')
+        expect(speed.Zoom.$).toHaveProperty('x')
+        expect(config).toHaveProperty('DefaultPTZTimeout')
+        expect(config).toHaveProperty('DefaultRelativePanTiltTranslationSpace')
+        expect(config).toHaveProperty('DefaultRelativeZoomTranslationSpace')
+        expect(config).toHaveProperty('Name')
+        expect(config).toHaveProperty('NodeToken')
+        expect(config).toHaveProperty('PanTiltLimits')
+        expect(config.PanTiltLimits).toHaveProperty('Range')
+        expect(config.PanTiltLimits.Range).toHaveProperty('URI')
+        expect(config.PanTiltLimits.Range).toHaveProperty('XRange')
+        expect(config.PanTiltLimits.Range.XRange).toHaveProperty('Max')
+        expect(config.PanTiltLimits.Range.XRange).toHaveProperty('Min')
+        expect(config.PanTiltLimits.Range).toHaveProperty('YRange')
+        expect(config.PanTiltLimits.Range.YRange).toHaveProperty('Max')
+        expect(config.PanTiltLimits.Range.YRange).toHaveProperty('Min')
+        expect(config).toHaveProperty('UseCount')
+        expect(config).toHaveProperty('ZoomLimits')
+        expect(config.ZoomLimits).toHaveProperty('Range')
+        expect(config.ZoomLimits.Range).toHaveProperty('URI')
+        expect(config.ZoomLimits.Range).toHaveProperty('XRange')
+        expect(config.ZoomLimits.Range.XRange).toHaveProperty('Max')
+        expect(config.ZoomLimits.Range.XRange).toHaveProperty('Min')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.getConfigurationOptions (Promise)', () => {
     return Camera.ptz.getConfigurationOptions(configurationToken)
       .then(results => {
         let response = results.data.GetConfigurationOptionsResponse
@@ -202,14 +368,37 @@ describe('Ptz', () => {
       })
   })
 
-  // test('Camera.ptz.getCompatibleConfigurations', () => {
+  test('Camera.ptz.getConfigurationOptions (Callback)', (done) => {
+    Camera.ptz.getConfigurationOptions(configurationToken, (error, results) => {
+      if (!error) {
+        let response = results.data.GetConfigurationOptionsResponse
+        expect(response).toHaveProperty('PTZConfigurationOptions')
+        let option = response.PTZConfigurationOptions
+        expect(option).toHaveProperty('PTZTimeout')
+        expect(option.PTZTimeout).toHaveProperty('Max')
+        expect(option.PTZTimeout).toHaveProperty('Min')
+        expect(option).toHaveProperty('Spaces')
+        expect(option.Spaces).toHaveProperty('AbsolutePanTiltPositionSpace')
+        expect(option.Spaces).toHaveProperty('AbsoluteZoomPositionSpace')
+        expect(option.Spaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
+        expect(option.Spaces).toHaveProperty('ContinuousZoomVelocitySpace')
+        expect(option.Spaces).toHaveProperty('PanTiltSpeedSpace')
+        expect(option.Spaces).toHaveProperty('RelativePanTiltTranslationSpace')
+        expect(option.Spaces).toHaveProperty('RelativeZoomTranslationSpace')
+        expect(option.Spaces).toHaveProperty('ZoomSpeedSpace')
+      }
+      done()
+    })
+  })
+
+  // test('Camera.ptz.getCompatibleConfigurations (Promise)', () => {
   //   return Camera.ptz.getCompatibleConfigurations()
   //     .then(results => {
   //       let response = results.data.GetCompatibleConfigurationsResponse
   //     })
   //   })
 
-  test('Camera.ptz.absoluteMove', () => {
+  test('Camera.ptz.absoluteMove (Promise)', () => {
     let position = {
       x: 1,
       y: 0,
@@ -222,7 +411,22 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.relativeMove', () => {
+  test('Camera.ptz.absoluteMove (Callback)', (done) => {
+    let position = {
+      x: 1,
+      y: 0,
+      z: 0
+    }
+    Camera.ptz.absoluteMove(null, position, null, (error, results) => {
+      if (!error) {
+        let response = results.data.AbsoluteMoveResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.relativeMove (Promise)', () => {
     let translation = {
       x: 1,
       y: 0,
@@ -235,7 +439,22 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.continuousMove', () => {
+  test('Camera.ptz.relativeMove (Callback)', (done) => {
+    let translation = {
+      x: 1,
+      y: 0,
+      z: 0
+    }
+    Camera.ptz.relativeMove(null, translation, null, (error, results) => {
+      if (!error) {
+        let response = results.data.RelativeMoveResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.continuousMove (Promise)', () => {
     let translation = {
       x: 1,
       y: 0,
@@ -248,7 +467,22 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.stop', () => {
+  test('Camera.ptz.continuousMove (Callback)', (done) => {
+    let translation = {
+      x: 1,
+      y: 0,
+      z: 0
+    }
+    Camera.ptz.continuousMove(null, translation, null, (error, results) => {
+      if (!error) {
+        let response = results.data.ContinuousMoveResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.stop (Promise)', () => {
     return Camera.ptz.stop(null, true, true)
       .then(results => {
         let response = results.data.StopResponse
@@ -256,7 +490,17 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.getStatus', () => {
+  test('Camera.ptz.stop (Callback)', (done) => {
+    Camera.ptz.stop(null, true, true, (error, results) => {
+      if (!error) {
+        let response = results.data.StopResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.getStatus (Promise)', () => {
     return Camera.ptz.getStatus(null)
       .then(results => {
         let response = results.data.GetStatusResponse
@@ -277,7 +521,30 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.getPresets', () => {
+  test('Camera.ptz.getStatus (Callback)', (done) => {
+    Camera.ptz.getStatus(null, (error, results) => {
+      if (!error) {
+        let response = results.data.GetStatusResponse
+        expect(response).toHaveProperty('PTZStatus')
+        let status = response.PTZStatus
+        expect(status).toHaveProperty('Error')
+        expect(status).toHaveProperty('Position')
+        expect(status.Position).toHaveProperty('PanTilt')
+        expect(status.Position.PanTilt).toHaveProperty('$')
+        expect(status.Position.PanTilt.$).toHaveProperty('space')
+        expect(status.Position.PanTilt.$).toHaveProperty('x')
+        expect(status.Position.PanTilt.$).toHaveProperty('y')
+        expect(status.Position).toHaveProperty('Zoom')
+        expect(status.Position.Zoom).toHaveProperty('$')
+        expect(status.Position.Zoom.$).toHaveProperty('space')
+        expect(status.Position.Zoom.$).toHaveProperty('x')
+        expect(status).toHaveProperty('UtcTime')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.getPresets (Promise)', () => {
     return Camera.ptz.getPresets(null)
       .then(results => {
         let response = results.data.GetPresetsResponse
@@ -294,7 +561,26 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.gotoPreset', () => {
+  test('Camera.ptz.getPresets (Callback)', (done) => {
+    Camera.ptz.getPresets(null, (error, results) => {
+      if (!error) {
+        let response = results.data.GetPresetsResponse
+        expect(response).toHaveProperty('Preset')
+        let presets = response.Preset
+        expect(Array.isArray(presets)).toBeTruthy()
+        if (presets.length > 0) {
+          let preset = presets[0]
+          expect(preset).toHaveProperty('$')
+          expect(preset.$).toHaveProperty('token')
+          expect(preset).toHaveProperty('Name')
+          presetToken = preset.$.token
+        }
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.gotoPreset (Promise)', () => {
     return Camera.ptz.gotoPreset(null, presetToken)
       .then(results => {
         let response = results.data.GotoPresetResponse
@@ -302,7 +588,17 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.gotoHomePosition', () => {
+  test('Camera.ptz.gotoPreset (Callback)', (done) => {
+    Camera.ptz.gotoPreset(null, presetToken, null, (error, results) => {
+      if (!error) {
+        let response = results.data.GotoPresetResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.gotoHomePosition (Promise)', () => {
     return Camera.ptz.gotoHomePosition(null)
       .then(results => {
         let response = results.data.GotoHomePositionResponse
@@ -310,7 +606,17 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.setHomePosition', () => {
+  test('Camera.ptz.gotoHomePosition (Callback)', (done) => {
+    Camera.ptz.gotoHomePosition(null, null, (error, results) => {
+      if (!error) {
+        let response = results.data.GotoHomePositionResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.setHomePosition (Promise)', () => {
     return Camera.ptz.setHomePosition(null)
       .then(results => {
         let response = results.data.SetHomePositionResponse
@@ -318,7 +624,17 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.setPreset', () => {
+  test('Camera.ptz.setHomePosition (Callback)', (done) => {
+    Camera.ptz.setHomePosition(null, (error, results) => {
+      if (!error) {
+        let response = results.data.SetHomePositionResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.setPreset (Promise)', () => {
     return Camera.ptz.setPreset(null, null, 'homeTest')
       .then(results => {
         let response = results.data.SetPresetResponse
@@ -327,11 +643,32 @@ describe('Ptz', () => {
       })
   })
 
-  test('Camera.ptz.removePreset', () => {
+  test('Camera.ptz.setPreset (Callback)', (done) => {
+    return Camera.ptz.setPreset(null, null, 'homeTest', (error, results) => {
+      if (!error) {
+        let response = results.data.SetPresetResponse
+        expect(response).toHaveProperty('PresetToken')
+        presetToken = response.PresetToken
+      }
+      done()
+    })
+  })
+
+  test('Camera.ptz.removePreset (Promise)', () => {
     return Camera.ptz.removePreset(null, presetToken)
       .then(results => {
         let response = results.data.RemovePresetResponse
         expect(response).toMatch('')
       })
+  })
+
+  test('Camera.ptz.removePreset (Callback)', (done) => {
+    Camera.ptz.removePreset(null, presetToken, (error, results) => {
+      if (!error) {
+        let response = results.data.RemovePresetResponse
+        expect(response).toMatch('')
+      }
+      done()
+    })
   })
 })
