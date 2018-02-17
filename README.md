@@ -12,7 +12,7 @@ The aim of the **onvif-nvt** package is to have as much complete coverage of the
 The `onvif-nvt` package will work only with `node` server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.
 
 ## Installation
-Note: This is a work-in-progress, and while so, there will be many updates. PRs are welcomed.
+Note: This is a work-in-progress (Pre-Release), and while so, there will be many updates. PRs are welcomed.
 
 ```npm install onvif-nvt```
 
