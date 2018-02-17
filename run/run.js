@@ -8,16 +8,16 @@ const saveXml = require('../lib/utils/save-xml')
 saveXml.setWritable(true)
 
 // for Axis
-// const address = '192.168.0.19'
-// const port = 80
-// const username = 'root'
-// const password = 'root'
+const address = '192.168.0.19'
+const port = 80
+const username = 'root'
+const password = 'root'
 
 // for Hikvision (PTZ)
-const address = '10.10.1.60'
-const port = 80
-const username = 'admin'
-const password = '12345'
+// const address = '10.10.1.60'
+// const port = 80
+// const username = 'admin'
+// const password = '12345'
 
 // for Hikvision (Fixed)
 // const address = '10.10.1.65'
@@ -304,7 +304,8 @@ function testCoreGetWsdlUrl (core) {
       .catch(error => {
         apiErrors.push('GetWsdlUrl')
         console.error('GetWsdlUrl failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -320,7 +321,8 @@ function testCoreGetServices (core) {
       .catch(error => {
         apiErrors.push('GetServices')
         console.error('GetServices failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -336,7 +338,8 @@ function testCoreGetServiceCapabilities (core) {
       .catch(error => {
         apiErrors.push('GetServiceCapabilities')
         console.error('GetServiceCapabilities failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -352,7 +355,8 @@ function testCoreGetCapabilities (core) {
       .catch(error => {
         apiErrors.push('GetCapabilities')
         console.error('GetCapabilities failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -368,7 +372,8 @@ function testCoreGetHostname (core) {
       .catch(error => {
         apiErrors.push('GetHostname')
         console.error('GetHostname failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -384,7 +389,8 @@ function testCoreSetHostname (core) {
       .catch(error => {
         apiErrors.push('SetHostname')
         console.error('SetHostname failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -400,7 +406,8 @@ function testCoreSetHostnameFromDHCP (core) {
       .catch(error => {
         apiErrors.push('SetHostnameFromDHCP')
         console.error('SetHostnameFromDHCP failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -416,7 +423,8 @@ function testCoreGetDNS (core) {
       .catch(error => {
         apiErrors.push('GetDNS')
         console.error('GetDNS failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -432,7 +440,8 @@ function testCoreSetDNS (core) {
       .catch(error => {
         apiErrors.push('SetDNS')
         console.error('SetDNS failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -448,7 +457,8 @@ function testCoreGetNTP (core) {
       .catch(error => {
         apiErrors.push('GetNTP')
         console.error('GetNTP failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -464,7 +474,8 @@ function testCoreSetNTP (core) {
       .catch(error => {
         apiErrors.push('SetNTP')
         console.error('SetNTP failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -485,7 +496,8 @@ function testCoreGetDynamicDNS (core) {
       .catch(error => {
         apiErrors.push('GetDynamicDNS')
         console.error('GetDynamicDNS failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -504,7 +516,8 @@ function testCoreGetDynamicDNS (core) {
 //       .catch(error => {
 //         apiErrors.push('SetDynamicDNS')
 //         console.error('SetDynamicDNS failed')
-//         console.error(error)
+//         console.error(error.message)
+//         console.error(error.fault)
 //         resolve(error)
 //       })
 //   })
@@ -520,7 +533,8 @@ function testCoreGetNetworkInterfaces (core) {
       .catch(error => {
         apiErrors.push('GetNetworkInterfaces')
         console.error('GetNetworkInterfaces failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -536,7 +550,8 @@ function testCoreGetNetworkProtocols (core) {
       .catch(error => {
         apiErrors.push('GetNetworkProtocols')
         console.error('GetNetworkProtocols failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -552,7 +567,8 @@ function testCoreGetNetworkDefaultGateway (core) {
       .catch(error => {
         apiErrors.push('GetNetworkDefaultGateway')
         console.error('GetNetworkDefaultGateway failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -572,7 +588,8 @@ function testCoreGetZeroConfiguration (core) {
       .catch(error => {
         apiErrors.push('GetZeroConfiguration')
         console.error('GetZeroConfiguration failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -588,7 +605,8 @@ function testCoreGetIPAddressFilter (core) {
       .catch(error => {
         apiErrors.push('GetIPAddressFilter')
         console.error('GetIPAddressFilter failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -604,7 +622,8 @@ function testCoreGetDot11Capabilities (core) {
       .catch(error => {
         apiErrors.push('GetDot11Capabilities')
         console.error('GetDot11Capabilities failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -620,7 +639,8 @@ function testCoreGetDot11Status (core) {
       .catch(error => {
         apiErrors.push('GetDot11Status')
         console.error('GetDot11Status failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -636,7 +656,8 @@ function testCoreScanAvailableDot11Networks (core) {
       .catch(error => {
         apiErrors.push('ScanAvailableDot11Networks')
         console.error('ScanAvailableDot11Networks failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -652,7 +673,8 @@ function testCoreGetDeviceInformation (core) {
       .catch(error => {
         apiErrors.push('GetDeviceInformation')
         console.error('GetDeviceInformation failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -668,7 +690,8 @@ function testCoreGetSystemUris (core) {
       .catch(error => {
         apiErrors.push('GetSystemUris')
         console.error('GetSystemUris failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -685,7 +708,8 @@ function testCoreGetSystemBackup (core) {
         .catch(error => {
           apiErrors.push('GetSystemBackup')
           console.error('GetSystemBackup failed')
-          console.error(error)
+          console.error(error.message)
+          console.error(error.fault)
           resolve(error)
         })
     }
@@ -705,7 +729,8 @@ function testCoreGetSystemDateAndTime (core) {
       .catch(error => {
         apiErrors.push('GetSystemDateAndTime')
         console.error('GetSystemDateAndTime failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -721,7 +746,8 @@ function testCoreGetSystemLog (core) {
       .catch(error => {
         apiErrors.push('GetSystemLog')
         console.error('GetSystemLog failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -737,7 +763,8 @@ function testCoreGetSystemSupportInformation (core) {
       .catch(error => {
         apiErrors.push('GetSystemSupportInformation')
         console.error('GetSystemSupportInformation failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -754,7 +781,8 @@ function testCoreSystemReboot (core) {
         .catch(error => {
           apiErrors.push('Reboot')
           console.error('Reboot failed')
-          console.error(error)
+          console.error(error.message)
+          console.error(error.fault)
           resolve(error)
         })
     }
@@ -774,7 +802,8 @@ function testCoreGetScopes (core) {
       .catch(error => {
         apiErrors.push('GetScopes')
         console.error('GetScopes failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -790,7 +819,8 @@ function testCoreGetGeoLocation (core) {
       .catch(error => {
         apiErrors.push('GetGeoLocation')
         console.error('GetGeoLocation failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -806,7 +836,8 @@ function testCoreGetDiscoveryMode (core) {
       .catch(error => {
         apiErrors.push('GetDiscoveryMode')
         console.error('GetDiscoveryMode failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -822,7 +853,8 @@ function testCoreGetRemoteDiscoveryMode (core) {
       .catch(error => {
         apiErrors.push('GetRemoteDiscoveryMode')
         console.error('GetRemoteDiscoveryMode failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -838,7 +870,8 @@ function testCoreGetDPAddresses (core) {
       .catch(error => {
         apiErrors.push('GetDPAddresses')
         console.error('GetDPAddresses failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -854,7 +887,8 @@ function testCoreGetAccessPolicy (core) {
       .catch(error => {
         apiErrors.push('GetAccessPolicy')
         console.error('GetAccessPolicy failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -870,7 +904,8 @@ function testCoreGetUsers (core) {
       .catch(error => {
         apiErrors.push('GetUsers')
         console.error('GetUsers failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -887,7 +922,8 @@ function testPtzGetNodes (ptz) {
       .catch(error => {
         apiErrors.push('GetNodes')
         console.error('GetNodes failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -903,7 +939,8 @@ function testPtzGetNode (ptz) {
       .catch(error => {
         apiErrors.push('GetNode')
         console.error('GetNode failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -920,7 +957,8 @@ function testPtzGetConfigurations (ptz) {
       .catch(error => {
         apiErrors.push('GetConfigurations')
         console.error('GetConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -936,7 +974,8 @@ function testPtzGetConfiguration (ptz) {
       .catch(error => {
         apiErrors.push('GetConfiguration')
         console.error('GetConfiguration failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -952,7 +991,8 @@ function testPtzGetConfigurationOptions (ptz) {
       .catch(error => {
         apiErrors.push('GetConfigurationOptions')
         console.error('GetConfigurationOptions failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -968,7 +1008,8 @@ function testPtzGetCompatibleConfigurations (ptz) {
       .catch(error => {
         apiErrors.push('GetCompatibleConfigurations')
         console.error('GetCompatibleConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -984,7 +1025,8 @@ function testPtzGetStatus (ptz) {
       .catch(error => {
         apiErrors.push('GetStatus')
         console.error('GetStatus failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1009,7 +1051,8 @@ function testPtzContinuousMove (ptz) {
             .catch(error => {
               apiErrors.push('Stop')
               console.error('Stop failed')
-              console.error(error)
+              console.error(error.message)
+              console.error(error.fault)
               resolve(error)
             })
         }, 5000)
@@ -1017,7 +1060,8 @@ function testPtzContinuousMove (ptz) {
       .catch(error => {
         apiErrors.push('ContinuousMove')
         console.error('ContinuousMove failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1038,7 +1082,8 @@ function testPtzRelativeMove (ptz) {
       .catch(error => {
         apiErrors.push('RelativeMove')
         console.error('RelativeMove failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1059,7 +1104,8 @@ function testPtzAbsoluteMove (ptz) {
       .catch(error => {
         apiErrors.push('AbsoluteMove')
         console.error('AbsoluteMove failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1105,7 +1151,8 @@ function testPtzGetPresets (ptz) {
       .catch(error => {
         apiErrors.push('GetPresets')
         console.error('GetPresets failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1122,7 +1169,8 @@ function testPtzGotoPreset (ptz) {
         .catch(error => {
           apiErrors.push('GotoPreset')
           console.error('GotoPreset failed')
-          console.error(error)
+          console.error(error.message)
+          console.error(error.fault)
           resolve(error)
         })
     }
@@ -1146,7 +1194,8 @@ function testPtzSetPreset (ptz) {
         .catch(error => {
           apiErrors.push('SetPreset')
           console.error('SetPreset failed')
-          console.error(error)
+          console.error(error.message)
+          console.error(error.fault)
           resolve(error)
         })
     }
@@ -1169,7 +1218,8 @@ function testPtzRemovePreset (ptz) {
         .catch(error => {
           apiErrors.push('RemovePreset')
           console.error('RemovePreset failed')
-          console.error(error)
+          console.error(error.message)
+          console.error(error.fault)
           resolve(error)
         })
     }
@@ -1190,7 +1240,8 @@ function testPtzGotoHomePosition (ptz) {
       .catch(error => {
         apiErrors.push('GotoHomePosition')
         console.error('GotoHomePosition failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1206,7 +1257,8 @@ function testPtzSetHomePosition (ptz) {
       .catch(error => {
         apiErrors.push('SetHomePosition')
         console.error('SetHomePosition failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1228,7 +1280,8 @@ function testMediaGetProfiles (media) {
       .catch(error => {
         apiErrors.push('GetProfiles')
         console.error('GetProfiles failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1244,7 +1297,8 @@ function testMediaGetProfile (media) {
       .catch(error => {
         apiErrors.push('GetProfile')
         console.error('GetProfile failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1260,7 +1314,8 @@ function testMediaGetVideoSources (media) {
       .catch(error => {
         apiErrors.push('GetVideoSources')
         console.error('GetVideoSources failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1276,7 +1331,8 @@ function testMediaGetVideoSourceConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetVideoSourceConfigurations')
         console.error('GetVideoSourceConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1292,7 +1348,8 @@ function testMediaGetVideoEncoderConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetVideoEncoderConfigurations')
         console.error('GetVideoEncoderConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1308,7 +1365,8 @@ function testMediaGetAudioSources (media) {
       .catch(error => {
         apiErrors.push('GetAudioSources')
         console.error('GetAudioSources failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1324,7 +1382,8 @@ function testMediaGetAudioSourceConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetAudioSourceConfigurations')
         console.error('GetAudioSourceConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1340,7 +1399,8 @@ function testMediaGetAudioEncoderConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetAudioEncoderConfigurations')
         console.error('GetAudioEncoderConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1356,7 +1416,8 @@ function testMediaGetVideoAnalyticsConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetVideoAnalyticsConfigurations')
         console.error('GetVideoAnalyticsConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1372,7 +1433,8 @@ function testMediaGetMetadataConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetMetadataConfigurations')
         console.error('GetMetadataConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1388,7 +1450,8 @@ function testMediaGetAudioOutputs (media) {
       .catch(error => {
         apiErrors.push('GetAudioOutputs')
         console.error('GetAudioOutputs failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1403,8 +1466,9 @@ function testMediaGetAudioOutputConfigurations (media) {
       })
       .catch(error => {
         apiErrors.push('GetAudioOutputConfigurations')
-        console.error('getSGetAudioOutputConfigurationsnapshot failed')
-        console.error(error)
+        console.error('GetAudioOutputConfigurationsnapshot failed')
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1420,7 +1484,8 @@ function testMediaGetAudioDecoderConfigurations (media) {
       .catch(error => {
         apiErrors.push('GetAudioDecoderConfigurations')
         console.error('GetAudioDecoderConfigurations failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1436,7 +1501,8 @@ function testMediaGetStreamUri (media) {
       .catch(error => {
         apiErrors.push('GetStreamUri')
         console.error('GetStreamUri failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1452,7 +1518,8 @@ function testMediaGetSnapshotUri (media) {
       .catch(error => {
         apiErrors.push('GetSnapshotUri')
         console.error('GetSnapshotUri failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
@@ -1469,7 +1536,8 @@ function testGetSnapshot (camera) {
       .catch(error => {
         apiErrors.push('GetSnapshot')
         console.error('GetSnapshot failed')
-        console.error(error)
+        console.error(error.message)
+        console.error(error.fault)
         resolve(error)
       })
   })
