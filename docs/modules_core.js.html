@@ -262,14 +262,11 @@ class Core {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tds:GetServices>'
       if (typeof includeCapability !== 'undefined' &amp;&amp; includeCapability !== null) {
         soapBody += '&lt;tds:IncludeCapability>' + includeCapability + '&lt;/tds:IncludeCapability>'
       }
-      soapBody += '&lt;/tds:GetServices>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetServices', soapEnvelope)
+      this.buildRequest('GetServices', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -308,15 +305,12 @@ class Core {
   getCapabilities (callback) {
     let promise = new Promise((resolve, reject) => {
       let soapBody = ''
-      soapBody += '&lt;tds:GetCapabilities>'
       soapBody += '&lt;tds:Category>All&lt;/tds:Category>'
-      soapBody += '&lt;/tds:GetCapabilities>'
-      let soapEnvelope = this.createRequest(soapBody)
-      return Soap.makeRequest(this.serviceAddress, 'GetCapabilities', soapEnvelope)
+
+      this.buildRequest('GetCapabilities', soapBody)
         .then(results => {
           resolve(results)
-        })
-        .catch(error => {
+        }).catch(error => {
           reject(error)
         })
     })
@@ -358,14 +352,11 @@ class Core {
     name = name || ''
     let promise = new Promise((resolve, reject) => {
       let soapBody = ''
-      soapBody += '&lt;tds:SetHostname>'
       soapBody += '&lt;tds:Name>' + name + '&lt;/tds:Name>'
-      soapBody += '&lt;/tds:SetHostname>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetHostname', soapEnvelope)
-        .then(result => {
-          resolve(result)
+      this.buildRequest('SetHostname', soapBody)
+        .then(results => {
+          resolve(results)
         }).catch(error => {
           reject(error)
         })
@@ -402,15 +393,12 @@ class Core {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tds:SetHostnameFromDHCP>'
       soapBody += '&lt;tds:FromDHCP>' + fromDHCP + '&lt;/tds:FromDHCP>'
-      soapBody += '&lt;/tds:SetHostnameFromDHCP>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetHostnameFromDHCP', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('SetHostnameFromDHCP', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -433,10 +421,7 @@ class Core {
    */
   getDNS (callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = '&lt;tds:GetDNS/>'
-      let soapEnvelope = this.createRequest(soapBody)
-
-      return Soap.makeRequest(this.serviceAddress, 'GetDNS', soapEnvelope)
+      this.buildRequest('GetDNS')
         .then((result) => {
           try {
             let di = result['data']['DNSInformation']
@@ -551,7 +536,6 @@ class Core {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tds:SetDNS>'
       soapBody += '&lt;tds:FromDHCP>' + fromDHCP + '&lt;/tds:FromDHCP>'
       if (typeof searchDomain !== 'undefined' &amp;&amp; searchDomain !== null) {
         searchDomain.forEach((s) => {
@@ -576,13 +560,11 @@ class Core {
           })
         }
       }
-      soapBody += '&lt;/tds:SetDNS>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetDNS', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('SetDNS', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -673,7 +655,6 @@ class Core {
         }
       }
       let soapBody = ''
-      soapBody += '&lt;tds:SetNTP>'
       soapBody += '&lt;tds:FromDHCP>' + fromDHCP + '&lt;/tds:FromDHCP>'
       if (typeof NTPManual !== 'undefined' &amp;&amp; NTPManual !== null) {
         if (NTPManual.length === 0) {
@@ -693,13 +674,11 @@ class Core {
           })
         }
       }
-      soapBody += '&lt;/tds:SetNTP>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetNTP', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('SetNTP', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -902,15 +881,13 @@ class Core {
         return
       }
 
-      let soapBody = '&lt;tds:GetDot11Status>'
+      let soapBody = ''
       soapBody += '&lt;tt:InterfaceToken>' + interfaceToken + '&lt;/tt:InterfaceToken>'
-      soapBody += '&lt;/tds:GetDot11Status>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetDot11Status', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('GetDot11Status', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -948,15 +925,13 @@ class Core {
         return
       }
 
-      let soapBody = '&lt;tds:ScanAvailableDot11Networks>'
+      let soapBody = ''
       soapBody += '&lt;tt:ReferenceToken>' + interfaceToken + '&lt;/tt:ReferenceToken>'
-      soapBody += '&lt;/tds:ScanAvailableDot11Networks>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'ScanAvailableDot11Networks', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('ScanAvailableDot11Networks', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -1047,9 +1022,7 @@ class Core {
    */
   getSystemDateAndTime (callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = '&lt;tds:GetSystemDateAndTime/>'
-      let soapEnvelope = this.createRequest(soapBody)
-      return Soap.makeRequest(this.serviceAddress, 'GetSystemDateAndTime', soapEnvelope)
+      this.buildRequest('GetSystemDateAndTime')
         .then(results => {
           let parsed = this.parseGetSystemDateAndTime(results['data'])
           if (parsed &amp;&amp; parsed['date']) {
@@ -1170,15 +1143,13 @@ class Core {
         return
       }
 
-      let soapBody = '&lt;tds:GetSystemLog>'
+      let soapBody = ''
       soapBody += '&lt;tt:LogType>' + logType + '&lt;/tt:LogType>'
-      soapBody += '&lt;/tds:GetSystemLog>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetSystemLog', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('GetSystemLog', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -1529,7 +1500,7 @@ module.exports = new Core()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 17 2018 06:31:36 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 17 2018 09:14:31 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
