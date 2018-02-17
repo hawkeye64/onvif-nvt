@@ -56,28 +56,78 @@ const Util = require('../utils/util')
  * {@link Core#getDNS}, {@link Core#setDNS},
  * {@link Core#getNTP}, {@link Core#setNTP},
  * {@link Core#getDynamicDNS},
+ * setDynamicDNS,
  * {@link Core#getNetworkInterfaces},
+ * setNetworkInterfaces,
  * {@link Core#getNetworkProtocols},
  * {@link Core#getNetworkDefaultGateway},
+ * setNetworkDefaultGateway,
  * {@link Core#getZeroConfiguration},
+ * setZeroConfiguration,
  * {@link Core#getIPAddressFilter},
+ * setIPAddressFilter,
+ * addIPAddressFilter,
+ * removeIPAddressFilter,
  * {@link Core#getDot11Capabilities},
  * {@link Core#getDot11Status},
  * {@link Core#scanAvailableDot11Networks},
  * {@link Core#getDeviceInformation},
  * {@link Core#getSystemUris},
  * {@link Core#getSystemBackup},
+ * restoreSystem,
+ * startSystemRestore,
  * {@link Core#getSystemDateAndTime},
+ * setSystemDateAndTime,
+ * setSystemFactoryDefault,
+ * upgradeSystemFirmware,
+ * startFirmwareUpgrade,
  * {@link Core#getSystemLog},
  * {@link Core#getSystemSupportInformation},
  * {@link Core#systemReboot},
  * {@link Core#getScopes},
+ * setScopes,
+ * addScopes,
+ * removeScopes,
  * {@link Core#getGeoLocation},
+ * setGeoLocation,
+ * deleteGeoLocation,
  * {@link Core#getDiscoveryMode},
+ * setDiscoveryMode,
  * {@link Core#getRemoteDiscoveryMode},
+ * setRemoteDiscoveryMode,
  * {@link Core#getDPAddresses},
+ * setDPAddresses,
  * {@link Core#getAccessPolicy},
- * {@link Core#getUsers}
+ * setAccessPolicy
+ * {@link Core#getUsers},
+ * createUsers,
+ * deleteUsers,
+ * setUser,
+ * createDot1XConfiguration,
+ * setDot1XConfiguration,
+ * getDot1XConfiguration,
+ * getDot1XConfigurations,
+ * deleteDot1XConfigurations,
+ * createCertificate,
+ * getCertificates,
+ * getCACertificates,
+ * getCertificatesStatus,
+ * setCertificatesStatus,
+ * getPkcs10Request,
+ * getClientCertificateMode,
+ * setClientCertificateMode,
+ * loadCertificates,
+ * loadCertificateWithPrivateKey,
+ * getCertificateInformation,
+ * loadCACertificates,
+ * deleteCertificates,
+ * getRemoteUser,
+ * setRemoteUser,
+ * getEndpointReference,
+ * getRelayOutputs,
+ * setRelayOutputSettings,
+ * setRelayOutputState,
+ * sendAuxiliaryCommand
  * &lt;br>&lt;br>
  * &lt;h3>Overview&lt;/h3>
  * The Device Service is divided into five different categories: capabilities, network, system, I/O
@@ -129,9 +179,17 @@ class Core {
     return soapEnvelope
   };
 
-  getGenericRequest (methodName, callback) {
+  buildRequest (methodName, xml, callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = `&lt;tds:${methodName}/>`
+      let soapBody = ''
+      if (typeof xml === 'undefined' || xml === null) {
+        soapBody += `&lt;tds:${methodName}/>`
+      }
+      else {
+        soapBody += `&lt;tds:${methodName}>`
+        soapBody += xml
+        soapBody += `&lt;/tds:${methodName}>`
+      }
       let soapEnvelope = this.createRequest(soapBody)
       return Soap.makeRequest(this.serviceAddress, methodName, soapEnvelope)
         .then(results => {
@@ -173,7 +231,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getWsdlUrl (callback) {
-    return this.getGenericRequest('GetWsdlUrl', callback)
+    return this.buildRequest('GetWsdlUrl', null, callback)
   }
 
   /**
@@ -237,7 +295,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getServiceCapabilities (callback) {
-    return this.getGenericRequest('GetServiceCapabilities', callback)
+    return this.buildRequest('GetServiceCapabilities', null, callback)
   }
 
   /**
@@ -280,7 +338,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getHostname (callback) {
-    return this.getGenericRequest('GetHostname', callback)
+    return this.buildRequest('GetHostname', null, callback)
   }
 
   /**
@@ -546,7 +604,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNTP (callback) {
-    return this.getGenericRequest('GetNTP', callback)
+    return this.buildRequest('GetNTP', null, callback)
   }
 
   /**
@@ -664,7 +722,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDynamicDNS (callback) {
-    return this.getGenericRequest('GetDynamicDNS', callback)
+    return this.buildRequest('GetDynamicDNS', null, callback)
   }
 
   /**
@@ -743,7 +801,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNetworkInterfaces (callback) {
-    return this.getGenericRequest('GetNetworkInterfaces', callback)
+    return this.buildRequest('GetNetworkInterfaces', null, callback)
   }
 
   setNetworkInterfaces () {
@@ -757,7 +815,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNetworkProtocols (callback) {
-    return this.getGenericRequest('GetNetworkProtocols', callback)
+    return this.buildRequest('GetNetworkProtocols', null, callback)
   }
 
   setNetworkProtocols () {
@@ -771,7 +829,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNetworkDefaultGateway (callback) {
-    return this.getGenericRequest('GetNetworkDefaultGateway', callback)
+    return this.buildRequest('GetNetworkDefaultGateway', null, callback)
   }
 
   setNetworkDefaultGateway () {
@@ -786,7 +844,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getZeroConfiguration (callback) {
-    return this.getGenericRequest('GetZeroConfiguration', callback)
+    return this.buildRequest('GetZeroConfiguration', null, callback)
   }
 
   setZeroConfiguration () {
@@ -800,7 +858,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getIPAddressFilter (callback) {
-    return this.getGenericRequest('GetIPAddressFilter', callback)
+    return this.buildRequest('GetIPAddressFilter', null, callback)
   }
 
   setIPAddressFilter () {
@@ -827,7 +885,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDot11Capabilities (callback) {
-    return this.getGenericRequest('GetDot11Capabilities', callback)
+    return this.buildRequest('GetDot11Capabilities', null, callback)
   }
 
   /**
@@ -921,7 +979,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDeviceInformation (callback) {
-    return this.getGenericRequest('GetDeviceInformation', callback)
+    return this.buildRequest('GetDeviceInformation', null, callback)
   }
 
   /**
@@ -940,7 +998,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemUris (callback) {
-    return this.getGenericRequest('GetSystemUris', callback)
+    return this.buildRequest('GetSystemUris', null, callback)
   }
 
   /**
@@ -958,7 +1016,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemBackup (callback) {
-    return this.getGenericRequest('GetSystemBackup', callback)
+    return this.buildRequest('GetSystemBackup', null, callback)
   }
 
   restoreSystem () {
@@ -1141,7 +1199,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemSupportInformation (callback) {
-    return this.getGenericRequest('GetSystemSupportInformation', callback)
+    return this.buildRequest('GetSystemSupportInformation', null, callback)
   }
 
   /**
@@ -1150,7 +1208,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   systemReboot (callback) {
-    return this.getGenericRequest('SystemReboot', callback)
+    return this.buildRequest('SystemReboot', null, callback)
   }
 
   /**
@@ -1169,7 +1227,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getScopes (callback) {
-    return this.getGenericRequest('GetScopes', callback)
+    return this.buildRequest('GetScopes', null, callback)
   }
 
   setScopes () {
@@ -1197,7 +1255,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getGeoLocation (callback) {
-    return this.getGenericRequest('GetGeoLocation', callback)
+    return this.buildRequest('GetGeoLocation', null, callback)
   }
 
   setGeoLocation () {
@@ -1217,7 +1275,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDiscoveryMode (callback) {
-    return this.getGenericRequest('GetDiscoveryMode', callback)
+    return this.buildRequest('GetDiscoveryMode', null, callback)
   }
 
   setDiscoveryMode () {
@@ -1231,7 +1289,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getRemoteDiscoveryMode (callback) {
-    return this.getGenericRequest('GetRemoteDiscoveryMode', callback)
+    return this.buildRequest('GetRemoteDiscoveryMode', null, callback)
   }
 
   setRemoteDiscoveryMode () {
@@ -1245,7 +1303,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDPAddresses (callback) {
-    return this.getGenericRequest('GetDPAddresses', callback)
+    return this.buildRequest('GetDPAddresses', null, callback)
   }
 
   setDPAddresses () {
@@ -1268,7 +1326,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAccessPolicy (callback) {
-    return this.getGenericRequest('GetAccessPolicy', callback)
+    return this.buildRequest('GetAccessPolicy', null, callback)
   }
 
   setAccessPolicy () {
@@ -1282,7 +1340,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getUsers (callback) {
-    return this.getGenericRequest('GetUsers', callback)
+    return this.buildRequest('GetUsers', null, callback)
   }
 
   createUsers () {
@@ -1471,7 +1529,7 @@ module.exports = new Core()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 17 2018 06:31:36 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

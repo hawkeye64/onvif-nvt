@@ -36,12 +36,27 @@ const Util = require('../utils/util')
  * {@link https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl}&lt;br>
  * &lt;/p>
  * &lt;h3>Functions&lt;/h3>
- * {@link Ptz#getNodes},{@link Ptz#getNode}, {@link Ptz#getConfigurations}, {@link Ptz#getConfiguration},
- * {@link Ptz#getConfigurationOptions}, {@link Ptz#setConfiguration}, {@link Ptz#getCompatibleConfigurations},
- * {@link Ptz#absoluteMove}, {@link Ptz#relativeMove}, {@link Ptz#continuousMove},{@link Ptz#geoMove},
- * {@link Ptz#stop}, {@link Ptz#getStatus}, {@link Ptz#getStatus}, {@link Ptz#setPreset},
- * {@link Ptz#getPresets}, {@link Ptz#gotoPreset}, {@link Ptz#removePreset},
- * {@link Ptz#gotoHomePosition}, {@link Ptz#setHomePosition}, {@link Ptz#sendAuxiliaryCommand}
+ * {@link Ptz#getNodes},
+ * {@link Ptz#getNode}, 
+ * {@link Ptz#getConfigurations}, 
+ * {@link Ptz#getConfiguration},
+ * {@link Ptz#getConfigurationOptions}, 
+ * {@link Ptz#setConfiguration}, 
+ * {@link Ptz#getCompatibleConfigurations},
+ * {@link Ptz#absoluteMove}, 
+ * {@link Ptz#relativeMove}, 
+ * {@link Ptz#continuousMove},
+ * {@link Ptz#geoMove},
+ * {@link Ptz#stop}, 
+ * {@link Ptz#getStatus}, 
+ * {@link Ptz#getStatus}, 
+ * {@link Ptz#setPreset},
+ * {@link Ptz#getPresets}, 
+ * {@link Ptz#gotoPreset}, 
+ * {@link Ptz#removePreset},
+ * {@link Ptz#gotoHomePosition}, 
+ * {@link Ptz#setHomePosition}, 
+ * {@link Ptz#sendAuxiliaryCommand}
  * &lt;br>&lt;br>
  * &lt;h3>Overview&lt;/h3>
  * The PTZ model groups the possible movements of the PTZ unit into a Pan/Tilt component and
@@ -152,9 +167,17 @@ class Ptz {
     return soapEnvelope
   };
 
-  getGenericRequest (methodName, callback) {
+  buildRequest (methodName, xml, callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = `&lt;tptz:${methodName}/>`
+      let soapBody = ''
+      if (typeof xml === 'undefined' || xml === null) {
+        soapBody += `&lt;tptz:${methodName}/>`
+      }
+      else {
+        soapBody += `&lt;tptz:${methodName}>`
+        soapBody += xml
+        soapBody += `&lt;/tptz:${methodName}>`
+      }
       let soapEnvelope = this.createRequest(soapBody)
       return Soap.makeRequest(this.serviceAddress, methodName, soapEnvelope)
         .then(results => {
@@ -202,7 +225,7 @@ class Ptz {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNodes (callback) {
-    return this.getGenericRequest('GetNodes', callback)
+    return this.buildRequest('GetNodes', null, callback)
   }
 
   /**
@@ -221,12 +244,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GetNode>'
       soapBody += '&lt;tptz:NodeToken>' + nodeToken + '&lt;/tptz:NodeToken>'
-      soapBody += '&lt;/tptz:GetNode>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetNode', soapEnvelope)
+      this.buildRequest('GetNode', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -302,7 +322,7 @@ class Ptz {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getConfigurations (callback) {
-    return this.getGenericRequest('GetConfigurations', callback)
+    return this.buildRequest('GetConfigurations', null, callback)
   }
 
   /**
@@ -326,12 +346,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GetConfiguration>'
       soapBody += '&lt;tptz:PTZConfigurationToken>' + configurationToken + '&lt;/tptz:PTZConfigurationToken>'
-      soapBody += '&lt;/tptz:GetConfiguration>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetConfiguration', soapEnvelope)
+      this.buildRequest('GetConfiguration', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -371,12 +388,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GetConfigurationOptions>'
       soapBody += '&lt;tptz:ConfigurationToken>' + configurationToken + '&lt;/tptz:ConfigurationToken>'
-      soapBody += '&lt;/tptz:GetConfigurationOptions>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetConfigurationOptions', soapEnvelope)
+      this.buildRequest('GetConfigurationOptions', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -420,13 +434,10 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:SetConfiguration>'
       soapBody += '&lt;tptz:PTZConfigurationToken>' + configurationToken + '&lt;/tptz:PTZConfigurationToken>'
       soapBody += '&lt;tptz:PTZConfigurationOptions>' + ptzConfigurationOptions + '&lt;/tptz:PTZConfigurationOptions>'
-      soapBody += '&lt;/tptz:SetConfiguration>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetConfiguration', soapEnvelope)
+      this.buildRequest('SetConfiguration', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -468,12 +479,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GetCompatibleConfigurations>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
-      soapBody += '&lt;/tptz:GetCompatibleConfigurations>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetCompatibleConfigurations', soapEnvelope)
+      this.buildRequest('GetCompatibleConfigurations', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -533,7 +541,7 @@ class Ptz {
         return
       }
 
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for absoluteMove is invalid: ' + errMsg))
           return
@@ -541,16 +549,13 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:AbsoluteMove>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       soapBody += '&lt;tptz:Position>' + this.panTiltZoomOptions(position) + '&lt;/tptz:Position>'
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
       }
-      soapBody += '&lt;/tptz:AbsoluteMove>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'AbsoluteMove', soapEnvelope)
+      this.buildRequest('AbsoluteMove', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -610,14 +615,14 @@ class Ptz {
         return
       }
 
-      if (translation) {
+      if (typeof translation !== 'undefined' &amp;&amp; translation !== null) {
         if ((errMsg = Util.isInvalidValue(translation, 'object'))) {
           reject(new Error('The "translation" argument for relativeMove is invalid: ' + errMsg))
           return
         }
       }
 
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for relativeMove is invalid: ' + errMsg))
           return
@@ -625,22 +630,18 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:RelativeMove>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
-      if (translation) {
+      if (typeof translation !== 'undefined' &amp;&amp; translation !== null) {
         soapBody += '&lt;tptz:Translation>' + this.panTiltZoomOptions(translation) + '&lt;/tptz:Translation>'
       }
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
       }
-      soapBody += '&lt;/tptz:RelativeMove>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'RelativeMove', soapEnvelope)
+      this.buildRequest('RelativeMove', soapBody)
         .then(results => {
           resolve(results)
-        })
-        .catch(error => {
+        }).catch(error => {
           reject(error)
         })
     })
@@ -709,7 +710,6 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:ContinuousMove>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       if (velocity) {
         soapBody += '&lt;tptz:Velocity>' + this.panTiltZoomOptions(velocity) + '&lt;/tptz:Velocity>'
@@ -717,10 +717,8 @@ class Ptz {
       if (timeout) {
         soapBody += '&lt;tptz:Timeout>PT' + timeout + 'S&lt;/tptz:Timeout>'
       }
-      soapBody += '&lt;/tptz:ContinuousMove>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'ContinuousMove', soapEnvelope)
+      this.buildRequest('ContinuousMove', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -814,7 +812,7 @@ class Ptz {
         return
       }
 
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for geoMove is invalid: ' + errMsg))
           return
@@ -836,10 +834,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GeoMove>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       soapBody += '&lt;tptz:Target lat="' + geoLocation.lat + '" lon="' + geoLocation.lon + '" elevation="' + geoLocation.elevation + '" />'
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
       }
       if (typeof areaWidth !== 'undefined' &amp;&amp; areaWidth !== null) {
@@ -848,10 +845,8 @@ class Ptz {
       if (typeof areaHeight !== 'undefined' &amp;&amp; areaHeight !== null) {
         soapBody += '&lt;tptz:AreaHeight>' + areaWidth + '&lt;/tptz:AreaHeight>'
       }
-      soapBody += '&lt;/tptz:GeoMove>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GeoMove', soapEnvelope)
+      this.buildRequest('GeoMove', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -904,7 +899,6 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:Stop>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       if (typeof panTilt !== 'undefined' &amp;&amp; panTilt !== null) {
         soapBody += '&lt;tptz:PanTilt>' + panTilt + '&lt;/tptz:PanTilt>'
@@ -912,10 +906,8 @@ class Ptz {
       if (typeof zoom !== 'undefined' &amp;&amp; zoom !== null) {
         soapBody += '&lt;tptz:Zoom>' + zoom + '&lt;/tptz:Zoom>'
       }
-      soapBody += '&lt;/tptz:Stop>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'Stop', soapEnvelope)
+      this.buildRequest('Stop', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -964,12 +956,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GetStatus>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
-      soapBody += '&lt;/tptz:GetStatus>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetStatus', soapEnvelope)
+      this.buildRequest('GetStatus', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -997,7 +986,6 @@ class Ptz {
    * can be overwritten by specifying the PresetToken of the corresponding preset. In both cases
    * (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ
    * device is moving during the SetPreset operation.&lt;br>
-   * ONVIF™ – 17 – PTZ Spec. – Ver. 17.12&lt;br>
    * The device MAY internally save additional states such as imaging properties in the PTZ preset
    * which then should be recalled in the GotoPreset operation. A device shall accept a valid
    * SetPresetRequest that does not include the optional element PresetName.
@@ -1038,7 +1026,6 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:SetPreset>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       if (presetToken) {
         soapBody += '&lt;tptz:PresetToken>' + presetToken + '&lt;/tptz:PresetToken>'
@@ -1046,10 +1033,8 @@ class Ptz {
       if (presetName) {
         soapBody += '&lt;tptz:PresetName>' + presetName + '&lt;/tptz:PresetName>'
       }
-      soapBody += '&lt;/tptz:SetPreset>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetPreset', soapEnvelope)
+      this.buildRequest('SetPreset', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1091,12 +1076,9 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GetPresets>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
-      soapBody += '&lt;/tptz:GetPresets>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetPresets', soapEnvelope)
+      this.buildRequest('GetPresets', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1143,7 +1125,7 @@ class Ptz {
         return
       }
 
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for gotoPreset is invalid: ' + errMsg))
           return
@@ -1151,16 +1133,13 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GotoPreset>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       soapBody += '&lt;tptz:PresetToken>' + presetToken + '&lt;/tptz:PresetToken>'
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
       }
-      soapBody += '&lt;/tptz:GotoPreset>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GotoPreset', soapEnvelope)
+      this.buildRequest('GotoPreset', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1201,13 +1180,10 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:RemovePreset>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       soapBody += '&lt;tptz:PresetToken>' + presetToken + '&lt;/tptz:PresetToken>'
-      soapBody += '&lt;/tptz:RemovePreset>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'RemovePreset', soapEnvelope)
+      this.buildRequest('RemovePreset', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1248,7 +1224,7 @@ class Ptz {
         return
       }
 
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for gotoHomePosition is invalid: ' + errMsg))
           return
@@ -1256,15 +1232,12 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:GotoHomePosition>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
-      if (speed) {
+      if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         soapBody += '&lt;tptz:Speed>' + this.panTiltZoomOptions(speed) + '&lt;/tptz:Speed>'
       }
-      soapBody += '&lt;/tptz:GotoHomePosition>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GotoHomePosition', soapEnvelope)
+      this.buildRequest('GotoHomePosition', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1306,9 +1279,8 @@ class Ptz {
       soapBody += '&lt;tptz:SetHomePosition>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       soapBody += '&lt;/tptz:SetHomePosition>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetHomePosition', soapEnvelope)
+      this.buildRequest('SetHomePosition', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1354,13 +1326,10 @@ class Ptz {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tptz:SendAuxiliaryCommand>'
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       soapBody += '&lt;tptz:AuxiliaryData>' + auxiliaryData + '&lt;tptz:AuxiliaryData>'
-      soapBody += '&lt;/tptz:SendAuxiliaryCommand>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetHomePosition', soapEnvelope)
+      this.buildRequest('SendAuxiliaryCommand', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -1397,7 +1366,7 @@ module.exports = new Ptz()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 17 2018 06:31:36 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

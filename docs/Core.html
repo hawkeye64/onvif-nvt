@@ -47,28 +47,78 @@ Provide core functionality for Onvif Device Management.
 <a href="Core.html#getDNS">Core#getDNS</a>, <a href="Core.html#setDNS">Core#setDNS</a>,
 <a href="Core.html#getNTP">Core#getNTP</a>, <a href="Core.html#setNTP">Core#setNTP</a>,
 <a href="Core.html#getDynamicDNS">Core#getDynamicDNS</a>,
+setDynamicDNS,
 <a href="Core.html#getNetworkInterfaces">Core#getNetworkInterfaces</a>,
+setNetworkInterfaces,
 <a href="Core.html#getNetworkProtocols">Core#getNetworkProtocols</a>,
 <a href="Core.html#getNetworkDefaultGateway">Core#getNetworkDefaultGateway</a>,
+setNetworkDefaultGateway,
 <a href="Core.html#getZeroConfiguration">Core#getZeroConfiguration</a>,
+setZeroConfiguration,
 <a href="Core.html#getIPAddressFilter">Core#getIPAddressFilter</a>,
+setIPAddressFilter,
+addIPAddressFilter,
+removeIPAddressFilter,
 <a href="Core.html#getDot11Capabilities">Core#getDot11Capabilities</a>,
 <a href="Core.html#getDot11Status">Core#getDot11Status</a>,
 <a href="Core.html#scanAvailableDot11Networks">Core#scanAvailableDot11Networks</a>,
 <a href="Core.html#getDeviceInformation">Core#getDeviceInformation</a>,
 <a href="Core.html#getSystemUris">Core#getSystemUris</a>,
 <a href="Core.html#getSystemBackup">Core#getSystemBackup</a>,
+restoreSystem,
+startSystemRestore,
 <a href="Core.html#getSystemDateAndTime">Core#getSystemDateAndTime</a>,
+setSystemDateAndTime,
+setSystemFactoryDefault,
+upgradeSystemFirmware,
+startFirmwareUpgrade,
 <a href="Core.html#getSystemLog">Core#getSystemLog</a>,
 <a href="Core.html#getSystemSupportInformation">Core#getSystemSupportInformation</a>,
 <a href="Core.html#systemReboot">Core#systemReboot</a>,
 <a href="Core.html#getScopes">Core#getScopes</a>,
+setScopes,
+addScopes,
+removeScopes,
 <a href="Core.html#getGeoLocation">Core#getGeoLocation</a>,
+setGeoLocation,
+deleteGeoLocation,
 <a href="Core.html#getDiscoveryMode">Core#getDiscoveryMode</a>,
+setDiscoveryMode,
 <a href="Core.html#getRemoteDiscoveryMode">Core#getRemoteDiscoveryMode</a>,
+setRemoteDiscoveryMode,
 <a href="Core.html#getDPAddresses">Core#getDPAddresses</a>,
+setDPAddresses,
 <a href="Core.html#getAccessPolicy">Core#getAccessPolicy</a>,
-<a href="Core.html#getUsers">Core#getUsers</a>
+setAccessPolicy
+<a href="Core.html#getUsers">Core#getUsers</a>,
+createUsers,
+deleteUsers,
+setUser,
+createDot1XConfiguration,
+setDot1XConfiguration,
+getDot1XConfiguration,
+getDot1XConfigurations,
+deleteDot1XConfigurations,
+createCertificate,
+getCertificates,
+getCACertificates,
+getCertificatesStatus,
+setCertificatesStatus,
+getPkcs10Request,
+getClientCertificateMode,
+setClientCertificateMode,
+loadCertificates,
+loadCertificateWithPrivateKey,
+getCertificateInformation,
+loadCACertificates,
+deleteCertificates,
+getRemoteUser,
+setRemoteUser,
+getEndpointReference,
+getRelayOutputs,
+setRelayOutputSettings,
+setRelayOutputState,
+sendAuxiliaryCommand
 <br><br>
 <h3>Overview</h3>
 The Device Service is divided into five different categories: capabilities, network, system, I/O
@@ -140,7 +190,7 @@ descriptions.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line63">line 63</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -295,7 +345,7 @@ descriptions.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line93">line 93</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -451,7 +501,7 @@ then the device shall support this command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1242">line 1242</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1300">line 1300</a>
     </li></ul></dd>
     
 
@@ -601,7 +651,7 @@ capabilities only reflect optional functions in this specification.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line222">line 222</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -750,7 +800,7 @@ GetDeviceInformation command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line895">line 895</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line953">line 953</a>
     </li></ul></dd>
     
 
@@ -897,7 +947,7 @@ GetDeviceInformation command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1191">line 1191</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1249">line 1249</a>
     </li></ul></dd>
     
 
@@ -1045,7 +1095,7 @@ configurations through the GetDNS command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line348">line 348</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line406">line 406</a>
     </li></ul></dd>
     
 
@@ -1193,7 +1243,7 @@ configurations through the GetDNS command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line801">line 801</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line859">line 859</a>
     </li></ul></dd>
     
 
@@ -1372,7 +1422,7 @@ configurations through the GetDNS command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line811">line 811</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line869">line 869</a>
     </li></ul></dd>
     
 
@@ -1519,7 +1569,7 @@ configurations through the GetDNS command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1219">line 1219</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1277">line 1277</a>
     </li></ul></dd>
     
 
@@ -1668,7 +1718,7 @@ and TTL through the GetDynamicDNS command
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line638">line 638</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line696">line 696</a>
     </li></ul></dd>
     
 
@@ -1817,7 +1867,7 @@ information via this command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1171">line 1171</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1229">line 1229</a>
     </li></ul></dd>
     
 
@@ -1965,7 +2015,7 @@ return its hostname configurations through the GetHostname command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line254">line 254</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -2112,7 +2162,7 @@ return its hostname configurations through the GetHostname command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line774">line 774</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line832">line 832</a>
     </li></ul></dd>
     
 
@@ -2259,7 +2309,7 @@ return its hostname configurations through the GetHostname command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line745">line 745</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line803">line 803</a>
     </li></ul></dd>
     
 
@@ -2406,7 +2456,7 @@ return its hostname configurations through the GetHostname command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line717">line 717</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line775">line 775</a>
     </li></ul></dd>
     
 
@@ -2553,7 +2603,7 @@ return its hostname configurations through the GetHostname command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line731">line 731</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line789">line 789</a>
     </li></ul></dd>
     
 
@@ -2701,7 +2751,7 @@ possible to get the NTP server settings through the GetNTP command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line520">line 520</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line578">line 578</a>
     </li></ul></dd>
     
 
@@ -2848,7 +2898,7 @@ possible to get the NTP server settings through the GetNTP command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1205">line 1205</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1263">line 1263</a>
     </li></ul></dd>
     
 
@@ -3006,7 +3056,7 @@ mandatory, the device shall return a non-empty scope list in the response.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1143">line 1143</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1201">line 1201</a>
     </li></ul></dd>
     
 
@@ -3155,7 +3205,7 @@ method if the device supports the GetServices method.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line211">line 211</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -3347,7 +3397,7 @@ capabilities.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line168">line 168</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -3504,7 +3554,7 @@ The backup configuration file(s) are transmitted through MTOM [MTOM].
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line932">line 932</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line990">line 990</a>
     </li></ul></dd>
     
 
@@ -3661,7 +3711,7 @@ the device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line962">line 962</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1020">line 1020</a>
     </li></ul></dd>
     
 
@@ -3846,7 +3896,7 @@ the device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1074">line 1074</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1132">line 1132</a>
     </li></ul></dd>
     
 
@@ -3993,7 +4043,7 @@ the device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1115">line 1115</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1173">line 1173</a>
     </li></ul></dd>
     
 
@@ -4151,7 +4201,7 @@ command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line914">line 914</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line972">line 972</a>
     </li></ul></dd>
     
 
@@ -4238,7 +4288,7 @@ getSystemDateAndTime must be called first to get an accurate time.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line131">line 131</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -4385,7 +4435,7 @@ getSystemDateAndTime must be called first to get an accurate time.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1256">line 1256</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1314">line 1314</a>
     </li></ul></dd>
     
 
@@ -4536,7 +4586,7 @@ command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line147">line 147</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -4684,7 +4734,7 @@ Devices supporting zero configuration on more than one interface shall use the e
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line760">line 760</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line818">line 818</a>
     </li></ul></dd>
     
 
@@ -4895,7 +4945,7 @@ Devices supporting zero configuration on more than one interface shall use the e
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line83">line 83</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line133">line 133</a>
     </li></ul></dd>
     
 
@@ -5030,7 +5080,7 @@ Devices supporting zero configuration on more than one interface shall use the e
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line997">line 997</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1055">line 1055</a>
     </li></ul></dd>
     
 
@@ -5217,7 +5267,7 @@ support this operation. The following status can be returned for each network:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line857">line 857</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line915">line 915</a>
     </li></ul></dd>
     
 
@@ -5593,7 +5643,7 @@ fully qualified.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line408">line 408</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line466">line 466</a>
     </li></ul></dd>
     
 
@@ -5849,7 +5899,7 @@ the update itself (ClientUpdates).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line652">line 652</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line710">line 710</a>
     </li></ul></dd>
     
 
@@ -6035,7 +6085,7 @@ shall be used.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line271">line 271</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line329">line 329</a>
     </li></ul></dd>
     
 
@@ -6221,7 +6271,7 @@ latter case the device may fall back to the statically set hostname.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line310">line 310</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -6566,7 +6616,7 @@ not are obtained via DHCP.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line544">line 544</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line602">line 602</a>
     </li></ul></dd>
     
 
@@ -6720,7 +6770,7 @@ not are obtained via DHCP.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1124">line 1124</a>
+        <a href="modules_core.js.html">modules/core.js</a>, <a href="modules_core.js.html#line1182">line 1182</a>
     </li></ul></dd>
     
 
@@ -6780,7 +6830,7 @@ not are obtained via DHCP.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 17 2018 06:31:36 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -36,6 +36,84 @@
 <a href="https://www.onvif.org/ver10/media/wsdl/media.wsdl">https://www.onvif.org/ver10/media/wsdl/media.wsdl</a><br>
 </p>
 <h3>Functions</h3>
+createProfile,
+<a href="Media.html#getProfiles">Media#getProfiles</a>,
+<a href="Media.html#getProfile">Media#getProfile</a>,
+<a href="Media.html#addVideoSourceConfiguration">Media#addVideoSourceConfiguration</a>,
+<a href="Media.html#addVideoEncoderConfiguration">Media#addVideoEncoderConfiguration</a>,
+<a href="Media.html#addAudioSourceConfiguration">Media#addAudioSourceConfiguration</a>,
+<a href="Media.html#addAudioEncoderConfiguration">Media#addAudioEncoderConfiguration</a>,
+<a href="Media.html#addPTZConfiguration">Media#addPTZConfiguration</a>,
+<a href="Media.html#addVideoAnalyticsConfiguration">Media#addVideoAnalyticsConfiguration</a>,
+<a href="Media.html#addMetadataConfiguration">Media#addMetadataConfiguration</a>,
+<a href="Media.html#addAudioOutputConfiguration">Media#addAudioOutputConfiguration</a>,
+<a href="Media.html#addAudioDecoderConfiguration">Media#addAudioDecoderConfiguration</a>,
+removeVideoSourceConfiguration,
+removeVideoEncoderConfiguration,
+removeAudioSourceConfiguration,
+removeAudioEncoderConfiguration,
+removePTZConfiguration,
+removeVideoAnalyticsConfiguration,
+removeMetadataConfiguration,
+removeAudioOutputConfiguration,
+removeAudioDecoderConfiguration,
+deleteProfile,
+<a href="Media.html#getVideoSources">Media#getVideoSources</a>,
+<a href="Media.html#getVideoSourceConfigurations">Media#getVideoSourceConfigurations</a>,
+getVideoSourceConfiguration,
+getCompatibleVideoSourceConfigurations,
+getVideoSourceConfigurationOptions,
+setVideoSourceConfiguration,
+<a href="Media.html#getVideoEncoderConfigurations">Media#getVideoEncoderConfigurations</a>,
+getVideoEncoderConfiguration,
+getCompatibleVideoEncoderConfigurations,
+getVideoEncoderConfigurationOptions,
+setVideoEncoderConfiguration,
+getGuaranteedNumberOfVideoEncoderInstances,
+<a href="Media.html#getAudioSources">Media#getAudioSources</a>,
+<a href="Media.html#getAudioSourceConfigurations">Media#getAudioSourceConfigurations</a>,
+getAudioSourceConfiguration,
+getCompatibleAudioSourceConfigurations,
+getAudioSourceConfigurationOptions,
+setAudioSourceConfiguration,
+<a href="Media.html#getAudioEncoderConfigurations">Media#getAudioEncoderConfigurations</a>,
+getAudioEncoderConfiguration,
+getCompatibleAudioEncoderConfigurations,
+getAudioEncoderConfigurationOptions,
+setAudioEncoderConfiguration,
+<a href="Media.html#getVideoAnalyticsConfigurations">Media#getVideoAnalyticsConfigurations</a>,
+getVideoAnalyticsConfiguration,
+getCompatibleVideoAnalyticsConfigurations,
+setVideoAnalyticsConfiguration,
+<a href="Media.html#getMetadataConfigurations">Media#getMetadataConfigurations</a>,
+getMetadataConfiguration,
+getCompatibleMetadataConfigurations,
+getMetadataConfigurationOptions,
+setMetadataConfiguration,
+<a href="Media.html#getAudioOutputs">Media#getAudioOutputs</a>,
+<a href="Media.html#getAudioOutputConfigurations">Media#getAudioOutputConfigurations</a>,
+getAudioOutputConfiguration,
+getCompatibleAudioOutputConfigurations,
+getAudioOutputConfigurationOptions,
+setAudioOutputConfiguration,
+<a href="Media.html#getAudioDecoderConfigurations">Media#getAudioDecoderConfigurations</a>,
+getAudioDecoderConfiguration,
+getCompatibleAudioDecoderConfigurations,
+getAudioDecoderConfigurationOptions,
+setAudioDecoderConfiguration,
+<a href="Media.html#getStreamUri">Media#getStreamUri</a>,
+<a href="Media.html#getSnapshotUri">Media#getSnapshotUri</a>,
+startMulticastStreaming,
+stopMulticastStreaming,
+setSynchronizationPoint,
+getVideoSourceModes,
+setVideoSourceMode,
+createOSD,
+deleteOSD,
+getOSDs,
+getOSD,
+setOSD,
+getOSDOptions
 <br><br>
 <h3>Overview</h3></div>
         
@@ -100,7 +178,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line14">line 14</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -329,7 +407,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line273">line 273</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -538,7 +616,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line223">line 223</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -747,7 +825,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line263">line 263</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line342">line 342</a>
     </li></ul></dd>
     
 
@@ -956,7 +1034,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line213">line 213</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line292">line 292</a>
     </li></ul></dd>
     
 
@@ -1165,7 +1243,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line253">line 253</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line332">line 332</a>
     </li></ul></dd>
     
 
@@ -1374,7 +1452,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line233">line 233</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -1583,7 +1661,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line243">line 243</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line322">line 322</a>
     </li></ul></dd>
     
 
@@ -1792,7 +1870,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line203">line 203</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line282">line 282</a>
     </li></ul></dd>
     
 
@@ -2004,7 +2082,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line193">line 193</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -2139,7 +2217,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line48">line 48</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -2286,7 +2364,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line589">line 589</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line668">line 668</a>
     </li></ul></dd>
     
 
@@ -2433,7 +2511,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line459">line 459</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line538">line 538</a>
     </li></ul></dd>
     
 
@@ -2580,7 +2658,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line557">line 557</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line636">line 636</a>
     </li></ul></dd>
     
 
@@ -2727,7 +2805,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line549">line 549</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line628">line 628</a>
     </li></ul></dd>
     
 
@@ -2874,7 +2952,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line427">line 427</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line506">line 506</a>
     </li></ul></dd>
     
 
@@ -3021,7 +3099,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line419">line 419</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line498">line 498</a>
     </li></ul></dd>
     
 
@@ -3168,7 +3246,7 @@ AddVideoSourceConfiguration command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line517">line 517</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line596">line 596</a>
     </li></ul></dd>
     
 
@@ -3349,7 +3427,7 @@ A device shall include the “fixed” attribute in the returned Profile element
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line152">line 152</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line235">line 235</a>
     </li></ul></dd>
     
 
@@ -3501,7 +3579,7 @@ A device shall include the “fixed” attribute in all the returned Profile ele
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line140">line 140</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -3679,7 +3757,7 @@ A device shall include the “fixed” attribute in all the returned Profile ele
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line694">line 694</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line770">line 770</a>
     </li></ul></dd>
     
 
@@ -3936,7 +4014,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line632">line 632</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line711">line 711</a>
     </li></ul></dd>
     
 
@@ -4083,7 +4161,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line491">line 491</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line570">line 570</a>
     </li></ul></dd>
     
 
@@ -4230,7 +4308,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line381">line 381</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line460">line 460</a>
     </li></ul></dd>
     
 
@@ -4377,7 +4455,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line349">line 349</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line428">line 428</a>
     </li></ul></dd>
     
 
@@ -4524,7 +4602,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line341">line 341</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line420">line 420</a>
     </li></ul></dd>
     
 
@@ -4766,7 +4844,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line37">line 37</a>
+        <a href="modules_media.js.html">modules/media.js</a>, <a href="modules_media.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -4816,7 +4894,7 @@ For full compatibility with other ONVIF services a device should not generate Ur
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 17 2018 06:31:36 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
