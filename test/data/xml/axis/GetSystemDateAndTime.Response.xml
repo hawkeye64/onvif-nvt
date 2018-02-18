@@ -57,8 +57,8 @@
         <tt:UTCDateTime>
           <tt:Time>
             <tt:Hour>14</tt:Hour>
-            <tt:Minute>19</tt:Minute>
-            <tt:Second>39</tt:Second>
+            <tt:Minute>57</tt:Minute>
+            <tt:Second>0</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
@@ -69,8 +69,8 @@
         <tt:LocalDateTime>
           <tt:Time>
             <tt:Hour>7</tt:Hour>
-            <tt:Minute>19</tt:Minute>
-            <tt:Second>39</tt:Second>
+            <tt:Minute>57</tt:Minute>
+            <tt:Second>0</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
