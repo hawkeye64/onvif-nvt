@@ -108,26 +108,26 @@ const Util = require('../utils/util')
  * setUser,
  * createDot1XConfiguration,
  * setDot1XConfiguration,
- * getDot1XConfiguration,
- * getDot1XConfigurations,
+ * {@link Core#getDot1XConfiguration},
+ * {@link Core#getDot1XConfigurations},
  * deleteDot1XConfigurations,
  * createCertificate,
- * getCertificates,
- * getCACertificates,
- * getCertificatesStatus,
+ * {@link Core#getCertificates},
+ * {@link Core#getCACertificates},
+ * {@link Core#getCertificatesStatus},
  * setCertificatesStatus,
  * getPkcs10Request,
- * getClientCertificateMode,
+ * {@link Core#getClientCertificateMode},
  * setClientCertificateMode,
  * loadCertificates,
  * loadCertificateWithPrivateKey,
  * getCertificateInformation,
  * loadCACertificates,
  * deleteCertificates,
- * getRemoteUser,
+ * {@link Core#getRemoteUser},
  * setRemoteUser,
- * getEndpointReference,
- * getRelayOutputs,
+ * {@link Core#getEndpointReference},
+ * {@link Core#getRelayOutputs},
  * setRelayOutputSettings,
  * setRelayOutputState,
  * sendAuxiliaryCommand
@@ -1347,16 +1347,58 @@ class Core {
     })
   }
 
-  getDot1XConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
+  /**
+   * This operation gets one IEEE 802.1X configuration parameter set from the device by
+   * specifying the configuration token (Dot1XConfigurationToken).&lt;br>
+   * The device shall support this command if support for IEEE 802.1X is signaled via the Security
+   * Dot1X capability.&lt;br>
+   * Regardless of whether the 802.1X method in the retrieved configuration has a password or
+   * not, the device shall not include the Password element in the response.
+   * @param {string} dot1XConfigurationToken Dot1XConfigurationToken [ReferenceToken]
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getDot1XConfiguration (dot1XConfigurationToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(dot1XConfigurationToken, 'string'))) {
+        reject(new Error('The "dot1XConfigurationToken" argument for getDot1XConfiguration is invalid: ' + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;tds:Dot1XConfigurationToken>' + dot1XConfigurationToken + '&lt;/tds:Dot1XConfigurationToken>'
+
+      this.buildRequest('GetDot1XConfiguration', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
     })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
   }
 
-  getDot1XConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation gets all the existing IEEE 802.1X configuration parameter sets from the device.&lt;br>
+   * The device shall respond with all the IEEE 802.1X configurations so that the client can get to
+   * know how many IEEE 802.1X configurations are existing and how they are configured.&lt;br>
+   * The device shall support this command if support for IEEE 802.1X is signaled via the Security
+   * Dot1X capability.&lt;br>
+   * Regardless of whether the 802.1X method in the retrieved configuration has a password or
+   * not, the device shall not include the Password element in the response.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getDot1XConfigurations (callback) {
+    return this.buildRequest('GetDot1XConfigurations', null, callback)
   }
 
   deleteDot1XConfigurations () {
@@ -1371,22 +1413,41 @@ class Core {
     })
   }
 
-  getCertificates () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation gets all device server certificates (including self-signed) for the purpose of TLS
+   * authentication and all device client certificates for the purpose of IEEE 802.1X authentication.&lt;br>
+   * This command lists only the TLS server certificates and IEEE 802.1X client certificates for the
+   * device (neither trusted CA certificates nor trusted root certificates). The certificates are
+   * returned as binary data. A device that supports TLS shall support this command and the
+   * certificates shall be encoded using ASN.1 [X.681], [X.682], [X.683] DER [X.690] encoding
+   * rules.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCertificates (callback) {
+    return this.buildRequest('GetCertificates', null, callback)
   }
 
-  getCACertificates () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * CA certificates will be loaded into a device and be used for the sake of following two cases.&lt;br>
+   * The one is for the purpose of TLS client authentication in TLS server function. The other one
+   * is for the purpose of Authentication Server authentication in IEEE 802.1X function. This
+   * operation gets all CA certificates loaded into a device. A device that supports either TLS client
+   * authentication or IEEE 802.1X shall support this command and the returned certificates shall
+   * be encoded using ASN.1 [X.681], [X.682], [X.683] DER [X.690] encoding rules.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCACertificates (callback) {
+    return this.buildRequest('GetCACertificates', null, callback)
   }
 
-  getCertificatesStatus () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation is specific to TLS functionality. This operation gets the status
+   * (enabled/disabled) of the device TLS server certificates. A device that supports TLS shall
+   * support this command.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCertificatesStatus (callback) {
+    return this.buildRequest('GetCertificatesStatus', null, callback)
   }
 
   setCertificatesStatus () {
@@ -1401,10 +1462,14 @@ class Core {
     })
   }
 
-  getClientCertificateMode () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation is specific to TLS functionality. This operation gets the status
+   * (enabled/disabled) of the device TLS client authentication. A device that supports TLS shall
+   * support this command.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getClientCertificateMode (callback) {
+    return this.buildRequest('GetClientCertificateMode', null, callback)
   }
 
   setClientCertificateMode () {
@@ -1443,10 +1508,15 @@ class Core {
     })
   }
 
-  getRemoteUser () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the configured remote user (if any). A device that signals support for
+   * remote user handling via the Security Capability RemoteUserHandling shall support this
+   * operation. The user is only valid for the WS-UserToken profile or as a HTTP / RTSP user.&lt;br>
+   * The algorithm to use for deriving the password is described in section 5.12.3.1.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getRemoteUser (callback) {
+    return this.buildRequest('GetRemoteUser', null, callback)
   }
 
   setRemoteUser () {
@@ -1455,16 +1525,23 @@ class Core {
     })
   }
 
-  getEndpointReference () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * A client can ask for the device service endpoint reference address property that can be used
+   * to derive the password equivalent for remote user operation. The device should support the
+   * GetEndpointReference command returning the address property of the device service
+   * endpoint reference.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getEndpointReference (callback) {
+    return this.buildRequest('GetEndpointReference', null, callback)
   }
 
-  getRelayOutputs () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation gets a list of all available relay outputs and their settings.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getRelayOutputs (callback) {
+    return this.buildRequest('GetRelayOutputs', null, callback)
   }
 
   setRelayOutputSettings () {
@@ -1503,7 +1580,7 @@ module.exports = new Core()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 08:09:56 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 10:10:43 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
