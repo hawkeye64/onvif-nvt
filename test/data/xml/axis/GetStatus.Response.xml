@@ -50,14 +50,14 @@
     <tptz:GetStatusResponse>
       <tptz:PTZStatus>
         <tt:Position>
-          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.772721887" x="0.31552732"></tt:PanTilt>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.84809649" x="-0.744939327"></tt:PanTilt>
           <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
         </tt:Position>
         <tt:MoveStatus>
           <tt:PanTilt>IDLE</tt:PanTilt>
           <tt:Zoom>IDLE</tt:Zoom>
         </tt:MoveStatus>
-        <tt:UtcTime>2018-02-17T15:03:45Z</tt:UtcTime>
+        <tt:UtcTime>2018-02-18T14:19:32Z</tt:UtcTime>
       </tptz:PTZStatus>
     </tptz:GetStatusResponse>
   </SOAP-ENV:Body>
