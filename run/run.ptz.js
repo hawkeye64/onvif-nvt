@@ -1,6 +1,6 @@
 const Config = require('./config')
 
-class runPtz {
+class RunPtz {
   constructor () {
     this.OnvifManager = require('../lib/onvif-nvt')
     this.apiErrors = []
@@ -66,17 +66,17 @@ class runPtz {
           })
         })
         .catch(error => {
-            console.error(error)
+          console.error(error)
         })
     })
   } // run()
 
-/* -------------------------------------------------
+  /* -------------------------------------------------
     NOTE: All functional test should resolve(error)
     instead of calling reject(error)
    ------------------------------------------------- */
 
-   GetNodes () {
+  GetNodes () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getNodes()
         .then(results => {
@@ -93,7 +93,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetNode () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getNode(this.ptzNodeToken)
@@ -110,7 +110,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetConfigurations () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getConfigurations()
@@ -128,7 +128,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetConfiguration () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getConfiguration(this.ptzConfigurationToken)
@@ -145,7 +145,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetConfigurationOptions () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getConfigurationOptions(this.ptzConfigurationToken)
@@ -162,7 +162,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetCompatibleConfigurations () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getCompatibleConfigurations()
@@ -179,7 +179,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetStatus () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getStatus()
@@ -196,7 +196,7 @@ class runPtz {
         })
     })
   }
-  
+
   ContinuousMove () {
     return new Promise((resolve, reject) => {
       let velocity = {
@@ -231,7 +231,7 @@ class runPtz {
         })
     })
   }
-  
+
   RelativeMove () {
     return new Promise((resolve, reject) => {
       let translation = {
@@ -253,7 +253,7 @@ class runPtz {
         })
     })
   }
-  
+
   AbsoluteMove () {
     return new Promise((resolve, reject) => {
       let position = {
@@ -275,7 +275,7 @@ class runPtz {
         })
     })
   }
-  
+
   GetPresets () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.getPresets()
@@ -294,7 +294,7 @@ class runPtz {
               if (this.testPresetName === preset.Name) {
               // it does (maybe we stopped debugger in
               // deveopment, or crashed, whatever, deal with it now)
-              this.testPresetNameToken = preset.$.token
+                this.testPresetNameToken = preset.$.token
               }
             })
           }
@@ -322,7 +322,7 @@ class runPtz {
         })
     })
   }
-  
+
   GotoPreset () {
     return new Promise((resolve, reject) => {
       if (this.presetToken.length > 0) {
@@ -345,7 +345,7 @@ class runPtz {
       }
     })
   }
-  
+
   SetPreset () {
     return new Promise((resolve, reject) => {
       if (this.testPresetName.length === 0) {
@@ -370,7 +370,7 @@ class runPtz {
       }
     })
   }
-  
+
   RemovePreset () {
     return new Promise((resolve, reject) => {
       if (this.testPresetNameToken.length > 0) {
@@ -394,7 +394,7 @@ class runPtz {
       }
     })
   }
-  
+
   GotoHomePosition () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.gotoHomePosition(null)
@@ -411,7 +411,7 @@ class runPtz {
         })
     })
   }
-  
+
   SetHomePosition () {
     return new Promise((resolve, reject) => {
       this.camera.ptz.setHomePosition(null)
@@ -430,4 +430,4 @@ class runPtz {
   }
 }
 
-module.exports = new runPtz()
+module.exports = new RunPtz()

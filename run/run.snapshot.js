@@ -1,6 +1,6 @@
 const Config = require('./config')
 
-class runSnapshot {
+class RunSnapshot {
   constructor () {
     this.OnvifManager = require('../lib/onvif-nvt')
     this.apiErrors = []
@@ -31,17 +31,17 @@ class runSnapshot {
           })
         })
         .catch(error => {
-            console.error(error)
+          console.error(error)
         })
     })
   } // run()
 
-/* -------------------------------------------------
+  /* -------------------------------------------------
     NOTE: All functional test should resolve(error)
     instead of calling reject(error)
    ------------------------------------------------- */
 
-   GetSnapshot () {
+  GetSnapshot () {
     return new Promise((resolve, reject) => {
       this.camera.add('snapshot')
       this.camera.snapshot.getSnapshot()
@@ -50,13 +50,13 @@ class runSnapshot {
           resolve(results)
         })
         .catch(error => {
-          apiErrors.push('GetSnapshot')
+          this.apiErrors.push('GetSnapshot')
           console.error('GetSnapshot failed')
           console.error(error.message)
           resolve(error)
         })
     })
-    }
+  }
 }
 
-module.exports = new runSnapshot()
+module.exports = new RunSnapshot()

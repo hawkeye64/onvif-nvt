@@ -7,16 +7,9 @@ const saveXml = require('../lib/utils/save-xml')
 // Uncomment to save XML Requests and Resonses
 saveXml.setWritable(true)
 
-
-const OnvifManager = require('../lib/onvif-nvt')
-
-// variables using in functional testing below
 let apiErrors = []
-// let DynamicDNSType = ''
-// let DynamicDNSName = ''
-let profileToken = ''
 
-function run() {
+function run () {
   testCore().then(() => {
     return testPtz()
   }).then(() => {
@@ -37,6 +30,8 @@ function run() {
       console.error(' * Just because an API errored, does not indicate an issue with the code.')
       console.error(' * Some cameras do not support various functions. This is expected.')
       console.error(' * It helps to know the capabilities of your specific camera.')
+      console.error(' * It may also be that the functionality has not been completed.')
+      console.error(' * If this is the case and affects you, PRs are welcomed.')
     }
     else {
       console.log('All tests ran successfully')
@@ -48,8 +43,8 @@ function run() {
 
 function testCore () {
   return new Promise((resolve, reject) => {
-    let runCore = require('./run.core')
-    runCore.run()
+    let RunCore = require('./run.core')
+    RunCore.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)
@@ -62,8 +57,8 @@ function testCore () {
 
 function testPtz () {
   return new Promise((resolve, reject) => {
-    let runPtz = require('./run.ptz')
-    runPtz.run()
+    let RunPtz = require('./run.ptz')
+    RunPtz.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)
@@ -76,8 +71,8 @@ function testPtz () {
 
 function testMedia () {
   return new Promise((resolve, reject) => {
-    let runMedia = require('./run.media')
-    runMedia.run()
+    let RunMedia = require('./run.media')
+    RunMedia.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)
@@ -90,8 +85,8 @@ function testMedia () {
 
 function testSnapshot (camera) {
   return new Promise((resolve, reject) => {
-    let runSnapshot = require('./run.snapshot')
-    runSnapshot.run()
+    let RunSnapshot = require('./run.snapshot')
+    RunSnapshot.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)
