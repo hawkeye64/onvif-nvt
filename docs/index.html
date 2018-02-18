@@ -50,8 +50,9 @@
 <p>This package is written with Javascript classes and ES6. Both Promises and Callbacks are supported.</p>
 <p>The aim of the <strong>onvif-nvt</strong> package is to have as much complete coverage of the <a href="https://www.onvif.org/">ONVIF</a> spec as possible.</p>
 <p>The <code>onvif-nvt</code> package will work only with <code>node</code> server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.</p>
-<h2>Installation</h2><p>Note: This is a work-in-progress, and while so, there will be many updates. PRs are welcomed.</p>
+<h2>Installation</h2><p>Note: This is a work-in-progress (Pre-Release), and while so, there will be many updates. PRs are welcomed.</p>
 <p><code>npm install onvif-nvt</code></p>
+<h2>Sample Application</h2><p>You can find the sample application that uses Vue and Quasar <a href="https://github.com/hawkeye64/onvif-nvt-snapshot-vue-sample">here</a></p>
 <h2>Contributing</h2><p>Before making a PR please do the following:</p>
 <ul>
 <li>Make sure you are consistent with style.</li>
@@ -59,7 +60,7 @@
 <li>Make sure you have updated any functionality with JSDoc notations.</li>
 <li><i>npm run jsdoc</i></li>
 <li>Make sure you have added to <i>run</i> tests (live testing).</li>
-<li>If you have a specific camera not identified, create a folder for it in <code>test/data/xml/{camera}</code>. Run all <i>run</i> tests with <code>saveXml.setWritable(true)</code> (in <code>run.js</code>) and capture all the xml and put them into the new folder.</li>
+<li>If you have a specific camera not identified, create a folder for it in <code>test/data/xml/{camera}</code>. Create configuration data for it in <code>run.config.js</code>. Run all <i>run</i> tests with <code>saveXml.setWritable(true)</code> (in <code>run.js</code>) and capture all the xml.</li>
 <li>Make sure you have added to <i>jest</i> tests (uses the aforementioned xml). Update <code>test/config.js</code> with your camera.</li>
 <li><i>node run/run.js</i></li>
 <li><i>npm run test</i>
@@ -88,14 +89,14 @@ If all is well, make the PR.</li>
 </li>
 </ul>
 <p>The library is made in such a way that only modules that will work with your device are automatically included. For others, you can choose whether or not to bring in the functionality.</p>
-<h2>Example (Discovery)</h2><pre class="prettyprint source"><code>const OnvifManager = require('onvif-nvt')
+<h2>Example (Discovery)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
 OnvifManager.add('discovery')
 OnvifManager.discovery.startProbe().then(deviceList => {
  console.log(deviceList)
  // 'deviceList' contains all ONVIF devices that have responded.
  // If it is empty, then no ONVIF devices
  // responded back to the broadcast.
-})</code></pre><h2>Example (Connect and Continuous Move)</h2><pre class="prettyprint source"><code>const OnvifManager = require('onvif-nvt')
+})</code></pre><h2>Example (Connect and Continuous Move)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -104,11 +105,11 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
       camera.ptz.continuousMove(null, velocity)
         .then(() => {
           setTimeout(() => {
-            ptz.stop()
+            camera.ptz.stop()
           }, 5000) // stop the camera after 5 seconds
         })
     }
-  })</code></pre><h2>Example (Snapshot)</h2><pre class="prettyprint source"><code>const OnvifManager = require('onvif-nvt')
+  })</code></pre><h2>Example (Snapshot)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -123,23 +124,24 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         let base64Image = Buffer.from(rawImage, 'binary').toString('base64')
         let image = prefix + base64Image
         // 'image' is now ready to be displayed on a web page
-        ...
+        // ...
       })
     }
   })</code></pre><h2>Documentation</h2><p><a href="https://hawkeye64.github.io/onvif-nvt/">onvif-nvt documentation</a></p>
 <h2>Testing</h2><p>Note: The code for testing is not available in the npm package.</p>
 <p>All functionality has been tested with Hikvision (fixed and ptz), Pelco (ptz), TrendNET (fixed) and Axis (ptz).</p>
-<h3>Functional Testing</h3><p>Functional testing is intended for 'live' testing with an actual ONVIF device. It is done with the <code>run.js</code> in the <code>run</code> folder. </p>
+<h3>Functional Testing</h3><p>Functional testing is intended for 'live' testing with an actual ONVIF device. It is done with the <code>run.js</code> in the <code>run</code> folder. This will test the actual capabilities of a camera, but just as importantly, it can capture the xml response to file so it can be used in Jest tests. The configuration file for the <code>run</code> tests can be found in <code>run/config.js</code>.</p>
 <p>For <strong>discovery</strong> testing, just set the <code>runDiscovery</code> variable at the top of the file to <code>true</code>.</p>
 <p>For <strong>core</strong> testing, set the <code>runCore</code> variable at the top of the file.</p>
 <p>You can do this for other modules as well. See file for options.</p>
-<p>Set up your local camera by setting the appropriate variables near the top of the file, like this:</p>
-<pre class="prettyprint source"><code>const address = '10.10.1.20'
+<p>Set up your local camera by setting the appropriate variables in <code>run/config.js</code>, like this:</p>
+<pre class="prettyprint source"><code>const address = '10.10.1.60'
 const port = 80
 const username = 'root'
-const password = 'root'</code></pre><p>Run the <code>run.js</code> file via node (personally, I use VS Code - an amazing editor/debugger).</p>
-<p>The tests will only run what the camera supports, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.</p>
-<p>Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like <code>GetSystemDateAndTime</code>. In some cases, you might get a response back of <code>Action not supported</code>. If this happens, then the tests will fail. You can comment out the call to the part that is failing and re-run the tests.</p>
+const password = 'root'
+const folder = 'hikvision'</code></pre><p>Run the <code>run.js</code> file via node (personally, I use VS Code - an amazing editor/debugger).</p>
+<p>The tests will only run onvif modules supported by the camera capabilities, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.</p>
+<p>Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like <code>GetSystemDateAndTime</code>. In some cases, you might get a response back of <code>Action not supported</code>. If this happens, then the tests will fail. This is nothing to be alarmed about. You may also get other errors. The most common I see is if your camera does not support audo configurations. Also, you may get a <code>Not Implemented</code> error, meaning the implementation of that method has not yet been added.</p>
 <h3>Automated Testing</h3><p><strong>Jest</strong> is being used to do the automated testing and code coverage. All tests are in the <code>tests</code> folder, as well as XML Requests and Responses from various ONVIF devices.
 To start the tests, run the following:
 <code>npm run test</code></p>
@@ -155,13 +157,13 @@ To start the tests, run the following:
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 08:09:56 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

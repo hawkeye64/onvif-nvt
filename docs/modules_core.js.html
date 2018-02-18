@@ -39,7 +39,7 @@ const Util = require('../utils/util')
   */
 
 /**
- * @class Core
+ * @class
  * Provide core functionality for Onvif Device Management.
  * &lt;p>
  * {@link https://www.onvif.org/onvif/specs/core/ONVIF-Core-Specification-v220.pdf}&lt;br>
@@ -51,33 +51,86 @@ const Util = require('../utils/util')
  * {@link Core#getServices},
  * {@link Core#getServiceCapabilities},
  * {@link Core#getCapabilities},
- * {@link Core#getHostname}, {@link Core#setHostname},
+ * {@link Core#getHostname},
+ * {@link Core#setHostname},
  * {@link Core#setHostnameFromDHCP},
- * {@link Core#getDNS}, {@link Core#setDNS},
- * {@link Core#getNTP}, {@link Core#setNTP},
+ * {@link Core#getDNS},
+ * {@link Core#setDNS},
+ * {@link Core#getNTP},
+ * {@link Core#setNTP},
  * {@link Core#getDynamicDNS},
+ * setDynamicDNS,
  * {@link Core#getNetworkInterfaces},
+ * setNetworkInterfaces,
  * {@link Core#getNetworkProtocols},
  * {@link Core#getNetworkDefaultGateway},
+ * setNetworkDefaultGateway,
  * {@link Core#getZeroConfiguration},
+ * setZeroConfiguration,
  * {@link Core#getIPAddressFilter},
+ * setIPAddressFilter,
+ * addIPAddressFilter,
+ * removeIPAddressFilter,
  * {@link Core#getDot11Capabilities},
  * {@link Core#getDot11Status},
  * {@link Core#scanAvailableDot11Networks},
  * {@link Core#getDeviceInformation},
  * {@link Core#getSystemUris},
  * {@link Core#getSystemBackup},
+ * restoreSystem,
+ * startSystemRestore,
  * {@link Core#getSystemDateAndTime},
+ * setSystemDateAndTime,
+ * setSystemFactoryDefault,
+ * upgradeSystemFirmware,
+ * startFirmwareUpgrade,
  * {@link Core#getSystemLog},
  * {@link Core#getSystemSupportInformation},
  * {@link Core#systemReboot},
  * {@link Core#getScopes},
+ * setScopes,
+ * addScopes,
+ * removeScopes,
  * {@link Core#getGeoLocation},
+ * setGeoLocation,
+ * deleteGeoLocation,
  * {@link Core#getDiscoveryMode},
+ * setDiscoveryMode,
  * {@link Core#getRemoteDiscoveryMode},
+ * setRemoteDiscoveryMode,
  * {@link Core#getDPAddresses},
+ * setDPAddresses,
  * {@link Core#getAccessPolicy},
- * {@link Core#getUsers}
+ * setAccessPolicy
+ * {@link Core#getUsers},
+ * createUsers,
+ * deleteUsers,
+ * setUser,
+ * createDot1XConfiguration,
+ * setDot1XConfiguration,
+ * getDot1XConfiguration,
+ * getDot1XConfigurations,
+ * deleteDot1XConfigurations,
+ * createCertificate,
+ * getCertificates,
+ * getCACertificates,
+ * getCertificatesStatus,
+ * setCertificatesStatus,
+ * getPkcs10Request,
+ * getClientCertificateMode,
+ * setClientCertificateMode,
+ * loadCertificates,
+ * loadCertificateWithPrivateKey,
+ * getCertificateInformation,
+ * loadCACertificates,
+ * deleteCertificates,
+ * getRemoteUser,
+ * setRemoteUser,
+ * getEndpointReference,
+ * getRelayOutputs,
+ * setRelayOutputSettings,
+ * setRelayOutputState,
+ * sendAuxiliaryCommand
  * &lt;br>&lt;br>
  * &lt;h3>Overview&lt;/h3>
  * The Device Service is divided into five different categories: capabilities, network, system, I/O
@@ -129,9 +182,17 @@ class Core {
     return soapEnvelope
   };
 
-  getGenericRequest (methodName, callback) {
+  buildRequest (methodName, xml, callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = `&lt;tds:${methodName}/>`
+      let soapBody = ''
+      if (typeof xml === 'undefined' || xml === null || xml === '') {
+        soapBody += `&lt;tds:${methodName}/>`
+      }
+      else {
+        soapBody += `&lt;tds:${methodName}>`
+        soapBody += xml
+        soapBody += `&lt;/tds:${methodName}>`
+      }
       let soapEnvelope = this.createRequest(soapBody)
       return Soap.makeRequest(this.serviceAddress, methodName, soapEnvelope)
         .then(results => {
@@ -173,7 +234,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getWsdlUrl (callback) {
-    return this.getGenericRequest('GetWsdlUrl', callback)
+    return this.buildRequest('GetWsdlUrl', null, callback)
   }
 
   /**
@@ -204,14 +265,11 @@ class Core {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tds:GetServices>'
       if (typeof includeCapability !== 'undefined' &amp;&amp; includeCapability !== null) {
         soapBody += '&lt;tds:IncludeCapability>' + includeCapability + '&lt;/tds:IncludeCapability>'
       }
-      soapBody += '&lt;/tds:GetServices>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetServices', soapEnvelope)
+      this.buildRequest('GetServices', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -237,7 +295,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getServiceCapabilities (callback) {
-    return this.getGenericRequest('GetServiceCapabilities', callback)
+    return this.buildRequest('GetServiceCapabilities', null, callback)
   }
 
   /**
@@ -250,15 +308,12 @@ class Core {
   getCapabilities (callback) {
     let promise = new Promise((resolve, reject) => {
       let soapBody = ''
-      soapBody += '&lt;tds:GetCapabilities>'
       soapBody += '&lt;tds:Category>All&lt;/tds:Category>'
-      soapBody += '&lt;/tds:GetCapabilities>'
-      let soapEnvelope = this.createRequest(soapBody)
-      return Soap.makeRequest(this.serviceAddress, 'GetCapabilities', soapEnvelope)
+
+      this.buildRequest('GetCapabilities', soapBody)
         .then(results => {
           resolve(results)
-        })
-        .catch(error => {
+        }).catch(error => {
           reject(error)
         })
     })
@@ -280,7 +335,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getHostname (callback) {
-    return this.getGenericRequest('GetHostname', callback)
+    return this.buildRequest('GetHostname', null, callback)
   }
 
   /**
@@ -300,14 +355,11 @@ class Core {
     name = name || ''
     let promise = new Promise((resolve, reject) => {
       let soapBody = ''
-      soapBody += '&lt;tds:SetHostname>'
       soapBody += '&lt;tds:Name>' + name + '&lt;/tds:Name>'
-      soapBody += '&lt;/tds:SetHostname>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetHostname', soapEnvelope)
-        .then(result => {
-          resolve(result)
+      this.buildRequest('SetHostname', soapBody)
+        .then(results => {
+          resolve(results)
         }).catch(error => {
           reject(error)
         })
@@ -344,15 +396,12 @@ class Core {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tds:SetHostnameFromDHCP>'
       soapBody += '&lt;tds:FromDHCP>' + fromDHCP + '&lt;/tds:FromDHCP>'
-      soapBody += '&lt;/tds:SetHostnameFromDHCP>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetHostnameFromDHCP', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('SetHostnameFromDHCP', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -375,10 +424,7 @@ class Core {
    */
   getDNS (callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = '&lt;tds:GetDNS/>'
-      let soapEnvelope = this.createRequest(soapBody)
-
-      return Soap.makeRequest(this.serviceAddress, 'GetDNS', soapEnvelope)
+      this.buildRequest('GetDNS')
         .then((result) => {
           try {
             let di = result['data']['DNSInformation']
@@ -493,7 +539,6 @@ class Core {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tds:SetDNS>'
       soapBody += '&lt;tds:FromDHCP>' + fromDHCP + '&lt;/tds:FromDHCP>'
       if (typeof searchDomain !== 'undefined' &amp;&amp; searchDomain !== null) {
         searchDomain.forEach((s) => {
@@ -518,13 +563,11 @@ class Core {
           })
         }
       }
-      soapBody += '&lt;/tds:SetDNS>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetDNS', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('SetDNS', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -546,7 +589,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNTP (callback) {
-    return this.getGenericRequest('GetNTP', callback)
+    return this.buildRequest('GetNTP', null, callback)
   }
 
   /**
@@ -615,7 +658,6 @@ class Core {
         }
       }
       let soapBody = ''
-      soapBody += '&lt;tds:SetNTP>'
       soapBody += '&lt;tds:FromDHCP>' + fromDHCP + '&lt;/tds:FromDHCP>'
       if (typeof NTPManual !== 'undefined' &amp;&amp; NTPManual !== null) {
         if (NTPManual.length === 0) {
@@ -635,13 +677,11 @@ class Core {
           })
         }
       }
-      soapBody += '&lt;/tds:SetNTP>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'SetNTP', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('SetNTP', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -664,7 +704,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDynamicDNS (callback) {
-    return this.getGenericRequest('GetDynamicDNS', callback)
+    return this.buildRequest('GetDynamicDNS', null, callback)
   }
 
   /**
@@ -743,7 +783,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNetworkInterfaces (callback) {
-    return this.getGenericRequest('GetNetworkInterfaces', callback)
+    return this.buildRequest('GetNetworkInterfaces', null, callback)
   }
 
   setNetworkInterfaces () {
@@ -757,7 +797,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNetworkProtocols (callback) {
-    return this.getGenericRequest('GetNetworkProtocols', callback)
+    return this.buildRequest('GetNetworkProtocols', null, callback)
   }
 
   setNetworkProtocols () {
@@ -771,7 +811,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getNetworkDefaultGateway (callback) {
-    return this.getGenericRequest('GetNetworkDefaultGateway', callback)
+    return this.buildRequest('GetNetworkDefaultGateway', null, callback)
   }
 
   setNetworkDefaultGateway () {
@@ -786,7 +826,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getZeroConfiguration (callback) {
-    return this.getGenericRequest('GetZeroConfiguration', callback)
+    return this.buildRequest('GetZeroConfiguration', null, callback)
   }
 
   setZeroConfiguration () {
@@ -800,7 +840,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getIPAddressFilter (callback) {
-    return this.getGenericRequest('GetIPAddressFilter', callback)
+    return this.buildRequest('GetIPAddressFilter', null, callback)
   }
 
   setIPAddressFilter () {
@@ -827,7 +867,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDot11Capabilities (callback) {
-    return this.getGenericRequest('GetDot11Capabilities', callback)
+    return this.buildRequest('GetDot11Capabilities', null, callback)
   }
 
   /**
@@ -844,15 +884,13 @@ class Core {
         return
       }
 
-      let soapBody = '&lt;tds:GetDot11Status>'
+      let soapBody = ''
       soapBody += '&lt;tt:InterfaceToken>' + interfaceToken + '&lt;/tt:InterfaceToken>'
-      soapBody += '&lt;/tds:GetDot11Status>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetDot11Status', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('GetDot11Status', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -890,15 +928,13 @@ class Core {
         return
       }
 
-      let soapBody = '&lt;tds:ScanAvailableDot11Networks>'
+      let soapBody = ''
       soapBody += '&lt;tt:ReferenceToken>' + interfaceToken + '&lt;/tt:ReferenceToken>'
-      soapBody += '&lt;/tds:ScanAvailableDot11Networks>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'ScanAvailableDot11Networks', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('ScanAvailableDot11Networks', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -921,7 +957,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDeviceInformation (callback) {
-    return this.getGenericRequest('GetDeviceInformation', callback)
+    return this.buildRequest('GetDeviceInformation', null, callback)
   }
 
   /**
@@ -940,7 +976,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemUris (callback) {
-    return this.getGenericRequest('GetSystemUris', callback)
+    return this.buildRequest('GetSystemUris', null, callback)
   }
 
   /**
@@ -958,7 +994,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemBackup (callback) {
-    return this.getGenericRequest('GetSystemBackup', callback)
+    return this.buildRequest('GetSystemBackup', null, callback)
   }
 
   restoreSystem () {
@@ -989,9 +1025,7 @@ class Core {
    */
   getSystemDateAndTime (callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = '&lt;tds:GetSystemDateAndTime/>'
-      let soapEnvelope = this.createRequest(soapBody)
-      return Soap.makeRequest(this.serviceAddress, 'GetSystemDateAndTime', soapEnvelope)
+      this.buildRequest('GetSystemDateAndTime')
         .then(results => {
           let parsed = this.parseGetSystemDateAndTime(results['data'])
           if (parsed &amp;&amp; parsed['date']) {
@@ -1112,15 +1146,13 @@ class Core {
         return
       }
 
-      let soapBody = '&lt;tds:GetSystemLog>'
+      let soapBody = ''
       soapBody += '&lt;tt:LogType>' + logType + '&lt;/tt:LogType>'
-      soapBody += '&lt;/tds:GetSystemLog>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetSystemLog', soapEnvelope)
-        .then((result) => {
-          resolve(result)
-        }).catch((error) => {
+      this.buildRequest('GetSystemLog', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
           reject(error)
         })
     })
@@ -1141,7 +1173,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemSupportInformation (callback) {
-    return this.getGenericRequest('GetSystemSupportInformation', callback)
+    return this.buildRequest('GetSystemSupportInformation', null, callback)
   }
 
   /**
@@ -1150,7 +1182,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   systemReboot (callback) {
-    return this.getGenericRequest('SystemReboot', callback)
+    return this.buildRequest('SystemReboot', null, callback)
   }
 
   /**
@@ -1169,7 +1201,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getScopes (callback) {
-    return this.getGenericRequest('GetScopes', callback)
+    return this.buildRequest('GetScopes', null, callback)
   }
 
   setScopes () {
@@ -1197,7 +1229,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getGeoLocation (callback) {
-    return this.getGenericRequest('GetGeoLocation', callback)
+    return this.buildRequest('GetGeoLocation', null, callback)
   }
 
   setGeoLocation () {
@@ -1217,7 +1249,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDiscoveryMode (callback) {
-    return this.getGenericRequest('GetDiscoveryMode', callback)
+    return this.buildRequest('GetDiscoveryMode', null, callback)
   }
 
   setDiscoveryMode () {
@@ -1231,7 +1263,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getRemoteDiscoveryMode (callback) {
-    return this.getGenericRequest('GetRemoteDiscoveryMode', callback)
+    return this.buildRequest('GetRemoteDiscoveryMode', null, callback)
   }
 
   setRemoteDiscoveryMode () {
@@ -1245,7 +1277,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDPAddresses (callback) {
-    return this.getGenericRequest('GetDPAddresses', callback)
+    return this.buildRequest('GetDPAddresses', null, callback)
   }
 
   setDPAddresses () {
@@ -1268,7 +1300,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAccessPolicy (callback) {
-    return this.getGenericRequest('GetAccessPolicy', callback)
+    return this.buildRequest('GetAccessPolicy', null, callback)
   }
 
   setAccessPolicy () {
@@ -1282,7 +1314,7 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getUsers (callback) {
-    return this.getGenericRequest('GetUsers', callback)
+    return this.buildRequest('GetUsers', null, callback)
   }
 
   createUsers () {
@@ -1465,13 +1497,13 @@ module.exports = new Core()
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 08:09:56 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

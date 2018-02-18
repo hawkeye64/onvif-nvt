@@ -30,12 +30,90 @@
 const Util = require('../utils/util')
 
 /**
- * @class Media
+ * @class
  * &lt;p>
  * {@link https://www.onvif.org/specs/srv/media/ONVIF-Media-Service-Spec-v1706.pdf}&lt;br>
  * {@link https://www.onvif.org/ver10/media/wsdl/media.wsdl}&lt;br>
  * &lt;/p>
  * &lt;h3>Functions&lt;/h3>
+ * {@link Media#createProfile},
+ * {@link Media#getProfiles},
+ * {@link Media#getProfile},
+ * {@link Media#addVideoSourceConfiguration},
+ * {@link Media#addVideoEncoderConfiguration},
+ * {@link Media#addAudioSourceConfiguration},
+ * {@link Media#addAudioEncoderConfiguration},
+ * {@link Media#addPTZConfiguration},
+ * {@link Media#addVideoAnalyticsConfiguration},
+ * {@link Media#addMetadataConfiguration},
+ * {@link Media#addAudioOutputConfiguration},
+ * {@link Media#addAudioDecoderConfiguration},
+ * {@link Media#removeVideoSourceConfiguration},
+ * {@link Media#removeVideoEncoderConfiguration},
+ * {@link Media#removeAudioSourceConfiguration},
+ * {@link Media#removeAudioEncoderConfiguration},
+ * {@link Media#removePTZConfiguration},
+ * {@link Media#removeVideoAnalyticsConfiguration},
+ * {@link Media#removeMetadataConfiguration},
+ * {@link Media#removeAudioOutputConfiguration},
+ * {@link Media#removeAudioDecoderConfiguration},
+ * {@link Media#deleteProfile},
+ * {@link Media#getVideoSources},
+ * {@link Media#getVideoSourceConfigurations},
+ * {@link Media#getVideoSourceConfiguration},
+ * {@link Media#getCompatibleVideoSourceConfigurations},
+ * {@link Media#getVideoSourceConfigurationOptions},
+ * setVideoSourceConfiguration,
+ * {@link Media#getVideoEncoderConfigurations},
+ * {@link Media#getVideoEncoderConfiguration},
+ * {@link Media#getCompatibleVideoEncoderConfigurations},
+ * {@link Media#getVideoEncoderConfigurationOptions},
+ * setVideoEncoderConfiguration,
+ * {@link Media#getGuaranteedNumberOfVideoEncoderInstances},
+ * {@link Media#getAudioSources},
+ * {@link Media#getAudioSourceConfigurations},
+ * {@link Media#getAudioSourceConfiguration},
+ * {@link Media#getCompatibleAudioSourceConfigurations},
+ * {@link Media#getAudioSourceConfigurationOptions},
+ * setAudioSourceConfiguration,
+ * {@link Media#getAudioEncoderConfigurations},
+ * {@link Media#getAudioEncoderConfiguration},
+ * {@link Media#getCompatibleAudioEncoderConfigurations},
+ * {@link Media#getAudioEncoderConfigurationOptions},
+ * setAudioEncoderConfiguration,
+ * {@link Media#getVideoAnalyticsConfigurations},
+ * {@link Media#getVideoAnalyticsConfiguration},
+ * {@link Media#getCompatibleVideoAnalyticsConfigurations},
+ * setVideoAnalyticsConfiguration,
+ * {@link Media#getMetadataConfigurations},
+ * {@link Media#getMetadataConfiguration},
+ * {@link Media#getCompatibleMetadataConfigurations},
+ * {@link Media#getMetadataConfigurationOptions},
+ * setMetadataConfiguration,
+ * {@link Media#getAudioOutputs},
+ * {@link Media#getAudioOutputConfigurations},
+ * {@link Media#getAudioOutputConfiguration},
+ * {@link Media#getCompatibleAudioOutputConfigurations},
+ * {@link Media#getAudioOutputConfigurationOptions},
+ * setAudioOutputConfiguration,
+ * {@link Media#getAudioDecoderConfigurations},
+ * {@link Media#getAudioDecoderConfiguration},
+ * {@link Media#getCompatibleAudioDecoderConfigurations},
+ * {@link Media#getAudioDecoderConfigurationOptions},
+ * setAudioDecoderConfiguration,
+ * {@link Media#getStreamUri},
+ * {@link Media#getSnapshotUri},
+ * {@link Media#startMulticastStreaming},
+ * {@link Media#stopMulticastStreaming},
+ * {@link Media#setSynchronizationPoint},
+ * {@link Media#getVideoSourceModes},
+ * setVideoSourceMode,
+ * createOSD,
+ * {@link Media#deleteOSD},
+ * {@link Media#getOSDs},
+ * {@link Media#getOSD},
+ * setOSD,
+ * {@link Media#getOSDOptions}
  * &lt;br>&lt;br>
  * &lt;h3>Overview&lt;/h3>
  */
@@ -84,11 +162,122 @@ class Media {
     return soapEnvelope
   };
 
-  getGenericRequest (methodName, callback) {
+  buildRequest (methodName, xml, callback) {
     let promise = new Promise((resolve, reject) => {
-      let soapBody = `&lt;trt:${methodName}/>`
+      let soapBody = ''
+      if (typeof xml === 'undefined' || xml === null || xml === '') {
+        soapBody += `&lt;trt:${methodName}/>`
+      }
+      else {
+        soapBody += `&lt;trt:${methodName}>`
+        soapBody += xml
+        soapBody += `&lt;/trt:${methodName}>`
+      }
       let soapEnvelope = this.createRequest(soapBody)
       return Soap.makeRequest(this.serviceAddress, methodName, soapEnvelope)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  requestWithProfileToken (methodName, profileToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+        reject(new Error(`The "profileToken" argument for ${methodName} is invalid: ` + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;trt:ProfileToken>' + profileToken + '&lt;/trt:ProfileToken>'
+
+      this.buildRequest(methodName, soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  requestWithConfigurationToken (methodName, configurationToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
+        reject(new Error(`The "configurationToken" argument for ${methodName} is invalid: ` + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;trt:ConfigurationToken>' + configurationToken + '&lt;/trt:ConfigurationToken>'
+
+      this.buildRequest(methodName, soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
+    })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
+  }
+
+  requestWithOptionalTokens (methodName, profileToken, configurationToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if (typeof profileToken !== 'undefined' &amp;&amp; profileToken !== null) {
+        if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
+          reject(new Error(`The "profileToken" argument for ${methodName} is invalid: ` + errMsg))
+          return
+        }
+      }
+      if (typeof configurationToken !== 'undefined' &amp;&amp; configurationToken !== null) {
+        if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
+          reject(new Error(`The "ConfigurationToken" argument for ${methodName} is invalid: ` + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      if (typeof profileToken !== 'undefined' &amp;&amp; profileToken !== null) {
+        soapBody += '&lt;trt:ProfileToken>' + profileToken + '&lt;/trt:ProfileToken>'
+      }
+      if (typeof configurationToken !== 'undefined' &amp;&amp; configurationToken !== null) {
+        soapBody += '&lt;trt:ConfigurationToken>' + configurationToken + '&lt;/trt:ConfigurationToken>'
+      }
+
+      this.buildRequest(methodName, soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -121,13 +310,10 @@ class Media {
       }
 
       let soapBody = ''
-      soapBody += `&lt;trt:${methodName}>`
       soapBody += '&lt;trt:ProfileToken>' + profileToken + '&lt;/trt:ProfileToken>'
       soapBody += '&lt;trt:ConfigurationToken>' + configurationToken + '&lt;/trt:ConfigurationToken>'
-      soapBody += `&lt;/trt:${methodName}>`
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, methodName, soapEnvelope)
+      this.buildRequest(methodName, soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -150,10 +336,50 @@ class Media {
   // Media API
   // ---------------------------------------------
 
-  createProfile () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
+  /**
+   * This operation creates a new empty media profile. The media profile shall be created in the device and shall be persistent (remain after reboot). A created profile shall be deletable and a device shall set the “fixed” attribute to false in the returned Profile.
+   * @param {string} name friendly name of the profile to be created.
+   * @param {string=} token Optional token, specifying the unique identifier of the new profile.&lt;br>
+   * A device supports at least a token length of 12 characters and characters "A-Z" | "a-z" | "0-9" | "-.".
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  createProfile (name, token, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(name, 'string'))) {
+        reject(new Error('The "name" argument for createProfile is invalid: ' + errMsg))
+        return
+      }
+      if (typeof token !== 'undefined' &amp;&amp; token !== null) {
+        if ((errMsg = Util.isInvalidValue(token, 'string'))) {
+          reject(new Error('The "token" argument for createProfile is invalid: ' + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;trt:Name>' + name + '&lt;/trt:Name>'
+      if (typeof token !== 'undefined' &amp;&amp; token !== null) {
+        soapBody += '&lt;trt:Token>' + token + '&lt;/trt:Token>'
+      }
+
+      this.buildRequest('CreateProfile', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
     })
+    if (callback) {
+      promise.then((result) => {
+        callback(null, result)
+      }).catch((error) => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
   }
 
   /**
@@ -166,7 +392,7 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getProfiles (callback) {
-    return this.getGenericRequest('GetProfiles', callback)
+    return this.buildRequest('GetProfiles', null, callback)
   }
 
   /**
@@ -178,35 +404,7 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getProfile (profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
-      let errMsg = ''
-      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
-        reject(new Error('The "profileToken" argument for getProfile is invalid: ' + errMsg))
-        return
-      }
-
-      let soapBody = '&lt;trt:GetProfile>'
-      soapBody += '&lt;trt:ProfileToken>' + profileToken + '&lt;/trt:ProfileToken>'
-      soapBody += '&lt;/trt:GetProfile>'
-      let soapEnvelope = this.createRequest(soapBody)
-
-      return Soap.makeRequest(this.serviceAddress, 'GetProfile', soapEnvelope)
-        .then(results => {
-          resolve(results)
-        }).catch(error => {
-          reject(error)
-        })
-    })
-    if (callback) {
-      promise.then(results => {
-        callback(null, results)
-      }).catch(error => {
-        callback(error)
-      })
-    }
-    else {
-      return promise
-    }
+    return this.requestWithProfileToken('GetProfile', profileToken, callback)
   }
 
   /**
@@ -302,64 +500,94 @@ class Media {
     return this.addConfiguration('AddAudioDecoderConfiguration', profileToken, configurationToken, callback)
   }
 
-  removeVideoSourceConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes a VideoSourceConfiguration from an existing media profile. If the media profile does not contain a VideoSourceConfiguration, the operation has no effect. The removal shall be persistent. Video source configurations should only be removed after removing a VideoEncoderConfiguration from the media profile.
+   * @param {string} profileToken Contains a reference to the media profile from which the VideoSourceConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeVideoSourceConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveVideoSourceConfiguration', profileToken, callback)
   }
 
-  removeVideoEncoderConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes a VideoSourceConfiguration from an existing media profile. If the media profile does not contain a VideoSourceConfiguration, the operation has no effect. The removal shall be persistent. Video source configurations should only be removed after removing a VideoEncoderConfiguration from the media profile.
+   * @param {string} profileToken Contains a reference to the media profile from which the VideoEncoderConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeVideoEncoderConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveVideoEncoderConfiguration', profileToken, callback)
   }
 
-  removeAudioSourceConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes an AudioSourceConfiguration from an existing media profile. If the media profile does not contain an AudioSourceConfiguration, the operation has no effect. The removal shall be persistent. Audio source configurations should only be removed after removing an AudioEncoderConfiguration from the media profile.
+   * @param {string} profileToken Contains a reference to the media profile from which the AudioSourceConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeAudioSourceConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveAudioSourceConfiguration', profileToken, callback)
   }
 
-  removeAudioEncoderConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes an AudioSourceConfiguration from an existing media profile. If the media profile does not contain an AudioSourceConfiguration, the operation has no effect. The removal shall be persistent. Audio source configurations should only be removed after removing an AudioEncoderConfiguration from the media profile.
+   * @param {string} profileToken Contains a reference to the media profile from which the AudioSourceConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeAudioEncoderConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveAudioEncoderConfiguration', profileToken, callback)
   }
 
-  removePTZConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes a PTZConfiguration from an existing media profile. If the media profile does not contain a PTZConfiguration, the operation has no effect. The removal shall be persistent.
+   * @param {string} profileToken Contains a reference to the media profile from which the PTZConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removePTZConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemovePTZConfiguration', profileToken, callback)
   }
 
-  removeVideoAnalyticsConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes a VideoAnalyticsConfiguration from an existing media profile. If the media profile does not contain a VideoAnalyticsConfiguration, the operation has no effect. The removal shall be persistent.
+   * @param {string} profileToken Contains a reference to the media profile from which the VideoAnalyticsConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeVideoAnalyticsConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveVideoAnalyticsConfiguration', profileToken, callback)
   }
 
-  removeMetadataConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent.
+   * @param {string} profileToken Contains a reference to the media profile from which the MetadataConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeMetadataConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveMetadataConfiguration', profileToken, callback)
   }
 
-  removeAudioOutputConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes an AudioOutputConfiguration from an existing media profile. If the media profile does not contain an AudioOutputConfiguration, the operation has no effect. The removal shall be persistent.
+   * @param {string} profileToken Contains a reference to the media profile from which the AudioOutputConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeAudioOutputConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveAudioOutputConfiguration', profileToken, callback)
   }
 
-  removeAudioDecoderConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation removes an AudioDecoderConfiguration from an existing media profile. If the media profile does not contain an AudioDecoderConfiguration, the operation has no effect. The removal shall be persistent.
+   * @param {string} profileToken Contains a reference to the media profile from which the AudioDecoderConfiguration shall be removed.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  removeAudioDecoderConfiguration (profileToken, callback) {
+    return this.requestWithProfileToken('RemoveAudioDecoderConfiguration', profileToken, callback)
   }
 
-  deleteProfile () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation deletes a profile. This change shall always be persistent. Deletion of a profile is only possible for non-fixed profiles
+   * @param {string} profileToken Contains a reference to the profile that should be deleted.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  deleteProfile (profileToken, callback) {
+    return this.requestWithProfileToken('DeleteProfile', profileToken, callback)
   }
 
   /**
@@ -367,7 +595,7 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getVideoSources (callback) {
-    return this.getGenericRequest('GetVideoSources', callback)
+    return this.buildRequest('GetVideoSources', null, callback)
   }
 
   /**
@@ -375,25 +603,35 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getVideoSourceConfigurations (callback) {
-    return this.getGenericRequest('GetVideoSourceConfigurations', callback)
+    return this.buildRequest('GetVideoSourceConfigurations', null, callback)
   }
 
-  getVideoSourceConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * If the video source configuration token is already known, the video source configuration can be fetched through the GetVideoSourceConfiguration command.
+   * @param {string} configurationToken Token of the requested video source configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getVideoSourceConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetVideoSourceConfiguration', configurationToken, callback)
   }
 
-  getCompatibleVideoSourceConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation requests all the video source configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddVideoSourceConfiguration command on the media profile. The result will vary depending on the capabilities, configurations and settings in the device.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleVideoSourceConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleVideoSourceConfigurations', profileToken, callback)
   }
 
-  getVideoSourceConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the available options (supported values and ranges for video source configuration parameters) when the video source parameters are reconfigured If a video source configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional video source configurationToken that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getVideoSourceConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetVideoSourceConfigurationOptions', profileToken, configurationToken, callback)
   }
 
   setVideoSourceConfiguration () {
@@ -407,25 +645,37 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getVideoEncoderConfigurations (callback) {
-    return this.getGenericRequest('GetVideoEncoderConfigurations', callback)
+    return this.buildRequest('GetVideoEncoderConfigurations', null, callback)
   }
 
-  getVideoEncoderConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.
+   * @param {string} configurationToken Token of the requested video encoder configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getVideoEncoderConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetVideoEncoderConfiguration', configurationToken, callback)
   }
 
-  getCompatibleVideoEncoderConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation lists all the video encoder configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddVideoEncoderConfiguration command on the media profile. The result will vary depending on the capabilities, configurations and settings in the device.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleVideoEncoderConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleVideoEncoderConfigurations', profileToken, callback)
   }
 
-  getVideoEncoderConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.&lt;br>
+   * For JPEG, MPEG4 and H264 extension elements have been defined that provide additional information. A device must provide the XxxOption information for all encodings supported and should additionally provide the corresponding XxxOption2 information.&lt;br>
+   * This response contains the available video encoder configuration options. If a video encoder configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile. If no tokens are specified, the options shall be considered generic for the device.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional video encoder configuration token that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getVideoEncoderConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetCompatibleVideoEncoderConfigurations', profileToken, configurationToken, callback)
   }
 
   setVideoEncoderConfiguration () {
@@ -434,10 +684,13 @@ class Media {
     })
   }
 
-  getGuaranteedNumberOfVideoEncoderInstances () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * The GetGuaranteedNumberOfVideoEncoderInstances command can be used to request the minimum number of guaranteed video encoder instances (applications) per Video Source Configuration.
+   * @param {string} configurationToken Token of the video source configuration
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getGuaranteedNumberOfVideoEncoderInstances (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetGuaranteedNumberOfVideoEncoderInstances', configurationToken, callback)
   }
 
   /**
@@ -445,7 +698,7 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAudioSources (callback) {
-    return this.getGenericRequest('GetAudioSources', callback)
+    return this.buildRequest('GetAudioSources', null, callback)
   }
 
   /**
@@ -453,25 +706,35 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAudioSourceConfigurations (callback) {
-    return this.getGenericRequest('GetAudioSourceConfigurations', callback)
+    return this.buildRequest('GetAudioSourceConfigurations', null, callback)
   }
 
-  getAudioSourceConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * The GetAudioSourceConfiguration command fetches the audio source configurations if the audio source configuration token is already known.
+   * @param {string} configurationToken Token of the requested audio source configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioSourceConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetAudioSourceConfiguration', configurationToken, callback)
   }
 
-  getCompatibleAudioSourceConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation requests all audio source configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddAudioEncoderConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleAudioSourceConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleAudioSourceConfigurations', profileToken, callback)
   }
 
-  getAudioSourceConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the available options (supported values and ranges for audio source configuration parameters) when the audio source parameters are reconfigured. If an audio source configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional audio source configuration token that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioSourceConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetAudioSourceConfigurationOptions', profileToken, configurationToken, callback)
   }
 
   setAudioSourceConfiguration () {
@@ -485,25 +748,35 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAudioEncoderConfigurations (callback) {
-    return this.getGenericRequest('GetAudioEncoderConfigurations', callback)
+    return this.buildRequest('GetAudioEncoderConfigurations', null, callback)
   }
 
-  getAudioEncoderConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * The GetAudioEncoderConfiguration command fetches the encoder configuration if the audio encoder configuration token is known.
+   * @param {string} configurationToken Token of the requested audio encoder configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioEncoderConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetAudioEncoderConfiguration', configurationToken, callback)
   }
 
-  getCompatibleAudioEncoderConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation requests all audio encoder configurations of a device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddAudioSourceConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleAudioEncoderConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleAudioEncoderConfigurations', profileToken, callback)
   }
 
-  getAudioEncoderConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the available options (supported values and ranges for audio encoder configuration parameters) when the audio encoder parameters are reconfigured.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional audio encoder configuration token that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioEncoderConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetAudioEncoderConfigurationOptions', profileToken, configurationToken, callback)
   }
 
   setAudioEncoderConfiguration () {
@@ -517,19 +790,25 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getVideoAnalyticsConfigurations (callback) {
-    return this.getGenericRequest('GetVideoAnalyticsConfigurations', callback)
+    return this.buildRequest('GetVideoAnalyticsConfigurations', null, callback)
   }
 
-  getVideoAnalyticsConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * The GetVideoAnalyticsConfiguration command fetches the video analytics configuration if the video analytics token is known.
+   * @param {*} configurationToken Token of the requested video analytics configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getVideoAnalyticsConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetVideoAnalyticsConfiguration', configurationToken, callback)
   }
 
-  getCompatibleVideoAnalyticsConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation requests all video analytic configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddVideoAnalyticsConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleVideoAnalyticsConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleVideoAnalyticsConfigurations', profileToken, callback)
   }
 
   setVideoAnalyticsConfiguration () {
@@ -543,25 +822,35 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getMetadataConfigurations (callback) {
-    return this.getGenericRequest('GetMetadataConfigurations', callback)
+    return this.buildRequest('GetMetadataConfigurations', null, callback)
   }
 
-  getMetadataConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known.
+   * @param {string} configurationToken Token of the requested metadata configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getMetadataConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetMetadataConfiguration', configurationToken, callback)
   }
 
-  getCompatibleMetadataConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleMetadataConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleMetadataConfigurations', profileToken, callback)
   }
 
-  getMetadataConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional metadata configuration token that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getMetadataConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetMetadataConfigurationOptions', profileToken, configurationToken, callback)
   }
 
   setMetadataConfiguration () {
@@ -575,7 +864,7 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAudioOutputs (callback) {
-    return this.getGenericRequest('GetAudioOutputs', callback)
+    return this.buildRequest('GetAudioOutputs', null, callback)
   }
 
   /**
@@ -583,25 +872,35 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAudioOutputConfigurations (callback) {
-    return this.getGenericRequest('GetAudioOutputConfigurations', callback)
+    return this.buildRequest('GetAudioOutputConfigurations', null, callback)
   }
 
-  getAudioOutputConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * If the audio output configuration token is already known, the output configuration can be fetched through the GetAudioOutputConfiguration command.
+   * @param {string} configurationToken Token of the requested audio output configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioOutputConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetAudioOutputConfiguration', configurationToken, callback)
   }
 
-  getCompatibleAudioOutputConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This command lists all audio output configurations of a device that are compatible with a certain media profile. Each returned configuration shall be a valid input for the AddAudioOutputConfiguration command.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleAudioOutputConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleAudioOutputConfigurations', profileToken, callback)
   }
 
-  getAudioOutputConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation returns the available options (supported values and ranges for audio output configuration parameters) for configuring an audio output.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional audio output configuration token that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioOutputConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetAudioOutputConfigurationOptions', profileToken, configurationToken, callback)
   }
 
   setAudioOutputConfiguration () {
@@ -615,25 +914,35 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getAudioDecoderConfigurations (callback) {
-    return this.getGenericRequest('GetAudioDecoderConfigurations', callback)
+    return this.buildRequest('GetAudioDecoderConfigurations', null, callback)
   }
 
-  getAudioDecoderConfiguration () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * If the audio decoder configuration token is already known, the decoder configuration can be fetched through the GetAudioDecoderConfiguration command.
+   * @param {string} configurationToken Token of the requested audio decoder configuration.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioDecoderConfiguration (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetAudioDecoderConfiguration', configurationToken, callback)
   }
 
-  getCompatibleAudioDecoderConfigurations () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This operation lists all the audio decoder configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddAudioDecoderConfiguration command on the media profile.
+   * @param {string} profileToken Contains the token of an existing media profile the configurations shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getCompatibleAudioDecoderConfigurations (profileToken, callback) {
+    return this.requestWithProfileToken('GetCompatibleAudioDecoderConfigurations', profileToken, callback)
   }
 
-  getAudioDecoderConfigurationOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * This command list the audio decoding capabilities for a given profile and configuration of a device.
+   * @param {string=} profileToken Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+   * @param {string=} configurationToken Optional audio decoder configuration token that specifies an existing configuration that the options are intended for.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getAudioDecoderConfigurationOptions (profileToken, configurationToken, callback) {
+    return this.requestWithOptionalTokens('GetAudioDecoderConfigurationOptions', profileToken, configurationToken, callback)
   }
 
   setAudioDecoderConfiguration () {
@@ -684,7 +993,6 @@ class Media {
       }
 
       let soapBody = ''
-      soapBody += '&lt;trt:GetStreamUri>'
       soapBody += '&lt;trt:StreamSetup>'
       soapBody += '&lt;tt:Stream>' + streamType + '&lt;/tt:Stream>'
       soapBody += '&lt;tt:Transport>'
@@ -692,10 +1000,8 @@ class Media {
       soapBody += '&lt;/tt:Transport>'
       soapBody += '&lt;/trt:StreamSetup>'
       soapBody += '&lt;trt:ProfileToken>' + profileToken + '&lt;/trt:ProfileToken>'
-      soapBody += '&lt;/trt:GetStreamUri>'
-      let soapEnvelope = this.createRequest(soapBody)
 
-      return Soap.makeRequest(this.serviceAddress, 'GetStreamUri', soapEnvelope)
+      this.buildRequest('GetStreamUri', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -720,20 +1026,53 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSnapshotUri (profileToken, callback) {
+    return this.requestWithProfileToken('GetSnapshotUri', profileToken, callback)
+  }
+
+  /**
+   * This command starts multicast streaming using a specified media profile of a device. Streaming continues until StopMulticastStreaming is called for the same Profile. The streaming shall continue after a reboot of the device until a StopMulticastStreaming request is received. The multicast address, port and TTL are configured in the VideoEncoderConfiguration, AudioEncoderConfiguration and MetadataConfiguration respectively.
+   * @param {string} profileToken Contains the token of the Profile that is used to define the multicast stream.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  startMulticastStreaming (profileToken, callback) {
+    return this.requestWithProfileToken('StartMulticastStreaming', profileToken, callback)
+  }
+
+  /**
+   * This command stop multicast streaming using a specified media profile of a device.
+   * @param {string} profileToken Contains the token of the Profile that is used to define the multicast stream.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  stopMulticastStreaming (profileToken, callback) {
+    return this.requestWithProfileToken('StopMulticastStreaming', profileToken, callback)
+  }
+
+  /**
+   * Synchronization points allow clients to decode and correctly use all data after the synchronization point. For example, if a video stream is configured with a large I-frame distance and a client loses a single packet, the client does not display video until the next I-frame is transmitted. In such cases, the client can request a Synchronization Point which enforces the device to add an I-Frame as soon as possible. Clients can request Synchronization Points for profiles. The device shall add synchronization points for all streams associated with this profile. Similarly, a synchronization point is used to get an update on full PTZ or event status through the metadata stream. If a video stream is associated with the profile, an I-frame shall be added to this video stream. If a PTZ metadata stream is associated to the profile, the PTZ position shall be repeated within the metadata stream.
+   * @param {string} profileToken Contains a Profile reference for which a Synchronization Point is requested.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  setSynchronizationPoint (profileToken, callback) {
+    return this.requestWithProfileToken('SetSynchronizationPoint', profileToken, callback)
+  }
+
+  /**
+   * A device returns the information for current video source mode and settable video source modes of specified video source. A device that indicates a capability of VideoSourceModes shall support this command.
+   * @param {string} videoSourceToken Contains a video source reference for which a video source mode is requested.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getVideoSourceModes (videoSourceToken, callback) {
     let promise = new Promise((resolve, reject) => {
       let errMsg = ''
-      if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
-        reject(new Error('The "profileToken" argument for getStreamUri is invalid: ' + errMsg))
+      if ((errMsg = Util.isInvalidValue(videoSourceToken, 'string'))) {
+        reject(new Error(`The "videoSourceToken" argument for getVideoSourceModes is invalid: ` + errMsg))
         return
       }
 
       let soapBody = ''
-      soapBody += '&lt;trt:GetSnapshotUri>'
-      soapBody += '&lt;trt:ProfileToken>' + profileToken + '&lt;/trt:ProfileToken>'
-      soapBody += '&lt;/trt:GetSnapshotUri>'
-      let soapEnvelope = this.createRequest(soapBody)
+      soapBody += '&lt;trt:VideoSourceToken>' + videoSourceToken + '&lt;/trt:VideoSourceToken>'
 
-      return Soap.makeRequest(this.serviceAddress, 'GetSnapshotUri', soapEnvelope)
+      this.buildRequest('GetVideoSourceModes', soapBody)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -752,30 +1091,6 @@ class Media {
     }
   }
 
-  startMulticastStreaming () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
-  }
-
-  stopMulticastStreaming () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
-  }
-
-  setSynchronizationPoint () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
-  }
-
-  getVideoSourceModes () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
-  }
-
   setVideoSourceMode () {
     return new Promise((resolve, reject) => {
       reject(new Error('Not implemented'))
@@ -788,22 +1103,113 @@ class Media {
     })
   }
 
-  deleteOSD () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
+  /**
+   * Delete the OSD.
+   * @param {string} OSDToken This element contains a reference to the OSD configuration that should be deleted.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  deleteOSD (OSDToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(OSDToken, 'string'))) {
+        reject(new Error(`The "OSDToken" argument for deleteOSD is invalid: ` + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;trt:OSDToken>' + OSDToken + '&lt;/trt:OSDToken>'
+
+      this.buildRequest('DeleteOSD', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
     })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
   }
 
-  getOSDs () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
+  /**
+   * Get the OSDs.
+   * @param {string=} configurationToken Optional token of the Video Source Configuration, which has OSDs associated with are requested. If token not exist, request all available OSDs.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getOSDs (configurationToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if (typeof configurationToken !== 'undefined' &amp;&amp; configurationToken !== null) {
+        if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
+          reject(new Error(`The "configurationToken" argument for getOSDs is invalid: ` + errMsg))
+          return
+        }
+      }
+
+      let soapBody = ''
+      if (typeof configurationToken !== 'undefined' &amp;&amp; configurationToken !== null) {
+        soapBody += '&lt;trt:ConfigurationToken>' + configurationToken + '&lt;/trt:ConfigurationToken>'
+      }
+
+      this.buildRequest('GetOSDs', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
     })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
   }
 
-  getOSD () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
+  /**
+   * Get the OSD.
+   * @param {string} OSDToken The GetOSD command fetches the OSD configuration if the OSD token is known.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getOSD (OSDToken, callback) {
+    let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(OSDToken, 'string'))) {
+        reject(new Error(`The "OSDToken" argument for getOSD is invalid: ` + errMsg))
+        return
+      }
+
+      let soapBody = ''
+      soapBody += '&lt;trt:OSDToken>' + OSDToken + '&lt;/trt:OSDToken>'
+
+      this.buildRequest('GetOSD', soapBody)
+        .then(results => {
+          resolve(results)
+        }).catch(error => {
+          reject(error)
+        })
     })
+    if (callback) {
+      promise.then(results => {
+        callback(null, results)
+      }).catch(error => {
+        callback(error)
+      })
+    }
+    else {
+      return promise
+    }
   }
 
   setOSD () {
@@ -812,10 +1218,13 @@ class Media {
     })
   }
 
-  getOSDOptions () {
-    return new Promise((resolve, reject) => {
-      reject(new Error('Not implemented'))
-    })
+  /**
+   * Get the OSD Options.
+   * @param {string} configurationToken Video Source Configuration Token that specifies an existing video source configuration that the options shall be compatible with.
+   * @param {callback=} callback Optional callback, instead of a Promise.
+   */
+  getOSDOptions (configurationToken, callback) {
+    return this.requestWithConfigurationToken('GetOSDOptions', configurationToken, callback)
   }
 }
 
@@ -830,13 +1239,13 @@ module.exports = new Media()
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 15 2018 11:22:04 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 08:09:56 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

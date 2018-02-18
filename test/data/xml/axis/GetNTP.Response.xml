@@ -50,10 +50,6 @@
     <tds:GetNTPResponse>
       <tds:NTPInformation>
         <tt:FromDHCP>true</tt:FromDHCP>
-        <tt:NTPManual>
-          <tt:Type>DNS</tt:Type>
-          <tt:DNSname>time1.google.com</tt:DNSname>
-        </tt:NTPManual>
       </tds:NTPInformation>
     </tds:GetNTPResponse>
   </SOAP-ENV:Body>
