@@ -128,7 +128,7 @@ Run the `run.js` file via node (personally, I use VS Code - an amazing editor/de
 
 The tests will only run onvif modules supported by the camera capabilities, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.
 
-Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like `GetSystemDateAndTime`. In some cases, you might get a response back of `Action not supported`. If this happens, then the tests will fail. This is nothing to be alarmed about. You may also get other errors. The most common I see is if your camera does not support audo configurations. Also, you may get a `Not Implemented` error, meaning the implementation of that method has not yet been added.
+Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like `GetSystemDateAndTime`. In some cases, you might get a response back of `Action not supported`. If this happens, then the tests will fail. This is nothing to be alarmed about. You may also get other errors. The most common I see is if your camera does not support audio configurations. Also, you may get a `Not Implemented` error, meaning the implementation of that method has not yet been added.
 
 ### Automated Testing
 **Jest** is being used to do the automated testing and code coverage. All tests are in the `tests` folder, as well as XML Requests and Responses from various ONVIF devices.
