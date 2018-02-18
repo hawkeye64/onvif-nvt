@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: onvif-nvt.js</title>
+    <title>JSDoc: Source: utils/snapshot.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: onvif-nvt.js</h1>
+    <h1 class="page-title">Source: utils/snapshot.js</h1>
 
     
 
@@ -26,61 +26,78 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
+            <pre class="prettyprint source linenums"><code>const Request = require('request')
+
 /**
- * If the OnvifManager class is used to connect to a camera, it will
- * manage your devices (cameras). It stores cameras by address. You
- * can use address to retrieve the camera.
+ * @class
+ * Provide Snapshot functionaity for cameras.
+ * &lt;h3>Functions&lt;/h3>
+ * {@link Snapshot#getSnapshot},
+ * &lt;br>&lt;br>
+ * &lt;h3>Overview&lt;/h3>
+ * Use the Snapshot::getSnapshot() method to retrieve a snapshot from the ONVIF-compliant camera.
  */
-class OnvifManager {
+class Snapshot {
   constructor () {
-    this.discovery = null
-    this.cameras = {}
+    this.snapshotUri = ''
+    this.username = ''
+    this.password = ''
+  }
+
+  init (snapshotUri, username, password) {
+    this.snapshotUri = snapshotUri
+    this.username = username
+    this.password = password
   }
 
   /**
-   * Add a module to OnvifManager. Currently, the only available module is 'discovery'.
-   * @param {string} name The name of the module.
-   */
-  add (name) {
-    switch (name) {
-      case 'discovery':
-        this.discovery = require('./modules/discovery')
-        break
-      default:
-        throw new Error(`Cannot add '${name}' to OnvifManager`)
-    }
-  }
-
-  /**
-   * Connects to an ONVIF device.
-   * @param {string} address The address of the ONVIF device (ie: 10.10.1.20)
-   * @param {integer=} port The port of the ONVIF device. Defaults to 80.
-   * @param {string=} username The user name used to make a connection.
-   * @param {string=} password The password used to make a connection.
+   * Retrieves a snapshot from the specified camera
    * @param {callback=} callback Optional callback, instead of a Promise.
-   * @returns A Promise. On success, resolve contains a Camera object.
+   * @example
+   * const OnvifManager = require('onvif-nvt')
+   * OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
+   *   .then(results => {
+   *     let camera = results
+   *     // calling add method will automatically initialize snapshot
+   *     // with the defaultProfile's snapshotUri
+   *     camera.add('snapshot')
+   *     camera.snapshot.getSnapshot()
+   *       .then(results => {
+   *         let mimeType = results.mimeType
+   *         let rawImage = results.image
+   *         let prefix = 'data:' + mimeType + ';base64,'
+   *         let base64Image = Buffer.from(rawImage, 'binary').toString('base64')
+   *         let image = prefix + base64Image
+   *         // 'image' is now ready to be displayed on a web page
+   *         // ...
+   *       })
+   *     }
+   *   })
    */
-  connect (address, port, username, password, callback) {
+  getSnapshot (callback) {
     let promise = new Promise((resolve, reject) => {
-      if (typeof address !== 'string' || address.length &lt;= 0) {
-        reject(new Error('address is required to connect to a Device'))
-        return
-      }
-      port = port || 80
-
-      let camera = require('./camera')
-      this.cameras[address] = camera
-
-      return camera.connect(address, port, username, password)
-        .then(results => {
-          // console.log(results)
-          resolve(camera)
-        })
-        .catch(error => {
-          console.error(error)
+      Request({
+        method: 'GET',
+        uri: this.snapshotUri,
+        gzip: true,
+        encoding: 'binary',
+        'auth': {
+          'user': this.username,
+          'pass': this.password,
+          'sendImmediately': false
+        }
+      },
+      (error, response, body) => {
+        if (error) {
           reject(error)
-        })
+        }
+        const mimeType = response.headers['content-type']
+        const data = {
+          mimeType: mimeType,
+          image: Buffer.from(body, 'binary')
+        }
+        resolve(data)
+      })
     })
     if (callback) {
       promise.then(results => {
@@ -95,7 +112,7 @@ class OnvifManager {
   }
 }
 
-module.exports = new OnvifManager()
+module.exports = new Snapshot()
 </code></pre>
         </article>
     </section>

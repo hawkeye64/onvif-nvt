@@ -30,8 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>Ptz<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Ptz
-<p>
+            <div class="class-description"><p>
 <a href="https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1712.pdf">https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1712.pdf</a><br>
 <a href="https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl">https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl</a><br>
 </p>
@@ -1091,7 +1090,7 @@ continuous move operation is controlling PTZ via joystick.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line660">line 660</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line675">line 675</a>
     </li></ul></dd>
     
 
@@ -1116,6 +1115,24 @@ continuous move operation is controlling PTZ via joystick.
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const OnvifManager = require('onvif-nvt')
+OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
+  .then(results => {
+    let camera = results
+    if (camera.ptz) { // PTZ is supported on this device
+      let velocity = { x: 1, y: 0 }
+      camera.ptz.continuousMove(null, velocity)
+        .then(() => {
+          setTimeout(() => {
+            camera.ptz.stop()
+          }, 5000) // stop the camera after 5 seconds
+        })
+    }
+  })</code></pre>
 
 
 
@@ -1773,7 +1790,7 @@ requested action due to physical limitations.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line742">line 742</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line757">line 757</a>
     </li></ul></dd>
     
 
@@ -3043,7 +3060,7 @@ supports absolute zoom position spaces, the zoom position shall be specified.</l
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1040">line 1040</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1055">line 1055</a>
     </li></ul></dd>
     
 
@@ -3237,7 +3254,7 @@ MoveStatus signals Unknown.</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line920">line 920</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line935">line 935</a>
     </li></ul></dd>
     
 
@@ -3580,7 +3597,7 @@ and can be interrupted by other move commands.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1189">line 1189</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1204">line 1204</a>
     </li></ul></dd>
     
 
@@ -3954,7 +3971,7 @@ is a non-blocking operation and can be interrupted by other move commands.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1085">line 1085</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1100">line 1100</a>
     </li></ul></dd>
     
 
@@ -5185,7 +5202,7 @@ Node shall move to a reachable position along the border of valid positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1139">line 1139</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1154">line 1154</a>
     </li></ul></dd>
     
 
@@ -5401,7 +5418,7 @@ SendAuxiliaryCommand shall be implemented when the PTZ node supports auxiliary c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1283">line 1283</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1298">line 1298</a>
     </li></ul></dd>
     
 
@@ -5829,7 +5846,7 @@ home position with the GotoHomePosition command.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1240">line 1240</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line1255">line 1255</a>
     </li></ul></dd>
     
 
@@ -6087,7 +6104,7 @@ PresetName by responding with the error message ter:PresetExist.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line971">line 971</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line986">line 986</a>
     </li></ul></dd>
     
 
@@ -6473,7 +6490,7 @@ filtered to stop a specific movement by setting the corresponding stop argument.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line849">line 849</a>
+        <a href="modules_ptz.js.html">modules/ptz.js</a>, <a href="modules_ptz.js.html#line864">line 864</a>
     </li></ul></dd>
     
 
@@ -6517,13 +6534,13 @@ filtered to stop a specific movement by setting the corresponding stop argument.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 07:20:21 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 18 2018 07:56:52 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
