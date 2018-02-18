@@ -47,18 +47,8 @@
   xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
   <SOAP-ENV:Header></SOAP-ENV:Header>
   <SOAP-ENV:Body>
-    <tptz:GetStatusResponse>
-      <tptz:PTZStatus>
-        <tt:Position>
-          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.931346178" x="-0.166931689"></tt:PanTilt>
-          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
-        </tt:Position>
-        <tt:MoveStatus>
-          <tt:PanTilt>IDLE</tt:PanTilt>
-          <tt:Zoom>IDLE</tt:Zoom>
-        </tt:MoveStatus>
-        <tt:UtcTime>2018-02-18T15:53:48Z</tt:UtcTime>
-      </tptz:PTZStatus>
-    </tptz:GetStatusResponse>
+    <tds:GetClientCertificateModeResponse>
+      <tds:Enabled>false</tds:Enabled>
+    </tds:GetClientCertificateModeResponse>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

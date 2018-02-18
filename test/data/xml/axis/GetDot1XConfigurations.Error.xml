@@ -47,18 +47,19 @@
   xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
   <SOAP-ENV:Header></SOAP-ENV:Header>
   <SOAP-ENV:Body>
-    <tptz:GetStatusResponse>
-      <tptz:PTZStatus>
-        <tt:Position>
-          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.931346178" x="-0.166931689"></tt:PanTilt>
-          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
-        </tt:Position>
-        <tt:MoveStatus>
-          <tt:PanTilt>IDLE</tt:PanTilt>
-          <tt:Zoom>IDLE</tt:Zoom>
-        </tt:MoveStatus>
-        <tt:UtcTime>2018-02-18T15:53:48Z</tt:UtcTime>
-      </tptz:PTZStatus>
-    </tptz:GetStatusResponse>
+    <SOAP-ENV:Fault>
+      <SOAP-ENV:Code>
+        <SOAP-ENV:Value>SOAP-ENV:Sender</SOAP-ENV:Value>
+        <SOAP-ENV:Subcode>
+          <SOAP-ENV:Value>ter:NotAuthorized</SOAP-ENV:Value>
+        </SOAP-ENV:Subcode>
+      </SOAP-ENV:Code>
+      <SOAP-ENV:Reason>
+        <SOAP-ENV:Text xml:lang="en">Sender not authorized</SOAP-ENV:Text>
+      </SOAP-ENV:Reason>
+      <SOAP-ENV:Detail>
+        <SOAP-ENV:Text>The action requested requires authorization and the sender is not authorized</SOAP-ENV:Text>
+      </SOAP-ENV:Detail>
+    </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
