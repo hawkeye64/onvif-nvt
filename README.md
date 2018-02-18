@@ -26,7 +26,7 @@ Before making a PR please do the following:
 * Make sure you have updated any functionality with JSDoc notations.
 * <i>npm run jsdoc</i>
 * Make sure you have added to <i>run</i> tests (live testing).
-* If you have a specific camera not identified, create a folder for it in `test/data/xml/{camera}`. Run all <i>run</i> tests with `saveXml.setWritable(true)` (in `run.js`) and capture all the xml and put them into the new folder.
+* If you have a specific camera not identified, create a folder for it in `test/data/xml/{camera}`. Create configuration data for it in `run.config.js`. Run all <i>run</i> tests with `saveXml.setWritable(true)` (in `run.js`) and capture all the xml.
 * Make sure you have added to <i>jest</i> tests (uses the aforementioned xml). Update `test/config.js` with your camera.
 * <i>node run/run.js</i>
 * <i>npm run test</i>
@@ -69,7 +69,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
       camera.ptz.continuousMove(null, velocity)
         .then(() => {
           setTimeout(() => {
-            ptz.stop()
+            camera.ptz.stop()
           }, 5000) // stop the camera after 5 seconds
         })
     }
@@ -108,7 +108,7 @@ Note: The code for testing is not available in the npm package.
 All functionality has been tested with Hikvision (fixed and ptz), Pelco (ptz), TrendNET (fixed) and Axis (ptz).
 
 ### Functional Testing
-Functional testing is intended for 'live' testing with an actual ONVIF device. It is done with the `run.js` in the `run` folder. 
+Functional testing is intended for 'live' testing with an actual ONVIF device. It is done with the `run.js` in the `run` folder. This will test the actual capabilities of a camera, but just as importantly, it can capture the xml response to file so it can be used in Jest tests. The configuration file for the `run` tests can be found in `run/config.js`.
 
 For **discovery** testing, just set the `runDiscovery` variable at the top of the file to `true`.
 
@@ -116,18 +116,19 @@ For **core** testing, set the `runCore` variable at the top of the file.
 
 You can do this for other modules as well. See file for options.
 
-Set up your local camera by setting the appropriate variables near the top of the file, like this:
+Set up your local camera by setting the appropriate variables in `run/config.js`, like this:
 ```
-const address = '10.10.1.20'
+const address = '10.10.1.60'
 const port = 80
 const username = 'root'
 const password = 'root'
+const folder = 'hikvision'
 ```
 Run the `run.js` file via node (personally, I use VS Code - an amazing editor/debugger).
 
-The tests will only run what the camera supports, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.
+The tests will only run onvif modules supported by the camera capabilities, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.
 
-Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like `GetSystemDateAndTime`. In some cases, you might get a response back of `Action not supported`. If this happens, then the tests will fail. You can comment out the call to the part that is failing and re-run the tests.
+Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like `GetSystemDateAndTime`. In some cases, you might get a response back of `Action not supported`. If this happens, then the tests will fail. This is nothing to be alarmed about. You may also get other errors. The most common I see is if your camera does not support audo configurations. Also, you may get a `Not Implemented` error, meaning the implementation of that method has not yet been added.
 
 ### Automated Testing
 **Jest** is being used to do the automated testing and code coverage. All tests are in the `tests` folder, as well as XML Requests and Responses from various ONVIF devices.
