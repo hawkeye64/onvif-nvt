@@ -45,19 +45,23 @@
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:tns1="http://www.onvif.org/ver10/topics" 
   xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
-  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Header>
+    <wsa5:ReplyTo SOAP-ENV:mustUnderstand="true">
+      <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
+    </wsa5:ReplyTo>
+  </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <tptz:GetStatusResponse>
       <tptz:PTZStatus>
         <tt:Position>
-          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.931346178" x="-0.166931689"></tt:PanTilt>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.296851158" x="0.644999862"></tt:PanTilt>
           <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
         </tt:Position>
         <tt:MoveStatus>
           <tt:PanTilt>IDLE</tt:PanTilt>
           <tt:Zoom>IDLE</tt:Zoom>
         </tt:MoveStatus>
-        <tt:UtcTime>2018-02-18T15:53:48Z</tt:UtcTime>
+        <tt:UtcTime>2018-02-19T15:10:14Z</tt:UtcTime>
       </tptz:PTZStatus>
     </tptz:GetStatusResponse>
   </SOAP-ENV:Body>

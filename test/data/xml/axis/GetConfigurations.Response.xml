@@ -45,7 +45,11 @@
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:tns1="http://www.onvif.org/ver10/topics" 
   xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
-  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Header>
+    <wsa5:ReplyTo SOAP-ENV:mustUnderstand="true">
+      <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
+    </wsa5:ReplyTo>
+  </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <tptz:GetConfigurationsResponse>
       <tptz:PTZConfiguration token="0">

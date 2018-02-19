@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:c14n="http://www.w3.org/2001/10/xml-exc-c14n#" 
+  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:xmime="http://tempuri.org/xmime.xsd" 
+  xmlns:xop="http://www.w3.org/2004/08/xop/include" 
+  xmlns:wsrfbf="http://docs.oasis-open.org/wsrf/bf-2" 
+  xmlns:wstop="http://docs.oasis-open.org/wsn/t-1" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:acert="http://www.axis.com/vapix/ws/cert" 
+  xmlns:wsrfr="http://docs.oasis-open.org/wsrf/r-2" 
+  xmlns:aa="http://www.axis.com/vapix/ws/action1" 
+  xmlns:acertificates="http://www.axis.com/vapix/ws/certificates" 
+  xmlns:aev="http://www.axis.com/vapix/ws/event1" 
+  xmlns:aeva="http://www.axis.com/vapix/ws/embeddedvideoanalytics1" 
+  xmlns:ali1="http://www.axis.com/vapix/ws/light/CommonBinding" 
+  xmlns:ali2="http://www.axis.com/vapix/ws/light/IntensityBinding" 
+  xmlns:ali3="http://www.axis.com/vapix/ws/light/AngleOfIlluminationBinding" 
+  xmlns:ali4="http://www.axis.com/vapix/ws/light/DayNightSynchronizeBinding" 
+  xmlns:ali="http://www.axis.com/vapix/ws/light" 
+  xmlns:apc="http://www.axis.com/vapix/ws/panopsiscalibration1" 
+  xmlns:arth="http://www.axis.com/vapix/ws/recordedtour1" 
+  xmlns:asd="http://www.axis.com/vapix/ws/shockdetection" 
+  xmlns:aweb="http://www.axis.com/vapix/ws/webserver" 
+  xmlns:tan1="http://www.onvif.org/ver20/analytics/wsdl/RuleEngineBinding" 
+  xmlns:tan2="http://www.onvif.org/ver20/analytics/wsdl/AnalyticsEngineBinding" 
+  xmlns:tan="http://www.onvif.org/ver20/analytics/wsdl" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl" 
+  xmlns:tev1="http://www.onvif.org/ver10/events/wsdl/NotificationProducerBinding" 
+  xmlns:tev2="http://www.onvif.org/ver10/events/wsdl/EventBinding" 
+  xmlns:tev3="http://www.onvif.org/ver10/events/wsdl/SubscriptionManagerBinding" 
+  xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2" 
+  xmlns:tev4="http://www.onvif.org/ver10/events/wsdl/PullPointSubscriptionBinding" 
+  xmlns:tev="http://www.onvif.org/ver10/events/wsdl" 
+  xmlns:timg="http://www.onvif.org/ver20/imaging/wsdl" 
+  xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl" 
+  xmlns:trt="http://www.onvif.org/ver10/media/wsdl" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tns1="http://www.onvif.org/ver10/topics" 
+  xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+    <wsa5:Action SOAP-ENV:mustUnderstand="true">http://www.onvif.org/ver10/events/wsdl/EventPortType/GetEventPropertiesResponse</wsa5:Action>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tev:GetEventPropertiesResponse>
+      <tev:TopicNamespaceLocation>http://www.onvif.org/onvif/ver10/topics/topicns.xml</tev:TopicNamespaceLocation>
+      <wsnt:FixedTopicSet>false</wsnt:FixedTopicSet>
+      <wstop:TopicSet>
+        <tns1:Device>
+          <tnsaxis:IO>
+            <VirtualInput wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="port" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="active" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </VirtualInput>
+            <VirtualPort wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="port" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="state" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </VirtualPort>
+          </tnsaxis:IO>
+          <tnsaxis:HardwareFailure>
+            <StorageFailure wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="disk_id" Type="xsd:string"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="disruption" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </StorageFailure>
+            <FanFailure wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="fan" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="fan_failure" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </FanFailure>
+          </tnsaxis:HardwareFailure>
+          <tnsaxis:SystemMessage>
+            <ActionFailed wstop:topic="true">
+              <tt:MessageDescription>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="description" Type="xsd:string"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </ActionFailed>
+          </tnsaxis:SystemMessage>
+          <tnsaxis:Status>
+            <SystemReady wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="ready" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </SystemReady>
+            <Temperature>
+              <Above wstop:topic="true">
+                <tt:MessageDescription IsProperty="true">
+                  <tt:Data>
+                    <tt:SimpleItemDescription Name="sensor_level" Type="xsd:boolean"></tt:SimpleItemDescription>
+                  </tt:Data>
+                </tt:MessageDescription>
+              </Above>
+              <Below wstop:topic="true">
+                <tt:MessageDescription IsProperty="true">
+                  <tt:Data>
+                    <tt:SimpleItemDescription Name="sensor_level" Type="xsd:boolean"></tt:SimpleItemDescription>
+                  </tt:Data>
+                </tt:MessageDescription>
+              </Below>
+              <Inside wstop:topic="true">
+                <tt:MessageDescription IsProperty="true">
+                  <tt:Data>
+                    <tt:SimpleItemDescription Name="sensor_level" Type="xsd:boolean"></tt:SimpleItemDescription>
+                  </tt:Data>
+                </tt:MessageDescription>
+              </Inside>
+              <Above_or_below wstop:topic="true">
+                <tt:MessageDescription IsProperty="true">
+                  <tt:Data>
+                    <tt:SimpleItemDescription Name="sensor_level" Type="xsd:boolean"></tt:SimpleItemDescription>
+                  </tt:Data>
+                </tt:MessageDescription>
+              </Above_or_below>
+            </Temperature>
+          </tnsaxis:Status>
+          <tnsaxis:Casing>
+            <Open wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="Name" Type="xsd:string"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="Open" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Open>
+          </tnsaxis:Casing>
+          <tnsaxis:Network>
+            <Lost wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="interface" Type="xsd:string"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="lost" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Lost>
+          </tnsaxis:Network>
+        </tns1:Device>
+        <tnsaxis:Storage>
+          <Recording wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Data>
+                <tt:SimpleItemDescription Name="recording" Type="xsd:boolean"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </Recording>
+          <Disruption wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Name="disk_id" Type="xsd:string"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="disruption" Type="xsd:boolean"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </Disruption>
+        </tnsaxis:Storage>
+        <tns1:Events>
+          <tnsaxis:EventRegistrationsChanged wstop:topic="true">
+            <tt:MessageDescription>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="type" Type="xsd:string"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:EventRegistrationsChanged>
+        </tns1:Events>
+        <tns1:VideoSource>
+          <tnsaxis:LiveStreamAccessed wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Data>
+                <tt:SimpleItemDescription Name="accessed" Type="xsd:boolean"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:LiveStreamAccessed>
+          <tnsaxis:PTZ>
+            <EnterExit wstop:topic="true">
+              <tt:MessageDescription>
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="id" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+              </tt:MessageDescription>
+            </EnterExit>
+          </tnsaxis:PTZ>
+        </tns1:VideoSource>
+        <tns1:PTZController>
+          <tnsaxis:PTZError wstop:topic="true">
+            <tt:MessageDescription>
+              <tt:Source>
+                <tt:SimpleItemDescription Name="channel" Type="xsd:int"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="ptz_error" Type="xsd:string"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:PTZError>
+          <tnsaxis:PTZReady wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Name="channel" Type="xsd:int"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="ready" Type="xsd:boolean"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:PTZReady>
+          <tnsaxis:AutoTracking wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Name="channel" Type="xsd:int"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="tracking" Type="xsd:boolean"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:AutoTracking>
+          <tnsaxis:Move>
+            <Channel_1 wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="PTZConfigurationToken" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="is_moving" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Channel_1>
+          </tnsaxis:Move>
+          <tnsaxis:PTZPresets>
+            <Channel_1 wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="PresetToken" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="on_preset" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Channel_1>
+          </tnsaxis:PTZPresets>
+          <tnsaxis:ControlQueue wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Name="PTZConfigurationToken" Type="xsd:int"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="queue_owner" Type="xsd:string"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:ControlQueue>
+        </tns1:PTZController>
+        <tns1:UserAlarm>
+          <tnsaxis:Recurring>
+            <Interval wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="id" Type="xsd:string"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="active" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Interval>
+          </tnsaxis:Recurring>
+        </tns1:UserAlarm>
+        <tns1:VideoAnalytics>
+          <tnsaxis:MotionDetection wstop:topic="true">
+            <tt:MessageDescription IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Name="window" Type="xsd:int"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Name="motion" Type="xsd:boolean"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </tnsaxis:MotionDetection>
+        </tns1:VideoAnalytics>
+      </wstop:TopicSet>
+      <wsnt:TopicExpressionDialect>http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet</wsnt:TopicExpressionDialect>
+      <wsnt:TopicExpressionDialect>http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete</wsnt:TopicExpressionDialect>
+      <tev:MessageContentFilterDialect>http://www.onvif.org/ver10/tev/messageContentFilter/ItemFilter</tev:MessageContentFilterDialect>
+      <tev:MessageContentSchemaLocation>http://www.onvif.org/ver10/schema/onvif.xsd</tev:MessageContentSchemaLocation>
+    </tev:GetEventPropertiesResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
