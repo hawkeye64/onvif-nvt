@@ -1,7 +1,12 @@
-[![CircleCI](https://circleci.com/gh/hawkeye64/onvif-nvt.svg?style=svg)](https://circleci.com/gh/hawkeye64/onvif-nvt)
-[![Coverage Status](https://coveralls.io/repos/github/hawkeye64/onvif-nvt/badge.svg?branch=master)](https://coveralls.io/github/hawkeye64/onvif-nvt?branch=master)
-[![Dependency Status](https://david-dm.org/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt)
-[![peerDependency Status](https://david-dm.org/hawkeye64/onvif-nvt/peer-status.svg)](https://david-dm.org/hawkeye64/onvif-nvt#info=peerDependencies)
+[![license](https://img.shields.io/github/license/hawkeye64/onvif-nvt.svg)]()
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/hawkeye64/onvif-nvt.svg)]()
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/hawkeye64/onvif-nvt.svg)]()
+[![npm](https://img.shields.io/npm/dt/onvif-nvt.svg)](https://www.npmjs.com/package/onvif-nvt)
+
+[![CircleCI](https://img.shields.io/circleci/project/github/hawkeye64/onvif-nvt.svg)](https://circleci.com/gh/hawkeye64/onvif-nvt)
+[![Coveralls github](https://img.shields.io/coveralls/github/hawkeye64/onvif-nvt.svg)](https://coveralls.io/github/hawkeye64/onvif-nvt?branch=master)
+[![David](https://img.shields.io/david/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt)
+[![David](https://img.shields.io/david/dev/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt#info=peerDependencies)
 
 # onvif-nvt
 ONVIF library for NVT (Network Video Transmitter) devices.
