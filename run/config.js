@@ -43,8 +43,9 @@ const folder = 'axis'
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
 const runCore = true
-const runPtz = false
-const runMedia = false
+const runPtz = true
+const runMedia = true
+const runEvents = true
 const runSnapshot = false
 const runReboot = false
 const runBackup = false
@@ -61,6 +62,7 @@ module.exports = {
   runCore,
   runPtz,
   runMedia,
+  runEvents,
   runSnapshot,
   runReboot,
   runBackup
