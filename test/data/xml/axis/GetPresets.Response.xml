@@ -52,6 +52,13 @@
   </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <tptz:GetPresetsResponse>
+      <tptz:Preset token="22">
+        <tt:Name>Living Room</tt:Name>
+        <tt:PTZPosition>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="5.93397374E-07" x="-4.66240772E-06"></tt:PanTilt>
+          <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="1.52603152E-09"></tt:Zoom>
+        </tt:PTZPosition>
+      </tptz:Preset>
       <tptz:Preset token="21">
         <tt:Name>Window</tt:Name>
         <tt:PTZPosition>

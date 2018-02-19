@@ -60,9 +60,9 @@
         </tt:TimeZone>
         <tt:UTCDateTime>
           <tt:Time>
-            <tt:Hour>15</tt:Hour>
-            <tt:Minute>10</tt:Minute>
-            <tt:Second>26</tt:Second>
+            <tt:Hour>16</tt:Hour>
+            <tt:Minute>26</tt:Minute>
+            <tt:Second>0</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
@@ -72,9 +72,9 @@
         </tt:UTCDateTime>
         <tt:LocalDateTime>
           <tt:Time>
-            <tt:Hour>8</tt:Hour>
-            <tt:Minute>10</tt:Minute>
-            <tt:Second>26</tt:Second>
+            <tt:Hour>9</tt:Hour>
+            <tt:Minute>26</tt:Minute>
+            <tt:Second>0</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>

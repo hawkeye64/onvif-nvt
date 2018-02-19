@@ -4,13 +4,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:wsa="http://www.w3.org/2005/08/addressing" 
   xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
   xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
-  xmlns:env="http://www.w3.org/2003/05/soap-envelope " 
-  xmlns:ter="http://www.onvif.org/ver10/error" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-  xmlns:tt="http://www.onvif.org/ver10/schema" 
   xmlns:trt="http://www.onvif.org/ver10/media/wsdl">
   <s:Header>
     <wsa:ReplyTo>
@@ -18,15 +15,15 @@
     </wsa:ReplyTo>
     <wsse:Security s:mustUnderstand="1">
       <wsu:Timestamp wsu:Id="Time">
-        <wsu:Created>2018-02-19T15:10:26.547Z</wsu:Created>
-        <wsu:Expires>2018-02-19T15:10:36.547Z</wsu:Expires>
+        <wsu:Created>2018-02-19T16:26:00.837Z</wsu:Created>
+        <wsu:Expires>2018-02-19T16:26:10.837Z</wsu:Expires>
       </wsu:Timestamp>
       <wsse:UsernameToken wsu:Id="User">
         <wsse:Username>root</wsse:Username>
-        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">j8Bzz9fDEud00t6KGDcK2K5/iTY=</wsse:Password>
-        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">mDAk08u+gIe9ZJNFNtf+7g==</wsse:Nonce>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">kntCa/bXvGThr4zBl2wrA+SZSe4=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">Z82T/Th5XvmjAyUde0IwCw==</wsse:Nonce>
         <wsu:Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-19T15:10:26.547Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-19T16:26:00.837Z
         </wsu:Created>
       </wsse:UsernameToken>
     </wsse:Security>

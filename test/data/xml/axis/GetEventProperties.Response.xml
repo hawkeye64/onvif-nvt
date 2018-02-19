@@ -239,6 +239,18 @@
               </tt:Data>
             </tt:MessageDescription>
           </tnsaxis:PTZReady>
+          <tnsaxis:PTZPresets>
+            <Channel_1 wstop:topic="true">
+              <tt:MessageDescription IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Name="PresetToken" Type="xsd:int"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Name="on_preset" Type="xsd:boolean"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Channel_1>
+          </tnsaxis:PTZPresets>
           <tnsaxis:AutoTracking wstop:topic="true">
             <tt:MessageDescription IsProperty="true">
               <tt:Source>
@@ -261,18 +273,6 @@
               </tt:MessageDescription>
             </Channel_1>
           </tnsaxis:Move>
-          <tnsaxis:PTZPresets>
-            <Channel_1 wstop:topic="true">
-              <tt:MessageDescription IsProperty="true">
-                <tt:Source>
-                  <tt:SimpleItemDescription Name="PresetToken" Type="xsd:int"></tt:SimpleItemDescription>
-                </tt:Source>
-                <tt:Data>
-                  <tt:SimpleItemDescription Name="on_preset" Type="xsd:boolean"></tt:SimpleItemDescription>
-                </tt:Data>
-              </tt:MessageDescription>
-            </Channel_1>
-          </tnsaxis:PTZPresets>
           <tnsaxis:ControlQueue wstop:topic="true">
             <tt:MessageDescription IsProperty="true">
               <tt:Source>
