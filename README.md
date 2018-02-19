@@ -6,7 +6,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/hawkeye64/onvif-nvt.svg)](https://circleci.com/gh/hawkeye64/onvif-nvt)
 [![Coveralls github](https://img.shields.io/coveralls/github/hawkeye64/onvif-nvt.svg)](https://coveralls.io/github/hawkeye64/onvif-nvt?branch=master)
 [![David](https://img.shields.io/david/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt)
-[![David](https://img.shields.io/david/dev/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt#info=peerDependencies)
+[![David](https://img.shields.io/david/dev/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt#info=devDependencies)
 
 # onvif-nvt
 ONVIF library for NVT (Network Video Transmitter) devices.
