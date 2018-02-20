@@ -37,15 +37,21 @@
   xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
   <env:Body>
-    <tptz:GetStatusResponse>
-      <tptz:PTZStatus>
-        <tt:Position>
-          <tt:PanTilt x="0.982667" y="-0.701111" space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace"/>
-          <tt:Zoom x="0.000000" space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace"/>
-        </tt:Position>
-        <tt:Error>NO error</tt:Error>
-        <tt:UtcTime>2018-02-20T18:10:20Z</tt:UtcTime>
-      </tptz:PTZStatus>
-    </tptz:GetStatusResponse>
+    <tds:GetRelayOutputsResponse>
+      <tds:RelayOutputs token="AlarmOut_0">
+        <tt:Properties>
+          <tt:Mode>Monostable</tt:Mode>
+          <tt:DelayTime>PT5S</tt:DelayTime>
+          <tt:IdleState>closed</tt:IdleState>
+        </tt:Properties>
+      </tds:RelayOutputs>
+      <tds:RelayOutputs token="AlarmOut_1">
+        <tt:Properties>
+          <tt:Mode>Monostable</tt:Mode>
+          <tt:DelayTime>PT5S</tt:DelayTime>
+          <tt:IdleState>closed</tt:IdleState>
+        </tt:Properties>
+      </tds:RelayOutputs>
+    </tds:GetRelayOutputsResponse>
   </env:Body>
 </env:Envelope>
