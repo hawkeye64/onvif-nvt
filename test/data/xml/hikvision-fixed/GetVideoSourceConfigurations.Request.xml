@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <s:Envelope 
   xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
-  xmlns:env="http://www.w3.org/2003/05/soap-envelope " 
-  xmlns:ter="http://www.onvif.org/ver10/error" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
   xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:trt="http://www.onvif.org/ver10/media/wsdl">
   <s:Header>
     <Security s:mustUnderstand="1" 
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">AO+qTXyZwGNUq28MmZtw94UrpKw=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">abl1osj3bqJsnH8KlVVW+g==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">F+WBA9uRntvgezxDETTxCHscsL0=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">5Cj+WV2CLHF0PQMIAFXIrw==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-15T15:45:29.924Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-20T16:29:18.961Z
         </Created>
       </UsernameToken>
     </Security>

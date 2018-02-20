@@ -366,7 +366,6 @@
       <tptz:Preset token="253"></tptz:Preset>
       <tptz:Preset token="254"></tptz:Preset>
       <tptz:Preset token="255"></tptz:Preset>
-      <tptz:Preset token="256"></tptz:Preset>
     </tptz:GetPresetsResponse>
   </env:Body>
 </env:Envelope>

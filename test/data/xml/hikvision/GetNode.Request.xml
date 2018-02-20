@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <s:Envelope 
   xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
-  xmlns:env="http://www.w3.org/2003/05/soap-envelope " 
-  xmlns:ter="http://www.onvif.org/ver10/error" 
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
   xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:env="http://www.w3.org/2003/05/soap-envelope " 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl">
   <s:Header>
     <Security s:mustUnderstand="1" 
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">4fPChwlxTkQjr83Y7vUiXY5vlEI=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">DtV87UVBxyIBqBy9Vuj5mg==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">U+DECpNH1SqEoIb4iwsVJiipS9E=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">ki5Rc6rYkbwbiqfvYe6IUw==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-15T18:00:38.706Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-20T15:43:22.175Z
         </Created>
       </UsernameToken>
     </Security>

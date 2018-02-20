@@ -14,7 +14,7 @@
       <tds:ZeroConfiguration>
         <tt:InterfaceToken>eth0</tt:InterfaceToken>
         <tt:Enabled>true</tt:Enabled>
-        <tt:Addresses>169.254.38.147</tt:Addresses>
+        <tt:Addresses>169.254.21.120</tt:Addresses>
       </tds:ZeroConfiguration>
     </tds:GetZeroConfigurationResponse>
   </SOAP-ENV:Body>

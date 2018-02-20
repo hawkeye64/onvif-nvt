@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope 
+  xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl">
+  <s:Header>
+    <Security s:mustUnderstand="1" 
+      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <UsernameToken>
+        <Username>admin</Username>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">huw1Kbq9p0McRKvyjSsmuyNXU8M=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">AnjE4p42xB0u8vXDwsYlgQ==</Nonce>
+        <Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-20T16:41:25.148Z
+        </Created>
+      </UsernameToken>
+    </Security>
+  </s:Header>
+  <s:Body>
+    <tds:GetCACertificates/>
+  </s:Body>
+</s:Envelope>
