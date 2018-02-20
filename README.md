@@ -1,6 +1,12 @@
-[![CircleCI](https://circleci.com/gh/hawkeye64/onvif-nvt.svg?style=svg)](https://circleci.com/gh/hawkeye64/onvif-nvt)
-[![Coverage Status](https://coveralls.io/repos/github/hawkeye64/onvif-nvt/badge.svg?branch=master)](https://coveralls.io/github/hawkeye64/onvif-nvt?branch=master)
-[![Dependency Status](https://david-dm.org/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt)
+[![license](https://img.shields.io/github/license/hawkeye64/onvif-nvt.svg)]()
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/hawkeye64/onvif-nvt.svg)]()
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/hawkeye64/onvif-nvt.svg)]()
+[![npm](https://img.shields.io/npm/dt/onvif-nvt.svg)](https://www.npmjs.com/package/onvif-nvt)
+
+[![CircleCI](https://img.shields.io/circleci/project/github/hawkeye64/onvif-nvt.svg)](https://circleci.com/gh/hawkeye64/onvif-nvt)
+[![Coveralls github](https://img.shields.io/coveralls/github/hawkeye64/onvif-nvt.svg)](https://coveralls.io/github/hawkeye64/onvif-nvt?branch=master)
+[![David](https://img.shields.io/david/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt)
+[![David](https://img.shields.io/david/dev/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt#info=devDependencies)
 
 # onvif-nvt
 ONVIF library for NVT (Network Video Transmitter) devices.
@@ -128,7 +134,7 @@ Run the `run.js` file via node (personally, I use VS Code - an amazing editor/de
 
 The tests will only run onvif modules supported by the camera capabilities, so if it doesn't support PTZ, then the PTZ tests won't be run. Same for other modules.
 
-Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like `GetSystemDateAndTime`. In some cases, you might get a response back of `Action not supported`. If this happens, then the tests will fail. This is nothing to be alarmed about. You may also get other errors. The most common I see is if your camera does not support audo configurations. Also, you may get a `Not Implemented` error, meaning the implementation of that method has not yet been added.
+Your mileage may vary as I have found some ONVIF devices don't support very basic functionality, like `GetSystemDateAndTime`. In some cases, you might get a response back of `Action not supported`. If this happens, then the tests will fail. This is nothing to be alarmed about. You may also get other errors. The most common I see is if your camera does not support audio configurations. Also, you may get a `Not Implemented` error, meaning the implementation of that method has not yet been added.
 
 ### Automated Testing
 **Jest** is being used to do the automated testing and code coverage. All tests are in the `tests` folder, as well as XML Requests and Responses from various ONVIF devices.
