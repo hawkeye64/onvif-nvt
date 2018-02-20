@@ -26,6 +26,7 @@ class RunPtz {
 
           // verify this camera supports PTZ
           if (!this.camera.ptz) {
+            console.log('Camera does not support ONVIF PTZ')
             resolve([])
             return
           }
