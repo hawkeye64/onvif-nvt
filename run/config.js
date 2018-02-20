@@ -6,18 +6,18 @@ const saveXml = require('../lib/utils/save-xml')
 saveXml.setWritable(true)
 
 // for Axis
-const address = '192.168.0.19'
-const port = 80
-const username = 'root'
-const password = 'root'
-const folder = 'axis'
+// const address = '192.168.0.19'
+// const port = 80
+// const username = 'root'
+// const password = 'root'
+// const folder = 'axis'
 
 // for Hikvision (PTZ)
-// const address = '10.10.1.60'
-// const port = 80
-// const username = 'admin'
-// const password = '12345'
-// const folder = 'hikvision'
+const address = '10.10.1.60'
+const port = 80
+const username = 'admin'
+const password = '12345'
+const folder = 'hikvision'
 
 // for Hikvision (Fixed)
 // const address = '10.10.1.65'
