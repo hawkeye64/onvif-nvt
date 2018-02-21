@@ -211,7 +211,7 @@ class Camera extends EventEmitter {
           this.snapshot = require('./utils/snapshot')
           let defaultProfile = this.getDefaultProfile()
           if (defaultProfile) {
-            let snapshotUri = defaultProfile.snapshot
+            let snapshotUri = defaultProfile.SnapshotUri.Uri
             this.snapshot.init(snapshotUri, this.username, this.password)
           }
         }
@@ -478,110 +478,8 @@ class Camera extends EventEmitter {
 
   parseProfiles (profiles) {
     let profileList = []
-    profiles.forEach((p) => {
-      let profile = {
-        'token': p['$']['token'],
-        'name': p['Name'],
-        'snapshot': '',
-        'stream': {
-          'udp': '',
-          'http': '',
-          'rtsp': ''
-        },
-        'video': {
-          'source': null,
-          'encoder': null
-        },
-        'audio': {
-          'source': null,
-          'encoder': null
-        },
-        'ptz': {
-          'range': {
-            'x': {
-              'min': 0,
-              'max': 0
-            },
-            'y': {
-              'min': 0,
-              'max': 0
-            },
-            'z': {
-              'min': 0,
-              'max': 0
-            }
-          }
-        }
-      }
 
-      if (p['VideoSourceConfiguration']) {
-        profile['video']['source'] = {
-          'token': p['VideoSourceConfiguration']['$']['token'],
-          'name': p['VideoSourceConfiguration']['Name'],
-          'bounds': {
-            'width': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['width'], 10),
-            'height': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['height'], 10),
-            'x': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['x'], 10),
-            'y': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['y'], 10)
-          }
-        }
-      }
-      if (p['VideoEncoderConfiguration']) {
-        profile['video']['encoder'] = {
-          'token': p['VideoEncoderConfiguration']['$']['token'],
-          'name': p['VideoEncoderConfiguration']['Name'],
-          'resolution': {
-            'width': parseInt(p['VideoEncoderConfiguration']['Resolution']['Width'], 10),
-            'height': parseInt(p['VideoEncoderConfiguration']['Resolution']['Height'], 10)
-          },
-          'quality': parseInt(p['VideoEncoderConfiguration']['Quality'], 10),
-          'framerate': parseInt(p['VideoEncoderConfiguration']['RateControl']['FrameRateLimit'], 10),
-          'bitrate': parseInt(p['VideoEncoderConfiguration']['RateControl']['BitrateLimit'], 10),
-          'encoding': p['VideoEncoderConfiguration']['Encoding']
-        }
-      }
-      if (p['AudioSourceConfiguration']) {
-        profile['audio']['source'] = {
-          'token': p['AudioSourceConfiguration']['$']['token'],
-          'name': p['AudioSourceConfiguration']['Name']
-        }
-      }
-      if (p['AudioEncoderConfiguration']) {
-        profile['audio']['encoder'] = {
-          'token': ('$' in p['AudioEncoderConfiguration']) ? p['AudioEncoderConfiguration']['$']['token'] : '',
-          'name': p['AudioEncoderConfiguration']['Name'],
-          'bitrate': parseInt(p['AudioEncoderConfiguration']['Bitrate'], 10),
-          'samplerate': parseInt(p['AudioEncoderConfiguration']['SampleRate'], 10),
-          'encoding': p['AudioEncoderConfiguration']['Encoding']
-        }
-      }
-      if (p['PTZConfiguration']) {
-        try {
-          let r = p['PTZConfiguration']['PanTiltLimits']['Range']
-          let xr = r['XRange']
-          let x = profile['ptz']['range']['x']
-          x['min'] = parseFloat(xr['Min'])
-          x['max'] = parseFloat(xr['Max'])
-        }
-        catch (e) {}
-        try {
-          let r = p['PTZConfiguration']['PanTiltLimits']['Range']
-          let yr = r['YRange']
-          let y = profile['ptz']['range']['y']
-          y['min'] = parseFloat(yr['Min'])
-          y['max'] = parseFloat(yr['Max'])
-        }
-        catch (e) {}
-        try {
-          let r = p['PTZConfiguration']['ZoomLimits']['Range']
-          let zr = r['XRange']
-          let z = profile['ptz']['range']['z']
-          z['min'] = parseFloat(zr['Min'])
-          z['max'] = parseFloat(zr['Max'])
-        }
-        catch (e) {}
-      }
-
+    profiles.forEach((profile) => {
       profileList.push(profile)
       if (!this.defaultProfile) {
         this.defaultProfile = profile
@@ -590,6 +488,125 @@ class Camera extends EventEmitter {
         }
       }
     })
+
+    // profiles.forEach((p) => {
+    //   let profile = {
+    //     'token': p['$']['token'],
+    //     'name': p['Name'],
+    //     'snapshot': '',
+    //     'stream': {
+    //       'udp': '',
+    //       'http': '',
+    //       'rtsp': ''
+    //     },
+    //     'video': {
+    //       'source': null,
+    //       'encoder': null
+    //     },
+    //     'audio': {
+    //       'source': null,
+    //       'encoder': null
+    //     },
+    //     'ptz': {
+    //       'range': {
+    //         'x': {
+    //           'min': 0,
+    //           'max': 0
+    //         },
+    //         'y': {
+    //           'min': 0,
+    //           'max': 0
+    //         },
+    //         'z': {
+    //           'min': 0,
+    //           'max': 0
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   if (p['VideoSourceConfiguration']) {
+    //     profile['video']['source'] = {
+    //       'token': p['VideoSourceConfiguration']['$']['token'],
+    //       'name': p['VideoSourceConfiguration']['Name'],
+    //       'bounds': {
+    //         'width': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['width'], 10),
+    //         'height': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['height'], 10),
+    //         'x': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['x'], 10),
+    //         'y': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['y'], 10)
+    //       }
+    //     }
+    //   }
+    //   if (p['VideoEncoderConfiguration']) {
+    //     profile['video']['encoder'] = {
+    //       'token': p['VideoEncoderConfiguration']['$']['token'],
+    //       'name': p['VideoEncoderConfiguration']['Name'],
+    //       'resolution': {
+    //         'width': parseInt(p['VideoEncoderConfiguration']['Resolution']['Width'], 10),
+    //         'height': parseInt(p['VideoEncoderConfiguration']['Resolution']['Height'], 10)
+    //       },
+    //       'quality': parseInt(p['VideoEncoderConfiguration']['Quality'], 10),
+    //       'framerate': parseInt(p['VideoEncoderConfiguration']['RateControl']['FrameRateLimit'], 10),
+    //       'bitrate': parseInt(p['VideoEncoderConfiguration']['RateControl']['BitrateLimit'], 10),
+    //       'encoding': p['VideoEncoderConfiguration']['Encoding']
+    //     }
+    //   }
+    //   if (p['AudioSourceConfiguration']) {
+    //     profile['audio']['source'] = {
+    //       'token': p['AudioSourceConfiguration']['$']['token'],
+    //       'name': p['AudioSourceConfiguration']['Name']
+    //     }
+    //   }
+    //   if (p['AudioEncoderConfiguration']) {
+    //     profile['audio']['encoder'] = {
+    //       'token': ('$' in p['AudioEncoderConfiguration']) ? p['AudioEncoderConfiguration']['$']['token'] : '',
+    //       'name': p['AudioEncoderConfiguration']['Name'],
+    //       'bitrate': parseInt(p['AudioEncoderConfiguration']['Bitrate'], 10),
+    //       'samplerate': parseInt(p['AudioEncoderConfiguration']['SampleRate'], 10),
+    //       'encoding': p['AudioEncoderConfiguration']['Encoding']
+    //     }
+    //   }
+    //   if (p['PTZConfiguration']) {
+    //     try {
+    //       let r = p['PTZConfiguration']['PanTiltLimits']['Range']
+    //       let xr = r['XRange']
+    //       let x = profile['ptz']['range']['x']
+    //       x['min'] = parseFloat(xr['Min'])
+    //       x['max'] = parseFloat(xr['Max'])
+    //     }
+    //     catch (e) {}
+    //     try {
+    //       let r = p['PTZConfiguration']['PanTiltLimits']['Range']
+    //       let yr = r['YRange']
+    //       let y = profile['ptz']['range']['y']
+    //       y['min'] = parseFloat(yr['Min'])
+    //       y['max'] = parseFloat(yr['Max'])
+    //     }
+    //     catch (e) {}
+    //     try {
+    //       let r = p['PTZConfiguration']['ZoomLimits']['Range']
+    //       let zr = r['XRange']
+    //       let z = profile['ptz']['range']['z']
+    //       z['min'] = parseFloat(zr['Min'])
+    //       z['max'] = parseFloat(zr['Max'])
+    //     }
+    //     catch (e) {}
+    //   }
+    //   if (p['VideoAnalyticsConfiguration']) {
+    //     try {
+    //     }
+    //     catch (e) {}
+    //   }
+
+
+    //   profileList.push(profile)
+    //   if (!this.defaultProfile) {
+    //     this.defaultProfile = profile
+    //     if (this.ptz) {
+    //       this.ptz.setProfileToken(profile.token)
+    //     }
+    //   }
+    // })
 
     return profileList
   }
@@ -612,11 +629,12 @@ class Camera extends EventEmitter {
         if (profile) {
           let protocol = protocols[protocolIndex]
           if (protocol) {
-            let token = profile['token']
+            let token = profile['$']['token']
             this.media.getStreamUri('RTP-Unicast', protocol, token)
               .then(results => {
-                let uri = results['data']['GetStreamUriResponse']['MediaUri']['Uri']
-                this.profileList[profileIndex]['stream'][protocol.toLowerCase()] = uri
+                // let uri = results['data']['GetStreamUriResponse']['MediaUri']['Uri']
+                profile.StreamUri = results['data']['GetStreamUriResponse']['MediaUri']
+                // this.profileList[profileIndex]['stream'][protocol.toLowerCase()] = uri
                 ++protocolIndex
                 getStreamUri()
               })
@@ -646,10 +664,12 @@ class Camera extends EventEmitter {
       let getSnapshotUri = () => {
         let profile = this.profileList[profileIndex]
         if (profile) {
-          this.media.getSnapshotUri(profile['token'])
+          // this.media.getSnapshotUri(profile['token'])
+          this.media.getSnapshotUri(profile['$']['token'])
             .then(results => {
               try {
-                profile['snapshot'] = results['data']['GetSnapshotUriResponse']['MediaUri']['Uri']
+                profile.SnapshotUri = results['data']['GetSnapshotUriResponse']['MediaUri']
+                // profile['snapshot'] = results['data']['GetSnapshotUriResponse']['MediaUri']['Uri']
               }
               catch (e) {}
               ++profileIndex
@@ -687,7 +707,7 @@ module.exports = new Camera()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 20 2018 19:01:48 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Feb 21 2018 09:05:01 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
