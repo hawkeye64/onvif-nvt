@@ -62,19 +62,19 @@ class RunAnalytics {
     instead of calling reject(error)
    ------------------------------------------------- */
 
-    getVideoAnalyticsProfile () {
-      this.camera.profileList.forEach(profile => {
-        if (!this.token) {
-          if ('VideoAnalyticsConfiguration' in profile) {
-            let config = profile.VideoAnalyticsConfiguration
-            this.token = config.$.token
-            console.log('Video Analytics Token:', this.token)
-          }
+  getVideoAnalyticsProfile () {
+    this.camera.profileList.forEach(profile => {
+      if (!this.token) {
+        if ('VideoAnalyticsConfiguration' in profile) {
+          let config = profile.VideoAnalyticsConfiguration
+          this.token = config.$.token
+          console.log('Video Analytics Token:', this.token)
         }
-      })
-    }
+      }
+    })
+  }
 
-   GetServiceCapabilities () {
+  GetServiceCapabilities () {
     return new Promise((resolve, reject) => {
       this.camera.analytics.getServiceCapabilities()
         .then(results => {
