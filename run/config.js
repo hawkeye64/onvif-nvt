@@ -6,18 +6,18 @@ const saveXml = require('../lib/utils/save-xml')
 saveXml.setWritable(true)
 
 // for Axis
-// const address = '192.168.0.19'
-// const port = 80
-// const username = 'root'
-// const password = 'root'
-// const folder = 'axis'
+const address = '192.168.0.19'
+const port = 80
+const username = 'root'
+const password = 'root'
+const folder = 'axis'
 
 // for Hikvision (PTZ)
-const address = '10.10.1.60'
-const port = 80
-const username = 'admin'
-const password = '12345'
-const folder = 'hikvision'
+// const address = '10.10.1.60'
+// const port = 80
+// const username = 'admin'
+// const password = '12345'
+// const folder = 'hikvision'
 
 // for Hikvision (Fixed)
 // const address = '10.10.1.65'
@@ -42,9 +42,10 @@ const folder = 'hikvision'
 
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
-const runCore = true
-const runPtz = true
-const runMedia = true
+const runCore = false
+const runPtz = false
+const runMedia = false
+const runAnalytics = true
 const runSnapshot = false
 const runReboot = false
 const runBackup = false
@@ -56,11 +57,13 @@ module.exports = {
   port,
   username,
   password,
+  folder,
 
   runDiscovery,
   runCore,
   runPtz,
   runMedia,
+  runAnalytics,
   runSnapshot,
   runReboot,
   runBackup
