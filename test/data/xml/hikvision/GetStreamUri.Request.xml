@@ -14,10 +14,10 @@
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">EZXgbBlq6T2JqTJ7hYS/lnRIgFU=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">Y4GNbMAJ5BhVdnfSLnYW6A==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">M2E5k23KdGMkwSqXfqI6cscCO2c=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">qdchdyt7U/23fyY+RHM34A==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-20T18:10:27.490Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-21T15:51:53.907Z
         </Created>
       </UsernameToken>
     </Security>
@@ -27,10 +27,10 @@
       <trt:StreamSetup>
         <tt:Stream>RTP-Unicast</tt:Stream>
         <tt:Transport>
-          <tt:Protocol>HTTP</tt:Protocol>
+          <tt:Protocol>RTSP</tt:Protocol>
         </tt:Transport>
       </trt:StreamSetup>
-      <trt:ProfileToken>Profile_1</trt:ProfileToken>
+      <trt:ProfileToken>Profile_3</trt:ProfileToken>
     </trt:GetStreamUri>
   </s:Body>
 </s:Envelope>

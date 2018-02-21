@@ -14,17 +14,17 @@
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">88L3kmQkmFrmHJDBeBBfncWDyl8=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">4tH/GDBQ7teMjPNgge+L5g==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">DT+bDBXs5RZ5ZKCdzbj6m2XY8Ro=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">iR65XVT05vL/dnohqs1chQ==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-20T16:41:30.092Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-21T16:01:17.588Z
         </Created>
       </UsernameToken>
     </Security>
   </s:Header>
   <s:Body>
     <trt:GetSnapshotUri>
-      <trt:ProfileToken>Profile_1</trt:ProfileToken>
+      <trt:ProfileToken>Profile_2</trt:ProfileToken>
     </trt:GetSnapshotUri>
   </s:Body>
 </s:Envelope>

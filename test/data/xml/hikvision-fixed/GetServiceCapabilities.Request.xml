@@ -8,21 +8,23 @@
   xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
   xmlns:tt="http://www.onvif.org/ver10/schema" 
   xmlns:ter="http://www.onvif.org/ver10/error" 
-  xmlns:tds="http://www.onvif.org/ver10/device/wsdl">
+  xmlns:tns1="http://www.onvif.org/ver10/topics" 
+  xmlns:axt="http://www.onvif.org/ver10/analytics" 
+  xmlns:ttr="http://www.onvif.org/ver10/analytics/radiometry">
   <s:Header>
     <Security s:mustUnderstand="1" 
       xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <UsernameToken>
         <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">9elIZuNRKlzt7bSdcwOn+nsYsyM=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">IzA/BSKNWV+PCCg0nHxf3w==</Nonce>
+        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">cfoWqMv1XX4PU1SLxfTuW2Lh+Co=</Password>
+        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">oSGIdrHDeGdIvMnnBkDoAg==</Nonce>
         <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-20T16:29:08.394Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-21T15:55:57.028Z
         </Created>
       </UsernameToken>
     </Security>
   </s:Header>
   <s:Body>
-    <tds:GetServiceCapabilities/>
+    <axt:GetServiceCapabilities/>
   </s:Body>
 </s:Envelope>

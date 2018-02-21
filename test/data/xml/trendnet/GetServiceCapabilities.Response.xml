@@ -37,12 +37,8 @@
   xmlns:extxsd="http://www.onvifext.com/onvif/ext/ver10/schema" 
   xmlns:tas="http://www.onvif.org/ver10/advancedsecurity/wsdl">
   <env:Body>
-    <tds:GetServiceCapabilitiesResponse>
-      <tds:Capabilities>
-        <tds:Network IPFilter="true" ZeroConfiguration="true" IPVersion6="true" DynDNS="true" Dot11Configuration="false" Dot1XConfigurations="0" HostnameFromDHCP="true" NTP="1" DHCPv6="true"></tds:Network>
-        <tds:Security TLS1.0="false" TLS1.1="false" TLS1.2="false" OnboardKeyGeneration="false" AccessPolicyConfig="false" DefaultAccessPolicy="true" Dot1X="false" RemoteUserHandling="false" X.509Token="false" SAMLToken="false" KerberosToken="false" UsernameToken="true" HttpDigest="true" RELToken="false" SupportedEAPMethods="0" MaxUsers="32" MaxUserNameLength="32" MaxPasswordLength="16"></tds:Security>
-        <tds:System DiscoveryResolve="false" DiscoveryBye="true" RemoteDiscovery="true" SystemBackup="true" SystemLogging="true" FirmwareUpgrade="true" HttpFirmwareUpgrade="true" HttpSystemBackup="true" HttpSystemLogging="false" HttpSupportInformation="false" StorageConfiguration="false"></tds:System>
-      </tds:Capabilities>
-    </tds:GetServiceCapabilitiesResponse>
+    <tan:GetServiceCapabilitiesResponse>
+      <tan:Capabilities RuleSupport="true" AnalyticsModuleSupport="true" CellBasedSceneDescriptionSupported="true"/>
+    </tan:GetServiceCapabilitiesResponse>
   </env:Body>
 </env:Envelope>

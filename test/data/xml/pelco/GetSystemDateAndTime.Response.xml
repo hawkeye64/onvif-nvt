@@ -20,13 +20,13 @@
         <tt:UTCDateTime>
           <tt:Time>
             <tt:Hour>16</tt:Hour>
-            <tt:Minute>31</tt:Minute>
-            <tt:Second>28</tt:Second>
+            <tt:Minute>0</tt:Minute>
+            <tt:Second>45</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
             <tt:Month>2</tt:Month>
-            <tt:Day>20</tt:Day>
+            <tt:Day>21</tt:Day>
           </tt:Date>
         </tt:UTCDateTime>
         <tt:Extension>
