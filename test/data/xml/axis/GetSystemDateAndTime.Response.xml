@@ -61,25 +61,25 @@
         <tt:UTCDateTime>
           <tt:Time>
             <tt:Hour>16</tt:Hour>
-            <tt:Minute>26</tt:Minute>
-            <tt:Second>0</tt:Second>
+            <tt:Minute>19</tt:Minute>
+            <tt:Second>59</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
             <tt:Month>2</tt:Month>
-            <tt:Day>19</tt:Day>
+            <tt:Day>21</tt:Day>
           </tt:Date>
         </tt:UTCDateTime>
         <tt:LocalDateTime>
           <tt:Time>
             <tt:Hour>9</tt:Hour>
-            <tt:Minute>26</tt:Minute>
-            <tt:Second>0</tt:Second>
+            <tt:Minute>19</tt:Minute>
+            <tt:Second>59</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
             <tt:Month>2</tt:Month>
-            <tt:Day>19</tt:Day>
+            <tt:Day>21</tt:Day>
           </tt:Date>
         </tt:LocalDateTime>
       </tds:SystemDateAndTime>

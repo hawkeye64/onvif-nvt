@@ -142,7 +142,7 @@ class RunMedia {
         })
         .catch(error => {
           this.apiErrors.push('AddVideoSourceConfiguration')
-          console.error('AddVidAddVideoSourceConfigurationeoEncoderConfiguration failed')
+          console.error('AddVideoSourceConfiguration failed')
           console.error(error.message)
           if ('fault' in error) {
             console.error(error.fault)

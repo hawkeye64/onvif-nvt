@@ -1,8 +1,9 @@
 /* -------------------------------------------------
   NOTE: I use this code to interactively test with
-  a real camera each new method as it is written.
+  a real camera for each new method as it is written.
   ------------------------------------------------- */
 
+const Config = require('./config')
 const saveXml = require('../lib/utils/save-xml')
 // Uncomment to save XML Requests and Resonses
 saveXml.setWritable(true)
@@ -10,12 +11,14 @@ saveXml.setWritable(true)
 let apiErrors = []
 
 function run () {
+  console.log(`Interactively testing with '${Config.folder}' at address: ${Config.address}`)
+
   testCore().then(() => {
     return testPtz()
   }).then(() => {
     return testMedia()
   }).then(() => {
-    return testEvents()
+    return testAnalytics()
   }).then(() => {
     return testSnapshot()
   }).then(() => {
@@ -85,10 +88,10 @@ function testMedia () {
   })
 }
 
-function testEvents () {
+function testAnalytics () {
   return new Promise((resolve, reject) => {
-    let RunEvents = require('./run.events')
-    RunEvents.run()
+    let RunAnalytics = require('./run.analytics')
+    RunAnalytics.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)
