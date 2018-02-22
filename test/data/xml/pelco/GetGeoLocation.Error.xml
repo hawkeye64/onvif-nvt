@@ -68,7 +68,9 @@
   xmlns:wstop="http://docs.oasis-open.org/wsn/t-1" 
   xmlns:xmime5="http://www.w3.org/2005/05/xmlmime" 
   xmlns:xop="http://www.w3.org/2004/08/xop/include">
-  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <SOAP-ENV:Fault>
       <SOAP-ENV:Code>
