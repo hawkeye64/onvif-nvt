@@ -9,24 +9,30 @@
   xmlns:tt="http://www.onvif.org/ver10/schema" 
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:tns1="http://www.onvif.org/ver10/topics" 
-  xmlns:axt="http://www.onvif.org/ver10/analytics" 
+  xmlns:tan="http://www.onvif.org/ver10/analytics" 
   xmlns:ttr="http://www.onvif.org/ver10/analytics/radiometry">
   <s:Header>
-    <Security s:mustUnderstand="1" 
-      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-      <UsernameToken>
-        <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">XF1kozHRv9AIfTkgETK2KvmFp4E=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">LlHKJ47959kU34dlkex2Fw==</Nonce>
-        <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-21T16:15:38.480Z
-        </Created>
-      </UsernameToken>
-    </Security>
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+    <wsse:Security s:mustUnderstand="1">
+      <wsu:Timestamp wsu:Id="Time">
+        <wsu:Created>2018-02-22T15:45:09.872Z</wsu:Created>
+        <wsu:Expires>2018-02-22T15:45:19.872Z</wsu:Expires>
+      </wsu:Timestamp>
+      <wsse:UsernameToken wsu:Id="User">
+        <wsse:Username>admin</wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">EFd7OmKh0Qh4hVCHjAFKYtA2Ssw=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">fxb0T3urQO95XOvX/NzqFQ==</wsse:Nonce>
+        <wsu:Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-22T15:45:09.872Z
+        </wsu:Created>
+      </wsse:UsernameToken>
+    </wsse:Security>
   </s:Header>
   <s:Body>
-    <axt:GetAnalyticsModules>
-      <axt:ConfigurationToken>VideoAnalyticsToken</axt:ConfigurationToken>
-    </axt:GetAnalyticsModules>
+    <tan:GetAnalyticsModules>
+      <tan:ConfigurationToken>VideoAnalyticsToken</tan:ConfigurationToken>
+    </tan:GetAnalyticsModules>
   </s:Body>
 </s:Envelope>

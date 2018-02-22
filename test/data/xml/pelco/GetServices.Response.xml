@@ -33,7 +33,9 @@
   xmlns:psnmp="urn:schemas-pelco-com:onvif:snmp:1" 
   xmlns:psmtp="urn:schemas-pelco-com:onvif:smtp:1" 
   xmlns:pled="urn:schemas-pelco-com:onvif:led:1">
-  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <tds:GetServicesResponse>
       <tds:Service>

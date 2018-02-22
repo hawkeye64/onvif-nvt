@@ -144,7 +144,7 @@ class Ptz {
    * Note: This functionality is only used where API calls require a &lt;strong>ProfileToken&lt;/strong> and one is not provided.
    * @param {string} profileToken The profileToken to use when one is not passed to a method requiring one.
    */
-  setProfileToken (profileToken) {
+  setDefaultProfileToken (profileToken) {
     this.defaultProfileToken = profileToken
   }
 
@@ -165,6 +165,13 @@ class Ptz {
 
   buildRequest (methodName, xml, callback) {
     let promise = new Promise((resolve, reject) => {
+      let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for ${methodName} is invalid:` + errMsg))
+          return
+        }
+      }
       let soapBody = ''
       if (typeof xml === 'undefined' || xml === null || xml === '') {
         soapBody += `&lt;tptz:${methodName}/>`
@@ -182,7 +189,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -234,6 +241,12 @@ class Ptz {
   getNode (nodeToken, callback) {
     let promise = new Promise((resolve, reject) => {
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for getNode is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(nodeToken, 'string'))) {
         reject(new Error('The "nodeToken" argument for getNode is invalid: ' + errMsg))
         return
@@ -249,7 +262,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -336,6 +349,12 @@ class Ptz {
   getConfiguration (configurationToken, callback) {
     let promise = new Promise((resolve, reject) => {
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for getConfiguration is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
         reject(new Error('The "configurationToken" argument for getConfiguration is invalid: ' + errMsg))
         return
@@ -351,7 +370,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -378,6 +397,12 @@ class Ptz {
   getConfigurationOptions (configurationToken, callback) {
     let promise = new Promise((resolve, reject) => {
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for getConfigurationOptions is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
         reject(new Error('The "configurationToken" argument for getConfigurationOptions is invalid: ' + errMsg))
         return
@@ -393,7 +418,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -419,6 +444,12 @@ class Ptz {
   setConfiguration (configurationToken, ptzConfigurationOptions, forcePersistence, callback) {
     let promise = new Promise((resolve, reject) => {
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for setConfiguration is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
         reject(new Error('The "configurationToken" argument for setConfiguration is invalid: ' + errMsg))
         return
@@ -440,7 +471,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -469,6 +500,12 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for getCompatibleConfigurations is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for getCompatibleConfigurations is invalid: ' + errMsg))
         return
@@ -484,7 +521,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -527,16 +564,20 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for absoluteMove is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for absoluteMove is invalid: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(position, 'object'))) {
         reject(new Error('The "position" argument for absoluteMove is invalid: ' + errMsg))
         return
       }
-
       if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for absoluteMove is invalid: ' + errMsg))
@@ -558,7 +599,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -606,18 +647,22 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for relativeMove is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for relativeMove is invalid: ' + errMsg))
         return
       }
-
       if (typeof translation !== 'undefined' &amp;&amp; translation !== null) {
         if ((errMsg = Util.isInvalidValue(translation, 'object'))) {
           reject(new Error('The "translation" argument for relativeMove is invalid: ' + errMsg))
           return
         }
       }
-
       if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for relativeMove is invalid: ' + errMsg))
@@ -641,7 +686,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -701,18 +746,22 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for continuousMove is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for continuousMove is invalid: ' + errMsg))
         return
       }
-
       if (velocity) {
         if ((errMsg = Util.isInvalidValue(velocity, 'object'))) {
           reject(new Error('The "velocity" argument for continuousMove is invalid: ' + errMsg))
           return
         }
       }
-
       if (typeof timeout !== 'undefined' &amp;&amp; timeout !== null) {
         if ((errMsg = Util.isInvalidValue(timeout, 'integer'))) {
           reject(new Error('The "timeout" property for continuousMove is invalid: ' + errMsg))
@@ -736,7 +785,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -783,60 +832,56 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for geoMove is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for geoMove is invalid: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(geoLocation, 'object'))) {
         reject(new Error('The "position" argument for geoMove is invalid: ' + errMsg))
         return
       }
-
       if (!('lat' in geoLocation)) {
         reject(new Error('The "geoLocation.lat" is a required argument for geoMove: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(geoLocation.lat, 'float'))) {
         reject(new Error('The "geoLocation.lat" argument for geoMove is invalid: ' + errMsg))
         return
       }
-
       if (!('lon' in geoLocation)) {
         reject(new Error('The "geoLocation.lon" is a required argument for geoMove: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(geoLocation.lon, 'float'))) {
         reject(new Error('The "geoLocation.lon" argument for geoMove is invalid: ' + errMsg))
         return
       }
-
       if (!('elevation' in geoLocation)) {
         reject(new Error('The "geoLocation.elevation" is a required argument for geoMove: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(geoLocation.elevation, 'float'))) {
         reject(new Error('The "geoLocation.elevation" argument for geoMove is invalid: ' + errMsg))
         return
       }
-
       if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for geoMove is invalid: ' + errMsg))
           return
         }
       }
-
       if (typeof areaWidth !== 'undefined' &amp;&amp; areaWidth !== null) {
         if ((errMsg = Util.isInvalidValue(areaWidth, 'float'))) {
           reject(new Error('The "areaWidth" argument for geoMove is invalid: ' + errMsg))
           return
         }
       }
-
       if (typeof areaHeight !== 'undefined' &amp;&amp; areaHeight !== null) {
         if ((errMsg = Util.isInvalidValue(areaHeight, 'float'))) {
           reject(new Error('The "areaHeight" argument for geoMove is invalid: ' + errMsg))
@@ -864,7 +909,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -890,18 +935,22 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for stop is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for stop is invalid: ' + errMsg))
         return
       }
-
       if (typeof panTilt !== 'undefined' &amp;&amp; panTilt !== null) {
         if ((errMsg = Util.isInvalidValue(panTilt, 'boolean'))) {
           reject(new Error('The "panTilt" property for stop is invalid: ' + errMsg))
           return
         }
       }
-
       if (typeof zoom !== 'undefined' &amp;&amp; zoom !== null) {
         if ((errMsg = Util.isInvalidValue(zoom, 'boolean'))) {
           reject(new Error('The "zoom" property for stop is invalid: ' + errMsg))
@@ -912,10 +961,10 @@ class Ptz {
       let soapBody = ''
       soapBody += '&lt;tptz:ProfileToken>' + profileToken + '&lt;/tptz:ProfileToken>'
       if (typeof panTilt !== 'undefined' &amp;&amp; panTilt !== null) {
-        soapBody += '&lt;tptz:PanTilt>' + panTilt + '&lt;/tptz:PanTilt>'
+        soapBody += '&lt;tptz:PanTilt>' + panTilt ? 1 : 0 + '&lt;/tptz:PanTilt>'
       }
       if (typeof zoom !== 'undefined' &amp;&amp; zoom !== null) {
-        soapBody += '&lt;tptz:Zoom>' + zoom + '&lt;/tptz:Zoom>'
+        soapBody += '&lt;tptz:Zoom>' + zoom ? 1 : 0 + '&lt;/tptz:Zoom>'
       }
 
       this.buildRequest('Stop', soapBody)
@@ -925,7 +974,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -961,6 +1010,12 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for getStatus is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for relativeMove is invalid: ' + errMsg))
         return
@@ -976,7 +1031,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1012,25 +1067,28 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for setPreset is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for setPreset is invalid: ' + errMsg))
         return
       }
-
       if (typeof presetToken !== 'undefined' &amp;&amp; presetToken !== null) {
         if ((errMsg = Util.isInvalidValue(presetToken, 'string'))) {
           reject(new Error('The "presetToken" argument for setPreset is invalid: ' + errMsg))
           return
         }
       }
-
       if (typeof presetName !== 'undefined' &amp;&amp; presetName !== null) {
         if ((errMsg = Util.isInvalidValue(presetName, 'string'))) {
           reject(new Error('The "presetName" argument for setPreset is invalid: ' + errMsg))
           return
         }
       }
-
       if (!presetToken &amp;&amp; !presetName) {
         reject(new Error('Either the "profileToken" or the "presetName" argument must be specified in method "setPreset".'))
         return
@@ -1052,7 +1110,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1081,6 +1139,12 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for getPresets is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for getPresets is invalid: ' + errMsg))
         return
@@ -1096,7 +1160,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1126,16 +1190,20 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for gotoPreset is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for gotoPreset is invalid: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(presetToken, 'string'))) {
         reject(new Error('The "presetToken" argument for gotoPreset is invalid: ' + errMsg))
         return
       }
-
       if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for gotoPreset is invalid: ' + errMsg))
@@ -1157,7 +1225,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1180,11 +1248,16 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for removePreset is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for removePreset is invalid: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(presetToken, 'string'))) {
         reject(new Error('The "presetToken" argument for removePreset is invalid: ' + errMsg))
         return
@@ -1201,7 +1274,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1230,11 +1303,16 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for gotoHomePosition is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for gotoHomePosition is invalid: ' + errMsg))
         return
       }
-
       if (typeof speed !== 'undefined' &amp;&amp; speed !== null) {
         if ((errMsg = Util.isInvalidValue(speed, 'object'))) {
           reject(new Error('The "speed" argument for gotoHomePosition is invalid: ' + errMsg))
@@ -1255,7 +1333,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1281,6 +1359,12 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for setHomePosition is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for setHomePosition is invalid: ' + errMsg))
         return
@@ -1296,7 +1380,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1324,13 +1408,18 @@ class Ptz {
       profileToken = profileToken || this.defaultProfileToken
 
       let errMsg = ''
+      if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
+        if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
+          reject(new Error(`The "callback" argument for sendAuxiliaryCommand is invalid:` + errMsg))
+          return
+        }
+      }
       if ((errMsg = Util.isInvalidValue(profileToken, 'string'))) {
         reject(new Error('The "profileToken" argument for sendAuxiliaryCommand is invalid: ' + errMsg))
         return
       }
-
       if ((errMsg = Util.isInvalidValue(auxiliaryData, 'string'))) {
-        reject(new Error('The "profileauxiliaryDataToken" argument for sendAuxiliaryCommand is invalid: ' + errMsg))
+        reject(new Error('The "auxiliaryData" argument for sendAuxiliaryCommand is invalid: ' + errMsg))
         return
       }
 
@@ -1345,7 +1434,7 @@ class Ptz {
           reject(error)
         })
     })
-    if (callback) {
+    if (Util.isValidCallback(callback)) {
       promise.then(results => {
         callback(null, results)
       }).catch(error => {
@@ -1375,7 +1464,7 @@ module.exports = new Ptz()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Feb 21 2018 09:05:01 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 10:26:56 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -8,19 +8,21 @@
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl" 
   xmlns:tt="http://www.onvif.org/ver10/schema">
-  <SOAP-ENV:Header></SOAP-ENV:Header>
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <tptz:GetStatusResponse>
       <tptz:PTZStatus>
         <tt:Position>
-          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.91" x="-0.29"></tt:PanTilt>
+          <tt:PanTilt space="http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace" y="0.94" x="-0.83"></tt:PanTilt>
           <tt:Zoom space="http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace" x="0"></tt:Zoom>
         </tt:Position>
         <tt:MoveStatus>
           <tt:PanTilt>IDLE</tt:PanTilt>
           <tt:Zoom>IDLE</tt:Zoom>
         </tt:MoveStatus>
-        <tt:UtcTime>2018-02-21T16:21:50.002996Z</tt:UtcTime>
+        <tt:UtcTime>2018-02-22T13:49:51.775317Z</tt:UtcTime>
       </tptz:PTZStatus>
     </tptz:GetStatusResponse>
   </SOAP-ENV:Body>

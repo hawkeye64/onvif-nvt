@@ -10,17 +10,23 @@
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:tptz="http://www.onvif.org/ver20/ptz/wsdl">
   <s:Header>
-    <Security s:mustUnderstand="1" 
-      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-      <UsernameToken>
-        <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">ppyKyxCby0Kjiqs8WKMeK2LtmGA=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">hrtNJ33dPlA3MBR0Go2XRA==</Nonce>
-        <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-21T16:15:27.172Z
-        </Created>
-      </UsernameToken>
-    </Security>
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+    <wsse:Security s:mustUnderstand="1">
+      <wsu:Timestamp wsu:Id="Time">
+        <wsu:Created>2018-02-22T15:44:58.028Z</wsu:Created>
+        <wsu:Expires>2018-02-22T15:45:08.028Z</wsu:Expires>
+      </wsu:Timestamp>
+      <wsse:UsernameToken wsu:Id="User">
+        <wsse:Username>admin</wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">t5K9J2MNCcYIByse9kAa2bl3mkI=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">ODrjFzNhDIZDvb4SM1aztg==</wsse:Nonce>
+        <wsu:Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-22T15:44:58.028Z
+        </wsu:Created>
+      </wsse:UsernameToken>
+    </wsse:Security>
   </s:Header>
   <s:Body>
     <tptz:RelativeMove>

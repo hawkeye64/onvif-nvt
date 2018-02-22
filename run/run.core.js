@@ -7,6 +7,9 @@ class RunCore {
     this.camera = null
 
     this.interfaceToken = ''
+    this.dynamicDNSType = ''
+    this.dynamicDNSName = ''
+    this.dynamicDNSTTL = ''
   }
 
   run () {
@@ -416,8 +419,19 @@ class RunCore {
         .then(results => {
           console.log('GetDynamicDNS successful')
           try {
-            // DynamicDNSType = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
-            // DynamicDNSName = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
+            this.dynamicDNSType = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Type
+            if (results.data.GetDynamicDNSResponse.DynamicDNSInformation.Name) {
+              this.dynamicDNSName = results.data.GetDynamicDNSResponse.DynamicDNSInformation.Name
+            }
+            else {
+              this.dynamicDNSName = null
+            }
+            if (results.data.GetDynamicDNSResponse.DynamicDNSInformation.TTL) {
+              this.dynamicDNSTTL = parseInt(results.data.GetDynamicDNSResponse.DynamicDNSInformation.TTL)
+            }
+            else {
+              this.dynamicDNSTTL = null
+            }
           }
           catch (e) {}
           resolve(results)
@@ -436,7 +450,17 @@ class RunCore {
 
   SetDynamicDNS () {
     return new Promise((resolve, reject) => {
-      this.camera.core.setDynamicDNS('ClientUpdates')
+      this.dynamicDNSType = 'ClientUpdates'
+      if (!(this.dynamicDNSType && this.dynamicDNSType.length !== 0)) {
+        this.dynamicDNSType = 'ClientUpdates'
+      }
+      if (!(this.dynamicDNSName && this.dynamicDNSName.length !== 0)) {
+        this.dynamicDNSName = 'Test'
+      }
+      if (!(this.dynamicDNSTTL && this.dynamicDNSTTL.length !== 0)) {
+        this.dynamicDNSTTL = 30
+      }
+      this.camera.core.setDynamicDNS(this.dynamicDNSType, this.dynamicDNSName, this.dynamicDNSTTL)
         .then(results => {
           console.log('SetDynamicDNS successful')
           resolve(results)
@@ -452,26 +476,6 @@ class RunCore {
         })
     })
   }
-
-  // SetDynamicDNS () {
-  //   return new Promise((resolve, reject) => {
-  //     if (String(DynamicDNSType).length === 0) {
-  //       DynamicDNSType = 'ClientUpdates'
-  //     }
-  //     this.camera.core.setDynamicDNS(DynamicDNSType, DynamicDNSName)
-  //       .then(results => {
-  //         console.log('SetDynamicDNS successful')
-  //         resolve(results)
-  //       })
-  //       .catch(error => {
-  //         this.apiErrors.push('SetDynamicDNS')
-  //         console.error('SetDynamicDNS failed')
-  //         console.error(error.message)
-  //         console.error(error.fault)
-  //         resolve(error)
-  //       })
-  //   })
-  // }
 
   GetNetworkInterfaces () {
     return new Promise((resolve, reject) => {
