@@ -9,7 +9,7 @@
   xmlns:tt="http://www.onvif.org/ver10/schema" 
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:tns1="http://www.onvif.org/ver10/topics" 
-  xmlns:axt="http://www.onvif.org/ver10/analytics" 
+  xmlns:tan="http://www.onvif.org/ver10/analytics" 
   xmlns:ttr="http://www.onvif.org/ver10/analytics/radiometry">
   <s:Header>
     <wsa:ReplyTo>
@@ -17,22 +17,22 @@
     </wsa:ReplyTo>
     <wsse:Security s:mustUnderstand="1">
       <wsu:Timestamp wsu:Id="Time">
-        <wsu:Created>2018-02-22T13:39:18.850Z</wsu:Created>
-        <wsu:Expires>2018-02-22T13:39:28.850Z</wsu:Expires>
+        <wsu:Created>2018-02-22T14:12:25.605Z</wsu:Created>
+        <wsu:Expires>2018-02-22T14:12:35.605Z</wsu:Expires>
       </wsu:Timestamp>
       <wsse:UsernameToken wsu:Id="User">
         <wsse:Username>admin</wsse:Username>
-        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">mBYB4+F1eZjB3F8vDA+XmE5Ems0=</wsse:Password>
-        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">HokErdo4mChkUhwEmzt42g==</wsse:Nonce>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">GXieaAMfZLDF/TAxGkwHrOukoIk=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">iX5viJLBmgDja9cm/E3rBw==</wsse:Nonce>
         <wsu:Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-22T13:39:18.850Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-22T14:12:25.605Z
         </wsu:Created>
       </wsse:UsernameToken>
     </wsse:Security>
   </s:Header>
   <s:Body>
-    <axt:GetRules>
-      <axt:ConfigurationToken>VideoAnalyticsToken</axt:ConfigurationToken>
-    </axt:GetRules>
+    <tan:GetRules>
+      <tan:ConfigurationToken>VideoAnalyticsToken</tan:ConfigurationToken>
+    </tan:GetRules>
   </s:Body>
 </s:Envelope>
