@@ -74,7 +74,7 @@
         <SOAP-ENV:Value>SOAP-ENV:Sender</SOAP-ENV:Value>
       </SOAP-ENV:Code>
       <SOAP-ENV:Reason>
-        <SOAP-ENV:Text xml:lang="en">Validation constraint violation: tag name or namespace mismatch in element &lt;SubscriptionId&gt;</SOAP-ENV:Text>
+        <SOAP-ENV:Text xml:lang="en">Well-formedness violation</SOAP-ENV:Text>
       </SOAP-ENV:Reason>
     </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
