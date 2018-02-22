@@ -46,7 +46,12 @@
   xmlns:tns1="http://www.onvif.org/ver10/topics" 
   xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
   <SOAP-ENV:Header>
-    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+    <wsa5:ReplyTo SOAP-ENV:mustUnderstand="true">
+      <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
+    </wsa5:ReplyTo>
+    <Action 
+      xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" SOAP-ENV:mustUnderstand="1">http://www.onvif.org/ver10/events/wsdl/PullPointSubscription/PullMessagesRequest
+    </Action>
   </SOAP-ENV:Header>
   <SOAP-ENV:Body>
     <SOAP-ENV:Fault>
@@ -57,8 +62,11 @@
         </SOAP-ENV:Subcode>
       </SOAP-ENV:Code>
       <SOAP-ENV:Reason>
-        <SOAP-ENV:Text xml:lang="en"/>
+        <SOAP-ENV:Text xml:lang="en">Invalid argument</SOAP-ENV:Text>
       </SOAP-ENV:Reason>
+      <SOAP-ENV:Detail>
+        <SOAP-ENV:Text>Validation constraint violation: occurrence violation in element tev:PullMessages</SOAP-ENV:Text>
+      </SOAP-ENV:Detail>
     </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

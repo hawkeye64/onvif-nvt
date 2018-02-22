@@ -21,9 +21,9 @@
         </tt:TimeZone>
         <tt:UTCDateTime>
           <tt:Time>
-            <tt:Hour>13</tt:Hour>
-            <tt:Minute>50</tt:Minute>
-            <tt:Second>1</tt:Second>
+            <tt:Hour>20</tt:Hour>
+            <tt:Minute>0</tt:Minute>
+            <tt:Second>14</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
