@@ -18,6 +18,8 @@ function run () {
   }).then(() => {
     return testMedia()
   }).then(() => {
+    return testEvents()
+  }).then(() => {
     return testAnalytics()
   }).then(() => {
     return testSnapshot()
@@ -78,6 +80,20 @@ function testMedia () {
   return new Promise((resolve, reject) => {
     let RunMedia = require('./run.media')
     RunMedia.run()
+      .then(results => {
+        apiErrors = apiErrors.concat(results)
+        resolve(results)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  })
+}
+
+function testEvents () {
+  return new Promise((resolve, reject) => {
+    let RunEvents = require('./run.events')
+    RunEvents.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)

@@ -5,6 +5,8 @@ class RunEvents {
     this.OnvifManager = require('../lib/onvif-nvt')
     this.apiErrors = []
     this.camera = null
+
+    this.subscriptionId = {}
   }
 
   run () {
@@ -90,6 +92,14 @@ class RunEvents {
       this.camera.events.createPullPointSubscription()
         .then(results => {
           console.log('CreatePullPointSubscription successful')
+          let response = results.data.CreatePullPointSubscriptionResponse
+          let reference = response.SubscriptionReference
+          this.subscriptionId = {}
+          if (reference.ReferenceParameters) {
+            this.subscriptionId = reference.ReferenceParameters.SubscriptionId
+          }
+          this.subscriptionId.Address = reference.Address
+          console.log(this.subscriptionId)
           resolve(results)
         })
         .catch(error => {
@@ -106,7 +116,7 @@ class RunEvents {
 
   PullMessages () {
     return new Promise((resolve, reject) => {
-      this.camera.events.pullMessages(1000, 1)
+      this.camera.events.pullMessages(this.subscriptionId, 10000, 10)
         .then(results => {
           console.log('PullMessages successful')
           resolve(results)
