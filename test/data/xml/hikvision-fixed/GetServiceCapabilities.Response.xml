@@ -35,9 +35,12 @@
   xmlns:tnshik="http://www.hikvision.com/2011/event/topics" 
   xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
+  <env:Header>
+    <wsa:Action>http://www.onvif.org/ver10/events/wsdl/EventPortType/GetServiceCapabilitiesResponse</wsa:Action>
+  </env:Header>
   <env:Body>
-    <tan:GetServiceCapabilitiesResponse>
-      <tan:Capabilities RuleSupport="true" AnalyticsModuleSupport="true" CellBasedSceneDescriptionSupported="true"/>
-    </tan:GetServiceCapabilitiesResponse>
+    <tev:GetServiceCapabilitiesResponse>
+      <tev:Capabilities WSSubscriptionPolicySupport="true" WSPullPointSupport="true" WSPausableSubscriptionManagerInterfaceSupport="false" MaxNotificationProducers="10" MaxPullPoints="10"></tev:Capabilities>
+    </tev:GetServiceCapabilitiesResponse>
   </env:Body>
 </env:Envelope>

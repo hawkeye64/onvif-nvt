@@ -221,6 +221,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -246,6 +248,14 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -268,6 +278,14 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -293,6 +311,14 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -315,6 +341,14 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -339,10 +373,178 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The user Password.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subscriptionId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">To string (ex: used in Events#pullMessages).
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Address</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Action string (ex: used in Events#pullMessages).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>_</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">MessageID string (ex: used in Events#pullMessages).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">MessageID string (ex: used in Events#pullMessages).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -390,7 +592,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line72">line 72</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -599,7 +801,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line339">line 339</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line362">line 362</a>
     </li></ul></dd>
     
 
@@ -734,7 +936,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line254">line 254</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -768,7 +970,7 @@
     
 
     
-    <h4 class="name" id="makeRequest"><span class="type-signature"></span>makeRequest<span class="signature">(serviceAddress, methodName, soapEnvelope)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="makeRequest"><span class="type-signature"></span>makeRequest<span class="signature">(serviceAddress, methodName, soapEnvelope, params<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -800,6 +1002,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -825,6 +1029,14 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -847,6 +1059,14 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -871,10 +1091,51 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The request SOAP envelope.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Used internally.</td>
         </tr>
 
     
@@ -915,7 +1176,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line130">line 130</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -1231,7 +1492,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line186">line 186</a>
+        <a href="utils_soap.js.html">utils/soap.js</a>, <a href="utils_soap.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -1281,7 +1542,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 10:26:56 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 18:06:06 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

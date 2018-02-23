@@ -413,7 +413,7 @@ This method is mandatory.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line148">line 148</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line257">line 257</a>
     </li></ul></dd>
     
 
@@ -447,7 +447,7 @@ This method is mandatory.
     
 
     
-    <h4 class="name" id="createRequest"><span class="type-signature"></span>createRequest<span class="signature">(body)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="createRequest"><span class="type-signature"></span>createRequest<span class="signature">(body, subscriptionId<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -479,6 +479,8 @@ This method is mandatory.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -504,10 +506,51 @@ This method is mandatory.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The body of the xml.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subscriptionId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Used internally.</td>
         </tr>
 
     
@@ -548,7 +591,7 @@ This method is mandatory.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line92">line 92</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -696,7 +739,7 @@ The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProper
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line217">line 217</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line326">line 326</a>
     </li></ul></dd>
     
 
@@ -844,7 +887,7 @@ Returns the capabilities of the event service. The result is returned in a typed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line228">line 228</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line337">line 337</a>
     </li></ul></dd>
     
 
@@ -1086,7 +1129,7 @@ Returns the capabilities of the event service. The result is returned in a typed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line81">line 81</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -1120,7 +1163,7 @@ Returns the capabilities of the event service. The result is returned in a typed
     
 
     
-    <h4 class="name" id="pullMessages"><span class="type-signature"></span>pullMessages<span class="signature">(timeout, messageLimit, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="pullMessages"><span class="type-signature"></span>pullMessages<span class="signature">(subscriptionId, timeout, messageLimit, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1164,6 +1207,158 @@ The command shall at least support a Timeout of one minute. In case a device sup
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>subscriptionId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">An object after createPullPointSubscription is called.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Address</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Address from createPullPointSubscription is called.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>_</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raw subscriptionId from createPullPointSubscription.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Raw subscriptionId from createPullPointSubscription.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
     
 
         <tr>
@@ -1297,7 +1492,7 @@ The command shall at least support a Timeout of one minute. In case a device sup
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line240">line 240</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line353">line 353</a>
     </li></ul></dd>
     
 
@@ -1444,7 +1639,7 @@ The command shall at least support a Timeout of one minute. In case a device sup
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line289">line 289</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line420">line 420</a>
     </li></ul></dd>
     
 
@@ -1658,7 +1853,7 @@ The UtcTime argument will be matched against the UtcTime attribute on a Notifica
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line306">line 306</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -1806,7 +2001,322 @@ Properties inform a client about property creation, changes and deletion in a un
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line358">line 358</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line489">line 489</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">(loopTimeMS<span class="signature-attributes">opt</span>, timeoutMS<span class="signature-attributes">opt</span>, messageLimit<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Start a PullMessages event loop<br>
+This method does a <strong>createPullPointSubscription</strong> followed by a <strong>pullMessages</strong>.
+The resulting xml from the camera is then sent via an <strong>emit('messages', data)</strong>.
+On error, <strong>emit('messages:error', error)</strong>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>loopTimeMS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The amount of time between polls (in milliseconds, default 10000).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>timeoutMS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The tomout to send to the server (in milliseconds, default 10000).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>messageLimit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The message limit to retrive (default 1)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line163">line 163</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>camera.events.on('messages', messages => {
+  console.log('Messages Received:', messages)
+})
+
+ camera.events.on('messages:error', error => {
+   console.error('Messages Error:', error)
+ })
+
+ camera.events.start()</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Stops a PullMessages event loop that has been started with <strong>start()</strong>.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -1956,7 +2466,7 @@ This command shall terminate the lifetime of a pull point.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line323">line 323</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line454">line 454</a>
     </li></ul></dd>
     
 
@@ -2106,7 +2616,7 @@ This command shall terminate the lifetime of a pull point.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line347">line 347</a>
+        <a href="modules_events.js.html">modules/events.js</a>, <a href="modules_events.js.html#line478">line 478</a>
     </li></ul></dd>
     
 
@@ -2156,7 +2666,7 @@ This command shall terminate the lifetime of a pull point.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 10:26:56 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 18:06:06 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>

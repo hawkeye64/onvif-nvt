@@ -8,23 +8,27 @@
   xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
   xmlns:tt="http://www.onvif.org/ver10/schema" 
   xmlns:ter="http://www.onvif.org/ver10/error" 
-  xmlns:tns1="http://www.onvif.org/ver10/topics" 
-  xmlns:axt="http://www.onvif.org/ver10/analytics" 
-  xmlns:ttr="http://www.onvif.org/ver10/analytics/radiometry">
+  xmlns:tev="http://www.onvif.org/ver10/events/wsdl">
   <s:Header>
-    <Security s:mustUnderstand="1" 
-      xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-      <UsernameToken>
-        <Username>admin</Username>
-        <Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">yF0+TThFqysUP/yIRO0k0XiEDFA=</Password>
-        <Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">h7KNHTL0yCQmxmfc7Hr8eQ==</Nonce>
-        <Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-21T16:20:59.979Z
-        </Created>
-      </UsernameToken>
-    </Security>
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+    <wsse:Security s:mustUnderstand="1">
+      <wsu:Timestamp wsu:Id="Time">
+        <wsu:Created>2018-02-22T20:06:29.580Z</wsu:Created>
+        <wsu:Expires>2018-02-22T20:06:39.580Z</wsu:Expires>
+      </wsu:Timestamp>
+      <wsse:UsernameToken wsu:Id="User">
+        <wsse:Username>admin</wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">ZdZ65RNC5wxXdFzbQ2bm4tJ7ifg=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">zbWKly3D2rt14J09kXq0Dw==</wsse:Nonce>
+        <wsu:Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-22T20:06:29.580Z
+        </wsu:Created>
+      </wsse:UsernameToken>
+    </wsse:Security>
   </s:Header>
   <s:Body>
-    <axt:GetServiceCapabilities/>
+    <tev:GetServiceCapabilities/>
   </s:Body>
 </s:Envelope>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tev="http://www.onvif.org/ver10/events/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2" 
+  xmlns:wsrfbf="http://docs.oasis-open.org/wsrf/bf-2" 
+  xmlns:wsrfr="http://docs.oasis-open.org/wsrf/r-2" 
+  xmlns:wstop="http://docs.oasis-open.org/wsn/t-1" 
+  xmlns:tas="http://www.onvif.org/ver10/advancedsecurity/wsdl" 
+  xmlns:tns1="http://www.onvif.org/ver10/topics" 
+  xmlns:pa="urn:schemas-pelco-com:onvif:analytics:1">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tev:GetEventPropertiesResponse>
+      <tev:TopicNamespaceLocation>http://www.onvif.org/onvif/ver10/topics/topicns.xml</tev:TopicNamespaceLocation>
+      <wsnt:FixedTopicSet>true</wsnt:FixedTopicSet>
+      <wstop:TopicSet>
+        <tns1:Advancedsecurity>
+          <Keystore>
+            <KeyStatus wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tas:KeyID" Name="KeyID"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="tas:KeyStatus" Name="OldStatus"></tt:SimpleItemDescription>
+                  <tt:SimpleItemDescription Type="tas:KeyStatus" Name="NewStatus"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </KeyStatus>
+          </Keystore>
+        </tns1:Advancedsecurity>
+        <tns1:Device>
+          <OperationMode>
+            <ShutdownInitiated wstop:topic="true"></ShutdownInitiated>
+          </OperationMode>
+          <Trigger>
+            <DigitalInput wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="InputToken"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="xsd:boolean" Name="LogicalState"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </DigitalInput>
+          </Trigger>
+        </tns1:Device>
+        <tns1:Monitoring>
+          <ProcessorUsage wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="Token"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Type="xsd:float" Name="Value"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </ProcessorUsage>
+          <LinkStatus wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="Token"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:ElementItemDescription Type="tt:NetworkInterfaceConnectionSetting" Name="Link"></tt:ElementItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </LinkStatus>
+          <OperatingTime>
+            <LastReboot wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="xsd:dateTime" Name="Status"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </LastReboot>
+            <LastReset wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="xsd:dateTime" Name="Status"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </LastReset>
+            <LastClockSynchronization wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="xsd:dateTime" Name="Status"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </LastClockSynchronization>
+          </OperatingTime>
+          <UploadStatus wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+              <tt:Data>
+                <tt:SimpleItemDescription Type="xsd:float" Name="Status"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </UploadStatus>
+        </tns1:Monitoring>
+        <tns1:RuleEngine>
+          <AbandonedObject>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </AbandonedObject>
+          <AdaptiveMotion>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </AdaptiveMotion>
+          <AutoTracker>
+            <Moved wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Moved>
+          </AutoTracker>
+          <CameraSabotage>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </CameraSabotage>
+          <DirectionalMotion>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </DirectionalMotion>
+          <LoiteringDetection>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </LoiteringDetection>
+          <CellMotionDetector>
+            <Motion wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                  <tt:SimpleItemDescription Type="xsd:boolean" Name="Value"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Motion>
+          </CellMotionDetector>
+          <ObjectCounting>
+            <CountExceeded wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </CountExceeded>
+          </ObjectCounting>
+          <ObjectRemoval>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </ObjectRemoval>
+          <StoppedVehicle>
+            <Triggered wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="VideoAnalyticsConfiguration"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="pa:Event" Name="Event"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </Triggered>
+          </StoppedVehicle>
+        </tns1:RuleEngine>
+        <tns1:RecordingConfig>
+          <RecordingConfiguration wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:RecordingReference" Name="RecordingToken"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:ElementItemDescription Type="tt:RecordingConfiguration" Name="Configuration"></tt:ElementItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </RecordingConfiguration>
+          <TrackConfiguration wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:RecordingReference" Name="RecordingToken"></tt:SimpleItemDescription>
+                <tt:SimpleItemDescription Type="tt:TrackReference" Name="TrackToken"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:ElementItemDescription Type="tt:TrackConfiguration" Name="Configuration"></tt:ElementItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </TrackConfiguration>
+          <RecordingJobConfiguration wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:RecordingJobReference" Name="RecordingJobToken"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:ElementItemDescription Type="tt:RecordingJobConfiguration" Name="Configuration"></tt:ElementItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </RecordingJobConfiguration>
+          <JobState wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:RecordingJobReference" Name="RecordingJobToken"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Type="xsd:string" Name="State"></tt:SimpleItemDescription>
+                <tt:ElementItemDescription Type="tt:RecordingJobStateInformation" Name="Information"></tt:ElementItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </JobState>
+          <DeleteTrackData wstop:topic="true">
+            <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="false">
+              <tt:Source>
+                <tt:SimpleItemDescription Type="tt:RecordingReference" Name="RecordingToken"></tt:SimpleItemDescription>
+                <tt:SimpleItemDescription Type="tt:TrackReference" Name="TrackToken"></tt:SimpleItemDescription>
+              </tt:Source>
+              <tt:Data>
+                <tt:SimpleItemDescription Type="xsd:dateTime" Name="StartTime"></tt:SimpleItemDescription>
+                <tt:SimpleItemDescription Type="xsd:dateTime" Name="EndTime"></tt:SimpleItemDescription>
+              </tt:Data>
+            </tt:MessageDescription>
+          </DeleteTrackData>
+        </tns1:RecordingConfig>
+        <tns1:RecordingHistory>
+          <Recording>
+            <State wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:RecordingReference" Name="RecordingToken"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="xsd:boolean" Name="IsRecording"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </State>
+          </Recording>
+          <Track>
+            <State wstop:topic="true">
+              <tt:MessageDescription xsi:type="tt:MessageDescription" IsProperty="true">
+                <tt:Source>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="RecordingToken"></tt:SimpleItemDescription>
+                  <tt:SimpleItemDescription Type="tt:ReferenceToken" Name="Track"></tt:SimpleItemDescription>
+                </tt:Source>
+                <tt:Data>
+                  <tt:SimpleItemDescription Type="xsd:boolean" Name="IsDataPresent"></tt:SimpleItemDescription>
+                </tt:Data>
+              </tt:MessageDescription>
+            </State>
+          </Track>
+        </tns1:RecordingHistory>
+      </wstop:TopicSet>
+      <wsnt:TopicExpressionDialect>http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet</wsnt:TopicExpressionDialect>
+      <wsnt:TopicExpressionDialect>http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete</wsnt:TopicExpressionDialect>
+      <tev:MessageContentFilterDialect>http://www.onvif.org/ver10/tev/messageContentFilter/ItemFilter</tev:MessageContentFilterDialect>
+      <tev:MessageContentSchemaLocation>http://www.onvif.org/ver10/schema/onvif.xsd</tev:MessageContentSchemaLocation>
+    </tev:GetEventPropertiesResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
