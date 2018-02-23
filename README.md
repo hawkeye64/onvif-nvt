@@ -18,7 +18,7 @@ The aim of the **onvif-nvt** package is to have as much complete coverage of the
 The `onvif-nvt` package will work only with `node` server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.
 
 ## Installation
-Note: This is a work-in-progress (Pre-Release), and while so, there will be many updates. PRs are welcomed.
+Note: This is an active project, and while so, there will be many updates. PRs are welcomed.
 
 ```npm install onvif-nvt```
 
@@ -101,6 +101,30 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         // 'image' is now ready to be displayed on a web page
         // ...
       })
+    }
+  })
+```
+
+## Example (Events)
+``` cs
+const OnvifManager = require('onvif-nvt')
+OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
+  .then(results => {
+    let camera = results
+    // if the camera supports events, the module will already be loaded.
+    if (camera.events) {
+      camera.events.on('messages', messages => {
+        console.log('Messages Received:', messages)
+      })
+
+      camera.events.on('messages:error', error => {
+        console.error('Messages Error:', error)
+      })
+
+      camera.events.start()
+
+      // call stop() to end the event loop
+      // camera.events.stop()
     }
   })
 ```
