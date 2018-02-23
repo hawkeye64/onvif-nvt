@@ -25,6 +25,16 @@ class RunEvents {
             return
           }
 
+          // this.camera.events.on('messages', messages => {
+          //   console.log('Messages Received:', messages)
+          // })
+
+          // this.camera.events.on('messages:error', error => {
+          //   console.error('Messages Error:', error)
+          // })
+
+          // this.camera.events.start()
+
           // let the tests begin
           return this.GetEventProperties().then(() => {
             return this.GetServiceCapabilities()
