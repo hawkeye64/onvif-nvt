@@ -97,6 +97,8 @@ class Events extends EventEmitter {
     this.namespaceAttributes = [
       'xmlns:tev="http://www.onvif.org/ver10/events/wsdl"'
     ]
+
+    this.intervalId = null
   }
 
   /**
@@ -116,22 +118,30 @@ class Events extends EventEmitter {
   /**
    * Private function for creating a SOAP request.
    * @param {string} body The body of the xml.
+   * @param {object=} subscriptionId Used internally.
    */
-  createRequest (body) {
-    let soapEnvelope = Soap.createRequest({
+  createRequest (body, subscriptionId) {
+    let request = {
       'body': body,
       'xmlns': this.namespaceAttributes,
       'diff': this.timeDiff,
       'username': this.username,
       'password': this.password
-    })
+    }
+    if (subscriptionId) {
+      request.subscriptionId = subscriptionId
+    }
+    let soapEnvelope = Soap.createRequest(request)
     return soapEnvelope
   };
 
-  buildRequest (methodName, xml, callback) {
+  buildRequest (methodName, xml, subscriptionId, callback) {
     let promise = new Promise((resolve, reject) => {
       let soapBody = ''
-      if (typeof xml === 'undefined' || xml === null || xml === '') {
+      if (methodName === 'PullMessages') {
+        soapBody = xml
+      }
+      else if (typeof xml === 'undefined' || xml === null || xml === '') {
         soapBody += `&lt;tev:${methodName}/>`
       }
       else {
@@ -139,7 +149,7 @@ class Events extends EventEmitter {
         soapBody += xml
         soapBody += `&lt;/tev:${methodName}>`
       }
-      let soapEnvelope = this.createRequest(soapBody)
+      let soapEnvelope = this.createRequest(soapBody, subscriptionId)
       return Soap.makeRequest(this.serviceAddress, methodName, soapEnvelope)
         .then(results => {
           resolve(results)
@@ -157,6 +167,105 @@ class Events extends EventEmitter {
     else {
       return promise
     }
+  }
+
+  /**
+   * Start a PullMessages event loop&lt;br>
+   * This method does a &lt;strong>createPullPointSubscription&lt;/strong> followed by a &lt;strong>pullMessages&lt;/strong>.
+   * The resulting xml from the camera is then sent via an &lt;strong>emit('messages', data)&lt;/strong>.
+   * On error, &lt;strong>emit('messages:error', error)&lt;/strong>
+   * @param {integer=} loopTimeMS The amount of time between polls (in milliseconds, default 10000).
+   * @param {integer=} timeoutMS  The tomout to send to the server (in milliseconds, default 10000).
+   * @param {integer=} messageLimit The message limit to retrive (default 1)
+   * @example
+   * camera.events.on('messages', messages => {
+   *   console.log('Messages Received:', messages)
+   * })
+   *
+   *  camera.events.on('messages:error', error => {
+   *    console.error('Messages Error:', error)
+   *  })
+   *
+   *  camera.events.start()
+   */
+  start (loopTimeMS, timeoutMS, messageLimit) {
+    // set defaults if nothing was passed in
+    loopTimeMS = loopTimeMS || 10000
+    timeoutMS = timeoutMS || 10000
+    messageLimit = messageLimit || 1
+
+    let getAll = () => {
+      this._getMessages()
+        .then(results => {
+          this.emit('messages', results)
+          console.log(results)
+        })
+        .catch(error => {
+          this.emit('messages:error', error)
+        })
+    }
+
+    this.intervalId = setInterval(() => {
+      getAll()
+    }, loopTimeMS)
+  }
+
+  /**
+   * Stops a PullMessages event loop that has been started with &lt;strong>start()&lt;/strong>.
+   */
+  stop () {
+    clearInterval(this.intervalId)
+    this.intervalId = null
+  }
+
+  _getMessages (timeMS, count) {
+    return new Promise((resolve, reject) => {
+      this._createPullPointSubscription()
+        .then(results => {
+          this._pullMessages(results, timeMS, count)
+            .then(results => {
+              resolve(results)
+            })
+            .catch(error => {
+              reject(error)
+            })
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  _createPullPointSubscription () {
+    return new Promise((resolve, reject) => {
+      this.createPullPointSubscription()
+        .then(results => {
+          console.log('CreatePullPointSubscription successful')
+          let response = results.data.CreatePullPointSubscriptionResponse
+          let reference = response.SubscriptionReference
+          let subscriptionId = {}
+          if (reference.ReferenceParameters) {
+            subscriptionId = reference.ReferenceParameters.SubscriptionId
+          }
+          subscriptionId.Address = reference.Address
+          resolve(subscriptionId)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
+
+  _pullMessages (subscriptionId) {
+    return new Promise((resolve, reject) => {
+      this.pullMessages(subscriptionId, 10000, 10)
+        .then(results => {
+          resolve(results)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
   }
 
   // ---------------------------------------------
@@ -245,7 +354,7 @@ class Events extends EventEmitter {
   getEventProperties (callback) {
     // Example GetEventPropertiesRequest
     // &lt;GetEventProperties xmlns="http://www.onvif.org/ver10/events/wsdl" />
-    return this.buildRequest('GetEventProperties', null, callback)
+    return this.buildRequest('GetEventProperties', null, null, callback)
   }
 
   /**
@@ -254,18 +363,22 @@ class Events extends EventEmitter {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getServiceCapabilities (callback) {
-    return this.buildRequest('GetServiceCapabilities', null, callback)
+    return this.buildRequest('GetServiceCapabilities', null, null, callback)
   }
 
   /**
    * Event Type: Pull Event&lt;br>
    * This method pulls one or more messages from a PullPoint. The device shall provide the following PullMessages command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command. This method shall not wait until the requested number of messages is available but return as soon as at least one message is available.&lt;br>
    * The command shall at least support a Timeout of one minute. In case a device supports retrieval of less messages than requested it shall return these without generating a fault.
+   * @param {object} subscriptionId An object after createPullPointSubscription is called.
+   * @param {object} subscriptionId.Address Address from createPullPointSubscription is called.
+   * @param {object} subscriptionId.Address._ Raw subscriptionId from createPullPointSubscription.
+   * @param {object} subscriptionId.Address.$ Raw subscriptionId from createPullPointSubscription.
    * @param {integer} timeout [msec] Maximum time to block until this method returns.
    * @param {integer} messageLimit Upper limit for the number of messages to return at once. A server implementation may decide to return less messages.
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
-  pullMessages (timeout, messageLimit, callback) {
+  pullMessages (subscriptionId, timeout, messageLimit, callback) {
     // Example PullMessagesRequest
     // &lt;PullMessages xmlns="http://www.onvif.org/ver10/events/wsdl">
     //   &lt;Timeout>PT1S&lt;/Timeout>
@@ -274,6 +387,10 @@ class Events extends EventEmitter {
 
     let promise = new Promise((resolve, reject) => {
       let errMsg = ''
+      // if ((errMsg = Util.isInvalidValue(subscriptionReferenceAddress, 'string'))) {
+      //   reject(new Error('The "subscriptionReferenceAddress" argument for pullMessages is invalid: ' + errMsg))
+      //   return
+      // }
       if ((errMsg = Util.isInvalidValue(timeout, 'integer'))) {
         reject(new Error('The "timeout" argument for pullMessages is invalid: ' + errMsg))
         return
@@ -284,14 +401,28 @@ class Events extends EventEmitter {
       }
 
       let soapBody = ''
-      soapBody += '&lt;tev:Timeout>' + 'PT' + timeout / 1000 + 'S' + '&lt;/tev:Timeout>'
+      soapBody += '&lt;tev:Timeout>' + (new Date(Date.now() + timeout)).toISOString() + '&lt;/tev:Timeout>'
+      // soapBody += '&lt;tev:Timeout>' + 'PT' + timeout / 1000 + 'S' + '&lt;/tev:Timeout>'
       soapBody += '&lt;tev:MessageLimit>' + messageLimit + '&lt;/tev:MessageLimit>'
       // soapBody += '&lt;tt:Timeout>' + 'PT' + timeout / 1000 + 'S' + '&lt;/tt:Timeout>'
       // soapBody += '&lt;tt:MessageLimit>' + messageLimit + '&lt;/tt:MessageLimit>'
       // soapBody += '&lt;Timeout>' + 'PT' + timeout / 1000 + 'S' + '&lt;/Timeout>'
       // soapBody += '&lt;MessageLimit>' + messageLimit + '&lt;/MessageLimit>'
 
-      this.buildRequest('PullMessages', soapBody)
+      // soapBody = '&lt;PullMessages xmlns="http://www.onvif.org/ver10/events/wsdl">'
+      // soapBody += '&lt;Timeout>PT5M&lt;/Timeout>'
+      // soapBody += '&lt;MessageLimit>99&lt;/MessageLimit>'
+      // soapBody += '&lt;/PullMessages>'
+
+      soapBody = '&lt;tev:PullMessages>'
+      // soapBody += '&lt;tt:Timeout>PT1M&lt;/tt:Timeout>'
+      soapBody += '&lt;tt:Timeout>' + (new Date(Date.now() + timeout)).toISOString() + '&lt;/tt:Timeout>'
+      soapBody += '&lt;tt:MessageLimit>99&lt;/tt:MessageLimit>'
+      soapBody += '&lt;/tev:PullMessages>'
+
+      console.log(subscriptionId)
+
+      this.buildRequest('PullMessages', soapBody, subscriptionId)
         .then(results => {
           resolve(results)
         }).catch(error => {
@@ -319,7 +450,7 @@ class Events extends EventEmitter {
     // &lt;Renew xmlns="http://docs.oasis-open.org/wsn/b-2">
     // &lt;TerminationTime>PT10M&lt;/TerminationTime>
     // &lt;/Renew>
-    return this.buildRequest('Renew', null, callback)
+    return this.buildRequest('Renew', null, null, callback)
   }
 
   /**
@@ -338,7 +469,7 @@ class Events extends EventEmitter {
   }
 
   // notify (callback) {
-  //   return this.buildRequest('Notify', null, callback)
+  //   return this.buildRequest('Notify', null, null, callback)
   // }
 
   /**
@@ -362,7 +493,7 @@ class Events extends EventEmitter {
     //   &lt;/Filter>
     //   &lt;InitialTerminationTime>PT10M&lt;/InitialTerminationTime>
     // &lt;/Subscribe>
-    return this.buildRequest('Subscribe', null, callback)
+    return this.buildRequest('Subscribe', null, null, callback)
   }
 
   /**
@@ -375,7 +506,7 @@ class Events extends EventEmitter {
   unsubscribe (callback) {
     // Example UnsubscribeRequest
     // &lt;Unsubscribe xmlns="http://docs.oasis-open.org/wsn/b-2" />
-    return this.buildRequest('Unsubscribe', null, callback)
+    return this.buildRequest('Unsubscribe', null, null, callback)
   }
 
   /**
@@ -384,7 +515,7 @@ class Events extends EventEmitter {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   setSynchronizationPoint (callback) {
-    return this.buildRequest('SetSynchronizationPoint', null, callback)
+    return this.buildRequest('SetSynchronizationPoint', null, null, callback)
   }
 }
 
@@ -405,7 +536,7 @@ module.exports = new Events()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 10:26:56 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 22 2018 18:06:06 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
