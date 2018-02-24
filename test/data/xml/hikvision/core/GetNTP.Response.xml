@@ -39,11 +39,11 @@
   <env:Body>
     <tds:GetNTPResponse>
       <tds:NTPInformation>
-        <tt:FromDHCP>false</tt:FromDHCP>
-        <tt:NTPManual>
+        <tt:FromDHCP>true</tt:FromDHCP>
+        <tt:NTPFromDHCP>
           <tt:Type>IPv4</tt:Type>
           <tt:IPv4Address>10.10.1.4</tt:IPv4Address>
-        </tt:NTPManual>
+        </tt:NTPFromDHCP>
       </tds:NTPInformation>
     </tds:GetNTPResponse>
   </env:Body>

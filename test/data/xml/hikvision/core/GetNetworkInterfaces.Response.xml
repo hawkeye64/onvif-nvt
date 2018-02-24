@@ -61,11 +61,11 @@
         <tt:IPv4>
           <tt:Enabled>true</tt:Enabled>
           <tt:Config>
-            <tt:Manual>
+            <tt:FromDHCP>
               <tt:Address>10.10.1.60</tt:Address>
               <tt:PrefixLength>16</tt:PrefixLength>
-            </tt:Manual>
-            <tt:DHCP>false</tt:DHCP>
+            </tt:FromDHCP>
+            <tt:DHCP>true</tt:DHCP>
           </tt:Config>
         </tt:IPv4>
         <tt:IPv6>

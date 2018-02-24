@@ -53,7 +53,7 @@
       <env:Node>http://www.w3.org/2003/05/soap-envelope/node/ultimateReceiver</env:Node>
       <env:Role>http://www.w3.org/2003/05/soap-envelope/role/ultimateReceiver</env:Role>
       <env:Detail>
-        <env:Text>tagval is null!</env:Text>
+        <env:Text>FromDHCP parameter is err!</env:Text>
       </env:Detail>
     </env:Fault>
   </env:Body>

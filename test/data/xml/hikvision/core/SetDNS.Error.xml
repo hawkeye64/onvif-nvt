@@ -37,14 +37,24 @@
   xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
   <env:Body>
-    <tds:GetDNSResponse>
-      <tds:DNSInformation>
-        <tt:FromDHCP>true</tt:FromDHCP>
-        <tt:DNSFromDHCP>
-          <tt:Type>IPv4</tt:Type>
-          <tt:IPv4Address>10.10.1.4</tt:IPv4Address>
-        </tt:DNSFromDHCP>
-      </tds:DNSInformation>
-    </tds:GetDNSResponse>
+    <env:Fault>
+      <env:Code>
+        <env:Value>env:Sender</env:Value>
+        <env:Subcode>
+          <env:Value>ter:InvalidArgVal</env:Value>
+          <env:Subcode>
+            <env:Value>ter:InvalidParameter</env:Value>
+          </env:Subcode>
+        </env:Subcode>
+      </env:Code>
+      <env:Reason>
+        <env:Text xml:lang="en">the parameter value is illegal</env:Text>
+      </env:Reason>
+      <env:Node>http://www.w3.org/2003/05/soap-envelope/node/ultimateReceiver</env:Node>
+      <env:Role>http://www.w3.org/2003/05/soap-envelope/role/ultimateReceiver</env:Role>
+      <env:Detail>
+        <env:Text>FromDHCP param is err!</env:Text>
+      </env:Detail>
+    </env:Fault>
   </env:Body>
 </env:Envelope>

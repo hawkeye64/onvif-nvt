@@ -50,6 +50,11 @@
       <env:Reason>
         <env:Text xml:lang="en">the parameter value is illegal</env:Text>
       </env:Reason>
+      <env:Node>http://www.w3.org/2003/05/soap-envelope/node/ultimateReceiver</env:Node>
+      <env:Role>http://www.w3.org/2003/05/soap-envelope/role/ultimateReceiver</env:Role>
+      <env:Detail>
+        <env:Text>NULL</env:Text>
+      </env:Detail>
     </env:Fault>
   </env:Body>
 </env:Envelope>

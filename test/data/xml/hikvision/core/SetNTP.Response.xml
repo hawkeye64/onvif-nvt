@@ -37,14 +37,6 @@
   xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
   <env:Body>
-    <tds:GetDNSResponse>
-      <tds:DNSInformation>
-        <tt:FromDHCP>true</tt:FromDHCP>
-        <tt:DNSFromDHCP>
-          <tt:Type>IPv4</tt:Type>
-          <tt:IPv4Address>10.10.1.4</tt:IPv4Address>
-        </tt:DNSFromDHCP>
-      </tds:DNSInformation>
-    </tds:GetDNSResponse>
+    <tds:SetNTPResponse/>
   </env:Body>
 </env:Envelope>

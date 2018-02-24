@@ -39,8 +39,8 @@
   <env:Body>
     <tds:GetHostnameResponse>
       <tds:HostnameInformation>
-        <tt:FromDHCP>false</tt:FromDHCP>
-        <tt:Name>Hikvision</tt:Name>
+        <tt:FromDHCP>true</tt:FromDHCP>
+        <tt:Name>localhost</tt:Name>
       </tds:HostnameInformation>
     </tds:GetHostnameResponse>
   </env:Body>

@@ -47,57 +47,23 @@
       <tptz:Preset token="3">
         <tt:Name>preset 2</tt:Name>
       </tptz:Preset>
-      <tptz:Preset token="4">
-        <tt:Name>testPreset</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="5">
-        <tt:Name>Preset 23</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="7">
-        <tt:Name>Preset 2</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="8">
-        <tt:Name>Preset 4</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="9">
-        <tt:Name>Preset 5</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="10">
-        <tt:Name>Preset 6</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="11">
-        <tt:Name>Preset 8</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="12">
-        <tt:Name>Preset 9</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="13">
-        <tt:Name>Preset 10</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="14">
-        <tt:Name>Preset 11</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="15">
-        <tt:Name>Preset 12</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="16">
-        <tt:Name>Preset 13</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="17">
-        <tt:Name>Preset 14</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="18">
-        <tt:Name>Preset 15</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="19">
-        <tt:Name>Preset 16</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="20">
-        <tt:Name>Preset 17</tt:Name>
-      </tptz:Preset>
-      <tptz:Preset token="21">
-        <tt:Name>Preset 238</tt:Name>
-      </tptz:Preset>
+      <tptz:Preset token="5"></tptz:Preset>
+      <tptz:Preset token="6"></tptz:Preset>
+      <tptz:Preset token="7"></tptz:Preset>
+      <tptz:Preset token="8"></tptz:Preset>
+      <tptz:Preset token="9"></tptz:Preset>
+      <tptz:Preset token="10"></tptz:Preset>
+      <tptz:Preset token="11"></tptz:Preset>
+      <tptz:Preset token="12"></tptz:Preset>
+      <tptz:Preset token="13"></tptz:Preset>
+      <tptz:Preset token="14"></tptz:Preset>
+      <tptz:Preset token="15"></tptz:Preset>
+      <tptz:Preset token="16"></tptz:Preset>
+      <tptz:Preset token="17"></tptz:Preset>
+      <tptz:Preset token="18"></tptz:Preset>
+      <tptz:Preset token="19"></tptz:Preset>
+      <tptz:Preset token="20"></tptz:Preset>
+      <tptz:Preset token="21"></tptz:Preset>
       <tptz:Preset token="22"></tptz:Preset>
       <tptz:Preset token="23"></tptz:Preset>
       <tptz:Preset token="24"></tptz:Preset>
@@ -177,9 +143,7 @@
       <tptz:Preset token="74"></tptz:Preset>
       <tptz:Preset token="75"></tptz:Preset>
       <tptz:Preset token="76"></tptz:Preset>
-      <tptz:Preset token="77">
-        <tt:Name>Preset 77</tt:Name>
-      </tptz:Preset>
+      <tptz:Preset token="77"></tptz:Preset>
       <tptz:Preset token="78"></tptz:Preset>
       <tptz:Preset token="79"></tptz:Preset>
       <tptz:Preset token="80"></tptz:Preset>
