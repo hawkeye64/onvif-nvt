@@ -145,7 +145,7 @@ describe('Core', () => {
         // expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('TLS1.2')
         expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('UsernameToken')
         // https://github.com/facebook/jest/issues/5653
-        //expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('X.509Token')
+        // expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('X.509Token')
         expect(service.Capabilities.Capabilities).toHaveProperty('System')
         expect(service.Capabilities.Capabilities.System).toHaveProperty('$')
         expect(service.Capabilities.Capabilities.System.$).toHaveProperty('DiscoveryBye')
@@ -204,7 +204,7 @@ describe('Core', () => {
         // expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('TLS1.2')
         expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('UsernameToken')
         // https://github.com/facebook/jest/issues/5653
-        //expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('X.509Token')
+        // expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('X.509Token')
         expect(service.Capabilities.Capabilities).toHaveProperty('System')
         expect(service.Capabilities.Capabilities.System).toHaveProperty('$')
         expect(service.Capabilities.Capabilities.System.$).toHaveProperty('DiscoveryBye')
