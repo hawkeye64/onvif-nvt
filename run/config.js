@@ -42,14 +42,14 @@ const folder = 'hikvision'
 
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
-const runCore = false
-const runPtz = false
-const runMedia = false
-const runEvents = true
+const runCore = true
+const runPtz = true
+const runMedia = true
+const runEvents = false
 const runAnalytics = false
 const runSnapshot = false
-const runReboot = false
 const runBackup = false
+const runReboot = false
 
 saveXml.setPath(Path.resolve(__dirname, '../test/data/xml/' + folder))
 

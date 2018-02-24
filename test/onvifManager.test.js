@@ -18,7 +18,7 @@ describe('OnvifManager', () => {
   // Connect
   test('OnvifManager::connect()', () => {
     const OnvifManager = require('../lib/onvif-nvt')
-    Config.setDebugData(TestConfig.cameraType, 'Response')
+    Config.setDebugData(TestConfig.cameraType, 'core', 'Response')
     return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
       .then(results => {
         const Camera = results

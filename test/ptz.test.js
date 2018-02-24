@@ -9,7 +9,7 @@ var presetToken = ''
 
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
-  Config.setDebugData(TestConfig.cameraType, 'Response')
+  Config.setDebugData(TestConfig.cameraType, 'ptz', 'Response')
   return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
     .then(results => {
       Camera = results
