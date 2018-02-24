@@ -146,7 +146,6 @@ function testCoreSystemReboot () {
   })
 }
 
-
 /* -------------------------------------------------
     NOTE: All functional test should resolve(error)
     instead of calling reject(error)
