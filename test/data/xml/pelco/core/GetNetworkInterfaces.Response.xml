@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tds:GetNetworkInterfacesResponse>
+      <tds:NetworkInterfaces token="eth0">
+        <tt:Enabled>true</tt:Enabled>
+        <tt:Info>
+          <tt:Name>eth0</tt:Name>
+          <tt:HwAddress>00047D0EB85C</tt:HwAddress>
+          <tt:MTU>1450</tt:MTU>
+        </tt:Info>
+        <tt:Link>
+          <tt:AdminSettings>
+            <tt:AutoNegotiation>true</tt:AutoNegotiation>
+            <tt:Speed>1000</tt:Speed>
+            <tt:Duplex>Full</tt:Duplex>
+          </tt:AdminSettings>
+          <tt:OperSettings>
+            <tt:AutoNegotiation>true</tt:AutoNegotiation>
+            <tt:Speed>100</tt:Speed>
+            <tt:Duplex>Full</tt:Duplex>
+          </tt:OperSettings>
+          <tt:InterfaceType>6</tt:InterfaceType>
+        </tt:Link>
+        <tt:IPv4>
+          <tt:Enabled>true</tt:Enabled>
+          <tt:Config>
+            <tt:Manual>
+              <tt:Address>10.10.1.66</tt:Address>
+              <tt:PrefixLength>16</tt:PrefixLength>
+            </tt:Manual>
+            <tt:LinkLocal>
+              <tt:Address>127.0.0.1</tt:Address>
+              <tt:PrefixLength>8</tt:PrefixLength>
+            </tt:LinkLocal>
+            <tt:DHCP>false</tt:DHCP>
+          </tt:Config>
+        </tt:IPv4>
+        <tt:IPv6>
+          <tt:Enabled>true</tt:Enabled>
+          <tt:Config>
+            <tt:AcceptRouterAdvert>true</tt:AcceptRouterAdvert>
+            <tt:DHCP>Stateful</tt:DHCP>
+            <tt:LinkLocal>
+              <tt:Address>fe80::204:7dff:fe0e:b85c</tt:Address>
+              <tt:PrefixLength>64</tt:PrefixLength>
+            </tt:LinkLocal>
+          </tt:Config>
+        </tt:IPv6>
+      </tds:NetworkInterfaces>
+    </tds:GetNetworkInterfacesResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

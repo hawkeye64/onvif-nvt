@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tds:GetServiceCapabilitiesResponse>
+      <tds:Capabilities>
+        <tds:Network DHCPv6="true" NTP="6" HostnameFromDHCP="false" Dot1XConfigurations="1" Dot11Configuration="true" DynDNS="false" IPVersion6="true" ZeroConfiguration="true" IPFilter="true"></tds:Network>
+        <tds:Security MaxPasswordLength="64" MaxUserNameLength="32" MaxUsers="1024" RELToken="false" HttpDigest="true" UsernameToken="true" KerberosToken="false" SAMLToken="false" X.509Token="false" RemoteUserHandling="false" Dot1X="true" DefaultAccessPolicy="true" AccessPolicyConfig="false" OnboardKeyGeneration="true" TLS1.2="false" TLS1.1="false" TLS1.0="true"></tds:Security>
+        <tds:System HttpSupportInformation="true" HttpSystemLogging="true" HttpSystemBackup="true" HttpFirmwareUpgrade="true" FirmwareUpgrade="false" SystemLogging="true" SystemBackup="true" RemoteDiscovery="false" DiscoveryBye="true" DiscoveryResolve="true"></tds:System>
+      </tds:Capabilities>
+    </tds:GetServiceCapabilitiesResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
