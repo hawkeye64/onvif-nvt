@@ -1096,4 +1096,89 @@ describe('Media', () => {
         expect(error.message).toContain('The type of the value must be a "function".')
       })
   })
+
+  test('Camera.media.getOSDs (Promise)', () => {
+    return Camera.media.getOSDs()
+      .then(results => {
+        let response = results.data.GetOSDsResponse
+        expect(response).toHaveProperty('OSDs')
+        expect(response.OSDs).toBeArray()
+        let osd = response.OSDs[0]
+        expect(osd).toHaveProperty('$')
+        expect(osd.$).toHaveProperty('token')
+        expect(osd).toHaveProperty('Position')
+        expect(osd.Position).toHaveProperty('Pos')
+        expect(osd.Position.Pos).toHaveProperty('$')
+        expect(osd.Position.Pos.$).toHaveProperty('x')
+        expect(osd.Position.Pos.$).toHaveProperty('y')
+        expect(osd.Position).toHaveProperty('Type')
+        expect(osd).toHaveProperty('TextString')
+        expect(osd.TextString).toHaveProperty('DateFormat')
+        expect(osd.TextString).toHaveProperty('Extension')
+        expect(osd.TextString.Extension).toHaveProperty('ChannelName')
+        expect(osd.TextString).toHaveProperty('FontColor')
+        expect(osd.TextString.FontColor).toHaveProperty('Color')
+        expect(osd.TextString.FontColor.Color).toHaveProperty('$')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Colorspace')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('X')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Y')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Z')
+        expect(osd.TextString).toHaveProperty('FontSize')
+        expect(osd.TextString).toHaveProperty('TimeFormat')
+        expect(osd.TextString).toHaveProperty('Type')
+        expect(osd).toHaveProperty('Type')
+        expect(osd).toHaveProperty('VideoSourceConfigurationToken')
+      })
+  })
+
+  test('Camera.media.getOSDs (Callback)', (done) => {
+    Camera.media.getOSDs(null, (error, results) => {
+      if (!error) {
+        let response = results.data.GetOSDsResponse
+        expect(response).toHaveProperty('OSDs')
+        expect(response.OSDs).toBeArray()
+        let osd = response.OSDs[0]
+        expect(osd).toHaveProperty('$')
+        expect(osd.$).toHaveProperty('token')
+        expect(osd).toHaveProperty('Position')
+        expect(osd.Position).toHaveProperty('Pos')
+        expect(osd.Position.Pos).toHaveProperty('$')
+        expect(osd.Position.Pos.$).toHaveProperty('x')
+        expect(osd.Position.Pos.$).toHaveProperty('y')
+        expect(osd.Position).toHaveProperty('Type')
+        expect(osd).toHaveProperty('TextString')
+        expect(osd.TextString).toHaveProperty('DateFormat')
+        expect(osd.TextString).toHaveProperty('Extension')
+        expect(osd.TextString.Extension).toHaveProperty('ChannelName')
+        expect(osd.TextString).toHaveProperty('FontColor')
+        expect(osd.TextString.FontColor).toHaveProperty('Color')
+        expect(osd.TextString.FontColor.Color).toHaveProperty('$')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Colorspace')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('X')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Y')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Z')
+        expect(osd.TextString).toHaveProperty('FontSize')
+        expect(osd.TextString).toHaveProperty('TimeFormat')
+        expect(osd.TextString).toHaveProperty('Type')
+        expect(osd).toHaveProperty('Type')
+        expect(osd).toHaveProperty('VideoSourceConfigurationToken')
+      }
+      done()
+    })
+  })
+
+  test('Camera.media.getOSDs (Promise|Invalid Callback)', () => {
+    return Camera.media.getOSDs('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.media.getOSDs (Promise|Invalid Param)', () => {
+    return Camera.media.getOSDs(true)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
+  })
+
 })
