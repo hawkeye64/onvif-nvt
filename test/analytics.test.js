@@ -111,7 +111,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getServiceCapabilities (Promise|Invalid Callback)', () => {
     return Camera.analytics.getServiceCapabilities('test')
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "function".');
+        expect(error.message).toContain('The type of the value must be a "function".')
       })
   })
 
@@ -194,14 +194,14 @@ describe('Analytics', () => {
   test('Camera.analytics.getSupportedAnalyticsModules (Promise|Invalid Callback)', () => {
     return Camera.analytics.getSupportedAnalyticsModules(configurationToken, 'test')
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "function".');
+        expect(error.message).toContain('The type of the value must be a "function".')
       })
   })
 
   test('Camera.analytics.getSupportedAnalyticsModules (Promise|Invalid configurationToken)', () => {
     return Camera.analytics.getSupportedAnalyticsModules(2)
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "string".');
+        expect(error.message).toContain('The type of the value must be a "string".')
       })
   })
 
@@ -276,14 +276,14 @@ describe('Analytics', () => {
   test('Camera.analytics.getAnalyticsModules (Promise|Invalid Callback)', () => {
     return Camera.analytics.getAnalyticsModules(configurationToken, 'test')
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "function".');
+        expect(error.message).toContain('The type of the value must be a "function".')
       })
   })
 
   test('Camera.analytics.getAnalyticsModules (Promise|Invalid configurationToken)', () => {
     return Camera.analytics.getAnalyticsModules(2)
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "string".');
+        expect(error.message).toContain('The type of the value must be a "string".')
       })
   })
 
@@ -358,16 +358,14 @@ describe('Analytics', () => {
   test('Camera.analytics.getSupportedRules (Promise|Invalid Callback)', () => {
     return Camera.analytics.getSupportedRules(configurationToken, 'test')
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "function".');
+        expect(error.message).toContain('The type of the value must be a "function".')
       })
   })
 
   test('Camera.analytics.getSupportedRules (Promise|Invalid configurationToken)', () => {
     return Camera.analytics.getSupportedRules(2)
       .catch(error => {
-        expect(error.message).toContain('The type of the value must be a "string".');
+        expect(error.message).toContain('The type of the value must be a "string".')
       })
   })
-
-
 })
