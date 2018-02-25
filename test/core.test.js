@@ -1130,11 +1130,11 @@ describe('Core', () => {
       done()
     })
   })
-})
 
-test('Camera.core.getUsers (Promise|Invalid Callback)', () => {
-  return Camera.core.getUsers('callback')
-    .catch(error => {
-      expect(error.message).toContain('The type of the value must be a "function".')
-    })
+  test('Camera.core.getUsers (Promise|Invalid Callback)', () => {
+    return Camera.core.getUsers('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
 })
