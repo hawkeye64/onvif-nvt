@@ -1,6 +1,5 @@
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
-const Util = require('../lib/utils/util')
 
 describe('Camera', () => {
   Config.setDebugData(TestConfig.cameraType, 'Response')
@@ -9,7 +8,7 @@ describe('Camera', () => {
     const OnvifManager = require('../lib/onvif-nvt')
     return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
       .then(results => {
-        Camera = results
+        const Camera = results
         expect(Camera.access).toBeNull()
         expect(Camera.accessrules).toBeNull()
         expect(Camera.action).toBeNull()
@@ -37,7 +36,7 @@ describe('Camera', () => {
     const OnvifManager = require('../lib/onvif-nvt')
     return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
       .then(results => {
-        Camera = results
+        const Camera = results
         Camera.add('access')
         Camera.add('accessrules')
         Camera.add('action')
@@ -113,5 +112,4 @@ describe('Camera', () => {
         expect(Camera.password).not.toBeNull()
       })
   })
-
 })
