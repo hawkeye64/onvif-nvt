@@ -635,23 +635,12 @@ describe('Ptz', () => {
   })
 
   test('Camera.ptz.setPreset (Promise)', () => {
-    return Camera.ptz.setPreset(null, null, 'homeTest')
+    return Camera.ptz.setPreset(null, null, 'ptzPresetTest')
       .then(results => {
         let response = results.data.SetPresetResponse
         expect(response).toHaveProperty('PresetToken')
         presetToken = response.PresetToken
       })
-  })
-
-  test('Camera.ptz.setPreset (Callback)', (done) => {
-    return Camera.ptz.setPreset(null, null, 'homeTest', (error, results) => {
-      if (!error) {
-        let response = results.data.SetPresetResponse
-        expect(response).toHaveProperty('PresetToken')
-        presetToken = response.PresetToken
-      }
-      done()
-    })
   })
 
   test('Camera.ptz.removePreset (Promise)', () => {
@@ -660,6 +649,17 @@ describe('Ptz', () => {
         let response = results.data.RemovePresetResponse
         expect(response).toMatch('')
       })
+  })
+
+  test('Camera.ptz.setPreset (Callback)', (done) => {
+    return Camera.ptz.setPreset(null, null, 'ptzPresetTest', (error, results) => {
+      if (!error) {
+        let response = results.data.SetPresetResponse
+        expect(response).toHaveProperty('PresetToken')
+        presetToken = response.PresetToken
+      }
+      done()
+    })
   })
 
   test('Camera.ptz.removePreset (Callback)', (done) => {

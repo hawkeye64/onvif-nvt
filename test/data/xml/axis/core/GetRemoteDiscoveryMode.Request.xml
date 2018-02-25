@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope 
+  xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl">
+  <s:Header>
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+    <wsse:Security s:mustUnderstand="1">
+      <wsu:Timestamp wsu:Id="Time">
+        <wsu:Created>2018-02-24T15:57:13.206Z</wsu:Created>
+        <wsu:Expires>2018-02-24T15:57:23.206Z</wsu:Expires>
+      </wsu:Timestamp>
+      <wsse:UsernameToken wsu:Id="User">
+        <wsse:Username>root</wsse:Username>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">hABh51Zc5g2ehdRC5oipArIpOD0=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">yWeeNQypGn11k1JSNNXH7g==</wsse:Nonce>
+        <wsu:Created 
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-24T15:57:13.206Z
+        </wsu:Created>
+      </wsse:UsernameToken>
+    </wsse:Security>
+  </s:Header>
+  <s:Body>
+    <tds:GetRemoteDiscoveryMode/>
+  </s:Body>
+</s:Envelope>

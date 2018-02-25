@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tds="http://www.onvif.org/ver10/device/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tds:SystemRebootResponse>
+      <tds:Message>Rebooting now</tds:Message>
+    </tds:SystemRebootResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

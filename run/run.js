@@ -24,9 +24,9 @@ function run () {
   }).then(() => {
     return testSnapshot()
   }).then(() => {
-  //   // this should be the last test (obviously)
-  //   return testCoreSystemReboot()
-  // }).then(() => {
+    // this should be the last test (obviously)
+    return testCoreSystemReboot()
+  }).then(() => {
     let count = apiErrors.length
     if (count) {
       console.error(`All tests ran, ${count} failed`)
@@ -118,10 +118,24 @@ function testAnalytics () {
   })
 }
 
-function testSnapshot (camera) {
+function testSnapshot () {
   return new Promise((resolve, reject) => {
     let RunSnapshot = require('./run.snapshot')
     RunSnapshot.run()
+      .then(results => {
+        apiErrors = apiErrors.concat(results)
+        resolve(results)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  })
+}
+
+function testCoreSystemReboot () {
+  return new Promise((resolve, reject) => {
+    let RunReboot = require('./run.reboot')
+    RunReboot.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
         resolve(results)

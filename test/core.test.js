@@ -139,11 +139,15 @@ describe('Core', () => {
         expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('RemoteUserHandling')
         expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('SAMLToken')
         expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('SupportedEAPMethods')
-        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('TLS1.0')
-        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('TLS1.1')
-        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('TLS1.2')
+        // https://github.com/facebook/jest/issues/5653
+        // The Jest fix is to pass the string(s) in as array
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['TLS1.0'])
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['TLS1.1'])
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['TLS1.2'])
         expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('UsernameToken')
-        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('X.509Token')
+        // https://github.com/facebook/jest/issues/5653
+        // The Jest fix is to pass the string(s) in as array
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['X.509Token'])
         expect(service.Capabilities.Capabilities).toHaveProperty('System')
         expect(service.Capabilities.Capabilities.System).toHaveProperty('$')
         expect(service.Capabilities.Capabilities.System.$).toHaveProperty('DiscoveryBye')
@@ -161,16 +165,71 @@ describe('Core', () => {
         expect(service.Version).toHaveProperty('Major')
         expect(service.Version).toHaveProperty('Minor')
         expect(service).toHaveProperty('XAddr')
-        console.log(results)
+        // console.log(results)
       })
   })
 
-  // test('Camera.core.getServiceCapabilities (Promise)', () => {
-  //   return Camera.core.getServiceCapabilities()
-  //   .then(results => {
-  //     console.log(results)
-  //   })
-  // })
+  test('Camera.core.getServices (Callback)', (done) => {
+    return Camera.core.getServices(true, (error, results) => {
+      if (!error) {
+        let response = results.data.GetServicesResponse
+        expect(response).toHaveProperty('Service')
+        expect(response.Service).toBeArray()
+        let service = response.Service[0]
+        expect(service).toHaveProperty('Capabilities')
+        expect(service.Capabilities).toHaveProperty('Capabilities')
+        expect(service.Capabilities.Capabilities).toHaveProperty('Network')
+        expect(service.Capabilities.Capabilities.Network).toHaveProperty('$')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('DHCPv6')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('Dot11Configuration')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('Dot1XConfigurations')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('DynDNS')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('HostnameFromDHCP')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('IPFilter')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('IPVersion6')
+        expect(service.Capabilities.Capabilities.Network.$).toHaveProperty('NTP')
+        expect(service.Capabilities.Capabilities).toHaveProperty('Security')
+        expect(service.Capabilities.Capabilities.Security).toHaveProperty('$')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('AccessPolicyConfig')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('DefaultAccessPolicy')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('Dot1X')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('HttpDigest')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('KerberosToken')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('OnboardKeyGeneration')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('RELToken')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('RemoteUserHandling')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('SAMLToken')
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('SupportedEAPMethods')
+        // https://github.com/facebook/jest/issues/5653
+        // The Jest fix is to pass the string(s) in as array
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['TLS1.0'])
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['TLS1.1'])
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['TLS1.2'])
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty('UsernameToken')
+        // https://github.com/facebook/jest/issues/5653
+        // The Jest fix is to pass the string(s) in as array
+        expect(service.Capabilities.Capabilities.Security.$).toHaveProperty(['X.509Token'])
+        expect(service.Capabilities.Capabilities).toHaveProperty('System')
+        expect(service.Capabilities.Capabilities.System).toHaveProperty('$')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('DiscoveryBye')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('DiscoveryResolve')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('FirmwareUpgrade')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('HttpFirmwareUpgrade')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('HttpSupportInformation')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('HttpSystemBackup')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('HttpSystemLogging')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('RemoteDiscovery')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('SystemBackup')
+        expect(service.Capabilities.Capabilities.System.$).toHaveProperty('SystemLogging')
+        expect(service).toHaveProperty('Namespace')
+        expect(service).toHaveProperty('Version')
+        expect(service.Version).toHaveProperty('Major')
+        expect(service.Version).toHaveProperty('Minor')
+        expect(service).toHaveProperty('XAddr')
+      }
+      done()
+    })
+  })
 
   test('Camera.core.getCapabilities (Promise)', () => {
     return Camera.core.getCapabilities()
@@ -267,24 +326,24 @@ describe('Core', () => {
   test('Camera.core.getDNS (Promise)', () => {
     return Camera.core.getDNS()
       .then(results => {
-        let response = results.data.GetDNSResponse.DNSInformation
-        expect(response).toHaveProperty('DNSFromDHCP')
-        expect(response).toHaveProperty('FromDHCP')
-        if (TestConfig.cameraType === 'axis') {
-          expect(response).toHaveProperty('SearchDomain')
-        }
+        let response = results.data.GetDNSResponse
+        expect(response).toHaveProperty('DNSInformation')
+        expect(response.DNSInformation).toHaveProperty('DNSFromDHCP')
+        expect(response.DNSInformation.DNSFromDHCP).toHaveProperty('IPv4Address')
+        expect(response.DNSInformation.DNSFromDHCP).toHaveProperty('Type')
+        expect(response.DNSInformation).toHaveProperty('FromDHCP')
       })
   })
 
   test('Camera.core.getDNS (Callback)', (done) => {
     Camera.core.getDNS((error, results) => {
       if (!error) {
-        let response = results.data.GetDNSResponse.DNSInformation
-        expect(response).toHaveProperty('DNSFromDHCP')
-        expect(response).toHaveProperty('FromDHCP')
-        if (TestConfig.cameraType === 'axis') {
-          expect(response).toHaveProperty('SearchDomain')
-        }
+        let response = results.data.GetDNSResponse
+        expect(response).toHaveProperty('DNSInformation')
+        expect(response.DNSInformation).toHaveProperty('DNSFromDHCP')
+        expect(response.DNSInformation.DNSFromDHCP).toHaveProperty('IPv4Address')
+        expect(response.DNSInformation.DNSFromDHCP).toHaveProperty('Type')
+        expect(response.DNSInformation).toHaveProperty('FromDHCP')
       }
       done()
     })
@@ -315,28 +374,24 @@ describe('Core', () => {
   test('Camera.core.getNTP (Promise)', () => {
     return Camera.core.getNTP()
       .then(results => {
-        let response = results.data.GetNTPResponse.NTPInformation
-        expect(response).toHaveProperty('FromDHCP')
-        if (TestConfig.cameraType === 'axis') {
-          expect(response).toHaveProperty('NTPManual')
-        }
-        else if (TestConfig.cameraType === 'hikvision') {
-          expect(response).toHaveProperty('NTPFromDHCP')
-        }
+        let response = results.data.GetNTPResponse
+        expect(response).toHaveProperty('NTPInformation')
+        expect(response.NTPInformation).toHaveProperty('FromDHCP')
+        expect(response.NTPInformation).toHaveProperty('NTPFromDHCP')
+        expect(response.NTPInformation.NTPFromDHCP).toHaveProperty('IPv4Address')
+        expect(response.NTPInformation.NTPFromDHCP).toHaveProperty('Type')
       })
   })
 
   test('Camera.core.getNTP (Callback)', (done) => {
     Camera.core.getNTP((error, results) => {
       if (!error) {
-        let response = results.data.GetNTPResponse.NTPInformation
-        expect(response).toHaveProperty('FromDHCP')
-        if (TestConfig.cameraType === 'axis') {
-          expect(response).toHaveProperty('NTPManual')
-        }
-        else if (TestConfig.cameraType === 'hikvision') {
-          expect(response).toHaveProperty('NTPFromDHCP')
-        }
+        let response = results.data.GetNTPResponse
+        expect(response).toHaveProperty('NTPInformation')
+        expect(response.NTPInformation).toHaveProperty('FromDHCP')
+        expect(response.NTPInformation).toHaveProperty('NTPFromDHCP')
+        expect(response.NTPInformation.NTPFromDHCP).toHaveProperty('IPv4Address')
+        expect(response.NTPInformation.NTPFromDHCP).toHaveProperty('Type')
       }
       done()
     })

@@ -349,7 +349,8 @@ class RunPtz {
 
   SetPreset () {
     return new Promise((resolve, reject) => {
-      if (this.testPresetName.length === 0) {
+      console.log(this.testPresetName)
+      if (this.testPresetName.length !== 0) {
         this.camera.ptz.setPreset(null, null, this.testPresetName)
           .then(results => {
             console.log('SetPreset successful')
@@ -377,7 +378,7 @@ class RunPtz {
       if (this.testPresetNameToken.length > 0) {
         this.camera.ptz.removePreset(null, this.testPresetNameToken)
           .then(results => {
-            this.testPresetNameToken.length = ''
+            this.testPresetNameToken = ''
             console.log('RemovePreset successful')
             resolve(results)
           })
