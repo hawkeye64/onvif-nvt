@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:trt="http://www.onvif.org/ver10/media/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <trt:GetOSDsResponse>
+      <trt:OSDs token="OSD">
+        <tt:VideoSourceConfigurationToken>0</tt:VideoSourceConfigurationToken>
+        <tt:Type>Text</tt:Type>
+        <tt:Position>
+          <tt:Type>LowerRight</tt:Type>
+        </tt:Position>
+        <tt:TextString>
+          <tt:Type>DeviceNameDateTime</tt:Type>
+          <tt:DateFormat>yyyy-mm-dd</tt:DateFormat>
+          <tt:TimeFormat>HH:mm:ss TZ</tt:TimeFormat>
+          <tt:FontSize>52</tt:FontSize>
+        </tt:TextString>
+      </trt:OSDs>
+      <trt:OSDs token="OSD_1">
+        <tt:VideoSourceConfigurationToken>0</tt:VideoSourceConfigurationToken>
+        <tt:Type>Text</tt:Type>
+        <tt:Position>
+          <tt:Type>LowerLeft</tt:Type>
+        </tt:Position>
+        <tt:TextString>
+          <tt:Type>PtzPosition</tt:Type>
+          <tt:FontSize>52</tt:FontSize>
+        </tt:TextString>
+      </trt:OSDs>
+      <trt:OSDs token="OSD_1_1">
+        <tt:VideoSourceConfigurationToken>0</tt:VideoSourceConfigurationToken>
+        <tt:Type>Text</tt:Type>
+        <tt:Position>
+          <tt:Type>UpperLeft</tt:Type>
+        </tt:Position>
+        <tt:TextString>
+          <tt:Type>AcquiredPTZPreset</tt:Type>
+          <tt:FontSize>52</tt:FontSize>
+        </tt:TextString>
+      </trt:OSDs>
+    </trt:GetOSDsResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

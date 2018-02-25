@@ -100,7 +100,7 @@ describe('Core', () => {
   })
 
   test('Camera.core.getWsdlUrl (invalid Callback)', () => {
-    return Camera.core.getWsdlUrl('invalid Callback')
+    return Camera.core.getWsdlUrl('callback')
       .then(results => {
       })
       .catch(error => {
@@ -231,6 +231,20 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getServices (Promise|Invalid Callback)', () => {
+    return Camera.core.getServices(true, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.core.getServices (Promise|Invalid param)', () => {
+    return Camera.core.getServices('test')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "boolean".')
+      })
+  })
+
   test('Camera.core.getCapabilities (Promise)', () => {
     return Camera.core.getCapabilities()
       .then(results => {
@@ -255,6 +269,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getCapabilities (Promise|Invalid Callback)', () => {
+    return Camera.core.getCapabilities('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getHostname (Promise)', () => {
     return Camera.core.getHostname()
       .then(results => {
@@ -273,6 +294,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getHostname (Promise|Invalid Callback)', () => {
+    return Camera.core.getHostname('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.setHostname (Promise)', () => {
@@ -299,6 +327,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.setHostname (Promise|Invalid Callback)', () => {
+    return Camera.core.getHostname('test', 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.setHostnameFromDHCP (Promise)', () => {
     return Camera.core.setHostnameFromDHCP(true)
       .then(results => {
@@ -321,6 +356,20 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.setHostnameFromDHCP (Promise|Invalid Callback)', () => {
+    return Camera.core.setHostnameFromDHCP(true, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.core.setHostnameFromDHCP (Promise|Invalid Param)', () => {
+    return Camera.core.setHostnameFromDHCP('true')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "boolean".')
+      })
   })
 
   test('Camera.core.getDNS (Promise)', () => {
@@ -349,6 +398,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getDNS (Promise|Invalid Callback)', () => {
+    return Camera.core.getDNS('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.setDNS (Promise)', () => {
     return Camera.core.setDNS(true)
       .then(results => {
@@ -369,6 +425,34 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.setDNS (Promise|Invalid Callback)', () => {
+    return Camera.core.setDNS(true, null, null, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.core.setDNS (Promise|Invalid Param1)', () => {
+    return Camera.core.setDNS('true')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "boolean".')
+      })
+  })
+
+  test('Camera.core.setDNS (Promise|Invalid Param2)', () => {
+    return Camera.core.setDNS(true, 'anArray')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "array".')
+      })
+  })
+
+  test('Camera.core.setDNS (Promise|Invalid Param3)', () => {
+    return Camera.core.setDNS(true, null, 'anArray')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "array".')
+      })
   })
 
   test('Camera.core.getNTP (Promise)', () => {
@@ -397,6 +481,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getNTP (Promise|Invalid Callback)', () => {
+    return Camera.core.getNTP('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.setNTP (Promise)', () => {
     return Camera.core.setNTP(true)
       .then(results => {
@@ -419,6 +510,27 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.setNTP (Promise|Invalid Callback)', () => {
+    return Camera.core.setNTP(true, null, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.core.setNTP (Promise|Invalid Param1)', () => {
+    return Camera.core.setNTP('true')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "boolean".')
+      })
+  })
+
+  test('Camera.core.setNTP (Promise|Invalid Param2)', () => {
+    return Camera.core.setNTP(true, 'anArray')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "array".')
+      })
   })
 
   test('Camera.core.getDynamicDNS (Promise)', () => {
@@ -455,6 +567,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getDynamicDNS (Promise|Invalid Callback)', () => {
+    return Camera.core.getDynamicDNS('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getNetworkInterfaces (Promise)', () => {
     return Camera.core.getNetworkInterfaces()
       .then(results => {
@@ -489,6 +608,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getNetworkInterfaces (Promise|Invalid Callback)', () => {
+    return Camera.core.getNetworkInterfaces('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getNetworkProtocols (Promise)', () => {
     return Camera.core.getNetworkProtocols()
       .then(results => {
@@ -511,6 +637,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getNetworkProtocols (Promise|Invalid Callback)', () => {
+    return Camera.core.getNetworkProtocols('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.getNetworkDefaultGateway (Promise)', () => {
@@ -537,6 +670,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getNetworkDefaultGateway (Promise|Invalid Callback)', () => {
+    return Camera.core.getNetworkDefaultGateway('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.getZeroConfiguration (Promise)', () => {
@@ -567,6 +707,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getZeroConfiguration (Promise|Invalid Callback)', () => {
+    return Camera.core.getZeroConfiguration('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getIPAddressFilter (Promise)', () => {
     return Camera.core.getIPAddressFilter()
       .then(results => {
@@ -589,6 +736,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getIPAddressFilter (Promise|Invalid Callback)', () => {
+    return Camera.core.getIPAddressFilter('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.getDeviceInformation (Promise)', () => {
@@ -617,6 +771,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getDeviceInformation (Promise|Invalid Callback)', () => {
+    return Camera.core.getDeviceInformation('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.getSystemUris (Promise)', () => {
@@ -653,6 +814,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getSystemUris (Promise|Invalid Callback)', () => {
+    return Camera.core.getSystemUris('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getSystemDateAndTime (Promise)', () => {
     return Camera.core.getSystemDateAndTime()
       .then(results => {
@@ -685,6 +853,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getSystemDateAndTime (Promise|Invalid Callback)', () => {
+    return Camera.core.getSystemDateAndTime('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getSystemLog (Promise)', () => {
     return Camera.core.getSystemLog('System')
       .then(results => {
@@ -715,6 +890,27 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getSystemLog (Promise|Invalid Callback)', () => {
+    return Camera.core.getSystemLog('System', 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.core.getSystemLog (Promise|Invalid Param1 (string))', () => {
+    return Camera.core.getSystemLog(true)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
+  })
+
+  test('Camera.core.getSystemLog (Promise|Invalid Param1 (match))', () => {
+    return Camera.core.getSystemLog('system')
+      .catch(error => {
+        expect(error.message).toContain('The value must be either "System" or "Access".')
+      })
   })
 
   test('Camera.core.getSystemSupportInformation (Promise)', () => {
@@ -753,6 +949,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getSystemSupportInformation (Promise|Invalid Callback)', () => {
+    return Camera.core.getSystemSupportInformation('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getScopes (Promise)', () => {
     return Camera.core.getScopes()
       .then(results => {
@@ -777,6 +980,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getScopes (Promise|Invalid Callback)', () => {
+    return Camera.core.getScopes('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getDiscoveryMode (Promise)', () => {
     return Camera.core.getDiscoveryMode()
       .then(results => {
@@ -797,6 +1007,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getDiscoveryMode (Promise|Invalid Callback)', () => {
+    return Camera.core.getDiscoveryMode('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getRemoteDiscoveryMode (Promise)', () => {
     return Camera.core.getRemoteDiscoveryMode()
       .then(results => {
@@ -815,6 +1032,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getRemoteDiscoveryMode (Promise|Invalid Callback)', () => {
+    return Camera.core.getRemoteDiscoveryMode('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.getDPAddresses (Promise)', () => {
@@ -843,6 +1067,13 @@ describe('Core', () => {
     })
   })
 
+  test('Camera.core.getDPAddresses (Promise|Invalid Callback)', () => {
+    return Camera.core.getDPAddresses('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.core.getAccessPolicy (Promise)', () => {
     return Camera.core.getAccessPolicy()
       .then(results => {
@@ -865,6 +1096,13 @@ describe('Core', () => {
       }
       done()
     })
+  })
+
+  test('Camera.core.getAccessPolicy (Promise|Invalid Callback)', () => {
+    return Camera.core.getAccessPolicy('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.core.getUsers (Promise)', () => {
@@ -892,4 +1130,11 @@ describe('Core', () => {
       done()
     })
   })
+})
+
+test('Camera.core.getUsers (Promise|Invalid Callback)', () => {
+  return Camera.core.getUsers('callback')
+    .catch(error => {
+      expect(error.message).toContain('The type of the value must be a "function".')
+    })
 })

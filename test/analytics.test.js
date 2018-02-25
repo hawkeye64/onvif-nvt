@@ -85,27 +85,34 @@ describe('Analytics', () => {
   test('Camera.analytics.getServiceCapabilities (Promise)', () => {
     return Camera.analytics.getServiceCapabilities()
       .then(results => {
-        // let response = results.data.GetServiceCapabilitiesResponse
-        // expect(response).toHaveProperty('Capabilities')
-        // expect(response.Capabilities).toHaveProperty('$')
-        // expect(response.Capabilities.$).toHaveProperty('AnalyticsModuleSupport')
-        // expect(response.Capabilities.$).toHaveProperty('CellBasedSceneDescriptionSupported')
-        // expect(response.Capabilities.$).toHaveProperty('RuleSupport')
+        let response = results.data.GetServiceCapabilitiesResponse
+        expect(response).toHaveProperty('Capabilities')
+        expect(response.Capabilities).toHaveProperty('$')
+        expect(response.Capabilities.$).toHaveProperty('AnalyticsModuleSupport')
+        expect(response.Capabilities.$).toHaveProperty('CellBasedSceneDescriptionSupported')
+        expect(response.Capabilities.$).toHaveProperty('RuleSupport')
       })
   })
 
   test('Camera.analytics.getServiceCapabilities (Callback)', (done) => {
     Camera.analytics.getServiceCapabilities((error, results) => {
       if (!error) {
-        // let response = results.data.GetServiceCapabilitiesResponse
-        // expect(response).toHaveProperty('Capabilities')
-        // expect(response.Capabilities).toHaveProperty('$')
-        // expect(response.Capabilities.$).toHaveProperty('AnalyticsModuleSupport')
-        // expect(response.Capabilities.$).toHaveProperty('CellBasedSceneDescriptionSupported')
-        // expect(response.Capabilities.$).toHaveProperty('RuleSupport')
+        let response = results.data.GetServiceCapabilitiesResponse
+        expect(response).toHaveProperty('Capabilities')
+        expect(response.Capabilities).toHaveProperty('$')
+        expect(response.Capabilities.$).toHaveProperty('AnalyticsModuleSupport')
+        expect(response.Capabilities.$).toHaveProperty('CellBasedSceneDescriptionSupported')
+        expect(response.Capabilities.$).toHaveProperty('RuleSupport')
       }
       done()
     })
+  })
+
+  test('Camera.analytics.getServiceCapabilities (Promise|Invalid Callback)', () => {
+    return Camera.analytics.getServiceCapabilities('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.analytics.getSupportedAnalyticsModules (Promise)', () => {
@@ -184,6 +191,20 @@ describe('Analytics', () => {
     })
   })
 
+  test('Camera.analytics.getSupportedAnalyticsModules (Promise|Invalid Callback)', () => {
+    return Camera.analytics.getSupportedAnalyticsModules(configurationToken, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.analytics.getSupportedAnalyticsModules (Promise|Invalid configurationToken)', () => {
+    return Camera.analytics.getSupportedAnalyticsModules(2)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
+  })
+
   test('Camera.analytics.getAnalyticsModules (Promise)', () => {
     return Camera.analytics.getAnalyticsModules(configurationToken)
       .then(results => {
@@ -252,6 +273,20 @@ describe('Analytics', () => {
     })
   })
 
+  test('Camera.analytics.getAnalyticsModules (Promise|Invalid Callback)', () => {
+    return Camera.analytics.getAnalyticsModules(configurationToken, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.analytics.getAnalyticsModules (Promise|Invalid configurationToken)', () => {
+    return Camera.analytics.getAnalyticsModules(2)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
+  })
+
   test('Camera.analytics.getSupportedRules (Promise)', () => {
     return Camera.analytics.getSupportedRules(configurationToken)
       .then(results => {
@@ -318,5 +353,19 @@ describe('Analytics', () => {
       }
       done()
     })
+  })
+
+  test('Camera.analytics.getSupportedRules (Promise|Invalid Callback)', () => {
+    return Camera.analytics.getSupportedRules(configurationToken, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.analytics.getSupportedRules (Promise|Invalid configurationToken)', () => {
+    return Camera.analytics.getSupportedRules(2)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
   })
 })

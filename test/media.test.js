@@ -361,6 +361,13 @@ describe('Media', () => {
     })
   })
 
+  test('Camera.media.getProfiles (Promise|Invalid Callback)', () => {
+    return Camera.media.getProfiles('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.media.getProfile (Promise)', () => {
     return Camera.media.getProfile(profileToken)
       .then(results => {
@@ -637,6 +644,27 @@ describe('Media', () => {
     })
   })
 
+  test('Camera.media.getProfile (Promise|Invalid Callback)', () => {
+    return Camera.media.getProfile(profileToken, 'callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.media.getProfile (Promise|Invalid Param1)', () => {
+    return Camera.media.getProfile(true)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
+  })
+
+  test('Camera.media.getProfile (Promise|Invalid Param1 (token))', () => {
+    return Camera.media.getProfile('profileToken')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.media.getVideoSources (Promise)', () => {
     return Camera.media.getVideoSources()
       .then(results => {
@@ -749,6 +777,13 @@ describe('Media', () => {
     })
   })
 
+  test('Camera.media.getVideoSources (Promise|Invalid Callback)', () => {
+    return Camera.media.getVideoSources('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.media.getVideoSourceConfigurations (Promise)', () => {
     return Camera.media.getVideoSourceConfigurations()
       .then(results => {
@@ -791,6 +826,13 @@ describe('Media', () => {
     })
   })
 
+  test('Camera.media.getVideoSourceConfigurations (Promise|Invalid Callback)', () => {
+    return Camera.media.getVideoSourceConfigurations('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.media.getVideoEncoderConfigurations (Promise)', () => {
     return Camera.media.getVideoEncoderConfigurations()
       .then(results => {
@@ -811,6 +853,13 @@ describe('Media', () => {
       }
       done()
     })
+  })
+
+  test('Camera.media.getVideoEncoderConfigurations (Promise|Invalid Callback)', () => {
+    return Camera.media.getVideoEncoderConfigurations('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.media.getAudioSources (Promise)', () => {
@@ -837,6 +886,13 @@ describe('Media', () => {
       }
       done()
     })
+  })
+
+  test('Camera.media.getAudioSources (Promise|Invalid Callback)', () => {
+    return Camera.media.getAudioSources('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.media.getAudioSourceConfigurations (Promise)', () => {
@@ -867,6 +923,13 @@ describe('Media', () => {
       }
       done()
     })
+  })
+
+  test('Camera.media.getAudioSourceConfigurations (Promise|Invalid Callback)', () => {
+    return Camera.media.getAudioSourceConfigurations('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
   })
 
   test('Camera.media.getAudioEncoderConfigurations (Promise)', () => {
@@ -919,6 +982,13 @@ describe('Media', () => {
     })
   })
 
+  test('Camera.media.getAudioEncoderConfigurations (Promise|Invalid Callback)', () => {
+    return Camera.media.getAudioEncoderConfigurations('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.media.getVideoAnalyticsConfigurations (Promise)', () => {
     return Camera.media.getVideoAnalyticsConfigurations()
       .then(results => {
@@ -959,6 +1029,13 @@ describe('Media', () => {
     })
   })
 
+  test('Camera.media.getVideoAnalyticsConfigurations (Promise|Invalid Callback)', () => {
+    return Camera.media.getVideoAnalyticsConfigurations('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
   test('Camera.media.getMetadataConfigurations (Promise)', () => {
     return Camera.media.getMetadataConfigurations()
       .then(results => {
@@ -984,32 +1061,123 @@ describe('Media', () => {
         expect(config).toHaveProperty('UseCount')
       })
   })
-})
 
-test('Camera.media.getMetadataConfigurations (Callback)', (done) => {
-  Camera.media.getMetadataConfigurations((error, results) => {
-    if (!error) {
-      let response = results.data.GetMetadataConfigurationsResponse
-      expect(response).toHaveProperty('Configurations')
-      let config = response.Configurations
-      expect(config).toHaveProperty('$')
-      expect(config.$).toHaveProperty('token')
-      expect(config).toHaveProperty('Analytics')
-      expect(config).toHaveProperty('AnalyticsEngineConfiguration')
-      expect(config).toHaveProperty('Multicast')
-      expect(config.Multicast).toHaveProperty('Address')
-      expect(config.Multicast.Address).toHaveProperty('IPv4Address')
-      expect(config.Multicast.Address).toHaveProperty('Type')
-      expect(config.Multicast).toHaveProperty('AutoStart')
-      expect(config.Multicast).toHaveProperty('Port')
-      expect(config.Multicast).toHaveProperty('TTL')
-      expect(config).toHaveProperty('Name')
-      expect(config).toHaveProperty('PTZStatus')
-      expect(config.PTZStatus).toHaveProperty('Position')
-      expect(config.PTZStatus).toHaveProperty('Status')
-      expect(config).toHaveProperty('SessionTimeout')
-      expect(config).toHaveProperty('UseCount')
-    }
-    done()
+  test('Camera.media.getMetadataConfigurations (Callback)', (done) => {
+    Camera.media.getMetadataConfigurations((error, results) => {
+      if (!error) {
+        let response = results.data.GetMetadataConfigurationsResponse
+        expect(response).toHaveProperty('Configurations')
+        let config = response.Configurations
+        expect(config).toHaveProperty('$')
+        expect(config.$).toHaveProperty('token')
+        expect(config).toHaveProperty('Analytics')
+        expect(config).toHaveProperty('AnalyticsEngineConfiguration')
+        expect(config).toHaveProperty('Multicast')
+        expect(config.Multicast).toHaveProperty('Address')
+        expect(config.Multicast.Address).toHaveProperty('IPv4Address')
+        expect(config.Multicast.Address).toHaveProperty('Type')
+        expect(config.Multicast).toHaveProperty('AutoStart')
+        expect(config.Multicast).toHaveProperty('Port')
+        expect(config.Multicast).toHaveProperty('TTL')
+        expect(config).toHaveProperty('Name')
+        expect(config).toHaveProperty('PTZStatus')
+        expect(config.PTZStatus).toHaveProperty('Position')
+        expect(config.PTZStatus).toHaveProperty('Status')
+        expect(config).toHaveProperty('SessionTimeout')
+        expect(config).toHaveProperty('UseCount')
+      }
+      done()
+    })
+  })
+
+  test('Camera.media.getMetadataConfigurations (Promise|Invalid Callback)', () => {
+    return Camera.media.getMetadataConfigurations('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.media.getOSDs (Promise)', () => {
+    return Camera.media.getOSDs()
+      .then(results => {
+        let response = results.data.GetOSDsResponse
+        expect(response).toHaveProperty('OSDs')
+        expect(response.OSDs).toBeArray()
+        let osd = response.OSDs[0]
+        expect(osd).toHaveProperty('$')
+        expect(osd.$).toHaveProperty('token')
+        expect(osd).toHaveProperty('Position')
+        expect(osd.Position).toHaveProperty('Pos')
+        expect(osd.Position.Pos).toHaveProperty('$')
+        expect(osd.Position.Pos.$).toHaveProperty('x')
+        expect(osd.Position.Pos.$).toHaveProperty('y')
+        expect(osd.Position).toHaveProperty('Type')
+        expect(osd).toHaveProperty('TextString')
+        expect(osd.TextString).toHaveProperty('DateFormat')
+        expect(osd.TextString).toHaveProperty('Extension')
+        expect(osd.TextString.Extension).toHaveProperty('ChannelName')
+        expect(osd.TextString).toHaveProperty('FontColor')
+        expect(osd.TextString.FontColor).toHaveProperty('Color')
+        expect(osd.TextString.FontColor.Color).toHaveProperty('$')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Colorspace')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('X')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Y')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Z')
+        expect(osd.TextString).toHaveProperty('FontSize')
+        expect(osd.TextString).toHaveProperty('TimeFormat')
+        expect(osd.TextString).toHaveProperty('Type')
+        expect(osd).toHaveProperty('Type')
+        expect(osd).toHaveProperty('VideoSourceConfigurationToken')
+      })
+  })
+
+  test('Camera.media.getOSDs (Callback)', (done) => {
+    Camera.media.getOSDs(null, (error, results) => {
+      if (!error) {
+        let response = results.data.GetOSDsResponse
+        expect(response).toHaveProperty('OSDs')
+        expect(response.OSDs).toBeArray()
+        let osd = response.OSDs[0]
+        expect(osd).toHaveProperty('$')
+        expect(osd.$).toHaveProperty('token')
+        expect(osd).toHaveProperty('Position')
+        expect(osd.Position).toHaveProperty('Pos')
+        expect(osd.Position.Pos).toHaveProperty('$')
+        expect(osd.Position.Pos.$).toHaveProperty('x')
+        expect(osd.Position.Pos.$).toHaveProperty('y')
+        expect(osd.Position).toHaveProperty('Type')
+        expect(osd).toHaveProperty('TextString')
+        expect(osd.TextString).toHaveProperty('DateFormat')
+        expect(osd.TextString).toHaveProperty('Extension')
+        expect(osd.TextString.Extension).toHaveProperty('ChannelName')
+        expect(osd.TextString).toHaveProperty('FontColor')
+        expect(osd.TextString.FontColor).toHaveProperty('Color')
+        expect(osd.TextString.FontColor.Color).toHaveProperty('$')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Colorspace')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('X')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Y')
+        expect(osd.TextString.FontColor.Color.$).toHaveProperty('Z')
+        expect(osd.TextString).toHaveProperty('FontSize')
+        expect(osd.TextString).toHaveProperty('TimeFormat')
+        expect(osd.TextString).toHaveProperty('Type')
+        expect(osd).toHaveProperty('Type')
+        expect(osd).toHaveProperty('VideoSourceConfigurationToken')
+      }
+      done()
+    })
+  })
+
+  test('Camera.media.getOSDs (Promise|Invalid Callback)', () => {
+    return Camera.media.getOSDs('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
+
+  test('Camera.media.getOSDs (Promise|Invalid Param)', () => {
+    return Camera.media.getOSDs(true)
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "string".')
+      })
   })
 })

@@ -51,38 +51,19 @@
     </wsa5:ReplyTo>
   </SOAP-ENV:Header>
   <SOAP-ENV:Body>
-    <tds:GetSystemDateAndTimeResponse>
-      <tds:SystemDateAndTime>
-        <tt:DateTimeType>Manual</tt:DateTimeType>
-        <tt:DaylightSavings>true</tt:DaylightSavings>
-        <tt:TimeZone>
-          <tt:TZ>MST7MDT,M3.2.0,M11.1.0</tt:TZ>
-        </tt:TimeZone>
-        <tt:UTCDateTime>
-          <tt:Time>
-            <tt:Hour>16</tt:Hour>
-            <tt:Minute>58</tt:Minute>
-            <tt:Second>7</tt:Second>
-          </tt:Time>
-          <tt:Date>
-            <tt:Year>2018</tt:Year>
-            <tt:Month>2</tt:Month>
-            <tt:Day>25</tt:Day>
-          </tt:Date>
-        </tt:UTCDateTime>
-        <tt:LocalDateTime>
-          <tt:Time>
-            <tt:Hour>9</tt:Hour>
-            <tt:Minute>58</tt:Minute>
-            <tt:Second>7</tt:Second>
-          </tt:Time>
-          <tt:Date>
-            <tt:Year>2018</tt:Year>
-            <tt:Month>2</tt:Month>
-            <tt:Day>25</tt:Day>
-          </tt:Date>
-        </tt:LocalDateTime>
-      </tds:SystemDateAndTime>
-    </tds:GetSystemDateAndTimeResponse>
+    <SOAP-ENV:Fault SOAP-ENV:encodingStyle="http://www.w3.org/2003/05/soap-encoding">
+      <SOAP-ENV:Code>
+        <SOAP-ENV:Value>SOAP-ENV:Receiver</SOAP-ENV:Value>
+        <SOAP-ENV:Subcode>
+          <SOAP-ENV:Value>ter:Action</SOAP-ENV:Value>
+        </SOAP-ENV:Subcode>
+      </SOAP-ENV:Code>
+      <SOAP-ENV:Reason>
+        <SOAP-ENV:Text xml:lang="en">Action failed</SOAP-ENV:Text>
+      </SOAP-ENV:Reason>
+      <SOAP-ENV:Detail>
+        <SOAP-ENV:Text>The requested SOAP action failed</SOAP-ENV:Text>
+      </SOAP-ENV:Detail>
+    </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

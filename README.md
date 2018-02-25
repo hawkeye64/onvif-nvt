@@ -11,9 +11,9 @@
 # onvif-nvt
 ONVIF library for NVT (Network Video Transmitter) devices.
 
-This package is written with Javascript classes and ES6. Both Promises and Callbacks are supported.
+This package is written with Javascript classes and ES6. Both Promises and Callbacks are supported. _Note_: Even though callbacks are supported, if you pass parameters incorrectly, you might end up getting a Promise back.
 
-The aim of the **onvif-nvt** package is to have as much complete coverage of the [ONVIF](https://www.onvif.org/) spec as possible.
+The ultimate goal of the **onvif-nvt** package is to have as much complete coverage of the [ONVIF](https://www.onvif.org/) spec as possible.
 
 The `onvif-nvt` package will work only with `node` server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.
 
@@ -23,7 +23,7 @@ Note: This is an active project, and while so, there will be many updates. PRs a
 ```npm install onvif-nvt```
 
 ## Sample Application
-You can find the sample application that uses Vue and Quasar [here](https://github.com/hawkeye64/onvif-nvt-snapshot-vue-sample)
+You can find the sample application that uses Vue and Quasar [here](https://github.com/hawkeye64/onvif-nvt-snapshot-vue-sample).
 
 ## Contributing
 Before making a PR please do the following:

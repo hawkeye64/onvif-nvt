@@ -60,6 +60,10 @@ class RunMedia {
           }).then(() => {
             return this.GetSnapshotUri()
           }).then(() => {
+          //   return this.GetVideoSourceModes()
+          // }).then(() => {
+            return this.GetOSDs()
+          }).then(() => {
             resolve(this.apiErrors)
           })
         })
