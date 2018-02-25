@@ -37,13 +37,46 @@
   xmlns:hikwsd="http://www.onvifext.com/onvif/ext/ver10/wsdl" 
   xmlns:hikxsd="http://www.onvifext.com/onvif/ext/ver10/schema">
   <env:Body>
-    <trt:GetStreamUriResponse>
-      <trt:MediaUri>
-        <tt:Uri>rtsp://10.10.1.60:80/Streaming/Channels/1?transportmode=unicast&amp;profile=Profile_1</tt:Uri>
-        <tt:InvalidAfterConnect>false</tt:InvalidAfterConnect>
-        <tt:InvalidAfterReboot>false</tt:InvalidAfterReboot>
-        <tt:Timeout>PT60S</tt:Timeout>
-      </trt:MediaUri>
-    </trt:GetStreamUriResponse>
+    <trt:GetOSDsResponse>
+      <trt:OSDs token="osd_token_1">
+        <tt:VideoSourceConfigurationToken>VideoSourceToken</tt:VideoSourceConfigurationToken>
+        <tt:Type>Text</tt:Type>
+        <tt:Position>
+          <tt:Type>Custom</tt:Type>
+          <tt:Pos x="-1.000000" y="0.933333"/>
+        </tt:Position>
+        <tt:TextString>
+          <tt:Type>DateAndTime</tt:Type>
+          <tt:DateFormat>MM/dd/yyyy</tt:DateFormat>
+          <tt:TimeFormat>HH:mm:ss</tt:TimeFormat>
+          <tt:FontSize>32</tt:FontSize>
+          <tt:FontColor>
+            <tt:Color X="16.000000" Y="128.000000" Z="128.000000" Colorspace="http://www.onvif.org/ver10/colorspace/YCbCr"/>
+          </tt:FontColor>
+          <tt:Extension>
+            <tt:ChannelName>false</tt:ChannelName>
+          </tt:Extension>
+        </tt:TextString>
+      </trt:OSDs>
+      <trt:OSDs token="osd_token_0">
+        <tt:VideoSourceConfigurationToken>VideoSourceToken</tt:VideoSourceConfigurationToken>
+        <tt:Type>Text</tt:Type>
+        <tt:Position>
+          <tt:Type>Custom</tt:Type>
+          <tt:Pos x="0.454545" y="-0.666667"/>
+        </tt:Position>
+        <tt:TextString>
+          <tt:Type>Plain</tt:Type>
+          <tt:FontSize>32</tt:FontSize>
+          <tt:FontColor>
+            <tt:Color X="16.000000" Y="128.000000" Z="128.000000" Colorspace="http://www.onvif.org/ver10/colorspace/YCbCr"/>
+          </tt:FontColor>
+          <tt:PlainText>IPdome</tt:PlainText>
+          <tt:Extension>
+            <tt:ChannelName>true</tt:ChannelName>
+          </tt:Extension>
+        </tt:TextString>
+      </trt:OSDs>
+    </trt:GetOSDsResponse>
   </env:Body>
 </env:Envelope>

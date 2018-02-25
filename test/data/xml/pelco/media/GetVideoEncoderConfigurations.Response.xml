@@ -50,7 +50,7 @@
           <tt:Width>1920</tt:Width>
           <tt:Height>1080</tt:Height>
         </tt:Resolution>
-        <tt:Quality>69</tt:Quality>
+        <tt:Quality>71</tt:Quality>
         <tt:RateControl>
           <tt:FrameRateLimit>5</tt:FrameRateLimit>
           <tt:EncodingInterval>1</tt:EncodingInterval>

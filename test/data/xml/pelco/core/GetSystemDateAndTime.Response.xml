@@ -21,9 +21,9 @@
         </tt:TimeZone>
         <tt:UTCDateTime>
           <tt:Time>
-            <tt:Hour>16</tt:Hour>
-            <tt:Minute>47</tt:Minute>
-            <tt:Second>23</tt:Second>
+            <tt:Hour>0</tt:Hour>
+            <tt:Minute>31</tt:Minute>
+            <tt:Second>54</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>1970</tt:Year>
