@@ -109,7 +109,7 @@ describe('Analytics', () => {
   })
 
   test('Camera.analytics.getServiceCapabilities (Promise|Invalid Callback)', () => {
-    return Camera.analytics.getServiceCapabilities('test')
+    return Camera.analytics.getServiceCapabilities('callback')
       .catch(error => {
         expect(error.message).toContain('The type of the value must be a "function".')
       })
@@ -192,7 +192,7 @@ describe('Analytics', () => {
   })
 
   test('Camera.analytics.getSupportedAnalyticsModules (Promise|Invalid Callback)', () => {
-    return Camera.analytics.getSupportedAnalyticsModules(configurationToken, 'test')
+    return Camera.analytics.getSupportedAnalyticsModules(configurationToken, 'callback')
       .catch(error => {
         expect(error.message).toContain('The type of the value must be a "function".')
       })
@@ -274,7 +274,7 @@ describe('Analytics', () => {
   })
 
   test('Camera.analytics.getAnalyticsModules (Promise|Invalid Callback)', () => {
-    return Camera.analytics.getAnalyticsModules(configurationToken, 'test')
+    return Camera.analytics.getAnalyticsModules(configurationToken, 'callback')
       .catch(error => {
         expect(error.message).toContain('The type of the value must be a "function".')
       })
@@ -356,7 +356,7 @@ describe('Analytics', () => {
   })
 
   test('Camera.analytics.getSupportedRules (Promise|Invalid Callback)', () => {
-    return Camera.analytics.getSupportedRules(configurationToken, 'test')
+    return Camera.analytics.getSupportedRules(configurationToken, 'callback')
       .catch(error => {
         expect(error.message).toContain('The type of the value must be a "function".')
       })
