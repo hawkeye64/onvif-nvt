@@ -30,4 +30,9 @@ describe('OnvifManager', () => {
         console.error(error)
       })
   })
+
+  // test('OnvifManager throw on add(\'not-a-module\')', () => {
+  //   const OnvifManager = require('../lib/onvif-nvt')
+  //   expect(OnvifManager.add('not-a-module')).toThrow()
+  // })
 })
