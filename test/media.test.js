@@ -1180,5 +1180,4 @@ describe('Media', () => {
         expect(error.message).toContain('The type of the value must be a "string".')
       })
   })
-
 })
