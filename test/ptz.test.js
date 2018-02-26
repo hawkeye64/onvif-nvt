@@ -170,7 +170,7 @@ describe('Ptz', () => {
         expect(response).toHaveProperty('PTZNode')
         expect(response.PTZNode).toHaveProperty('$')
         expect(response.PTZNode.$).toHaveProperty('token')
-        nodeToken = response.PTZNode.$ = token
+        nodeToken = response.PTZNode.$.token
         expect(response.PTZNode).toHaveProperty('AuxiliaryCommands')
         expect(response.PTZNode).toHaveProperty('HomeSupported')
         expect(response.PTZNode).toHaveProperty('MaximumNumberOfPresets')
