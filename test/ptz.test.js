@@ -3,6 +3,56 @@
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
+// Extending jest with a custom matcher
+expect.extend({
+  toBeUndefinedNullOrEmpty (received, argument) {
+    let pass = false
+    if (typeof received === 'undefined') {
+      pass = true
+    }
+    else if (received === null) {
+      pass = true
+    }
+    else if (typeof received === 'string' && received.length === 0) {
+      pass = true
+    }
+    if (pass) {
+      return { // when used with expect(x).not.matcher
+        message: () =>
+          `expected ${received} not to be undefined or null`,
+        pass: true
+      }
+    }
+    else {
+      return {
+        message: () =>
+          `expected ${received} to be undefined or null`,
+        pass: true
+      }
+    }
+  }
+})
+
+expect.extend({
+  toBeArray (received, argument) {
+    let pass = Array.isArray(received)
+    if (pass) {
+      return { // when used with expect(x).not.matcher
+        message: () =>
+          `expected ${received} not to be an array`,
+        pass: true
+      }
+    }
+    else {
+      return {
+        message: () =>
+          `expected ${received} to be an array`,
+        pass: true
+      }
+    }
+  }
+})
+
 // Applies to all tests in this file
 var Camera = null
 var nodeToken = ''
@@ -25,28 +75,91 @@ describe('Ptz', () => {
     expect(Camera.ptz.password).toMatch(TestConfig.pass)
   })
 
+  test('Camera.ptz.buildRequest - no methodName', () => {
+    return Camera.ptz.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.ptz.buildRequest - invalid methodName', () => {
+    return Camera.ptz.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
+  })
+
+  test('Camera.ptz.panTiltZoomOptions - empty params', (done) => {
+    let result = Camera.ptz.panTiltZoomOptions()
+    expect(result).toBeUndefinedNullOrEmpty()
+    done()
+  })
+
+  test('Camera.ptz.panTiltZoomOptions - valid params', (done) => {
+    let vectors = {
+      x: 0,
+      y: 0,
+      z: 0
+    }
+    let result = Camera.ptz.panTiltZoomOptions(vectors)
+    expect(result).toContain('tt:PanTilt')
+    expect(result).toContain('tt:Zoom')
+    done()
+  })
+
   test('Camera.ptz.getNodes (Promise)', () => {
     return Camera.ptz.getNodes()
       .then(results => {
         let response = results.data.GetNodesResponse
         expect(response).toHaveProperty('PTZNode')
-        let node = response.PTZNode
-        expect(node).toHaveProperty('$')
-        expect(node.$).toHaveProperty('token')
-        nodeToken = node.$.token
-        expect(node).toHaveProperty('AuxiliaryCommands')
-        expect(node).toHaveProperty('HomeSupported')
-        expect(node).toHaveProperty('MaximumNumberOfPresets')
-        expect(node).toHaveProperty('Name')
-        expect(node).toHaveProperty('SupportedPTZSpaces')
-        let spaces = node.SupportedPTZSpaces
-        expect(spaces).toHaveProperty('AbsolutePanTiltPositionSpace')
-        expect(spaces).toHaveProperty('AbsoluteZoomPositionSpace')
-        expect(spaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
-        expect(spaces).toHaveProperty('ContinuousZoomVelocitySpace')
-        expect(spaces).toHaveProperty('PanTiltSpeedSpace')
-        expect(spaces).toHaveProperty('RelativePanTiltTranslationSpace')
-        expect(spaces).toHaveProperty('RelativeZoomTranslationSpace')
+        expect(response.PTZNode).toHaveProperty('$')
+        expect(response.PTZNode.$).toHaveProperty('token')
+        nodeToken = response.PTZNode.$.token
+        expect(response.PTZNode).toHaveProperty('AuxiliaryCommands')
+        expect(response.PTZNode).toHaveProperty('HomeSupported')
+        expect(response.PTZNode).toHaveProperty('MaximumNumberOfPresets')
+        expect(response.PTZNode).toHaveProperty('Name')
+        expect(response.PTZNode).toHaveProperty('SupportedPTZSpaces')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('AbsolutePanTiltPositionSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace).toHaveProperty('YRange')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.YRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.YRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('AbsoluteZoomPositionSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
+        expect(response.PTZNode.SupportedPTZSpaces.ContinuousPanTiltVelocitySpace).toBeArray()
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('ContinuousZoomVelocitySpace')
+        expect(response.PTZNode.SupportedPTZSpaces.ContinuousZoomVelocitySpace).toBeArray()
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('PanTiltSpeedSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('RelativePanTiltTranslationSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace).toHaveProperty('YRange')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('RelativeZoomTranslationSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('ZoomSpeedSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace.XRange).toHaveProperty('Min')
       })
   })
 
@@ -55,23 +168,54 @@ describe('Ptz', () => {
       if (!error) {
         let response = results.data.GetNodesResponse
         expect(response).toHaveProperty('PTZNode')
-        let node = response.PTZNode
-        expect(node).toHaveProperty('$')
-        expect(node.$).toHaveProperty('token')
-        nodeToken = node.$.token
-        expect(node).toHaveProperty('AuxiliaryCommands')
-        expect(node).toHaveProperty('HomeSupported')
-        expect(node).toHaveProperty('MaximumNumberOfPresets')
-        expect(node).toHaveProperty('Name')
-        expect(node).toHaveProperty('SupportedPTZSpaces')
-        let spaces = node.SupportedPTZSpaces
-        expect(spaces).toHaveProperty('AbsolutePanTiltPositionSpace')
-        expect(spaces).toHaveProperty('AbsoluteZoomPositionSpace')
-        expect(spaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
-        expect(spaces).toHaveProperty('ContinuousZoomVelocitySpace')
-        expect(spaces).toHaveProperty('PanTiltSpeedSpace')
-        expect(spaces).toHaveProperty('RelativePanTiltTranslationSpace')
-        expect(spaces).toHaveProperty('RelativeZoomTranslationSpace')
+        expect(response.PTZNode).toHaveProperty('$')
+        expect(response.PTZNode.$).toHaveProperty('token')
+        nodeToken = response.PTZNode.$ = token
+        expect(response.PTZNode).toHaveProperty('AuxiliaryCommands')
+        expect(response.PTZNode).toHaveProperty('HomeSupported')
+        expect(response.PTZNode).toHaveProperty('MaximumNumberOfPresets')
+        expect(response.PTZNode).toHaveProperty('Name')
+        expect(response.PTZNode).toHaveProperty('SupportedPTZSpaces')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('AbsolutePanTiltPositionSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace).toHaveProperty('YRange')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.YRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsolutePanTiltPositionSpace.YRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('AbsoluteZoomPositionSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.AbsoluteZoomPositionSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('ContinuousPanTiltVelocitySpace')
+        expect(response.PTZNode.SupportedPTZSpaces.ContinuousPanTiltVelocitySpace).toBeArray()
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('ContinuousZoomVelocitySpace')
+        expect(response.PTZNode.SupportedPTZSpaces.ContinuousZoomVelocitySpace).toBeArray()
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('PanTiltSpeedSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.PanTiltSpeedSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('RelativePanTiltTranslationSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace).toHaveProperty('YRange')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativePanTiltTranslationSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('RelativeZoomTranslationSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.RelativeZoomTranslationSpace.XRange).toHaveProperty('Min')
+        expect(response.PTZNode.SupportedPTZSpaces).toHaveProperty('ZoomSpeedSpace')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace).toHaveProperty('URI')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace).toHaveProperty('XRange')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace.XRange).toHaveProperty('Max')
+        expect(response.PTZNode.SupportedPTZSpaces.ZoomSpeedSpace.XRange).toHaveProperty('Min')
       }
       done()
     })
@@ -85,7 +229,6 @@ describe('Ptz', () => {
         let node = response.PTZNode
         expect(node).toHaveProperty('$')
         expect(node.$).toHaveProperty('token')
-        nodeToken = node.$.token
         expect(node).toHaveProperty('AuxiliaryCommands')
         expect(node).toHaveProperty('HomeSupported')
         expect(node).toHaveProperty('MaximumNumberOfPresets')
@@ -110,7 +253,6 @@ describe('Ptz', () => {
         let node = response.PTZNode
         expect(node).toHaveProperty('$')
         expect(node.$).toHaveProperty('token')
-        nodeToken = node.$.token
         expect(node).toHaveProperty('AuxiliaryCommands')
         expect(node).toHaveProperty('HomeSupported')
         expect(node).toHaveProperty('MaximumNumberOfPresets')
@@ -138,7 +280,7 @@ describe('Ptz', () => {
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         configurationToken = config.$.token
-        if (TestConfig.cameraType === 'hikvision') {
+        if (TestConfig.cameraType === 'hikvision' || TestConfig.cameraType === 'hikvision-fixed') {
           // found a hikvision error - shame on them
           expect(config).toHaveProperty('DefaultAbsolutePantTiltPositionSpace')
         }
@@ -192,7 +334,7 @@ describe('Ptz', () => {
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         configurationToken = config.$.token
-        if (TestConfig.cameraType === 'hikvision') {
+        if (TestConfig.cameraType === 'hikvision' || TestConfig.cameraType === 'hikvision-fixed') {
           // found a hikvision error - shame on them
           expect(config).toHaveProperty('DefaultAbsolutePantTiltPositionSpace')
         }
@@ -248,7 +390,7 @@ describe('Ptz', () => {
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         configurationToken = config.$.token
-        if (TestConfig.cameraType === 'hikvision') {
+        if (TestConfig.cameraType === 'hikvision' || TestConfig.cameraType === 'hikvision-fixed') {
           // found a hikvision error - shame on them
           expect(config).toHaveProperty('DefaultAbsolutePantTiltPositionSpace')
         }
@@ -302,7 +444,7 @@ describe('Ptz', () => {
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         configurationToken = config.$.token
-        if (TestConfig.cameraType === 'hikvision') {
+        if (TestConfig.cameraType === 'hikvision' || TestConfig.cameraType === 'hikvision-fixed') {
           // found a hikvision error - shame on them
           expect(config).toHaveProperty('DefaultAbsolutePantTiltPositionSpace')
         }
