@@ -66,13 +66,27 @@ beforeEach(() => {
     })
 })
 
-describe('Media', () => {
+describe('#Media', () => {
   test('Camera.media', () => {
     expect(Camera.media).not.toBeNull()
     expect(Camera.address).toMatch(TestConfig.address)
     expect(Camera.media.serviceAddress.host).toMatch(TestConfig.address)
     expect(Camera.media.username).toMatch(TestConfig.user)
     expect(Camera.media.password).toMatch(TestConfig.pass)
+  })
+
+  test('Camera.media.buildRequest - no methodName', () => {
+    return Camera.media.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.media.buildRequest - invalid methodName', () => {
+    return Camera.media.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
   })
 
   test('Camera.media.getProfiles (Promise)', () => {

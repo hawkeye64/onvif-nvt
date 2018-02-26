@@ -84,6 +84,20 @@ describe('Analytics', () => {
     expect(Camera.analytics.password).toMatch(TestConfig.pass)
   })
 
+  test('Camera.analytics.buildRequest - no methodName', () => {
+    return Camera.analytics.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.analytics.buildRequest - invalid methodName', () => {
+    return Camera.analytics.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
+  })
+
   test('Camera.analytics.getServiceCapabilities (Promise)', () => {
     return Camera.analytics.getServiceCapabilities()
       .then(results => {

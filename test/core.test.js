@@ -73,6 +73,20 @@ describe('Core', () => {
     expect(Camera.core.password).toMatch(TestConfig.pass)
   })
 
+  test('Camera.core.buildRequest - no methodName', () => {
+    return Camera.core.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.core.buildRequest - invalid methodName', () => {
+    return Camera.core.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
+  })
+
   test('Camera.core.getWsdlUrl (Promise)', () => {
     return Camera.core.getWsdlUrl()
       .then(results => {

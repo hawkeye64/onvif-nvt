@@ -1,7 +1,6 @@
 'use strict'
 
 describe('#Camera', () => {
-  // Discovery
   test('Camera::constructor()', () => {
     const Camera = require('../lib/camera')
 
@@ -14,7 +13,6 @@ describe('#Camera', () => {
     expect(Camera.snapshot).toBeNull()
   })
 
-  // Media
   test(`Camera::add(moduleName)`, () => {
     const Camera = require('../lib/camera')
 
