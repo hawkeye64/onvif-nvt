@@ -1,3 +1,5 @@
+'use strict'
+
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
@@ -57,7 +59,7 @@ expect.extend({
 var Camera = null
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
-  Config.setDebugData(TestConfig.cameraType, 'Response')
+  Config.setDebugData(TestConfig.cameraType)
   return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
     .then(results => {
       Camera = results

@@ -1,3 +1,5 @@
+'use strict'
+
 describe('#Camera', () => {
   // Discovery
   test('Camera::constructor()', () => {

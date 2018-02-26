@@ -1,8 +1,10 @@
+'use strict'
+
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
 describe('Camera', () => {
-  Config.setDebugData(TestConfig.cameraType, 'Response')
+  Config.setDebugData(TestConfig.cameraType)
 
   test('Camera::constructor()', () => {
     const OnvifManager = require('../lib/onvif-nvt')
