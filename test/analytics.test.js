@@ -1,3 +1,5 @@
+'use strict'
+
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
@@ -57,7 +59,7 @@ var configurationToken = null
 
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
-  Config.setDebugData(TestConfig.cameraType, 'Response')
+  Config.setDebugData(TestConfig.cameraType)
   return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
     .then(results => {
       Camera = results
@@ -80,6 +82,20 @@ describe('Analytics', () => {
     expect(Camera.analytics.serviceAddress.host).toMatch(TestConfig.address)
     expect(Camera.analytics.username).toMatch(TestConfig.user)
     expect(Camera.analytics.password).toMatch(TestConfig.pass)
+  })
+
+  test('Camera.analytics.buildRequest - no methodName', () => {
+    return Camera.analytics.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.analytics.buildRequest - invalid methodName', () => {
+    return Camera.analytics.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
   })
 
   test('Camera.analytics.getServiceCapabilities (Promise)', () => {

@@ -1,3 +1,5 @@
+'use strict'
+
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
@@ -57,20 +59,34 @@ expect.extend({
 var Camera = null
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
-  Config.setDebugData(TestConfig.cameraType, 'Response')
+  Config.setDebugData(TestConfig.cameraType)
   return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
     .then(results => {
       Camera = results
     })
 })
 
-describe('Media', () => {
+describe('#Media', () => {
   test('Camera.media', () => {
     expect(Camera.media).not.toBeNull()
     expect(Camera.address).toMatch(TestConfig.address)
     expect(Camera.media.serviceAddress.host).toMatch(TestConfig.address)
     expect(Camera.media.username).toMatch(TestConfig.user)
     expect(Camera.media.password).toMatch(TestConfig.pass)
+  })
+
+  test('Camera.media.buildRequest - no methodName', () => {
+    return Camera.media.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.media.buildRequest - invalid methodName', () => {
+    return Camera.media.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
   })
 
   test('Camera.media.getProfiles (Promise)', () => {

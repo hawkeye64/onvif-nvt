@@ -1,3 +1,5 @@
+'use strict'
+
 const Config = require('../lib/utils/config')
 const TestConfig = require('./config')
 
@@ -55,7 +57,7 @@ expect.extend({
 var Camera = null
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
-  Config.setDebugData(TestConfig.cameraType, 'Response')
+  Config.setDebugData(TestConfig.cameraType)
   return OnvifManager.connect(TestConfig.address, TestConfig.port, TestConfig.user, TestConfig.pass)
     .then(results => {
       Camera = results
@@ -69,6 +71,20 @@ describe('Core', () => {
     expect(Camera.core.serviceAddress.host).toMatch(TestConfig.address)
     expect(Camera.core.username).toMatch(TestConfig.user)
     expect(Camera.core.password).toMatch(TestConfig.pass)
+  })
+
+  test('Camera.core.buildRequest - no methodName', () => {
+    return Camera.core.buildRequest()
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is required.')
+      })
+  })
+
+  test('Camera.core.buildRequest - invalid methodName', () => {
+    return Camera.core.buildRequest(true)
+      .catch(error => {
+        expect(error.message).toContain('The "methodName" argument for buildRequest is invalid:')
+      })
   })
 
   test('Camera.core.getWsdlUrl (Promise)', () => {
@@ -1113,7 +1129,7 @@ describe('Core', () => {
         let user = response.User
         expect(user).toHaveProperty('UserLevel')
         expect(user).toHaveProperty('Username')
-        console.log(results)
+        // console.log(results)
       })
   })
 
@@ -1125,16 +1141,16 @@ describe('Core', () => {
         let user = response.User
         expect(user).toHaveProperty('UserLevel')
         expect(user).toHaveProperty('Username')
-        console.log(results)
+        // console.log(results)
       }
       done()
     })
   })
-})
 
-test('Camera.core.getUsers (Promise|Invalid Callback)', () => {
-  return Camera.core.getUsers('callback')
-    .catch(error => {
-      expect(error.message).toContain('The type of the value must be a "function".')
-    })
+  test('Camera.core.getUsers (Promise|Invalid Callback)', () => {
+    return Camera.core.getUsers('callback')
+      .catch(error => {
+        expect(error.message).toContain('The type of the value must be a "function".')
+      })
+  })
 })

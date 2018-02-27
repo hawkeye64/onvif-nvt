@@ -40,8 +40,8 @@
   </env:Header>
   <env:Body>
     <tev:PullMessagesResponse>
-      <tev:CurrentTime>2018-02-24T16:25:58Z</tev:CurrentTime>
-      <tev:TerminationTime>2018-02-24T16:35:55Z</tev:TerminationTime>
+      <tev:CurrentTime>2018-02-27T14:54:31Z</tev:CurrentTime>
+      <tev:TerminationTime>2018-02-27T15:04:31Z</tev:TerminationTime>
     </tev:PullMessagesResponse>
   </env:Body>
 </env:Envelope>

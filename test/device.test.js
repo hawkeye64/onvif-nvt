@@ -1,76 +1,78 @@
+'use strict'
+
 describe('#Camera', () => {
-  // Discovery
   test('Camera::constructor()', () => {
     const Camera = require('../lib/camera')
+    let camera = new Camera()
 
-    expect(Camera.media).toBeNull()
-    expect(Camera.ptz).toBeNull()
-    expect(Camera.imaging).toBeNull()
-    expect(Camera.events).toBeNull()
-    expect(Camera.recording).toBeNull()
-    expect(Camera.replay).toBeNull()
-    expect(Camera.snapshot).toBeNull()
+    expect(camera.media).toBeNull()
+    expect(camera.ptz).toBeNull()
+    expect(camera.imaging).toBeNull()
+    expect(camera.events).toBeNull()
+    expect(camera.recording).toBeNull()
+    expect(camera.replay).toBeNull()
+    expect(camera.snapshot).toBeNull()
   })
 
-  // Media
   test(`Camera::add(moduleName)`, () => {
     const Camera = require('../lib/camera')
+    let camera = new Camera()
 
-    Camera.add('access')
-    expect(Camera.access).not.toBeNull()
+    camera.add('access')
+    expect(camera.access).not.toBeNull()
 
-    Camera.add('accessrules')
-    expect(Camera.accessrules).not.toBeNull()
+    camera.add('accessrules')
+    expect(camera.accessrules).not.toBeNull()
 
-    Camera.add('action')
-    expect(Camera.action).not.toBeNull()
+    camera.add('action')
+    expect(camera.action).not.toBeNull()
 
-    Camera.add('credential')
-    expect(Camera.credential).not.toBeNull()
+    camera.add('credential')
+    expect(camera.credential).not.toBeNull()
 
-    Camera.add('deviceio')
-    expect(Camera.deviceio).not.toBeNull()
+    camera.add('deviceio')
+    expect(camera.deviceio).not.toBeNull()
 
-    Camera.add('display')
-    expect(Camera.display).not.toBeNull()
+    camera.add('display')
+    expect(camera.display).not.toBeNull()
 
-    Camera.add('door')
-    expect(Camera.door).not.toBeNull()
+    camera.add('door')
+    expect(camera.door).not.toBeNull()
 
-    Camera.add('events')
-    expect(Camera.events).not.toBeNull()
+    camera.add('events')
+    expect(camera.events).not.toBeNull()
 
-    Camera.add('imaging')
-    expect(Camera.imaging).not.toBeNull()
+    camera.add('imaging')
+    expect(camera.imaging).not.toBeNull()
 
-    Camera.add('media')
-    expect(Camera.media).not.toBeNull()
+    camera.add('media')
+    expect(camera.media).not.toBeNull()
 
-    Camera.add('media2')
-    expect(Camera.media2).not.toBeNull()
+    camera.add('media2')
+    expect(camera.media2).not.toBeNull()
 
-    Camera.add('ptz')
-    expect(Camera.ptz).not.toBeNull()
+    camera.add('ptz')
+    expect(camera.ptz).not.toBeNull()
 
-    Camera.add('receiver')
-    expect(Camera.receiver).not.toBeNull()
+    camera.add('receiver')
+    expect(camera.receiver).not.toBeNull()
 
-    Camera.add('recording')
-    expect(Camera.recording).not.toBeNull()
+    camera.add('recording')
+    expect(camera.recording).not.toBeNull()
 
-    Camera.add('replay')
-    expect(Camera.replay).not.toBeNull()
+    camera.add('replay')
+    expect(camera.replay).not.toBeNull()
 
-    Camera.add('security')
-    expect(Camera.security).not.toBeNull()
+    camera.add('security')
+    expect(camera.security).not.toBeNull()
 
-    Camera.add('snapshot')
-    expect(Camera.snapshot).not.toBeNull()
+    camera.add('snapshot')
+    expect(camera.snapshot).not.toBeNull()
 
-    Camera.add('thermal')
-    expect(Camera.thermal).not.toBeNull()
+    camera.add('thermal')
+    expect(camera.thermal).not.toBeNull()
 
-    Camera.add('videoanalytics')
-    expect(Camera.videoanalytics).not.toBeNull()
+    camera.add('videoanalytics')
+    expect(camera.videoanalytics).not.toBeNull()
   })
 })

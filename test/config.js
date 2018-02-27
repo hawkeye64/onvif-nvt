@@ -1,3 +1,5 @@
+'use strict'
+
 // axis
 // module.exports = {
 //   cameraType: 'axis',
