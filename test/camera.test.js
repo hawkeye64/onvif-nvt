@@ -17,7 +17,7 @@ describe('Camera', () => {
         expect(Camera.analytics).not.toBeNull()
         expect(Camera.core).not.toBeNull()
         expect(Camera.credential).toBeNull()
-        expect(Camera.deviceio).toBeNull()
+        expect(Camera.deviceio).not.toBeNull()
         expect(Camera.display).toBeNull()
         expect(Camera.events).not.toBeNull()
         expect(Camera.imaging).not.toBeNull()
