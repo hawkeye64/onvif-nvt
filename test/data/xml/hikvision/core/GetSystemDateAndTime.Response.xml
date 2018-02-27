@@ -42,13 +42,13 @@
         <tt:DateTimeType>Manual</tt:DateTimeType>
         <tt:DaylightSavings>true</tt:DaylightSavings>
         <tt:TimeZone>
-          <tt:TZ>CST7:00:00DST06:00:00,M3.2.0/02:00:00,M11.1.0/02:00:00</tt:TZ>
+          <tt:TZ>CST7:00:00DST01:00:00,M3.2.0/02:00:00,M11.1.0/02:00:00</tt:TZ>
         </tt:TimeZone>
         <tt:UTCDateTime>
           <tt:Time>
-            <tt:Hour>14</tt:Hour>
-            <tt:Minute>53</tt:Minute>
-            <tt:Second>5</tt:Second>
+            <tt:Hour>18</tt:Hour>
+            <tt:Minute>28</tt:Minute>
+            <tt:Second>1</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>
@@ -58,9 +58,9 @@
         </tt:UTCDateTime>
         <tt:LocalDateTime>
           <tt:Time>
-            <tt:Hour>7</tt:Hour>
-            <tt:Minute>53</tt:Minute>
-            <tt:Second>5</tt:Second>
+            <tt:Hour>11</tt:Hour>
+            <tt:Minute>28</tt:Minute>
+            <tt:Second>1</tt:Second>
           </tt:Time>
           <tt:Date>
             <tt:Year>2018</tt:Year>

@@ -46,43 +46,21 @@
   xmlns:tns1="http://www.onvif.org/ver10/topics" 
   xmlns:tnsaxis="http://www.axis.com/2009/event/topics">
   <SOAP-ENV:Header>
-    <wsa5:ReplyTo SOAP-ENV:mustUnderstand="true">
-      <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
-    </wsa5:ReplyTo>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+    <wsa5:Action SOAP-ENV:mustUnderstand="true">http://www.onvif.org/ver10/events/wsdl/EventPortType/CreatePullPointSubscriptionResponse</wsa5:Action>
   </SOAP-ENV:Header>
   <SOAP-ENV:Body>
-    <tds:GetSystemDateAndTimeResponse>
-      <tds:SystemDateAndTime>
-        <tt:DateTimeType>Manual</tt:DateTimeType>
-        <tt:DaylightSavings>true</tt:DaylightSavings>
-        <tt:TimeZone>
-          <tt:TZ>MST7MDT,M3.2.0,M11.1.0</tt:TZ>
-        </tt:TimeZone>
-        <tt:UTCDateTime>
-          <tt:Time>
-            <tt:Hour>23</tt:Hour>
-            <tt:Minute>9</tt:Minute>
-            <tt:Second>59</tt:Second>
-          </tt:Time>
-          <tt:Date>
-            <tt:Year>2018</tt:Year>
-            <tt:Month>2</tt:Month>
-            <tt:Day>27</tt:Day>
-          </tt:Date>
-        </tt:UTCDateTime>
-        <tt:LocalDateTime>
-          <tt:Time>
-            <tt:Hour>16</tt:Hour>
-            <tt:Minute>9</tt:Minute>
-            <tt:Second>59</tt:Second>
-          </tt:Time>
-          <tt:Date>
-            <tt:Year>2018</tt:Year>
-            <tt:Month>2</tt:Month>
-            <tt:Day>27</tt:Day>
-          </tt:Date>
-        </tt:LocalDateTime>
-      </tds:SystemDateAndTime>
-    </tds:GetSystemDateAndTimeResponse>
+    <tev:CreatePullPointSubscriptionResponse>
+      <tev:SubscriptionReference>
+        <wsa5:Address>http://192.168.0.19/onvif/services</wsa5:Address>
+        <wsa5:ReferenceParameters>
+          <dom0:SubscriptionId 
+            xmlns:dom0="http://www.axis.com/2009/event">5
+          </dom0:SubscriptionId>
+        </wsa5:ReferenceParameters>
+      </tev:SubscriptionReference>
+      <wsnt:CurrentTime>2018-02-27T23:10:30Z</wsnt:CurrentTime>
+      <wsnt:TerminationTime>2018-03-27T23:10:30Z</wsnt:TerminationTime>
+    </tev:CreatePullPointSubscriptionResponse>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

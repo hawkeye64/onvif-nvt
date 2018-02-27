@@ -42,10 +42,10 @@
   <env:Body>
     <tev:CreatePullPointSubscriptionResponse>
       <tev:SubscriptionReference>
-        <wsa:Address>http://10.10.1.60/onvif/Events/PullSubManager_2018-02-27T14:53:12Z_1</wsa:Address>
+        <wsa:Address>http://10.10.1.60/onvif/Events/PullSubManager_2018-02-27T18:28:52Z_5</wsa:Address>
       </tev:SubscriptionReference>
-      <wsnt:CurrentTime>2018-02-27T14:53:12Z</wsnt:CurrentTime>
-      <wsnt:TerminationTime>2018-02-27T14:54:12Z</wsnt:TerminationTime>
+      <wsnt:CurrentTime>2018-02-27T18:28:52Z</wsnt:CurrentTime>
+      <wsnt:TerminationTime>2018-02-27T18:29:52Z</wsnt:TerminationTime>
     </tev:CreatePullPointSubscriptionResponse>
   </env:Body>
 </env:Envelope>

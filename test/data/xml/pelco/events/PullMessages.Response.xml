@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope 
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" 
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
+  xmlns:ter="http://www.onvif.org/ver10/error" 
+  xmlns:tev="http://www.onvif.org/ver10/events/wsdl" 
+  xmlns:tt="http://www.onvif.org/ver10/schema" 
+  xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2" 
+  xmlns:wsrfbf="http://docs.oasis-open.org/wsrf/bf-2" 
+  xmlns:wsrfr="http://docs.oasis-open.org/wsrf/r-2" 
+  xmlns:wstop="http://docs.oasis-open.org/wsn/t-1">
+  <SOAP-ENV:Header>
+    <wsa5:To SOAP-ENV:mustUnderstand="true">http://www.w3.org/2005/08/addressing/anonymous</wsa5:To>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <tev:PullMessagesResponse>
+      <tev:CurrentTime>2018-02-27T18:27:56.135641Z</tev:CurrentTime>
+      <tev:TerminationTime>2018-02-27T18:29:26.135423Z</tev:TerminationTime>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:Monitoring/ProcessorUsage
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.070891Z">
+            <tt:Source>
+              <tt:SimpleItem Value="cpu" Name="Token"></tt:SimpleItem>
+            </tt:Source>
+            <tt:Data>
+              <tt:SimpleItem Value="0.44" Name="Value"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:Monitoring/LinkStatus
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.070891Z">
+            <tt:Source>
+              <tt:SimpleItem Value="eth0" Name="Token"></tt:SimpleItem>
+            </tt:Source>
+            <tt:Data>
+              <tt:ElementItem Name="Link">
+                <tt:Link>
+                  <tt:AutoNegotiation>true</tt:AutoNegotiation>
+                  <tt:Speed>100</tt:Speed>
+                  <tt:Duplex>Full</tt:Duplex>
+                </tt:Link>
+              </tt:ElementItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:Monitoring/OperatingTime/LastReboot
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.070891Z">
+            <tt:Data>
+              <tt:SimpleItem Value="2018-02-24T16:27:48Z" Name="Status"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:Monitoring/OperatingTime/LastReset
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.070891Z">
+            <tt:Data>
+              <tt:SimpleItem Value="1970-01-01T00:00:18Z" Name="Status"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:Monitoring/OperatingTime/LastClockSynchronization
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.070891Z">
+            <tt:Data>
+              <tt:SimpleItem Value="2018-02-27T17:05:11Z" Name="Status"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:RuleEngine/CellMotionDetector/Motion
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.071810Z">
+            <tt:Data>
+              <tt:SimpleItem Value="True" Name="Value"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:RecordingHistory/Recording/State
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.073447Z">
+            <tt:Source>
+              <tt:SimpleItem Value="0" Name="RecordingToken"></tt:SimpleItem>
+            </tt:Source>
+            <tt:Data>
+              <tt:SimpleItem Value="false" Name="IsRecording"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:RecordingHistory/Track/State
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.073662Z">
+            <tt:Source>
+              <tt:SimpleItem Value="0" Name="RecordingToken"></tt:SimpleItem>
+              <tt:SimpleItem Value="VIDEO001" Name="Track"></tt:SimpleItem>
+            </tt:Source>
+            <tt:Data>
+              <tt:SimpleItem Value="false" Name="IsDataPresent"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:RecordingHistory/Track/State
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.073889Z">
+            <tt:Source>
+              <tt:SimpleItem Value="0" Name="RecordingToken"></tt:SimpleItem>
+              <tt:SimpleItem Value="AUDIO001" Name="Track"></tt:SimpleItem>
+            </tt:Source>
+            <tt:Data>
+              <tt:SimpleItem Value="false" Name="IsDataPresent"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+      <wsnt:NotificationMessage>
+        <wsnt:Topic 
+          xmlns:tns1="http://www.onvif.org/ver10/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Concrete">tns1:RecordingHistory/Track/State
+        </wsnt:Topic>
+        <wsnt:Message>
+          <tt:Message PropertyOperation="Initialized" UtcTime="2018-02-27T18:27:56.074147Z">
+            <tt:Source>
+              <tt:SimpleItem Value="0" Name="RecordingToken"></tt:SimpleItem>
+              <tt:SimpleItem Value="META001" Name="Track"></tt:SimpleItem>
+            </tt:Source>
+            <tt:Data>
+              <tt:SimpleItem Value="false" Name="IsDataPresent"></tt:SimpleItem>
+            </tt:Data>
+          </tt:Message>
+        </wsnt:Message>
+      </wsnt:NotificationMessage>
+    </tev:PullMessagesResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

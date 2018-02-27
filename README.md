@@ -106,6 +106,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
 ```
 
 ## Example (Events)
+PullMessages now works with Hikvision, TrendNET and Pelco. They are not working with Axis.
 ``` cs
 const OnvifManager = require('onvif-nvt')
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
@@ -121,10 +122,11 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         console.error('Messages Error:', error)
       })
 
-      camera.events.start()
+      // start a pull event loop using defaults
+      camera.events.startPull()
 
-      // call stop() to end the event loop
-      // camera.events.stop()
+      // call stopPull() to end the event loop
+      // camera.events.stopPull()
     }
   })
 ```

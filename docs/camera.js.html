@@ -27,6 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>const Url = require('url')
+const Util = require('./utils/util')
 
 /**
  * Wrapper class for all onvif modules to manage an Onvif device (camera).
@@ -103,109 +104,130 @@ class Camera {
     switch (name) {
       case 'access':
         if (!this.access) {
-          this.access = require('./modules/access')
+          let Access = require('./modules/access')
+          this.access = new Access()
         }
         break
       case 'accessrules':
         if (!this.accessrules) {
-          this.accessrules = require('./modules/accessrules')
+          let AccessRules = require('./modules/accessrules')
+          this.accessrules = new AccessRules()
         }
         break
       case 'action':
         if (!this.action) {
-          this.action = require('./modules/action')
+          let Action = require('./modules/action')
+          this.action = new Action()
         }
         break
       case 'analytics':
         if (!this.analytics) {
-          this.analytics = require('./modules/analytics')
+          let Analytics = require('./modules/analytics')
+          this.analytics = new Analytics()
         }
         break
       case 'core':
         if (!this.core) {
-          this.core = require('./modules/core')
+          let Core = require('./modules/core')
+          this.core = new Core()
           this.core.init(this.serviceAddress, this.username, this.password)
         }
         break
       case 'credential':
         if (!this.credential) {
-          this.credential = require('./modules/credential')
+          let Credential = require('./modules/credential')
+          this.credential = new Credential()
         }
         break
       case 'deviceio':
         if (!this.deviceio) {
-          this.deviceio = require('./modules/deviceio')
+          let DeviceIO = require('./modules/deviceio')
+          this.deviceio = new DeviceIO()
         }
         break
       case 'display':
         if (!this.display) {
-          this.display = require('./modules/display')
+          let Display = require('./modules/display')
+          this.display = new Display()
         }
         break
       case 'door':
         if (!this.door) {
-          this.door = require('./modules/door')
+          let Door = require('./modules/door')
+          this.door = new Door()
         }
         break
       case 'events':
-        if (!this.imaging) {
-          this.events = require('./modules/events')
+        if (!this.events) {
+          let Events = require('./modules/events')
+          this.events = new Events()
         }
         break
       case 'imaging':
         if (!this.imaging) {
-          this.imaging = require('./modules/imaging')
+          let Imaging = require('./modules/imaging')
+          this.imaging = new Imaging()
         }
         break
       case 'media':
         if (!this.media) {
-          this.media = require('./modules/media')
+          let Media = require('./modules/media')
+          this.media = new Media()
           this.media.init(this.timeDiff, this.serviceAddress, this.username, this.password)
         }
         break
       case 'media2':
         if (!this.media2) {
-          this.media2 = require('./modules/media2')
+          let Media2 = require('./modules/media2')
+          this.media2 = new Media2()
         }
         break
       case 'ptz':
         if (!this.ptz) {
-          this.ptz = require('./modules/ptz')
+          let Ptz = require('./modules/ptz')
+          this.ptz = new Ptz()
         }
         break
       case 'receiver':
         if (!this.receiver) {
-          this.receiver = require('./modules/receiver')
+          let Receiver = require('./modules/receiver')
+          this.receiver = new Receiver()
         }
         break
       case 'recording':
         if (!this.recording) {
-          this.recording = require('./modules/recording')
+          let Recording = require('./modules/recording')
+          this.recording = new Recording()
         }
         break
       case 'replay':
         if (!this.replay) {
-          this.replay = require('./modules/replay')
+          let Replay = require('./modules/replay')
+          this.replay = new Replay()
         }
         break
       case 'schedule':
         if (!this.schedule) {
-          this.schedule = require('./modules/schedule')
+          let Schedule = require('./modules/schedule')
+          this.schedule = new Schedule()
         }
         break
       case 'search':
         if (!this.search) {
-          this.search = require('./modules/search')
+          let Search = require('./modules/search')
+          this.search = new Search()
         }
         break
       case 'security':
         if (!this.security) {
-          this.security = require('./modules/security')
+          let Security = require('./modules/security')
+          this.security = new Security()
         }
         break
       case 'snapshot':
         if (!this.snapshot) {
-          this.snapshot = require('./utils/snapshot')
+          let Snapshot = require('./utils/snapshot')
+          this.snapshot = new Snapshot()
           let defaultProfile = this.getDefaultProfile()
           if (defaultProfile) {
             let snapshotUri = defaultProfile.SnapshotUri.Uri
@@ -215,12 +237,14 @@ class Camera {
         break
       case 'thermal':
         if (!this.thermal) {
-          this.thermal = require('./modules/thermal')
+          let Thermal = require('./modules/thermal')
+          this.thermal = new Thermal()
         }
         break
       case 'videoanalytics':
         if (!this.videoanalytics) {
-          this.videoanalytics = require('./modules/videoanalytics')
+          let VideoAnalytics = require('./modules/videoanalytics')
+          this.videoanalytics = new VideoAnalytics()
         }
         break
       default:
@@ -239,10 +263,18 @@ class Camera {
    */
   connect (address, port, username, password, servicePath, callback) {
     return new Promise((resolve, reject) => {
-      port = (typeof port !== 'undefined') ? port : 80
-      username = (typeof username !== 'undefined') ? username : null
-      password = (typeof password !== 'undefined') ? password : null
-      servicePath = (typeof servicePath !== 'undefined') ? servicePath : '/onvif/device_service'
+      // check for valid address
+      let errMsg = ''
+      if ((errMsg = Util.isInvalidValue(address, 'string'))) {
+        reject(new Error(`The "address" argument for connect is invalid: ` + errMsg))
+        return
+      }
+
+      // provide defaults if not provided
+      port = port || 80
+      username = username || null
+      password = password || null
+      servicePath = servicePath || '/onvif/device_service'
 
       this.address = address
       this.port = port
@@ -258,15 +290,13 @@ class Camera {
 
       this.serviceAddress = Url.parse(serviceAddress)
 
-      if (typeof address !== 'string' || address.length &lt;= 0) {
-        reject(new Error('address is required in constructor for Camera::connect()'))
-        return
-      }
-
       // add core module
       this.add('core')
 
       return this.coreGetSystemDateAndTime()
+        .then(() => {
+          return this.coreGetServices()
+        })
         .then(() => {
           return this.coreGetCapabilities()
         })
@@ -337,10 +367,10 @@ class Camera {
 
   coreGetSystemDateAndTime () {
     return new Promise((resolve, reject) => {
-      return this.core.getSystemDateAndTime()
+      this.core.getSystemDateAndTime()
         .then(results => {
           this.timeDiff = this.core.getTimeDiff()
-          resolve(results)
+          resolve()
         })
         .catch(error => {
           console.error(error)
@@ -349,9 +379,78 @@ class Camera {
     })
   }
 
+  coreGetServices () {
+    return new Promise((resolve, reject) => {
+      this.core.getServices(true)
+        .then(results => {
+          let response = results.data.GetServicesResponse
+          let services = response.Service
+          // the appropriate modules will be automatically added
+          // to camera based on the onvif device's services.
+          // if GetServics is not supported, the GetCapabilities
+          // fallback will be used.
+          services.forEach(service => {
+            let namespace = service.Namespace
+            if (namespace === 'http://www.onvif.org/ver10/device/wsdl') {
+              this.core.version = service.Version
+            }
+            else if (namespace === 'http://www.onvif.org/ver10/media/wsdl') {
+              this.add('media')
+              if (this.media) {
+                this.media.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.media.version = service.Version
+              }
+            }
+            else if (namespace === 'http://www.onvif.org/ver10/events/wsdl') {
+              this.add('events')
+              if (this.events) {
+                this.events.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.events.version = service.Version
+              }
+            }
+            else if (namespace === 'http://www.onvif.org/ver20/ptz/wsdl') {
+              this.add('ptz')
+              if (this.ptz) {
+                this.ptz.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.ptz.version = service.Version
+              }
+            }
+            else if (namespace === 'http://www.onvif.org/ver20/imaging/wsdl') {
+              this.add('imaging')
+              if (this.imaging) {
+                this.imaging.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.imaging.version = service.Version
+              }
+            }
+            else if (namespace === 'http://www.onvif.org/ver10/deviceIO/wsdl') {
+              this.add('deviceio')
+              if (this.deviceio) {
+                this.deviceio.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.deviceio.version = service.Version
+              }
+            }
+            else if (namespace === 'http://www.onvif.org/ver20/analytics/wsdl') {
+              this.add('analytics')
+              if (this.analytics) {
+                this.analytics.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.analytics.version = service.Version
+              }
+            }
+          })
+          resolve()
+        })
+        .catch(error => {
+          console.error(error)
+          // don't fail because this isn't supported by the camera
+          // spec says to use fallback of GetCapabilities method.
+          resolve()
+        })
+    })
+  }
+
   coreGetCapabilities () {
     return new Promise((resolve, reject) => {
-      return this.core.getCapabilities()
+      this.core.getCapabilities()
         .then(results => {
           let c = results['data']['GetCapabilitiesResponse']['Capabilities']
           if (!c) {
@@ -362,33 +461,69 @@ class Camera {
           // to camera based on the onvif device's capabilities.
           let analytics = c['Analytics']
           if (analytics &amp;&amp; analytics['XAddr']) {
-            this.add('analytics')
-            let serviceAddress = Url.parse(analytics['XAddr'])
-            this.analytics.init(this.timeDiff, serviceAddress, this.username, this.password)
+            if (!this.analytics) {
+              this.add('analytics')
+              if (this.analytics) {
+                let serviceAddress = Url.parse(analytics['XAddr'])
+                this.analytics.init(this.timeDiff, serviceAddress, this.username, this.password)
+              }
+            }
+            if (this.analytics) {
+              if (analytics['RuleSupport'] === 'true') {
+                this.analytics.ruleSupport = true
+              }
+              if (analytics['AnalyticsModuleSupport'] === 'true') {
+                this.analytics.analyticsModuleSupport = true
+              }
+            }
           }
           let events = c['Events']
           if (events &amp;&amp; events['XAddr']) {
-            this.add('events')
-            let serviceAddress = Url.parse(events['XAddr'])
-            this.events.init(this.timeDiff, serviceAddress, this.username, this.password)
+            if (!this.events) {
+              this.add('events')
+              if (this.events) {
+                let serviceAddress = Url.parse(events['XAddr'])
+                this.events.init(this.timeDiff, serviceAddress, this.username, this.password)
+              }
+            }
+            if (this.events) {
+              if (events['WSPullPointSupport'] === 'true') {
+                this.analytics.wsPullPointSupport = true
+              }
+              if (events['WSSubscriptionPolicySupport'] === 'true') {
+                this.analytics.wsSubscriptionPolicySupport = true
+              }
+            }
           }
           let imaging = c['Imaging']
           if (imaging &amp;&amp; imaging['XAddr']) {
-            this.add('imaging')
-            let serviceAddress = Url.parse(imaging['XAddr'])
-            this.imaging.init(this.timeDiff, serviceAddress, this.username, this.password)
+            if (!this.imaging) {
+              this.add('imaging')
+              if (this.imaging) {
+                let serviceAddress = Url.parse(imaging['XAddr'])
+                this.imaging.init(this.timeDiff, serviceAddress, this.username, this.password)
+              }
+            }
           }
           let media = c['Media']
           if (media &amp;&amp; media['XAddr']) {
-            this.add('media')
-            let serviceAddress = Url.parse(media['XAddr'])
-            this.media.init(this.timeDiff, serviceAddress, this.username, this.password)
+            if (!this.media) {
+              this.add('media')
+              if (this.media) {
+                let serviceAddress = Url.parse(media['XAddr'])
+                this.media.init(this.timeDiff, serviceAddress, this.username, this.password)
+              }
+            }
           }
           let ptz = c['PTZ']
           if (ptz &amp;&amp; ptz['XAddr']) {
-            this.add('ptz')
-            let serviceAddress = Url.parse(ptz['XAddr'])
-            this.ptz.init(this.timeDiff, serviceAddress, this.username, this.password)
+            if (!this.ptz) {
+              this.add('ptz')
+              if (this.ptz) {
+                let serviceAddress = Url.parse(ptz['XAddr'])
+                this.ptz.init(this.timeDiff, serviceAddress, this.username, this.password)
+              }
+            }
           }
           resolve()
         })
@@ -401,10 +536,10 @@ class Camera {
 
   coreGetDeviceInformation () {
     return new Promise((resolve, reject) => {
-      return this.core.getDeviceInformation()
+      this.core.getDeviceInformation()
         .then(results => {
           this.deviceInformation = results['data']['GetDeviceInformationResponse']
-          resolve(results)
+          resolve()
         })
         .catch(error => {
           console.error(error)
@@ -415,36 +550,62 @@ class Camera {
 
   coreGetScopes () {
     return new Promise((resolve, reject) => {
-      return this.core.getScopes()
+      this.core.getScopes()
         .then(results => {
           let scopes = results['data']['GetScopesResponse']['Scopes']
-          let ptz = false, name = '', hardware = '', country = '', city = ''
+          this.deviceInformation.Ptz = false
           scopes.forEach((scope) => {
             let s = scope['ScopeItem']
             if (s.indexOf('onvif://www.onvif.org/hardware/') === 0) {
-              hardware = s.split('/').pop()
+              let hardware = s.split('/').pop()
+              this.deviceInformation.Hardware = hardware
+            }
+            else if (s.indexOf('onvif://www.onvif.org/type/Streaming') === 0) {
+              this.deviceInformation.Streaming = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/type/video_encoder') === 0) {
+              this.deviceInformation.VideoEncoder = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/type/audio_encoder') === 0) {
+              this.deviceInformation.AudiooEncoder = true
             }
             else if (s.indexOf('onvif://www.onvif.org/type/ptz') === 0) {
-              ptz = true
+              this.deviceInformation.Ptz = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/Profile/S') === 0) {
+              this.deviceInformation.ProfileS = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/Profile/C') === 0) {
+              this.deviceInformation.ProfileC = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/Profile/G') === 0) {
+              this.deviceInformation.ProfileG = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/Profile/Q') === 0) {
+              this.deviceInformation.ProfileQ = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/Profile/A') === 0) {
+              this.deviceInformation.ProfileA = true
+            }
+            else if (s.indexOf('onvif://www.onvif.org/Profile/T') === 0) {
+              this.deviceInformation.ProfileT = true
             }
             else if (s.indexOf('onvif://www.onvif.org/location/country/') === 0) {
-              country = s.split('/').pop()
+              let country = s.split('/').pop()
+              this.deviceInformation.Country = country
             }
             else if (s.indexOf('onvif://www.onvif.org/location/city/') === 0) {
-              city = s.split('/').pop()
+              let city = s.split('/').pop()
+              this.deviceInformation.City = city
             }
             else if (s.indexOf('onvif://www.onvif.org/name/') === 0) {
-              name = s.split('/').pop()
+              let name = s.split('/').pop()
               name = name.replace(/_/g, ' ')
+              this.deviceInformation.Name = name
             }
           })
-          this.deviceInformation.Hardware = hardware
-          this.deviceInformation.Ptz = ptz
-          this.deviceInformation.Country = country
-          this.deviceInformation.City = city
-          this.deviceInformation.Name = name
 
-          resolve(results)
+          resolve()
         })
         .catch(error => {
           console.error(error)
@@ -455,7 +616,7 @@ class Camera {
 
   mediaGetProfiles () {
     return new Promise((resolve, reject) => {
-      return this.media.getProfiles()
+      this.media.getProfiles()
         .then(results => {
           let profiles = results['data']['GetProfilesResponse']['Profiles']
           if (!profiles) {
@@ -464,7 +625,7 @@ class Camera {
           }
           let profileList = this.parseProfiles(profiles)
           this.profileList = this.profileList.concat(profileList)
-          resolve(results)
+          resolve()
         })
         .catch(error => {
           console.error(error)
@@ -485,124 +646,6 @@ class Camera {
         }
       }
     })
-
-    // profiles.forEach((p) => {
-    //   let profile = {
-    //     'token': p['$']['token'],
-    //     'name': p['Name'],
-    //     'snapshot': '',
-    //     'stream': {
-    //       'udp': '',
-    //       'http': '',
-    //       'rtsp': ''
-    //     },
-    //     'video': {
-    //       'source': null,
-    //       'encoder': null
-    //     },
-    //     'audio': {
-    //       'source': null,
-    //       'encoder': null
-    //     },
-    //     'ptz': {
-    //       'range': {
-    //         'x': {
-    //           'min': 0,
-    //           'max': 0
-    //         },
-    //         'y': {
-    //           'min': 0,
-    //           'max': 0
-    //         },
-    //         'z': {
-    //           'min': 0,
-    //           'max': 0
-    //         }
-    //       }
-    //     }
-    //   }
-
-    //   if (p['VideoSourceConfiguration']) {
-    //     profile['video']['source'] = {
-    //       'token': p['VideoSourceConfiguration']['$']['token'],
-    //       'name': p['VideoSourceConfiguration']['Name'],
-    //       'bounds': {
-    //         'width': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['width'], 10),
-    //         'height': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['height'], 10),
-    //         'x': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['x'], 10),
-    //         'y': parseInt(p['VideoSourceConfiguration']['Bounds']['$']['y'], 10)
-    //       }
-    //     }
-    //   }
-    //   if (p['VideoEncoderConfiguration']) {
-    //     profile['video']['encoder'] = {
-    //       'token': p['VideoEncoderConfiguration']['$']['token'],
-    //       'name': p['VideoEncoderConfiguration']['Name'],
-    //       'resolution': {
-    //         'width': parseInt(p['VideoEncoderConfiguration']['Resolution']['Width'], 10),
-    //         'height': parseInt(p['VideoEncoderConfiguration']['Resolution']['Height'], 10)
-    //       },
-    //       'quality': parseInt(p['VideoEncoderConfiguration']['Quality'], 10),
-    //       'framerate': parseInt(p['VideoEncoderConfiguration']['RateControl']['FrameRateLimit'], 10),
-    //       'bitrate': parseInt(p['VideoEncoderConfiguration']['RateControl']['BitrateLimit'], 10),
-    //       'encoding': p['VideoEncoderConfiguration']['Encoding']
-    //     }
-    //   }
-    //   if (p['AudioSourceConfiguration']) {
-    //     profile['audio']['source'] = {
-    //       'token': p['AudioSourceConfiguration']['$']['token'],
-    //       'name': p['AudioSourceConfiguration']['Name']
-    //     }
-    //   }
-    //   if (p['AudioEncoderConfiguration']) {
-    //     profile['audio']['encoder'] = {
-    //       'token': ('$' in p['AudioEncoderConfiguration']) ? p['AudioEncoderConfiguration']['$']['token'] : '',
-    //       'name': p['AudioEncoderConfiguration']['Name'],
-    //       'bitrate': parseInt(p['AudioEncoderConfiguration']['Bitrate'], 10),
-    //       'samplerate': parseInt(p['AudioEncoderConfiguration']['SampleRate'], 10),
-    //       'encoding': p['AudioEncoderConfiguration']['Encoding']
-    //     }
-    //   }
-    //   if (p['PTZConfiguration']) {
-    //     try {
-    //       let r = p['PTZConfiguration']['PanTiltLimits']['Range']
-    //       let xr = r['XRange']
-    //       let x = profile['ptz']['range']['x']
-    //       x['min'] = parseFloat(xr['Min'])
-    //       x['max'] = parseFloat(xr['Max'])
-    //     }
-    //     catch (e) {}
-    //     try {
-    //       let r = p['PTZConfiguration']['PanTiltLimits']['Range']
-    //       let yr = r['YRange']
-    //       let y = profile['ptz']['range']['y']
-    //       y['min'] = parseFloat(yr['Min'])
-    //       y['max'] = parseFloat(yr['Max'])
-    //     }
-    //     catch (e) {}
-    //     try {
-    //       let r = p['PTZConfiguration']['ZoomLimits']['Range']
-    //       let zr = r['XRange']
-    //       let z = profile['ptz']['range']['z']
-    //       z['min'] = parseFloat(zr['Min'])
-    //       z['max'] = parseFloat(zr['Max'])
-    //     }
-    //     catch (e) {}
-    //   }
-    //   if (p['VideoAnalyticsConfiguration']) {
-    //     try {
-    //     }
-    //     catch (e) {}
-    //   }
-
-    //   profileList.push(profile)
-    //   if (!this.defaultProfile) {
-    //     this.defaultProfile = profile
-    //     if (this.ptz) {
-    //       this.ptz.setProfileToken(profile.token)
-    //     }
-    //   }
-    // })
 
     return profileList
   }
@@ -628,9 +671,7 @@ class Camera {
             let token = profile['$']['token']
             this.media.getStreamUri('RTP-Unicast', protocol, token)
               .then(results => {
-                // let uri = results['data']['GetStreamUriResponse']['MediaUri']['Uri']
                 profile.StreamUri = results['data']['GetStreamUriResponse']['MediaUri']
-                // this.profileList[profileIndex]['stream'][protocol.toLowerCase()] = uri
                 ++protocolIndex
                 getStreamUri()
               })
@@ -665,7 +706,6 @@ class Camera {
             .then(results => {
               try {
                 profile.SnapshotUri = results['data']['GetSnapshotUriResponse']['MediaUri']
-                // profile['snapshot'] = results['data']['GetSnapshotUriResponse']['MediaUri']['Uri']
               }
               catch (e) {}
               ++profileIndex
@@ -686,7 +726,7 @@ class Camera {
   }
 }
 
-module.exports = new Camera()
+module.exports = Camera
 </code></pre>
         </article>
     </section>
@@ -703,7 +743,7 @@ module.exports = new Camera()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 10:44:47 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 27 2018 14:01:19 GMT-0700 (MST)
 </footer>
 
 <script> prettyPrint(); </script>
