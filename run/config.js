@@ -43,9 +43,9 @@ const folder = 'hikvision'
 // functional tests to run. Set to true to test the suite.
 const runDiscovery = false
 const runCore = false
-const runPtz = true
+const runPtz = false
 const runMedia = false
-const runEvents = false
+const runEvents = true
 const runAnalytics = false
 const runSnapshot = false
 const runBackup = false
