@@ -14,7 +14,7 @@
   <SOAP-ENV:Body>
     <tds:GetNTPResponse>
       <tds:NTPInformation>
-        <tt:FromDHCP>true</tt:FromDHCP>
+        <tt:FromDHCP>false</tt:FromDHCP>
       </tds:NTPInformation>
     </tds:GetNTPResponse>
   </SOAP-ENV:Body>

@@ -39,7 +39,7 @@
     <tds:GetDynamicDNSResponse>
       <tds:DynamicDNSInformation>
         <tt:Type>ClientUpdates</tt:Type>
-        <tt:Name></tt:Name>
+        <tt:Name>Test</tt:Name>
       </tds:DynamicDNSInformation>
     </tds:GetDynamicDNSResponse>
   </env:Body>

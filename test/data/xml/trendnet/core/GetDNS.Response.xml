@@ -39,11 +39,11 @@
   <env:Body>
     <tds:GetDNSResponse>
       <tds:DNSInformation>
-        <tt:FromDHCP>true</tt:FromDHCP>
-        <tt:DNSFromDHCP>
+        <tt:FromDHCP>false</tt:FromDHCP>
+        <tt:DNSManual>
           <tt:Type>IPv4</tt:Type>
           <tt:IPv4Address>10.10.1.4</tt:IPv4Address>
-        </tt:DNSFromDHCP>
+        </tt:DNSManual>
       </tds:DNSInformation>
     </tds:GetDNSResponse>
   </env:Body>

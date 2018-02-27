@@ -39,7 +39,7 @@
   <env:Body>
     <tds:GetHostnameResponse>
       <tds:HostnameInformation>
-        <tt:FromDHCP>true</tt:FromDHCP>
+        <tt:FromDHCP>false</tt:FromDHCP>
         <tt:Name>localhost</tt:Name>
       </tds:HostnameInformation>
     </tds:GetHostnameResponse>

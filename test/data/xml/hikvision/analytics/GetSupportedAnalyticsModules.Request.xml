@@ -17,15 +17,15 @@
     </wsa:ReplyTo>
     <wsse:Security s:mustUnderstand="1">
       <wsu:Timestamp wsu:Id="Time">
-        <wsu:Created>2018-02-24T16:11:09.358Z</wsu:Created>
-        <wsu:Expires>2018-02-24T16:11:19.358Z</wsu:Expires>
+        <wsu:Created>2018-02-27T14:53:23.902Z</wsu:Created>
+        <wsu:Expires>2018-02-27T14:53:33.902Z</wsu:Expires>
       </wsu:Timestamp>
       <wsse:UsernameToken wsu:Id="User">
         <wsse:Username>admin</wsse:Username>
-        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">hZeff0U3fFRjcWYuvZHmA8G7ubg=</wsse:Password>
-        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">woRNXGfdmWdzpc+jsHgnCQ==</wsse:Nonce>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">nAJ/yZB7GLGg2Ye4xpJ6Rk/Txrs=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">+xdkZuJBb5rowCu4m0ttKw==</wsse:Nonce>
         <wsu:Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-24T16:11:09.358Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-27T14:53:23.902Z
         </wsu:Created>
       </wsse:UsernameToken>
     </wsse:Security>

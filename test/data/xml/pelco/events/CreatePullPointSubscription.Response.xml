@@ -18,15 +18,15 @@
   <SOAP-ENV:Body>
     <tev:CreatePullPointSubscriptionResponse>
       <tev:SubscriptionReference>
-        <wsa5:Address>http://10.10.1.66/onvif/eventing_service?id=urn:uuid:c495de08-9b85-870f-fe60-996acde54c12</wsa5:Address>
+        <wsa5:Address>http://10.10.1.66/onvif/eventing_service?id=urn:uuid:10ed4d68-94f0-c746-0c4c-8929189b87ea</wsa5:Address>
         <wsa5:ReferenceParameters>
           <pwsa:SubscriptionId 
-            xmlns:pwsa="urn:schemas-pelco-com:ws:addressing:1">urn:uuid:c495de08-9b85-870f-fe60-996acde54c12
+            xmlns:pwsa="urn:schemas-pelco-com:ws:addressing:1">urn:uuid:10ed4d68-94f0-c746-0c4c-8929189b87ea
           </pwsa:SubscriptionId>
         </wsa5:ReferenceParameters>
       </tev:SubscriptionReference>
-      <wsnt:CurrentTime>1970-01-02T16:47:14.877874Z</wsnt:CurrentTime>
-      <wsnt:TerminationTime>1970-01-02T16:48:44.877874Z</wsnt:TerminationTime>
+      <wsnt:CurrentTime>2018-02-27T14:57:16.026179Z</wsnt:CurrentTime>
+      <wsnt:TerminationTime>2018-02-27T14:58:46.026179Z</wsnt:TerminationTime>
     </tev:CreatePullPointSubscriptionResponse>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
