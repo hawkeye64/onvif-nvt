@@ -1129,7 +1129,7 @@ describe('Core', () => {
         let user = response.User
         expect(user).toHaveProperty('UserLevel')
         expect(user).toHaveProperty('Username')
-        console.log(results)
+        // console.log(results)
       })
   })
 
@@ -1141,7 +1141,7 @@ describe('Core', () => {
         let user = response.User
         expect(user).toHaveProperty('UserLevel')
         expect(user).toHaveProperty('Username')
-        console.log(results)
+        // console.log(results)
       }
       done()
     })

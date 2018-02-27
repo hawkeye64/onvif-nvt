@@ -87,7 +87,7 @@ describe('Camera', () => {
     const OnvifManager = require('../lib/onvif-nvt')
     return OnvifManager.connect()
       .catch(error => {
-        console.error(error)
+        // console.error(error)
         expect(error.message).toContain('The type of the value must be a "string".')
       })
   })
@@ -96,7 +96,7 @@ describe('Camera', () => {
     const OnvifManager = require('../lib/onvif-nvt')
     return OnvifManager.connect(true)
       .catch(error => {
-        console.error(error)
+        // console.error(error)
         expect(error.message).toContain('The type of the value must be a "string".')
       })
   })
