@@ -3,7 +3,7 @@
 describe('#Camera', () => {
   test('Camera::constructor()', () => {
     const Camera = require('../lib/camera')
-    let camera = new Camera
+    let camera = new Camera()
 
     expect(camera.media).toBeNull()
     expect(camera.ptz).toBeNull()
@@ -16,7 +16,7 @@ describe('#Camera', () => {
 
   test(`Camera::add(moduleName)`, () => {
     const Camera = require('../lib/camera')
-    let camera = new Camera
+    let camera = new Camera()
 
     camera.add('access')
     expect(camera.access).not.toBeNull()
