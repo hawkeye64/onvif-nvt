@@ -33,7 +33,7 @@ class RunEvents {
           //   console.error('Messages Error:', error)
           // })
 
-          // this.camera.events.start()
+          // this.camera.events.startPull()
 
           // let the tests begin
           return this.GetEventProperties().then(() => {
