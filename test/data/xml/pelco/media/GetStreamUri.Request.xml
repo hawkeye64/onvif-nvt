@@ -3,27 +3,27 @@
   xmlns:s="http://www.w3.org/2003/05/soap-envelope" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing" 
   xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
   xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
   xmlns:tt="http://www.onvif.org/ver10/schema" 
   xmlns:ter="http://www.onvif.org/ver10/error" 
   xmlns:trt="http://www.onvif.org/ver10/media/wsdl">
   <s:Header>
-    <wsa:ReplyTo>
-      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-    </wsa:ReplyTo>
+    <wsa5:ReplyTo>
+      <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
+    </wsa5:ReplyTo>
     <wsse:Security s:mustUnderstand="1">
       <wsu:Timestamp wsu:Id="Time">
-        <wsu:Created>2018-02-27T14:57:15.889Z</wsu:Created>
-        <wsu:Expires>2018-02-27T14:57:25.889Z</wsu:Expires>
+        <wsu:Created>2018-02-27T18:10:12.255Z</wsu:Created>
+        <wsu:Expires>2018-02-27T18:10:22.255Z</wsu:Expires>
       </wsu:Timestamp>
       <wsse:UsernameToken wsu:Id="User">
         <wsse:Username>admin</wsse:Username>
-        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">+lwpLRaIVFbESUHbFg1zQOp67as=</wsse:Password>
-        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">bzpqMx+QwHo053rnRh5ylA==</wsse:Nonce>
+        <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">yLgtzzqsK9eJOlddHdM+uDC2AMg=</wsse:Password>
+        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">c15wxW25n/b2mSOBpd87CA==</wsse:Nonce>
         <wsu:Created 
-          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-27T14:57:15.889Z
+          xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2018-02-27T18:10:12.255Z
         </wsu:Created>
       </wsse:UsernameToken>
     </wsse:Security>
@@ -33,10 +33,10 @@
       <trt:StreamSetup>
         <tt:Stream>RTP-Unicast</tt:Stream>
         <tt:Transport>
-          <tt:Protocol>HTTP</tt:Protocol>
+          <tt:Protocol>RTSP</tt:Protocol>
         </tt:Transport>
       </trt:StreamSetup>
-      <trt:ProfileToken>0</trt:ProfileToken>
+      <trt:ProfileToken>1</trt:ProfileToken>
     </trt:GetStreamUri>
   </s:Body>
 </s:Envelope>
