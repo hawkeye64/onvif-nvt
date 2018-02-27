@@ -121,10 +121,11 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         console.error('Messages Error:', error)
       })
 
-      camera.events.start()
+      // start a pull event loop
+      camera.events.startPull()
 
-      // call stop() to end the event loop
-      // camera.events.stop()
+      // call stopPull() to end the event loop
+      // camera.events.stopPull()
     }
   })
 ```
