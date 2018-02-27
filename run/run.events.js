@@ -126,7 +126,7 @@ class RunEvents {
 
   PullMessages () {
     return new Promise((resolve, reject) => {
-      this.camera.events.pullMessages(this.subscriptionId, 10000, 10)
+      this.camera.events.pullMessages(this.subscriptionId, 'PT10S', 2)
         .then(results => {
           console.log('PullMessages successful')
           resolve(results)
