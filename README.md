@@ -8,6 +8,8 @@
 [![David](https://img.shields.io/david/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt)
 [![David](https://img.shields.io/david/dev/hawkeye64/onvif-nvt.svg)](https://david-dm.org/hawkeye64/onvif-nvt#info=devDependencies)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/hawkeye64/onvif-nvt/badge.svg?targetFile=package.json)](https://snyk.io/test/github/hawkeye64/onvif-nvt?targetFile=package.json)
+
 # onvif-nvt
 ONVIF library for NVT (Network Video Transmitter) devices.
 
