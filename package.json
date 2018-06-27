@@ -1,6 +1,6 @@
 {
   "name": "onvif-nvt",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Wrapper for ONVIF spec to control NVT (Network Video Transitter) devices.",
   "main": "./lib/onvif-nvt.js",
   "scripts": {
@@ -38,18 +38,18 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "babel-jest": "^23.0.1",
+    "babel-jest": "^23.2.0",
     "coveralls": "^3.0.1",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.1",
     "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-jest": "^21.15.1",
-    "eslint-plugin-jsdoc": "^3.6.3",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-jsdoc": "^3.7.1",
     "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
     "fs": "0.0.2",
-    "jest": "^23.1.0",
+    "jest": "^23.2.0",
     "jsdoc": "^3.5.5",
     "path": "^0.12.7"
   }
