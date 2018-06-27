@@ -24,11 +24,11 @@ jobs:
       - run:
           name: test-and-code-coverage
           command: npm run test-ci
-      - store_artifacts:
-          path: test-results.xml
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
-      - store_test_results:
-          path: test-results.xml
+      # - store_artifacts:
+      #     path: test-results.xml
+      #     prefix: tests
+      # - store_artifacts:
+      #     path: coverage
+      #     prefix: coverage
+      # - store_test_results:
+      #     path: test-results.xml
