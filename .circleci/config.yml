@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/.
+    working_directory: ~/onvif-nvt
     docker:
       - image: circleci/node:9.4.0
     steps:
