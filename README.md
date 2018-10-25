@@ -56,6 +56,9 @@ If all is well, make the PR.
 
 The library is made in such a way that only modules that will work with your device are automatically included. For others, you can choose whether or not to bring in the functionality.
 
+## Proxy Support (added 0.2.9)
+Proxy support has been added.
+
 ## Example (Discovery)
 ``` cs
 const OnvifManager = require('onvif-nvt')
@@ -71,6 +74,7 @@ OnvifManager.discovery.startProbe().then(deviceList => {
 ## Example (Connect and Continuous Move)
 ``` cs
 const OnvifManager = require('onvif-nvt')
+// OnvifManager.connect('localhost/my/proxy/path', null, 'username', 'password') <-- proxy path
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -89,6 +93,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
 ## Example (Snapshot)
 ``` cs
 const OnvifManager = require('onvif-nvt')
+// OnvifManager.connect('localhost/my/proxy/path', null, 'username', 'password') <-- proxy path
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -113,6 +118,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
 PullMessages now works with Hikvision, TrendNET and Pelco. They are not working with Axis.
 ``` cs
 const OnvifManager = require('onvif-nvt')
+// OnvifManager.connect('localhost/my/proxy/path', null, 'username', 'password') <-- proxy path
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
