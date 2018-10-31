@@ -1,5 +1,9 @@
 test/
 coverage/
-/docs
-/documents
-/run
+docs/
+documents/
+run/
+.circleci/
+.vscode/
+.eslintrc.js
+jest.config.js
