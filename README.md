@@ -19,7 +19,8 @@ This package is written with Javascript classes and ES6. Both Promises and Callb
 
 The ultimate goal of the **onvif-nvt** package is to have as much complete coverage of the [ONVIF](https://www.onvif.org/) spec as possible.
 
-The `onvif-nvt` package will work only with `node` server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.
+The `onvif-nvt` package will work only with `node` server-side if you want to use the `discovery` module. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands. However, if you do not want to use the `discovery` module, you can use the `onvif-nvt` package in either client or server as well as electron (main and renderer processes).
+**Note**: The reason the `discovery` module will not work on the client is that browsers removed UDP support some time ago and the discovery service for ONVIF devices use this protocol.
 
 ## Installation
 Note: This is an active project, and while so, there will be many updates. PRs are welcomed.
