@@ -51,7 +51,7 @@ If all is well, make the PR.
   * Profiles, Video/Audio/PTZ/Analytics/Metadata Configurations, Video sources, Audio sources, Stream Uri, Snapshot Uri, Multicast, and OSD.
 * Snapshot
   * Using the **snapshot** module, you can retrieve snapshots from the device.
-* Other modules
+* Other modules (not implemented)
   * Access, Access Rules, Action, Analytics, Credential, DeviceIO, Display, Door, Events, Imaging, Media2, Receiver, Recording, Replay, Schedule, Search, Security, Thermal and Video Analytics.
 
 The library is made in such a way that only modules that will work with your device are automatically included. For others, you can choose whether or not to bring in the functionality.
