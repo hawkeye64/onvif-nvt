@@ -26,8 +26,8 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const Url = require('url')
-const Util = require('./utils/util')
+            <pre class="prettyprint source linenums"><code>const Util = require('./utils/util')
+const URL = require('url-parse')
 
 /**
  * Wrapper class for all onvif modules to manage an Onvif device (camera).
@@ -59,6 +59,7 @@ class Camera {
     this.thermal = null
     this.videoanalytics = null
 
+    this.rootPath = null
     this.serviceAddress = null
     this.timeDiff = 0
     this.address = null
@@ -286,9 +287,10 @@ class Camera {
       if (port &amp;&amp; port !== 80) {
         serviceAddress = serviceAddress + ':' + port
       }
+      this.rootPath = serviceAddress
       serviceAddress = serviceAddress + servicePath
 
-      this.serviceAddress = Url.parse(serviceAddress)
+      this.serviceAddress = new URL(serviceAddress)
 
       // add core module
       this.add('core')
@@ -385,11 +387,13 @@ class Camera {
         .then(results => {
           let response = results.data.GetServicesResponse
           let services = response.Service
+
           // the appropriate modules will be automatically added
           // to camera based on the onvif device's services.
           // if GetServics is not supported, the GetCapabilities
           // fallback will be used.
           services.forEach(service => {
+            this.checkForProxy(service)
             let namespace = service.Namespace
             if (namespace === 'http://www.onvif.org/ver10/device/wsdl') {
               this.core.version = service.Version
@@ -397,42 +401,42 @@ class Camera {
             else if (namespace === 'http://www.onvif.org/ver10/media/wsdl') {
               this.add('media')
               if (this.media) {
-                this.media.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.media.init(this.timeDiff, new URL(service.XAddr), this.username, this.password)
                 this.media.version = service.Version
               }
             }
             else if (namespace === 'http://www.onvif.org/ver10/events/wsdl') {
               this.add('events')
               if (this.events) {
-                this.events.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.events.init(this.timeDiff, new URL(service.XAddr), this.username, this.password)
                 this.events.version = service.Version
               }
             }
             else if (namespace === 'http://www.onvif.org/ver20/ptz/wsdl') {
               this.add('ptz')
               if (this.ptz) {
-                this.ptz.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.ptz.init(this.timeDiff, new URL(service.XAddr), this.username, this.password)
                 this.ptz.version = service.Version
               }
             }
             else if (namespace === 'http://www.onvif.org/ver20/imaging/wsdl') {
               this.add('imaging')
               if (this.imaging) {
-                this.imaging.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.imaging.init(this.timeDiff, new URL(service.XAddr), this.username, this.password)
                 this.imaging.version = service.Version
               }
             }
             else if (namespace === 'http://www.onvif.org/ver10/deviceIO/wsdl') {
               this.add('deviceio')
               if (this.deviceio) {
-                this.deviceio.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.deviceio.init(this.timeDiff, new URL(service.XAddr), this.username, this.password)
                 this.deviceio.version = service.Version
               }
             }
             else if (namespace === 'http://www.onvif.org/ver20/analytics/wsdl') {
               this.add('analytics')
               if (this.analytics) {
-                this.analytics.init(this.timeDiff, Url.parse(service.XAddr), this.username, this.password)
+                this.analytics.init(this.timeDiff, new URL(service.XAddr), this.username, this.password)
                 this.analytics.version = service.Version
               }
             }
@@ -448,6 +452,20 @@ class Camera {
     })
   }
 
+  // make sure the serviceAddress matches
+  // if not, then we may be behind a proxy and it needs
+  // do be dealt with
+  checkForProxy (service) {
+    let xaddrPath = new URL(service.XAddr)
+    if (xaddrPath.hostname === this.serviceAddress.hostname) {
+      // no proxy
+      return
+    }
+
+    // build new path
+    service.XAddr = this.rootPath + xaddrPath.pathname
+  }
+
   coreGetCapabilities () {
     return new Promise((resolve, reject) => {
       this.core.getCapabilities()
@@ -459,69 +477,84 @@ class Camera {
           }
           // the appropriate modules will be automatically added
           // to camera based on the onvif device's capabilities.
-          let analytics = c['Analytics']
-          if (analytics &amp;&amp; analytics['XAddr']) {
-            if (!this.analytics) {
-              this.add('analytics')
+          if ('Analytics' in c) {
+            let analytics = c['Analytics']
+            this.checkForProxy(analytics)
+            if (analytics &amp;&amp; 'XAddr' in analytics) {
+              if (!this.analytics) {
+                this.add('analytics')
+                if (this.analytics) {
+                  let serviceAddress = new URL(analytics['XAddr'])
+                  this.analytics.init(this.timeDiff, serviceAddress, this.username, this.password)
+                }
+              }
               if (this.analytics) {
-                let serviceAddress = Url.parse(analytics['XAddr'])
-                this.analytics.init(this.timeDiff, serviceAddress, this.username, this.password)
-              }
-            }
-            if (this.analytics) {
-              if (analytics['RuleSupport'] === 'true') {
-                this.analytics.ruleSupport = true
-              }
-              if (analytics['AnalyticsModuleSupport'] === 'true') {
-                this.analytics.analyticsModuleSupport = true
+                if ('RuleSupport' in analytics &amp;&amp; analytics['RuleSupport'] === 'true') {
+                  this.analytics.ruleSupport = true
+                }
+                if ('AnalyticsModuleSupport' in analytics &amp;&amp; analytics['AnalyticsModuleSupport'] === 'true') {
+                  this.analytics.analyticsModuleSupport = true
+                }
               }
             }
           }
-          let events = c['Events']
-          if (events &amp;&amp; events['XAddr']) {
-            if (!this.events) {
-              this.add('events')
+          if ('Events' in c) {
+            let events = c['Events']
+            this.checkForProxy(events)
+            if (events &amp;&amp; 'XAddr' in events) {
+              if (!this.events) {
+                this.add('events')
+                if (this.events) {
+                  let serviceAddress = new URL(events['XAddr'])
+                  this.events.init(this.timeDiff, serviceAddress, this.username, this.password)
+                }
+              }
               if (this.events) {
-                let serviceAddress = Url.parse(events['XAddr'])
-                this.events.init(this.timeDiff, serviceAddress, this.username, this.password)
-              }
-            }
-            if (this.events) {
-              if (events['WSPullPointSupport'] === 'true') {
-                this.analytics.wsPullPointSupport = true
-              }
-              if (events['WSSubscriptionPolicySupport'] === 'true') {
-                this.analytics.wsSubscriptionPolicySupport = true
+                if ('WSPullPointSupport' in events &amp;&amp; events['WSPullPointSupport'] === 'true') {
+                  this.analytics.wsPullPointSupport = true
+                }
+                if ('WSSubscriptionPolicySupport' in events &amp;&amp; events['WSSubscriptionPolicySupport'] === 'true') {
+                  this.analytics.wsSubscriptionPolicySupport = true
+                }
               }
             }
           }
-          let imaging = c['Imaging']
-          if (imaging &amp;&amp; imaging['XAddr']) {
-            if (!this.imaging) {
-              this.add('imaging')
-              if (this.imaging) {
-                let serviceAddress = Url.parse(imaging['XAddr'])
-                this.imaging.init(this.timeDiff, serviceAddress, this.username, this.password)
+          if ('Imaging' in c) {
+            let imaging = c['Imaging']
+            this.checkForProxy(imaging)
+            if (imaging &amp;&amp; 'XAddr' in imaging) {
+              if (!this.imaging) {
+                this.add('imaging')
+                if (this.imaging) {
+                  let serviceAddress = new URL(imaging['XAddr'])
+                  this.imaging.init(this.timeDiff, serviceAddress, this.username, this.password)
+                }
               }
             }
           }
-          let media = c['Media']
-          if (media &amp;&amp; media['XAddr']) {
-            if (!this.media) {
-              this.add('media')
-              if (this.media) {
-                let serviceAddress = Url.parse(media['XAddr'])
-                this.media.init(this.timeDiff, serviceAddress, this.username, this.password)
+          if ('Media' in c) {
+            let media = c['Media']
+            this.checkForProxy(media)
+            if (media &amp;&amp; 'XAddr' in media) {
+              if (!this.media) {
+                this.add('media')
+                if (this.media) {
+                  let serviceAddress = new URL(media['XAddr'])
+                  this.media.init(this.timeDiff, serviceAddress, this.username, this.password)
+                }
               }
             }
           }
-          let ptz = c['PTZ']
-          if (ptz &amp;&amp; ptz['XAddr']) {
-            if (!this.ptz) {
-              this.add('ptz')
-              if (this.ptz) {
-                let serviceAddress = Url.parse(ptz['XAddr'])
-                this.ptz.init(this.timeDiff, serviceAddress, this.username, this.password)
+          if ('PTZ' in c) {
+            let ptz = c['PTZ']
+            this.checkForProxy(ptz)
+            if (ptz &amp;&amp; 'XAddr' in ptz) {
+              if (!this.ptz) {
+                this.add('ptz')
+                if (this.ptz) {
+                  let serviceAddress = new URL(ptz['XAddr'])
+                  this.ptz.init(this.timeDiff, serviceAddress, this.username, this.password)
+                }
               }
             }
           }
@@ -705,7 +738,11 @@ class Camera {
           this.media.getSnapshotUri(profile['$']['token'])
             .then(results => {
               try {
+                let service = {}
+                service.XAddr = results['data']['GetSnapshotUriResponse']['MediaUri']['Uri']
+                this.checkForProxy(service)
                 profile.SnapshotUri = results['data']['GetSnapshotUriResponse']['MediaUri']
+                profile.SnapshotUri['Uri'] = service.XAddr
               }
               catch (e) {}
               ++profileIndex
@@ -743,7 +780,7 @@ module.exports = Camera
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 27 2018 14:01:19 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 02 2019 08:49:48 GMT-0600 (MDT)
 </footer>
 
 <script> prettyPrint(); </script>
