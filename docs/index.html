@@ -51,10 +51,13 @@
 <a href="https://coveralls.io/github/hawkeye64/onvif-nvt?branch=master"><img src="https://img.shields.io/coveralls/github/hawkeye64/onvif-nvt.svg" alt="Coveralls github"></a>
 <a href="https://david-dm.org/hawkeye64/onvif-nvt"><img src="https://img.shields.io/david/hawkeye64/onvif-nvt.svg" alt="David"></a>
 <a href="https://david-dm.org/hawkeye64/onvif-nvt#info=devDependencies"><img src="https://img.shields.io/david/dev/hawkeye64/onvif-nvt.svg" alt="David"></a></p>
+<p><a href="https://snyk.io/test/github/hawkeye64/onvif-nvt?targetFile=package.json"><img src="https://snyk.io/test/github/hawkeye64/onvif-nvt/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a>
+<a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/hawkeye64/onvif-nvt.svg" alt="Greenkeeper badge"></a></p>
 <h1>onvif-nvt</h1><p>ONVIF library for NVT (Network Video Transmitter) devices.</p>
 <p>This package is written with Javascript classes and ES6. Both Promises and Callbacks are supported. <em>Note</em>: Even though callbacks are supported, if you pass parameters incorrectly, you might end up getting a Promise back.</p>
 <p>The ultimate goal of the <strong>onvif-nvt</strong> package is to have as much complete coverage of the <a href="https://www.onvif.org/">ONVIF</a> spec as possible.</p>
-<p>The <code>onvif-nvt</code> package will work only with <code>node</code> server-side. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands.</p>
+<p>The <code>onvif-nvt</code> package will work only with <code>node</code> server-side if you want to use the <code>discovery</code> module. Ultimately, you would use sockets to communicate between a client and server the desired ONVIF commands. However, if you do not want to use the <code>discovery</code> module, you can use the <code>onvif-nvt</code> package in either client or server as well as electron (main and renderer processes).
+<strong>Note</strong>: The reason the <code>discovery</code> module will not work on the client is that browsers removed UDP support some time ago and the discovery service for ONVIF devices uses this protocol.</p>
 <h2>Installation</h2><p>Note: This is an active project, and while so, there will be many updates. PRs are welcomed.</p>
 <p><code>npm install onvif-nvt</code></p>
 <h2>Sample Application</h2><p>You can find the sample application that uses Vue and Quasar <a href="https://github.com/hawkeye64/onvif-nvt-snapshot-vue-sample">here</a>.</p>
@@ -88,12 +91,13 @@ If all is well, make the PR.</li>
 <li>Using the <strong>snapshot</strong> module, you can retrieve snapshots from the device.</li>
 </ul>
 </li>
-<li>Other modules<ul>
+<li>Other modules (not implemented)<ul>
 <li>Access, Access Rules, Action, Analytics, Credential, DeviceIO, Display, Door, Events, Imaging, Media2, Receiver, Recording, Replay, Schedule, Search, Security, Thermal and Video Analytics.</li>
 </ul>
 </li>
 </ul>
 <p>The library is made in such a way that only modules that will work with your device are automatically included. For others, you can choose whether or not to bring in the functionality.</p>
+<h2>Proxy Support (added 0.2.9)</h2><p>Proxy support has been added.</p>
 <h2>Example (Discovery)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
 OnvifManager.add('discovery')
 OnvifManager.discovery.startProbe().then(deviceList => {
@@ -102,6 +106,7 @@ OnvifManager.discovery.startProbe().then(deviceList => {
  // If it is empty, then no ONVIF devices
  // responded back to the broadcast.
 })</code></pre><h2>Example (Connect and Continuous Move)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
+// OnvifManager.connect('localhost/my/proxy/path', null, 'username', 'password') &lt;-- proxy path
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -115,6 +120,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         })
     }
   })</code></pre><h2>Example (Snapshot)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
+// OnvifManager.connect('localhost/my/proxy/path', null, 'username', 'password') &lt;-- proxy path
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -132,7 +138,9 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         // ...
       })
     }
-  })</code></pre><h2>Example (Events)</h2><pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
+  })</code></pre><h2>Example (Events)</h2><p>PullMessages now works with Hikvision, TrendNET and Pelco. They are not working with Axis.</p>
+<pre class="prettyprint source lang-cs"><code>const OnvifManager = require('onvif-nvt')
+// OnvifManager.connect('localhost/my/proxy/path', null, 'username', 'password') &lt;-- proxy path
 OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
   .then(results => {
     let camera = results
@@ -146,7 +154,7 @@ OnvifManager.connect('10.10.1.60', 80, 'username', 'password')
         console.error('Messages Error:', error)
       })
 
-      // start a pull event loop
+      // start a pull event loop using defaults
       camera.events.startPull()
 
       // call stopPull() to end the event loop
@@ -188,7 +196,7 @@ To start the tests, run the following:
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 27 2018 14:01:19 GMT-0700 (MST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 02 2019 08:49:48 GMT-0600 (MDT)
 </footer>
 
 <script> prettyPrint(); </script>

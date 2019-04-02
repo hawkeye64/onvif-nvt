@@ -3,6 +3,7 @@ coverage/
 docs/
 documents/
 run/
+lib/
 .circleci/
 .vscode/
 .eslintrc.js
