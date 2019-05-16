@@ -4,6 +4,7 @@ docs/
 documents/
 run/
 lib/
+.git
 .circleci/
 .vscode/
 .eslintrc.js
