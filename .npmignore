@@ -8,3 +8,4 @@ lib/
 .vscode/
 .eslintrc.js
 jest.config.js
+.git
