@@ -47,7 +47,7 @@
     "babel-jest": "^24.8.0",
     "coveralls": "^3.0.4",
     "eslint": "^6.0.1",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^13.0.1",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jest": "^22.7.1",
     "eslint-plugin-jsdoc": "=10.0.3",
