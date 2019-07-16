@@ -35,7 +35,7 @@ expect.extend({
 
 expect.extend({
   toBeArray (received, argument) {
-    let pass = Array.isArray(received)
+    const pass = Array.isArray(received)
     if (pass) {
       return { // when used with expect(x).not.matcher
         message: () =>
@@ -67,7 +67,7 @@ beforeEach(() => {
       Camera.profileList.forEach(profile => {
         if (!configurationToken) {
           if ('VideoAnalyticsConfiguration' in profile) {
-            let config = profile.VideoAnalyticsConfiguration
+            const config = profile.VideoAnalyticsConfiguration
             configurationToken = config.$.token
           }
         }
@@ -101,7 +101,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getServiceCapabilities (Promise)', () => {
     return Camera.analytics.getServiceCapabilities()
       .then(results => {
-        let response = results.data.GetServiceCapabilitiesResponse
+        const response = results.data.GetServiceCapabilitiesResponse
         expect(response).toHaveProperty('Capabilities')
         expect(response.Capabilities).toHaveProperty('$')
         expect(response.Capabilities.$).toHaveProperty('AnalyticsModuleSupport')
@@ -113,7 +113,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getServiceCapabilities (Callback)', (done) => {
     Camera.analytics.getServiceCapabilities((error, results) => {
       if (!error) {
-        let response = results.data.GetServiceCapabilitiesResponse
+        const response = results.data.GetServiceCapabilitiesResponse
         expect(response).toHaveProperty('Capabilities')
         expect(response.Capabilities).toHaveProperty('$')
         expect(response.Capabilities.$).toHaveProperty('AnalyticsModuleSupport')
@@ -134,7 +134,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getSupportedAnalyticsModules (Promise)', () => {
     return Camera.analytics.getSupportedAnalyticsModules(configurationToken)
       .then(results => {
-        let response = results.data.GetSupportedAnalyticsModulesResponse
+        const response = results.data.GetSupportedAnalyticsModulesResponse
         expect(response).toHaveProperty('SupportedAnalyticsModules')
         expect(response.SupportedAnalyticsModules).toHaveProperty('AnalyticsModuleContentSchemaLocation')
         expect(response.SupportedAnalyticsModules).toHaveProperty('AnalyticsModuleDescription')
@@ -171,7 +171,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getSupportedAnalyticsModules (Callback)', (done) => {
     Camera.analytics.getSupportedAnalyticsModules(configurationToken, (error, results) => {
       if (!error) {
-        let response = results.data.GetSupportedAnalyticsModulesResponse
+        const response = results.data.GetSupportedAnalyticsModulesResponse
         expect(response).toHaveProperty('SupportedAnalyticsModules')
         expect(response.SupportedAnalyticsModules).toHaveProperty('AnalyticsModuleContentSchemaLocation')
         expect(response.SupportedAnalyticsModules).toHaveProperty('AnalyticsModuleDescription')
@@ -224,7 +224,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getAnalyticsModules (Promise)', () => {
     return Camera.analytics.getAnalyticsModules(configurationToken)
       .then(results => {
-        let response = results.data.GetAnalyticsModulesResponse
+        const response = results.data.GetAnalyticsModulesResponse
         expect(response).toHaveProperty('AnalyticsModule')
         expect(response.AnalyticsModule).toBeArray()
         expect(response.AnalyticsModule[0]).toHaveProperty('$')
@@ -257,7 +257,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getAnalyticsModules (Callback)', (done) => {
     Camera.analytics.getAnalyticsModules(configurationToken, (error, results) => {
       if (!error) {
-        let response = results.data.GetAnalyticsModulesResponse
+        const response = results.data.GetAnalyticsModulesResponse
         expect(response).toHaveProperty('AnalyticsModule')
         expect(response.AnalyticsModule).toBeArray()
         expect(response.AnalyticsModule[0]).toHaveProperty('$')
@@ -306,7 +306,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getSupportedRules (Promise)', () => {
     return Camera.analytics.getSupportedRules(configurationToken)
       .then(results => {
-        let response = results.data.GetSupportedRulesResponse
+        const response = results.data.GetSupportedRulesResponse
         expect(response).toHaveProperty('SupportedRules')
         expect(response.SupportedRules).toHaveProperty('RuleContentSchemaLocation')
         expect(response.SupportedRules).toHaveProperty('RuleDescription')
@@ -339,7 +339,7 @@ describe('Analytics', () => {
   test('Camera.analytics.getSupportedRules (Callback)', (done) => {
     Camera.analytics.getSupportedRules(configurationToken, (error, results) => {
       if (!error) {
-        let response = results.data.GetSupportedRulesResponse
+        const response = results.data.GetSupportedRulesResponse
         expect(response).toHaveProperty('SupportedRules')
         expect(response.SupportedRules).toHaveProperty('RuleContentSchemaLocation')
         expect(response.SupportedRules).toHaveProperty('RuleDescription')

@@ -200,7 +200,7 @@ class RunPtz {
 
   ContinuousMove () {
     return new Promise((resolve, reject) => {
-      let velocity = {
+      const velocity = {
         x: 1,
         y: 0
       }
@@ -235,7 +235,7 @@ class RunPtz {
 
   RelativeMove () {
     return new Promise((resolve, reject) => {
-      let translation = {
+      const translation = {
         x: 0.1,
         y: 0.3,
         z: 0
@@ -257,7 +257,7 @@ class RunPtz {
 
   AbsoluteMove () {
     return new Promise((resolve, reject) => {
-      let position = {
+      const position = {
         x: 0.1,
         y: 0.3,
         z: 0
@@ -286,7 +286,7 @@ class RunPtz {
           // verify presets not empty
           if (this.presets.length > 0) {
           // get the first preset and save it for gotoPreset
-            let preset = this.presets[0]
+            const preset = this.presets[0]
             if (preset) {
               this.presetToken = preset['$']['token']
             }

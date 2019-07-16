@@ -35,7 +35,7 @@ expect.extend({
 
 expect.extend({
   toBeArray (received, argument) {
-    let pass = Array.isArray(received)
+    const pass = Array.isArray(received)
     if (pass) {
       return { // when used with expect(x).not.matcher
         message: () =>
@@ -90,7 +90,7 @@ describe('Core', () => {
   test('Camera.core.getWsdlUrl (Promise)', () => {
     return Camera.core.getWsdlUrl()
       .then(results => {
-        let response = results.data.GetWsdlUrlResponse.WsdlUrl
+        const response = results.data.GetWsdlUrlResponse.WsdlUrl
         if (TestConfig.cameraType === 'axis') {
           expect(response).toMatch(TestConfig.address)
         }
@@ -103,7 +103,7 @@ describe('Core', () => {
   test('Camera.core.getWsdlUrl (Callback)', (done) => {
     Camera.core.getWsdlUrl((error, results) => {
       if (!error) {
-        let response = results.data.GetWsdlUrlResponse.WsdlUrl
+        const response = results.data.GetWsdlUrlResponse.WsdlUrl
         if (TestConfig.cameraType === 'axis') {
           expect(response).toMatch(TestConfig.address)
         }
@@ -127,10 +127,10 @@ describe('Core', () => {
   test('Camera.core.getServices (Promise)', () => {
     return Camera.core.getServices(true)
       .then(results => {
-        let response = results.data.GetServicesResponse
+        const response = results.data.GetServicesResponse
         expect(response).toHaveProperty('Service')
         expect(response.Service).toBeArray()
-        let service = response.Service[0]
+        const service = response.Service[0]
         expect(service).toHaveProperty('Capabilities')
         expect(service.Capabilities).toHaveProperty('Capabilities')
         expect(service.Capabilities.Capabilities).toHaveProperty('Network')
@@ -188,10 +188,10 @@ describe('Core', () => {
   test('Camera.core.getServices (Callback)', (done) => {
     return Camera.core.getServices(true, (error, results) => {
       if (!error) {
-        let response = results.data.GetServicesResponse
+        const response = results.data.GetServicesResponse
         expect(response).toHaveProperty('Service')
         expect(response.Service).toBeArray()
-        let service = response.Service[0]
+        const service = response.Service[0]
         expect(service).toHaveProperty('Capabilities')
         expect(service.Capabilities).toHaveProperty('Capabilities')
         expect(service.Capabilities.Capabilities).toHaveProperty('Network')
@@ -264,7 +264,7 @@ describe('Core', () => {
   test('Camera.core.getCapabilities (Promise)', () => {
     return Camera.core.getCapabilities()
       .then(results => {
-        let response = results.data.GetCapabilitiesResponse.Capabilities
+        const response = results.data.GetCapabilitiesResponse.Capabilities
         expect(response).toHaveProperty('Device')
         expect(response).toHaveProperty('Events')
         expect(response).toHaveProperty('Media')
@@ -275,7 +275,7 @@ describe('Core', () => {
   test('Camera.core.getCapabilities (Callback)', (done) => {
     Camera.core.getCapabilities((error, results) => {
       if (!error) {
-        let response = results.data.GetCapabilitiesResponse.Capabilities
+        const response = results.data.GetCapabilitiesResponse.Capabilities
         expect(response).toHaveProperty('Device')
         expect(response).toHaveProperty('Events')
         expect(response).toHaveProperty('Media')
@@ -295,7 +295,7 @@ describe('Core', () => {
   test('Camera.core.getHostname (Promise)', () => {
     return Camera.core.getHostname()
       .then(results => {
-        let response = results.data.GetHostnameResponse.HostnameInformation
+        const response = results.data.GetHostnameResponse.HostnameInformation
         expect(response).toHaveProperty('FromDHCP')
         expect(response).toHaveProperty('Name')
       })
@@ -304,7 +304,7 @@ describe('Core', () => {
   test('Camera.core.getHostname (Callback)', (done) => {
     Camera.core.getHostname((error, results) => {
       if (!error) {
-        let response = results.data.GetHostnameResponse.HostnameInformation
+        const response = results.data.GetHostnameResponse.HostnameInformation
         expect(response).toHaveProperty('FromDHCP')
         expect(response).toHaveProperty('Name')
       }
@@ -322,7 +322,7 @@ describe('Core', () => {
   test('Camera.core.setHostname (Promise)', () => {
     return Camera.core.setHostname('localhost')
       .then(results => {
-        let response = results.data.SetHostnameResponse
+        const response = results.data.SetHostnameResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -333,7 +333,7 @@ describe('Core', () => {
   test('Camera.core.setHostname (Callback)', (done) => {
     Camera.core.setHostname('localhost', (error, results) => {
       if (!error) {
-        let response = results.data.SetHostnameResponse
+        const response = results.data.SetHostnameResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -353,7 +353,7 @@ describe('Core', () => {
   test('Camera.core.setHostnameFromDHCP (Promise)', () => {
     return Camera.core.setHostnameFromDHCP(true)
       .then(results => {
-        let response = results.data.SetHostnameResponse
+        const response = results.data.SetHostnameResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -364,7 +364,7 @@ describe('Core', () => {
   test('Camera.core.setHostnameFromDHCP (Callback)', (done) => {
     Camera.core.setHostnameFromDHCP(true, (error, results) => {
       if (!error) {
-        let response = results.data.SetHostnameResponse
+        const response = results.data.SetHostnameResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -391,7 +391,7 @@ describe('Core', () => {
   test('Camera.core.getDNS (Promise)', () => {
     return Camera.core.getDNS()
       .then(results => {
-        let response = results.data.GetDNSResponse
+        const response = results.data.GetDNSResponse
         expect(response).toHaveProperty('DNSInformation')
         expect(response.DNSInformation).toHaveProperty('DNSFromDHCP')
         expect(response.DNSInformation.DNSFromDHCP).toHaveProperty('IPv4Address')
@@ -403,7 +403,7 @@ describe('Core', () => {
   test('Camera.core.getDNS (Callback)', (done) => {
     Camera.core.getDNS((error, results) => {
       if (!error) {
-        let response = results.data.GetDNSResponse
+        const response = results.data.GetDNSResponse
         expect(response).toHaveProperty('DNSInformation')
         expect(response.DNSInformation).toHaveProperty('DNSFromDHCP')
         expect(response.DNSInformation.DNSFromDHCP).toHaveProperty('IPv4Address')
@@ -424,7 +424,7 @@ describe('Core', () => {
   test('Camera.core.setDNS (Promise)', () => {
     return Camera.core.setDNS(true)
       .then(results => {
-        let response = results.data.SetDNSResponse
+        const response = results.data.SetDNSResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -434,7 +434,7 @@ describe('Core', () => {
   test('Camera.core.setDNS (Callback)', (done) => {
     Camera.core.setDNS(true, null, null, (error, results) => {
       if (!error) {
-        let response = results.data.SetDNSResponse
+        const response = results.data.SetDNSResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -474,7 +474,7 @@ describe('Core', () => {
   test('Camera.core.getNTP (Promise)', () => {
     return Camera.core.getNTP()
       .then(results => {
-        let response = results.data.GetNTPResponse
+        const response = results.data.GetNTPResponse
         expect(response).toHaveProperty('NTPInformation')
         expect(response.NTPInformation).toHaveProperty('FromDHCP')
         expect(response.NTPInformation).toHaveProperty('NTPFromDHCP')
@@ -486,7 +486,7 @@ describe('Core', () => {
   test('Camera.core.getNTP (Callback)', (done) => {
     Camera.core.getNTP((error, results) => {
       if (!error) {
-        let response = results.data.GetNTPResponse
+        const response = results.data.GetNTPResponse
         expect(response).toHaveProperty('NTPInformation')
         expect(response.NTPInformation).toHaveProperty('FromDHCP')
         expect(response.NTPInformation).toHaveProperty('NTPFromDHCP')
@@ -507,7 +507,7 @@ describe('Core', () => {
   test('Camera.core.setNTP (Promise)', () => {
     return Camera.core.setNTP(true)
       .then(results => {
-        let response = results.data.SetNTPResponse
+        const response = results.data.SetNTPResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -518,7 +518,7 @@ describe('Core', () => {
   test('Camera.core.setNTP (Callback)', (done) => {
     Camera.core.setNTP(true, null, (error, results) => {
       if (!error) {
-        let response = results.data.SetNTPResponse
+        const response = results.data.SetNTPResponse
         // axis = ''
         // hikvision = undefined
         expect(response).toBeUndefinedNullOrEmpty()
@@ -552,13 +552,13 @@ describe('Core', () => {
   test('Camera.core.getDynamicDNS (Promise)', () => {
     return Camera.core.getDynamicDNS()
       .then(results => {
-        let response = results.data.GetDynamicDNSResponse
+        const response = results.data.GetDynamicDNSResponse
         expect(response).toHaveProperty('DynamicDNSInformation')
-        let info = response.DynamicDNSInformation
+        const info = response.DynamicDNSInformation
         expect(info).toHaveProperty('Name')
         expect(info).toHaveProperty('Type')
-        let name = info.Name
-        let type = info.Type
+        const name = info.Name
+        const type = info.Type
         expect(name).toBeUndefinedNullOrEmpty()
         expect(type).toMatch('ClientUpdates')
         console.log(results)
@@ -568,13 +568,13 @@ describe('Core', () => {
   test('Camera.core.getDynamicDNS (Callback)', (done) => {
     Camera.core.getDynamicDNS((error, results) => {
       if (!error) {
-        let response = results.data.GetDynamicDNSResponse
+        const response = results.data.GetDynamicDNSResponse
         expect(response).toHaveProperty('DynamicDNSInformation')
-        let info = response.DynamicDNSInformation
+        const info = response.DynamicDNSInformation
         expect(info).toHaveProperty('Name')
         expect(info).toHaveProperty('Type')
-        let name = info.Name
-        let type = info.Type
+        const name = info.Name
+        const type = info.Type
         expect(name).toBeUndefinedNullOrEmpty()
         expect(type).toMatch('ClientUpdates')
         console.log(results)
@@ -593,9 +593,9 @@ describe('Core', () => {
   test('Camera.core.getNetworkInterfaces (Promise)', () => {
     return Camera.core.getNetworkInterfaces()
       .then(results => {
-        let response = results.data.GetNetworkInterfacesResponse
+        const response = results.data.GetNetworkInterfacesResponse
         expect(response).toHaveProperty('NetworkInterfaces')
-        let interfaces = response.NetworkInterfaces
+        const interfaces = response.NetworkInterfaces
         expect(interfaces).toHaveProperty('$')
         expect(interfaces).toHaveProperty('Enabled')
         expect(interfaces).toHaveProperty('Info')
@@ -609,9 +609,9 @@ describe('Core', () => {
   test('Camera.core.getNetworkInterfaces (Callback)', (done) => {
     Camera.core.getNetworkInterfaces((error, results) => {
       if (!error) {
-        let response = results.data.GetNetworkInterfacesResponse
+        const response = results.data.GetNetworkInterfacesResponse
         expect(response).toHaveProperty('NetworkInterfaces')
-        let interfaces = response.NetworkInterfaces
+        const interfaces = response.NetworkInterfaces
         expect(interfaces).toHaveProperty('$')
         expect(interfaces).toHaveProperty('Enabled')
         expect(interfaces).toHaveProperty('Info')
@@ -634,9 +634,9 @@ describe('Core', () => {
   test('Camera.core.getNetworkProtocols (Promise)', () => {
     return Camera.core.getNetworkProtocols()
       .then(results => {
-        let response = results.data.GetNetworkProtocolsResponse
+        const response = results.data.GetNetworkProtocolsResponse
         expect(response).toHaveProperty('NetworkProtocols')
-        let protocols = response.NetworkProtocols
+        const protocols = response.NetworkProtocols
         expect(protocols).toBeArray()
         console.log(results)
       })
@@ -645,9 +645,9 @@ describe('Core', () => {
   test('Camera.core.getNetworkProtocols (Callbacl)', (done) => {
     Camera.core.getNetworkProtocols((error, results) => {
       if (!error) {
-        let response = results.data.GetNetworkProtocolsResponse
+        const response = results.data.GetNetworkProtocolsResponse
         expect(response).toHaveProperty('NetworkProtocols')
-        let protocols = response.NetworkProtocols
+        const protocols = response.NetworkProtocols
         expect(protocols).toBeArray()
         console.log(results)
       }
@@ -665,9 +665,9 @@ describe('Core', () => {
   test('Camera.core.getNetworkDefaultGateway (Promise)', () => {
     return Camera.core.getNetworkDefaultGateway()
       .then(results => {
-        let response = results.data.GetNetworkDefaultGatewayResponse
+        const response = results.data.GetNetworkDefaultGatewayResponse
         expect(response).toHaveProperty('NetworkGateway')
-        let gateway = response.NetworkGateway
+        const gateway = response.NetworkGateway
         expect(gateway).toHaveProperty('IPv4Address')
         expect(gateway).toHaveProperty('IPv6Address')
         console.log(results)
@@ -677,9 +677,9 @@ describe('Core', () => {
   test('Camera.core.getNetworkDefaultGateway (Callback)', (done) => {
     Camera.core.getNetworkDefaultGateway((error, results) => {
       if (!error) {
-        let response = results.data.GetNetworkDefaultGatewayResponse
+        const response = results.data.GetNetworkDefaultGatewayResponse
         expect(response).toHaveProperty('NetworkGateway')
-        let gateway = response.NetworkGateway
+        const gateway = response.NetworkGateway
         expect(gateway).toHaveProperty('IPv4Address')
         expect(gateway).toHaveProperty('IPv6Address')
         console.log(results)
@@ -698,9 +698,9 @@ describe('Core', () => {
   test('Camera.core.getZeroConfiguration (Promise)', () => {
     return Camera.core.getZeroConfiguration()
       .then(results => {
-        let response = results.data.GetZeroConfigurationResponse
+        const response = results.data.GetZeroConfigurationResponse
         expect(response).toHaveProperty('ZeroConfiguration')
-        let zero = response.ZeroConfiguration
+        const zero = response.ZeroConfiguration
         expect(zero).toHaveProperty('Addresses')
         expect(zero).toHaveProperty('Enabled')
         expect(zero).toHaveProperty('InterfaceToken')
@@ -711,9 +711,9 @@ describe('Core', () => {
   test('Camera.core.getZeroConfiguration (Callback)', (done) => {
     Camera.core.getZeroConfiguration((error, results) => {
       if (!error) {
-        let response = results.data.GetZeroConfigurationResponse
+        const response = results.data.GetZeroConfigurationResponse
         expect(response).toHaveProperty('ZeroConfiguration')
-        let zero = response.ZeroConfiguration
+        const zero = response.ZeroConfiguration
         expect(zero).toHaveProperty('Addresses')
         expect(zero).toHaveProperty('Enabled')
         expect(zero).toHaveProperty('InterfaceToken')
@@ -733,9 +733,9 @@ describe('Core', () => {
   test('Camera.core.getIPAddressFilter (Promise)', () => {
     return Camera.core.getIPAddressFilter()
       .then(results => {
-        let response = results.data.GetIPAddressFilterResponse
+        const response = results.data.GetIPAddressFilterResponse
         expect(response).toHaveProperty('IPAddressFilter')
-        let filter = response.IPAddressFilter
+        const filter = response.IPAddressFilter
         expect(filter).toHaveProperty('Type')
         console.log(results)
       })
@@ -744,9 +744,9 @@ describe('Core', () => {
   test('Camera.core.getIPAddressFilter (Callback)', (done) => {
     Camera.core.getIPAddressFilter((error, results) => {
       if (!error) {
-        let response = results.data.GetIPAddressFilterResponse
+        const response = results.data.GetIPAddressFilterResponse
         expect(response).toHaveProperty('IPAddressFilter')
-        let filter = response.IPAddressFilter
+        const filter = response.IPAddressFilter
         expect(filter).toHaveProperty('Type')
         console.log(results)
       }
@@ -764,7 +764,7 @@ describe('Core', () => {
   test('Camera.core.getDeviceInformation (Promise)', () => {
     return Camera.core.getDeviceInformation()
       .then(results => {
-        let response = results.data.GetDeviceInformationResponse
+        const response = results.data.GetDeviceInformationResponse
         expect(response).toHaveProperty('FirmwareVersion')
         expect(response).toHaveProperty('HardwareId')
         expect(response).toHaveProperty('Manufacturer')
@@ -777,7 +777,7 @@ describe('Core', () => {
   test('Camera.core.getDeviceInformation (Callback)', (done) => {
     Camera.core.getDeviceInformation((error, results) => {
       if (!error) {
-        let response = results.data.GetDeviceInformationResponse
+        const response = results.data.GetDeviceInformationResponse
         expect(response).toHaveProperty('FirmwareVersion')
         expect(response).toHaveProperty('HardwareId')
         expect(response).toHaveProperty('Manufacturer')
@@ -799,13 +799,13 @@ describe('Core', () => {
   test('Camera.core.getSystemUris (Promise)', () => {
     return Camera.core.getSystemUris()
       .then(results => {
-        let response = results.data.GetSystemUrisResponse
+        const response = results.data.GetSystemUrisResponse
         expect(response).toHaveProperty('SupportInfoUri')
         expect(response).toHaveProperty('SystemBackupUri')
         expect(response).toHaveProperty('SystemLogUris')
-        let logUris = response.SystemLogUris
+        const logUris = response.SystemLogUris
         expect(logUris).toHaveProperty('SystemLog')
-        let log = logUris.SystemLog
+        const log = logUris.SystemLog
         expect(log).toHaveProperty('Type')
         expect(log).toHaveProperty('Uri')
         console.log(results)
@@ -815,13 +815,13 @@ describe('Core', () => {
   test('Camera.core.getSystemUris (Callback)', (done) => {
     Camera.core.getSystemUris((error, results) => {
       if (!error) {
-        let response = results.data.GetSystemUrisResponse
+        const response = results.data.GetSystemUrisResponse
         expect(response).toHaveProperty('SupportInfoUri')
         expect(response).toHaveProperty('SystemBackupUri')
         expect(response).toHaveProperty('SystemLogUris')
-        let logUris = response.SystemLogUris
+        const logUris = response.SystemLogUris
         expect(logUris).toHaveProperty('SystemLog')
-        let log = logUris.SystemLog
+        const log = logUris.SystemLog
         expect(log).toHaveProperty('Type')
         expect(log).toHaveProperty('Uri')
         console.log(results)
@@ -840,9 +840,9 @@ describe('Core', () => {
   test('Camera.core.getSystemDateAndTime (Promise)', () => {
     return Camera.core.getSystemDateAndTime()
       .then(results => {
-        let response = results.data.GetSystemDateAndTimeResponse
+        const response = results.data.GetSystemDateAndTimeResponse
         expect(response).toHaveProperty('SystemDateAndTime')
-        let sdt = response.SystemDateAndTime
+        const sdt = response.SystemDateAndTime
         expect(sdt).toHaveProperty('DateTimeType')
         expect(sdt).toHaveProperty('DaylightSavings')
         expect(sdt).toHaveProperty('LocalDateTime')
@@ -855,9 +855,9 @@ describe('Core', () => {
   test('Camera.core.getSystemDateAndTime (Callback)', (done) => {
     Camera.core.getSystemDateAndTime((error, results) => {
       if (!error) {
-        let response = results.data.GetSystemDateAndTimeResponse
+        const response = results.data.GetSystemDateAndTimeResponse
         expect(response).toHaveProperty('SystemDateAndTime')
-        let sdt = response.SystemDateAndTime
+        const sdt = response.SystemDateAndTime
         expect(sdt).toHaveProperty('DateTimeType')
         expect(sdt).toHaveProperty('DaylightSavings')
         expect(sdt).toHaveProperty('LocalDateTime')
@@ -884,7 +884,7 @@ describe('Core', () => {
           expect(results.raw).toBeTruthy('raw')
         }
         else if (TestConfig.cameraType === 'hikvision') {
-          let response = results.data.GetSystemLogResponse
+          const response = results.data.GetSystemLogResponse
           expect(response).toHaveProperty('SystemLog')
         }
         console.log(results)
@@ -899,7 +899,7 @@ describe('Core', () => {
           expect(results.raw).toBeTruthy('raw')
         }
         else if (TestConfig.cameraType === 'hikvision') {
-          let response = results.data.GetSystemLogResponse
+          const response = results.data.GetSystemLogResponse
           expect(response).toHaveProperty('SystemLog')
         }
         console.log(results)
@@ -937,9 +937,9 @@ describe('Core', () => {
           expect(results.raw).toBeTruthy('raw')
         }
         else if (TestConfig.cameraType === 'hikvision') {
-          let response = results.data.GetSystemSupportInformationResponse
+          const response = results.data.GetSystemSupportInformationResponse
           expect(response).toHaveProperty('SupportInformation')
-          let info = response.SupportInformation
+          const info = response.SupportInformation
           expect(info).toHaveProperty('String')
         }
         console.log(results)
@@ -954,9 +954,9 @@ describe('Core', () => {
           expect(results.raw).toBeTruthy('raw')
         }
         else if (TestConfig.cameraType === 'hikvision') {
-          let response = results.data.GetSystemSupportInformationResponse
+          const response = results.data.GetSystemSupportInformationResponse
           expect(response).toHaveProperty('SupportInformation')
-          let info = response.SupportInformation
+          const info = response.SupportInformation
           expect(info).toHaveProperty('String')
         }
         console.log(results)
@@ -975,9 +975,9 @@ describe('Core', () => {
   test('Camera.core.getScopes (Promise)', () => {
     return Camera.core.getScopes()
       .then(results => {
-        let response = results.data.GetScopesResponse
+        const response = results.data.GetScopesResponse
         expect(response).toHaveProperty('Scopes')
-        let scopes = response.Scopes
+        const scopes = response.Scopes
         expect(scopes).toBeArray()
         console.log(results)
       })
@@ -986,9 +986,9 @@ describe('Core', () => {
   test('Camera.core.getScopes (Callback)', (done) => {
     Camera.core.getScopes((error, results) => {
       if (!error) {
-        let response = results.data.GetScopesResponse
+        const response = results.data.GetScopesResponse
         expect(response).toHaveProperty('Scopes')
-        let scopes = response.Scopes
+        const scopes = response.Scopes
         expect(scopes).toBeArray()
         console.log(results)
       }
@@ -1006,7 +1006,7 @@ describe('Core', () => {
   test('Camera.core.getDiscoveryMode (Promise)', () => {
     return Camera.core.getDiscoveryMode()
       .then(results => {
-        let response = results.data.GetDiscoveryModeResponse
+        const response = results.data.GetDiscoveryModeResponse
         expect(response).toHaveProperty('DiscoveryMode')
         console.log(results)
       })
@@ -1015,7 +1015,7 @@ describe('Core', () => {
   test('Camera.core.getDiscoveryMode (Callback)', (done) => {
     Camera.core.getDiscoveryMode((error, results) => {
       if (!error) {
-        let response = results.data.GetDiscoveryModeResponse
+        const response = results.data.GetDiscoveryModeResponse
         expect(response).toHaveProperty('DiscoveryMode')
         console.log(results)
       }
@@ -1033,7 +1033,7 @@ describe('Core', () => {
   test('Camera.core.getRemoteDiscoveryMode (Promise)', () => {
     return Camera.core.getRemoteDiscoveryMode()
       .then(results => {
-        let response = results.data.GetRemoteDiscoveryModeResponse
+        const response = results.data.GetRemoteDiscoveryModeResponse
         expect(response).toHaveProperty('RemoteDiscoveryMode')
         console.log(results)
       })
@@ -1042,7 +1042,7 @@ describe('Core', () => {
   test('Camera.core.getRemoteDiscoveryMode (Callback)', (done) => {
     Camera.core.getRemoteDiscoveryMode((error, results) => {
       if (!error) {
-        let response = results.data.GetRemoteDiscoveryModeResponse
+        const response = results.data.GetRemoteDiscoveryModeResponse
         expect(response).toHaveProperty('RemoteDiscoveryMode')
         console.log(results)
       }
@@ -1060,9 +1060,9 @@ describe('Core', () => {
   test('Camera.core.getDPAddresses (Promise)', () => {
     return Camera.core.getDPAddresses()
       .then(results => {
-        let response = results.data.GetDPAddressesResponse
+        const response = results.data.GetDPAddressesResponse
         expect(response).toHaveProperty('DPAddress')
-        let address = response.DPAddress
+        const address = response.DPAddress
         expect(address).toHaveProperty('IPv4Address')
         expect(address).toHaveProperty('Type')
         console.log(results)
@@ -1072,9 +1072,9 @@ describe('Core', () => {
   test('Camera.core.getDPAddresses (Callback)', (done) => {
     Camera.core.getDPAddresses((error, results) => {
       if (!error) {
-        let response = results.data.GetDPAddressesResponse
+        const response = results.data.GetDPAddressesResponse
         expect(response).toHaveProperty('DPAddress')
-        let address = response.DPAddress
+        const address = response.DPAddress
         expect(address).toHaveProperty('IPv4Address')
         expect(address).toHaveProperty('Type')
         console.log(results)
@@ -1093,9 +1093,9 @@ describe('Core', () => {
   test('Camera.core.getAccessPolicy (Promise)', () => {
     return Camera.core.getAccessPolicy()
       .then(results => {
-        let response = results.data.GetAccessPolicyResponse
+        const response = results.data.GetAccessPolicyResponse
         expect(response).toHaveProperty('PolicyFile')
-        let file = response.PolicyFile
+        const file = response.PolicyFile
         expect(file).toHaveProperty('Data')
         console.log(results)
       })
@@ -1104,9 +1104,9 @@ describe('Core', () => {
   test('Camera.core.getAccessPolicy (Callback)', (done) => {
     Camera.core.getAccessPolicy((error, results) => {
       if (!error) {
-        let response = results.data.GetAccessPolicyResponse
+        const response = results.data.GetAccessPolicyResponse
         expect(response).toHaveProperty('PolicyFile')
-        let file = response.PolicyFile
+        const file = response.PolicyFile
         expect(file).toHaveProperty('Data')
         console.log(results)
       }
@@ -1124,9 +1124,9 @@ describe('Core', () => {
   test('Camera.core.getUsers (Promise)', () => {
     return Camera.core.getUsers()
       .then(results => {
-        let response = results.data.GetUsersResponse
+        const response = results.data.GetUsersResponse
         expect(response).toHaveProperty('User')
-        let user = response.User
+        const user = response.User
         expect(user).toHaveProperty('UserLevel')
         expect(user).toHaveProperty('Username')
         // console.log(results)
@@ -1136,9 +1136,9 @@ describe('Core', () => {
   test('Camera.core.getUsers (Callback)', (done) => {
     Camera.core.getUsers((error, results) => {
       if (!error) {
-        let response = results.data.GetUsersResponse
+        const response = results.data.GetUsersResponse
         expect(response).toHaveProperty('User')
-        let user = response.User
+        const user = response.User
         expect(user).toHaveProperty('UserLevel')
         expect(user).toHaveProperty('Username')
         // console.log(results)

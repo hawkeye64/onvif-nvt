@@ -101,10 +101,10 @@ class RunMedia {
     return new Promise((resolve, reject) => {
       this.camera.media.getProfiles()
         .then(results => {
-          let response = results.data.GetProfilesResponse
-          let profiles = response.Profiles
+          const response = results.data.GetProfilesResponse
+          const profiles = response.Profiles
           if (profiles.length > 0) {
-            let profile = profiles[0]
+            const profile = profiles[0]
             this.profileToken = profile['$']['token']
           }
           console.log('GetProfiles successful')
