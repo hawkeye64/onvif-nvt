@@ -9,7 +9,7 @@ class OnvifManager {
   add(name) {
     switch (name) {
       case 'discovery':
-        let Discovery = require('./modules/discovery');
+        const Discovery = require('./modules/discovery');
 
         this.discovery = new Discovery();
         break;
@@ -20,7 +20,7 @@ class OnvifManager {
   }
 
   connect(address, port, username, password, servicePath, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (errMsg = Util.isInvalidValue(address, 'string')) {
@@ -28,7 +28,7 @@ class OnvifManager {
         return;
       }
 
-      let c = this.cameras[address];
+      const c = this.cameras[address];
 
       if (c) {
         resolve(c);
@@ -37,9 +37,9 @@ class OnvifManager {
 
       port = port || 80;
 
-      let Camera = require('./camera');
+      const Camera = require('./camera');
 
-      let camera = new Camera();
+      const camera = new Camera();
       return camera.connect(address, port, username, password, servicePath).then(results => {
         this.cameras[address] = camera;
         resolve(camera);

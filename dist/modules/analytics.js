@@ -20,18 +20,18 @@ class Analytics {
   }
 
   createRequest(body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     });
     return soapEnvelope;
   }
 
   buildRequest(methodName, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -61,7 +61,7 @@ class Analytics {
         soapBody += `</tan:${methodName}>`;
       }
 
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapEnvelope = this.createRequest(soapBody);
       this.soap.makeRequest('analytics', this.serviceAddress, methodName, soapEnvelope).then(results => {
         resolve(results);
       }).catch(error => {
@@ -81,7 +81,7 @@ class Analytics {
   }
 
   requestWithConfigurationToken(methodName, configurationToken, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -133,12 +133,12 @@ class Analytics {
   }
 
   deleteAnalyticsModules(configurationToken, analyticsModuleName, callback) {
-    let soapBody = '<tan:AnalyticsModuleName>' + analyticsModuleName + '</tan:AnalyticsModuleName>';
+    const soapBody = '<tan:AnalyticsModuleName>' + analyticsModuleName + '</tan:AnalyticsModuleName>';
     return this.requestWithConfigurationToken('DeleteAnalyticsModules', configurationToken, soapBody, callback);
   }
 
   getAnalyticsModuleOptions(configurationToken, type, callback) {
-    let soapBody = '<tan:Type>' + type + '</tan:Type>';
+    const soapBody = '<tan:Type>' + type + '</tan:Type>';
     return this.requestWithConfigurationToken('GetAnalyticsModuleOptions', configurationToken, soapBody, callback);
   }
 
@@ -163,12 +163,12 @@ class Analytics {
   }
 
   deleteRules(configurationToken, ruleName, callback) {
-    let soapBody = '<tan:RuleName>' + ruleName + '</tan:RuleName>';
+    const soapBody = '<tan:RuleName>' + ruleName + '</tan:RuleName>';
     return this.requestWithConfigurationToken('DeleteRules', configurationToken, soapBody, callback);
   }
 
   getRuleOptions(configurationToken, ruleType, callback) {
-    let soapBody = '<tan:RuleType>' + ruleType + '</tan:RuleType>';
+    const soapBody = '<tan:RuleType>' + ruleType + '</tan:RuleType>';
     return this.requestWithConfigurationToken('GetRuleOptions', configurationToken, soapBody, callback);
   }
 

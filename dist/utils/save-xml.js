@@ -11,14 +11,14 @@ let path = Path.resolve(__dirname, '../../test/data/xml');
 
 function saveXml(service, methodName, xml) {
   if (writable) {
-    let prettyXml = pd.xml(xml);
-    let folderPath = path + `/${service}`;
+    const prettyXml = pd.xml(xml);
+    const folderPath = path + `/${service}`;
 
     if (!Fs.existsSync(folderPath)) {
       Fs.mkdirSync(folderPath);
     }
 
-    let filePath = folderPath + `/${methodName}.xml`;
+    const filePath = folderPath + `/${methodName}.xml`;
     Fs.writeFileSync(filePath, prettyXml);
   }
 }

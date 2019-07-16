@@ -25,18 +25,18 @@ class Ptz {
   }
 
   createRequest(body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     });
     return soapEnvelope;
   }
 
   buildRequest(methodName, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -66,7 +66,7 @@ class Ptz {
         soapBody += `</tptz:${methodName}>`;
       }
 
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapEnvelope = this.createRequest(soapBody);
       this.soap.makeRequest('ptz', this.serviceAddress, methodName, soapEnvelope).then(results => {
         resolve(results);
       }).catch(error => {
@@ -106,7 +106,7 @@ class Ptz {
   }
 
   getNode(nodeToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -146,7 +146,7 @@ class Ptz {
   }
 
   getConfiguration(configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -182,7 +182,7 @@ class Ptz {
   }
 
   getConfigurationOptions(configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -218,7 +218,7 @@ class Ptz {
   }
 
   setConfiguration(configurationToken, ptzConfigurationOptions, forcePersistence, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -260,7 +260,7 @@ class Ptz {
   }
 
   getCompatibleConfigurations(profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -297,7 +297,7 @@ class Ptz {
   }
 
   absoluteMove(profileToken, position, speed, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -352,7 +352,7 @@ class Ptz {
   }
 
   relativeMove(profileToken, translation, speed, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -412,7 +412,7 @@ class Ptz {
   }
 
   continuousMove(profileToken, velocity, timeout, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -472,7 +472,7 @@ class Ptz {
   }
 
   geoMove(profileToken, geoLocation, speed, areaWidth, areaHeight, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -579,7 +579,7 @@ class Ptz {
   }
 
   stop(profileToken, panTilt, zoom, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -639,7 +639,7 @@ class Ptz {
   }
 
   getStatus(profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -676,7 +676,7 @@ class Ptz {
   }
 
   setPreset(profileToken, presetToken, presetName, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -741,7 +741,7 @@ class Ptz {
   }
 
   getPresets(profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -778,7 +778,7 @@ class Ptz {
   }
 
   gotoPreset(profileToken, presetToken, speed, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -833,7 +833,7 @@ class Ptz {
   }
 
   removePreset(profileToken, presetToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -876,7 +876,7 @@ class Ptz {
   }
 
   gotoHomePosition(profileToken, speed, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -925,7 +925,7 @@ class Ptz {
   }
 
   setHomePosition(profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 
@@ -962,7 +962,7 @@ class Ptz {
   }
 
   sendAuxiliaryCommand(profileToken, auxiliaryData, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       profileToken = profileToken || this.defaultProfileToken;
       let errMsg = '';
 

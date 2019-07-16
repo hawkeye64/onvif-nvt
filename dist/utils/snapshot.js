@@ -16,16 +16,16 @@ class Snapshot {
   }
 
   getSnapshot(callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       Request({
         method: 'GET',
         uri: this.snapshotUri,
         gzip: true,
         encoding: 'binary',
-        'auth': {
-          'user': this.username,
-          'pass': this.password,
-          'sendImmediately': false
+        auth: {
+          user: this.username,
+          pass: this.password,
+          sendImmediately: false
         }
       }, (error, response, body) => {
         if (error) {
