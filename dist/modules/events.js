@@ -16,7 +16,6 @@ class Events extends EventEmitter {
     this.password = null;
     this.namespaceAttributes = ['xmlns:tev="http://www.onvif.org/ver10/events/wsdl"'];
     this.intervalId = null;
-    this.subscriptionId = null;
   }
 
   init(timeDiff, serviceAddress, username, password) {
@@ -123,28 +122,19 @@ class Events extends EventEmitter {
   stopPull() {
     clearInterval(this.intervalId);
     this.intervalId = null;
-    this.subscriptionId = null;
   }
 
   _getMessages(timeout, messageLimit) {
     return new Promise((resolve, reject) => {
-      if (this.subscriptionId) {
-        this._pullMessages(this.subscriptionId, timeout, messageLimit).then(results => {
+      this._createPullPointSubscription().then(results => {
+        this._pullMessages(results, timeout, messageLimit).then(results => {
           resolve(results);
         }).catch(error => {
           reject(error);
         });
-      } else {
-        this._createPullPointSubscription().then(results => {
-          this._pullMessages(results, timeout, messageLimit).then(results => {
-            resolve(results);
-          }).catch(error => {
-            reject(error);
-          });
-        }).catch(error => {
-          reject(error);
-        });
-      }
+      }).catch(error => {
+        reject(error);
+      });
     });
   }
 
@@ -161,7 +151,6 @@ class Events extends EventEmitter {
         }
 
         subscriptionId.Address = reference.Address;
-        this.subscriptionId = subscriptionId;
         resolve(subscriptionId);
       }).catch(error => {
         reject(error);
@@ -260,8 +249,8 @@ class Events extends EventEmitter {
 
       let soapBody = '';
       soapBody = '<tev:PullMessages>';
-      soapBody += `<tev:Timeout>${timeout}</tev:Timeout>`;
-      soapBody += `<tev:MessageLimit>${messageLimit}</tev:MessageLimit>`;
+      soapBody += '<tev:Timeout>PT1M</tev:Timeout>';
+      soapBody += '<tev:MessageLimit>99</tev:MessageLimit>';
       soapBody += '</tev:PullMessages>';
       this.buildRequest('PullMessages', soapBody, subscriptionId).then(results => {
         resolve(results);
