@@ -29,7 +29,7 @@ describe('Discovery', () => {
     setTimeout(() => {
       OnvifManager.discovery.stopProbe()
         .then(results => {
-          console.log(results)
+          // console.log(results)
           expect(results).toBeUndefined()
           done()
         })

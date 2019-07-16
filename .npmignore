@@ -4,7 +4,9 @@ docs/
 documents/
 run/
 lib/
+.git
 .circleci/
 .vscode/
 .eslintrc.js
 jest.config.js
+.git
