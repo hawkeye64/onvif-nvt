@@ -16,8 +16,8 @@ class Soap {
   }
 
   parse(soap) {
-    let promise = new Promise((resolve, reject) => {
-      let prefix = soap.substring(0, 2);
+    const promise = new Promise((resolve, reject) => {
+      const prefix = soap.substring(0, 2);
 
       if (prefix === '--') {
         resolve({
@@ -25,12 +25,12 @@ class Soap {
           soap
         });
       } else {
-        let opts = {
-          'explicitRoot': false,
-          'explicitArray': false,
-          'ignoreAttrs': false,
-          'tagNameProcessors': [function (name) {
-            let m = name.match(/^([^\:]+)\:([^\:]+)$/);
+        const opts = {
+          explicitRoot: false,
+          explicitArray: false,
+          ignoreAttrs: false,
+          tagNameProcessors: [function (name) {
+            const m = name.match(/^([^\:]+)\:([^\:]+)$/);
             return m ? m[2] : name;
           }]
         };
@@ -65,7 +65,7 @@ class Soap {
 
     if (params['xmlns'] && Array.isArray(params['xmlns'])) {
       params['xmlns'].forEach(ns => {
-        let index = soap.indexOf(ns);
+        const index = soap.indexOf(ns);
 
         if (index < 0) {
           soap += ' ' + ns;
@@ -77,7 +77,7 @@ class Soap {
     soap += '<s:Header>';
 
     if (params.subscriptionId) {
-      let address = this.getAddress(params.subscriptionId);
+      const address = this.getAddress(params.subscriptionId);
 
       if (address) {
         soap += '<wsa5:To s:mustUnderstand="true">';
@@ -104,7 +104,7 @@ class Soap {
   }
 
   makeRequest(service, serviceAddress, methodName, soapEnvelope, params) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       Save.saveXml(service, methodName + '.Request', soapEnvelope);
       let xml = '';
       return this.runRequest(service, serviceAddress, methodName, soapEnvelope).then(results => {
@@ -117,27 +117,27 @@ class Soap {
           return;
         }
 
-        let fault = this.getFault(results['parsed']);
+        const fault = this.getFault(results['parsed']);
 
         if (fault) {
           Save.saveXml(service, methodName + '.Error', xml);
-          let err = new Error(`${methodName}`);
+          const err = new Error(`${methodName}`);
           err.fault = fault;
           err.soap = xml;
           reject(err);
         } else {
-          let parsed = this.parseResponse(methodName, results['parsed']);
+          const parsed = this.parseResponse(methodName, results['parsed']);
 
           if (parsed) {
-            let res = {
-              'soap': xml,
-              'schemas': results['parsed']['$'] ? results['parsed']['$'] : '',
-              'data': parsed
+            const res = {
+              soap: xml,
+              schemas: results['parsed']['$'] ? results['parsed']['$'] : '',
+              data: parsed
             };
             Save.saveXml(service, methodName + '.Response', xml);
             resolve(res);
           } else {
-            let err = new Error(methodName + ':The device seems to not support the ' + methodName + '() method.');
+            const err = new Error(methodName + ':The device seems to not support the ' + methodName + '() method.');
             reject(err);
           }
         }
@@ -167,10 +167,10 @@ class Soap {
           throw new Error(`File does not exist for test: ${filePath}`);
         }
 
-        let xml = Fs.readFileSync(filePath, 'utf8');
+        const xml = Fs.readFileSync(filePath, 'utf8');
         resolve(xml);
       } else {
-        let options = {
+        const options = {
           method: 'POST',
           uri: serviceAddress.href,
           encoding: 'utf8',
@@ -202,13 +202,13 @@ class Soap {
   }
 
   parseResponse(methodName, response) {
-    let s0 = response['Body'];
+    const s0 = response['Body'];
 
     if (!s0) {
       return null;
     }
 
-    let responseName = methodName + 'Response';
+    const responseName = methodName + 'Response';
 
     if (responseName in s0) {
       return s0;
@@ -221,10 +221,10 @@ class Soap {
     let fault = '';
 
     if ('Fault' in results['Body']) {
-      let bodyFault = results['Body']['Fault'];
-      let r1 = this.parseForReason(bodyFault);
-      let c1 = this.parseForCode(bodyFault);
-      let d1 = this.parseForDetail(bodyFault);
+      const bodyFault = results['Body']['Fault'];
+      const r1 = this.parseForReason(bodyFault);
+      const c1 = this.parseForCode(bodyFault);
+      const d1 = this.parseForDetail(bodyFault);
       fault = {};
       fault.reason = r1;
       fault.code = c1;
@@ -238,16 +238,16 @@ class Soap {
     let code = '';
 
     if ('Code' in fault) {
-      let faultCode = fault['Code'];
+      const faultCode = fault['Code'];
 
       if ('Value' in faultCode) {
-        let faultValue = faultCode['Value'];
+        const faultValue = faultCode['Value'];
 
         if ('Subcode' in faultCode) {
-          let faultSubcode = faultCode['Subcode'];
+          const faultSubcode = faultCode['Subcode'];
 
           if ('Value' in faultSubcode) {
-            let faultSubcodeValue = faultSubcode['Value'];
+            const faultSubcodeValue = faultSubcode['Value'];
             code = faultValue + '|' + faultSubcodeValue;
           } else {
             code = faultSubcode;
@@ -265,10 +265,10 @@ class Soap {
     let detail = '';
 
     if ('Detail' in fault) {
-      let faultDetail = fault['Detail'];
+      const faultDetail = fault['Detail'];
 
       if ('Text' in faultDetail) {
-        let faultText = faultDetail['Text'];
+        const faultText = faultDetail['Text'];
 
         if (typeof faultText === 'string') {
           detail = faultText;
@@ -285,10 +285,10 @@ class Soap {
     let reason = '';
 
     if ('Reason' in fault) {
-      let faultReason = fault['Reason'];
+      const faultReason = fault['Reason'];
 
       if ('Text' in faultReason) {
-        let faultText = faultReason['Text'];
+        const faultText = faultReason['Text'];
 
         if (typeof faultText === 'string') {
           reason = faultText;
@@ -312,13 +312,13 @@ class Soap {
       pass = '';
     }
 
-    let created = new Date(Date.now() + diff).toISOString();
-    let expires = new Date(Date.now() + diff + 10000).toISOString();
-    let nonceBuffer = this.createNonce(16);
-    let nonceBase64 = nonceBuffer.toString('base64');
-    let shasum = Crypto.createHash('sha1');
+    const created = new Date(Date.now() + diff).toISOString();
+    const expires = new Date(Date.now() + diff + 10000).toISOString();
+    const nonceBuffer = this.createNonce(16);
+    const nonceBase64 = nonceBuffer.toString('base64');
+    const shasum = Crypto.createHash('sha1');
     shasum.update(Buffer.concat([nonceBuffer, Buffer.from(created), Buffer.from(pass)]));
-    let digest = shasum.digest('base64');
+    const digest = shasum.digest('base64');
     let soap = '';
     soap += '<wsse:Security s:mustUnderstand="1">';
     soap += '  <wsu:Timestamp wsu:Id="Time">';
@@ -336,7 +336,7 @@ class Soap {
   }
 
   createNonce(digit) {
-    let nonce = Buffer.alloc(digit);
+    const nonce = Buffer.alloc(digit);
 
     for (let i = 0; i < digit; i++) {
       nonce.writeUInt8(Math.floor(Math.random() * 256), i);
@@ -358,16 +358,16 @@ class Soap {
   getCustomSubscriptionIdXml(subscriptionId) {
     if (subscriptionId) {
       if (subscriptionId._) {
-        let id = subscriptionId._;
+        const id = subscriptionId._;
         let xml = null;
 
         if (subscriptionId.$) {
-          let keys = Object.keys(subscriptionId.$);
-          let tag = keys[0];
-          let url = subscriptionId.$[tag];
+          const keys = Object.keys(subscriptionId.$);
+          const tag = keys[0];
+          const url = subscriptionId.$[tag];
 
           if (id && tag && url) {
-            let tags = tag.split(':');
+            const tags = tag.split(':');
             xml = '<SubscriptionId s:mustUnderstand="1" s:IsReferenceParameter="1" ' + tags[0] + '="' + url + '">' + id + '</SubscriptionId>';
             console.log(xml);
           }

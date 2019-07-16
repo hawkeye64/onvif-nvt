@@ -18,12 +18,12 @@ class Media2 {
   }
 
   createRequest(body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     });
     return soapEnvelope;
   }
@@ -36,8 +36,8 @@ class Media2 {
 
   getProfiles() {
     return new Promise((resolve, reject) => {
-      let soapBody = '<GetProfiles xmlns="http://www.onvif.org/ver10/media/wsdl"/>';
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapBody = '<GetProfiles xmlns="http://www.onvif.org/ver10/media/wsdl"/>';
+      const soapEnvelope = this.createRequest(soapBody);
       console.log(soapEnvelope);
       return this.soap.makeRequest('media2', this.serviceAddress, 'GetProfiles', soapEnvelope).then(results => {
         resolve(results);
@@ -101,7 +101,7 @@ class Media2 {
       soapBody += '<trt:GetSnapshotUri>';
       soapBody += '<trt:ProfileToken>' + profileToken + '</trt:ProfileToken>';
       soapBody += '</trt:GetSnapshotUri>';
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapEnvelope = this.createRequest(soapBody);
       return this.soap.makeRequest('media2', this.serviceAddress, 'GetSnapshotUri', soapEnvelope).then(results => {
         resolve(results);
       }).catch(error => {

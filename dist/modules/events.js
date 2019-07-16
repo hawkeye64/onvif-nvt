@@ -26,24 +26,24 @@ class Events extends EventEmitter {
   }
 
   createRequest(body, subscriptionId) {
-    let request = {
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const request = {
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     };
 
     if (subscriptionId) {
       request.subscriptionId = subscriptionId;
     }
 
-    let soapEnvelope = this.soap.createRequest(request);
+    const soapEnvelope = this.soap.createRequest(request);
     return soapEnvelope;
   }
 
   buildRequest(methodName, xml, subscriptionId, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -75,7 +75,7 @@ class Events extends EventEmitter {
         soapBody += `</tev:${methodName}>`;
       }
 
-      let soapEnvelope = this.createRequest(soapBody, subscriptionId);
+      const soapEnvelope = this.createRequest(soapBody, subscriptionId);
       let serviceAddress = this.serviceAddress;
 
       if (methodName === 'PullMessages') {
@@ -105,7 +105,7 @@ class Events extends EventEmitter {
     timeout = timeout || 'PT1M';
     messageLimit = messageLimit || 1;
 
-    let getAll = () => {
+    const getAll = () => {
       this._getMessages(timeout, messageLimit).then(results => {
         this.emit('messages', results);
         console.log(results);
@@ -142,8 +142,8 @@ class Events extends EventEmitter {
     return new Promise((resolve, reject) => {
       this.createPullPointSubscription().then(results => {
         console.log('CreatePullPointSubscription successful');
-        let response = results.data.CreatePullPointSubscriptionResponse;
-        let reference = response.SubscriptionReference;
+        const response = results.data.CreatePullPointSubscriptionResponse;
+        const reference = response.SubscriptionReference;
         let subscriptionId = {};
 
         if (reference.ReferenceParameters) {
@@ -169,7 +169,7 @@ class Events extends EventEmitter {
   }
 
   createPullPointSubscription(filter, initialTerminationTime, subscriptionPolicy, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof filter !== 'undefined' && filter !== null) {
@@ -234,7 +234,7 @@ class Events extends EventEmitter {
   }
 
   pullMessages(subscriptionId, timeout, messageLimit, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (errMsg = Util.isInvalidValue(timeout, 'string')) {

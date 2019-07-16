@@ -18,7 +18,7 @@ class Discovery {
   }
 
   startProbe(callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -52,7 +52,7 @@ class Discovery {
 
         this._discoveryWaitTimer = setTimeout(() => {
           this.stopProbe().then(() => {
-            let deviceList = [];
+            const deviceList = [];
             Object.keys(this._devices).forEach(urn => {
               deviceList.push(this._devices[urn]);
             });
@@ -86,7 +86,7 @@ class Discovery {
       this._discoveryWaitTimer = null;
     }
 
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -141,14 +141,14 @@ class Discovery {
     soapTemplate += '</s:Envelope>';
     soapTemplate = soapTemplate.replace(/\>\s+\</g, '><');
     soapTemplate = soapTemplate.replace(/\s+/, ' ');
-    let soapSet = [];
+    const soapSet = [];
     ['NetworkVideoTransmitter', 'Device', 'NetworkVideoDisplay'].forEach(type => {
       let s = soapTemplate;
       s = s.replace('__type__', type);
       s = s.replace('__uuid__', Util.createUuidV4());
       soapSet.push(s);
     });
-    let soapList = [];
+    const soapList = [];
 
     for (let i = 0; i < this._DISCOVERY_RETRY_MAX; i++) {
       soapSet.forEach(s => {
@@ -156,13 +156,13 @@ class Discovery {
       });
     }
 
-    let promise = new Promise((resolve, reject) => {
-      let send = () => {
+    const promise = new Promise((resolve, reject) => {
+      const send = () => {
         if (this._udp) {
-          let soapEnvelope = soapList.shift();
+          const soapEnvelope = soapList.shift();
 
           if (soapEnvelope) {
-            let buf = Buffer.from(soapEnvelope, 'utf8');
+            const buf = Buffer.from(soapEnvelope, 'utf8');
 
             this._udp.send(buf, 0, buf.length, this._PORT, this._MULTICAST_ADDRESS, (error, bytes) => {
               if (error) {
@@ -187,9 +187,9 @@ class Discovery {
   }
 
   parseResult(results, deviceInfo) {
-    let parsed = results.parsed;
+    const parsed = results.parsed;
     let urn = '';
-    let address = deviceInfo.address;
+    const address = deviceInfo.address;
     let service = '';
     let xaddrs = [];
     let scopes = [];
@@ -198,20 +198,20 @@ class Discovery {
 
     try {
       if ('Body' in parsed) {
-        let body = parsed['Body'];
+        const body = parsed['Body'];
 
         if ('ProbeMatches' in body) {
-          let probeMatches = body['ProbeMatches'];
+          const probeMatches = body['ProbeMatches'];
 
           if (probeMatches !== undefined) {
             if ('ProbeMatch' in probeMatches) {
-              let probeMatch = probeMatches['ProbeMatch'];
+              const probeMatch = probeMatches['ProbeMatch'];
               urn = probeMatch['EndpointReference']['Address'];
               xaddrs = probeMatch['XAddrs'].split(/\s+/);
 
               if (xaddrs.length > 1) {
                 xaddrs.forEach(addr => {
-                  let index = addr.indexOf(deviceInfo.address);
+                  const index = addr.indexOf(deviceInfo.address);
 
                   if (index !== -1) {
                     service = addr;
@@ -258,15 +258,15 @@ class Discovery {
           }
         });
         probe = {
-          'urn': urn,
-          'name': name,
-          'address': address,
-          'service': service,
-          'hardware': hardware,
-          'location': location,
-          'types': types,
-          'xaddrs': xaddrs,
-          'scopes': scopes
+          urn: urn,
+          name: name,
+          address: address,
+          service: service,
+          hardware: hardware,
+          location: location,
+          types: types,
+          xaddrs: xaddrs,
+          scopes: scopes
         };
         this._devices[urn] = probe;
       }

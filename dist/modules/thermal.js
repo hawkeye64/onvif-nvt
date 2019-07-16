@@ -18,12 +18,12 @@ class Thermal {
   }
 
   createRequest(body) {
-    let soapEnvelope = this.soapSoap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soapSoap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     });
     return soapEnvelope;
   }

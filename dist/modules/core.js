@@ -19,18 +19,18 @@ class Core {
   }
 
   createRequest(body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     });
     return soapEnvelope;
   }
 
   buildRequest(methodName, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -60,7 +60,7 @@ class Core {
         soapBody += `</tds:${methodName}>`;
       }
 
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapEnvelope = this.createRequest(soapBody);
       this.soap.makeRequest('core', this.serviceAddress, methodName, soapEnvelope).then(results => {
         resolve(results);
       }).catch(error => {
@@ -88,7 +88,7 @@ class Core {
   }
 
   getServices(includeCapability, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -134,7 +134,7 @@ class Core {
   }
 
   getCapabilities(callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -170,7 +170,7 @@ class Core {
 
   setHostname(name, callback) {
     name = name || '';
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -201,7 +201,7 @@ class Core {
   }
 
   setHostnameFromDHCP(fromDHCP, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -237,7 +237,7 @@ class Core {
   }
 
   getDNS(callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -249,7 +249,7 @@ class Core {
 
       this.buildRequest('GetDNS').then(result => {
         try {
-          let di = result['data']['DNSInformation'];
+          const di = result['data']['DNSInformation'];
 
           if (!di['SearchDomain']) {
             di['SearchDomain'] = [];
@@ -284,7 +284,7 @@ class Core {
   }
 
   setDNS(fromDHCP, searchDomain, DNSManual, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -320,14 +320,14 @@ class Core {
         }
 
         for (let i = 0; i < DNSManual.length; i++) {
-          let d = DNSManual[i];
+          const d = DNSManual[i];
 
           if (errMsg = Util.isInvalidValue(d, 'object')) {
             reject(new Error(`A "DNSManual" property for setDNS is invalid(${JSON.stringify(d)}): ` + errMsg));
             return;
           }
 
-          let type = d['type'];
+          const type = d['type'];
 
           if (errMsg = Util.isInvalidValue(type, 'string')) {
             reject(new Error('The "type" property for setDNS is invalid: ' + errMsg));
@@ -402,7 +402,7 @@ class Core {
   }
 
   setNTP(fromDHCP, NTPManual, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -424,14 +424,14 @@ class Core {
         }
 
         for (let i = 0; i < NTPManual.length; i++) {
-          let d = NTPManual[i];
+          const d = NTPManual[i];
 
           if (errMsg = Util.isInvalidValue(d, 'object')) {
             reject(new Error(`A "NTPManual" property for setNTP is invalid(${JSON.stringify(d)}): ` + errMsg));
             return;
           }
 
-          let type = d['type'];
+          const type = d['type'];
 
           if (errMsg = Util.isInvalidValue(type, 'string')) {
             reject(new Error('The "type" property for setNTP is invalid: ' + errMsg));
@@ -500,7 +500,7 @@ class Core {
   }
 
   setDynamicDNS(type, name, ttl, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -545,7 +545,7 @@ class Core {
       }
 
       soapBody += '</tds:SetDynamicDNS>';
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapEnvelope = this.createRequest(soapBody);
       return this.soap.makeRequest('core', this.serviceAddress, 'SetDynamicDNS', soapEnvelope).then(result => {
         resolve(result);
       }).catch(error => {
@@ -631,7 +631,7 @@ class Core {
   }
 
   getDot11Status(interfaceToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -667,7 +667,7 @@ class Core {
   }
 
   scanAvailableDot11Networks(interfaceToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -727,7 +727,7 @@ class Core {
   }
 
   getSystemDateAndTime(callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -738,11 +738,11 @@ class Core {
       }
 
       this.buildRequest('GetSystemDateAndTime').then(results => {
-        let parsed = this.parseGetSystemDateAndTime(results['data']);
+        const parsed = this.parseGetSystemDateAndTime(results['data']);
 
         if (parsed && parsed['date']) {
-          let deviceTime = parsed['date'].getTime();
-          let localTime = new Date().getTime();
+          const deviceTime = parsed['date'].getTime();
+          const localTime = new Date().getTime();
           this.timeDiff = deviceTime - localTime;
         }
 
@@ -764,38 +764,38 @@ class Core {
   }
 
   parseGetSystemDateAndTime(sdt) {
-    let s0 = sdt;
+    const s0 = sdt;
 
     if (!s0) {
       return null;
     }
 
-    let s1 = s0['GetSystemDateAndTimeResponse'];
+    const s1 = s0['GetSystemDateAndTimeResponse'];
 
     if (!s1) {
       return null;
     }
 
-    let s2 = s1['SystemDateAndTime'];
+    const s2 = s1['SystemDateAndTime'];
 
     if (!s2) {
       return null;
     }
 
-    let type = s2['DateTimeType'] || '';
+    const type = s2['DateTimeType'] || '';
     let dst = null;
 
     if (s2['DaylightSavings']) {
       dst = s2['DaylightSavings'] === 'true';
     }
 
-    let tz = s2['TimeZone'] && s2['TimeZone']['TZ'] ? s2['TimeZone']['TZ'] : '';
+    const tz = s2['TimeZone'] && s2['TimeZone']['TZ'] ? s2['TimeZone']['TZ'] : '';
     let date = null;
 
     if (s2['UTCDateTime']) {
-      let udt = s2['UTCDateTime'];
-      let t = udt['Time'];
-      let d = udt['Date'];
+      const udt = s2['UTCDateTime'];
+      const t = udt['Time'];
+      const d = udt['Date'];
 
       if (t && d && t['Hour'] && t['Minute'] && t['Second'] && d['Year'] && d['Month'] && d['Day']) {
         date = new Date();
@@ -808,11 +808,11 @@ class Core {
       }
     }
 
-    let res = {
-      'type': type,
-      'dst': dst,
-      'tz': tz,
-      'date': date
+    const res = {
+      type: type,
+      dst: dst,
+      tz: tz,
+      date: date
     };
     return res;
   }
@@ -842,7 +842,7 @@ class Core {
   }
 
   getSystemLog(logType, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -1003,7 +1003,7 @@ class Core {
   }
 
   getDot1XConfiguration(dot1XConfigurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {

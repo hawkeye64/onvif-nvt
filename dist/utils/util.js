@@ -5,11 +5,11 @@ const Crypto = require('crypto');
 const Xml2js = require('xml2js');
 
 function createUuidV4() {
-  let clist = Crypto.randomBytes(16).toString('hex').toLowerCase().split('');
+  const clist = Crypto.randomBytes(16).toString('hex').toLowerCase().split('');
   clist[12] = '4';
   clist[16] = (parseInt(clist[16], 16) & 3 | 8).toString(16);
-  let m = clist.join('').match(/^(.{8})(.{4})(.{4})(.{4})(.{12})/);
-  let uuid = [m[1], m[2], m[3], m[4], m[5]].join('-');
+  const m = clist.join('').match(/^(.{8})(.{4})(.{4})(.{4})(.{12})/);
+  const uuid = [m[1], m[2], m[3], m[4], m[5]].join('-');
   return uuid;
 }
 
@@ -24,7 +24,7 @@ function getTypeOfValue(value) {
     return 'array';
   }
 
-  let t = typeof value;
+  const t = typeof value;
 
   if (t === 'boolean') {
     return 'boolean';
@@ -70,12 +70,12 @@ function isXml(xml) {
     return false;
   }
 
-  let opts = {
-    'explicitRoot': false,
-    'explicitArray': false,
-    'ignoreAttrs': false,
-    'tagNameProcessors': [function (name) {
-      let m = name.match(/^([^\:]+)\:([^\:]+)$/);
+  const opts = {
+    explicitRoot: false,
+    explicitArray: false,
+    ignoreAttrs: false,
+    tagNameProcessors: [function (name) {
+      const m = name.match(/^([^\:]+)\:([^\:]+)$/);
       return m ? m[2] : name;
     }]
   };
@@ -92,7 +92,7 @@ function isXml(xml) {
 }
 
 function isInvalidValue(value, type, allowEmpty) {
-  let vt = getTypeOfValue(value);
+  const vt = getTypeOfValue(value);
 
   if (type === 'xml') {
     if (!isXml(value)) {

@@ -20,18 +20,18 @@ class Media {
   }
 
   createRequest(body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     });
     return soapEnvelope;
   }
 
   buildRequest(methodName, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -61,7 +61,7 @@ class Media {
         soapBody += `</trt:${methodName}>`;
       }
 
-      let soapEnvelope = this.createRequest(soapBody);
+      const soapEnvelope = this.createRequest(soapBody);
       this.soap.makeRequest('media', this.serviceAddress, methodName, soapEnvelope).then(results => {
         resolve(results);
       }).catch(error => {
@@ -81,7 +81,7 @@ class Media {
   }
 
   requestWithProfileToken(methodName, profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -117,7 +117,7 @@ class Media {
   }
 
   requestWithConfigurationToken(methodName, configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -153,7 +153,7 @@ class Media {
   }
 
   requestWithOptionalTokens(methodName, profileToken, configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -206,7 +206,7 @@ class Media {
   }
 
   addConfiguration(methodName, profileToken, configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -248,7 +248,7 @@ class Media {
   }
 
   createProfile(name, token, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -568,7 +568,7 @@ class Media {
   }
 
   getStreamUri(streamType, protocolType, profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -642,7 +642,7 @@ class Media {
   }
 
   getVideoSourceModes(videoSourceToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -690,7 +690,7 @@ class Media {
   }
 
   deleteOSD(OSDToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -726,7 +726,7 @@ class Media {
   }
 
   getOSDs(configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
@@ -768,7 +768,7 @@ class Media {
   }
 
   getOSD(OSDToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = '';
 
       if (typeof callback !== 'undefined' && callback !== null) {
