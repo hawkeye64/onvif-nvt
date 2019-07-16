@@ -102,8 +102,8 @@ class RunEvents {
       this.camera.events.createPullPointSubscription()
         .then(results => {
           console.log('CreatePullPointSubscription successful')
-          let response = results.data.CreatePullPointSubscriptionResponse
-          let reference = response.SubscriptionReference
+          const response = results.data.CreatePullPointSubscriptionResponse
+          const reference = response.SubscriptionReference
           this.subscriptionId = {}
           if (reference.ReferenceParameters) {
             this.subscriptionId = reference.ReferenceParameters.SubscriptionId

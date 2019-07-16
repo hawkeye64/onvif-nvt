@@ -66,7 +66,7 @@ class RunAnalytics {
     this.camera.profileList.forEach(profile => {
       if (!this.token) {
         if ('VideoAnalyticsConfiguration' in profile) {
-          let config = profile.VideoAnalyticsConfiguration
+          const config = profile.VideoAnalyticsConfiguration
           this.token = config.$.token
           console.log('Video Analytics Token:', this.token)
         }
@@ -98,9 +98,9 @@ class RunAnalytics {
       this.camera.analytics.getSupportedAnalyticsModules(this.token)
         .then(results => {
           console.log('GetSupportedAnalyticsModules successful')
-          let response = results['data']['GetSupportedAnalyticsModulesResponse']
-          let modules = response['SupportedAnalyticsModules']
-          let description = modules['AnalyticsModuleDescription']
+          const response = results['data']['GetSupportedAnalyticsModulesResponse']
+          const modules = response['SupportedAnalyticsModules']
+          const description = modules['AnalyticsModuleDescription']
           description.forEach(desc => {
             if (!this.type) {
               this.type = desc.$.Name
@@ -123,8 +123,8 @@ class RunAnalytics {
       this.camera.analytics.getAnalyticsModules(this.token)
         .then(results => {
           console.log('GetAnalyticsModules successful')
-          let response = results['data']['GetAnalyticsModulesResponse']
-          let analyticsModule = response['AnalyticsModule']
+          const response = results['data']['GetAnalyticsModulesResponse']
+          const analyticsModule = response['AnalyticsModule']
           if (analyticsModule && analyticsModule.length > 0) {
 
           }

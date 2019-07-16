@@ -37,7 +37,7 @@ expect.extend({
 
 expect.extend({
   toBeArray (received, argument) {
-    let pass = Array.isArray(received)
+    const pass = Array.isArray(received)
     if (pass) {
       return { // when used with expect(x).not.matcher
         message: () =>
@@ -92,12 +92,12 @@ describe('#Media', () => {
   test('Camera.media.getProfiles (Promise)', () => {
     return Camera.media.getProfiles()
       .then(results => {
-        let response = results.data.GetProfilesResponse
+        const response = results.data.GetProfilesResponse
         expect(response).toHaveProperty('Profiles')
-        let profiles = response.Profiles
+        const profiles = response.Profiles
         expect(profiles.length).toBeTruthy()
         if (profiles.length > 0) {
-          let profile = profiles[0]
+          const profile = profiles[0]
           expect(profile).toHaveProperty('$')
           expect(profile.$).toHaveProperty('fixed')
           expect(profile.$).toHaveProperty('token')
@@ -235,12 +235,12 @@ describe('#Media', () => {
   test('Camera.media.getProfiles (Callback)', (done) => {
     Camera.media.getProfiles((error, results) => {
       if (!error) {
-        let response = results.data.GetProfilesResponse
+        const response = results.data.GetProfilesResponse
         expect(response).toHaveProperty('Profiles')
-        let profiles = response.Profiles
+        const profiles = response.Profiles
         expect(profiles.length).toBeTruthy()
         if (profiles.length > 0) {
-          let profile = profiles[0]
+          const profile = profiles[0]
           expect(profile).toHaveProperty('$')
           expect(profile.$).toHaveProperty('fixed')
           expect(profile.$).toHaveProperty('token')
@@ -387,9 +387,9 @@ describe('#Media', () => {
   test('Camera.media.getProfile (Promise)', () => {
     return Camera.media.getProfile(profileToken)
       .then(results => {
-        let response = results.data.GetProfileResponse
+        const response = results.data.GetProfileResponse
         expect(response).toHaveProperty('Profile')
-        let profile = response.Profile
+        const profile = response.Profile
         expect(profile).toHaveProperty('$')
         expect(profile.$).toHaveProperty('fixed')
         expect(profile.$).toHaveProperty('token')
@@ -524,9 +524,9 @@ describe('#Media', () => {
   test('Camera.media.getProfile (Callback)', (done) => {
     Camera.media.getProfile(profileToken, (error, results) => {
       if (!error) {
-        let response = results.data.GetProfileResponse
+        const response = results.data.GetProfileResponse
         expect(response).toHaveProperty('Profile')
-        let profile = response.Profile
+        const profile = response.Profile
         expect(profile).toHaveProperty('$')
         expect(profile.$).toHaveProperty('fixed')
         expect(profile.$).toHaveProperty('token')
@@ -684,14 +684,14 @@ describe('#Media', () => {
   test('Camera.media.getVideoSources (Promise)', () => {
     return Camera.media.getVideoSources()
       .then(results => {
-        let response = results.data.GetVideoSourcesResponse
+        const response = results.data.GetVideoSourcesResponse
         expect(response).toHaveProperty('VideoSources')
-        let videoSources = response.VideoSources
+        const videoSources = response.VideoSources
         expect(videoSources).toHaveProperty('$')
         expect(videoSources.$).toHaveProperty('token')
         expect(videoSources).toHaveProperty('Framerate')
         expect(videoSources).toHaveProperty('Imaging')
-        let imaging = videoSources.Imaging
+        const imaging = videoSources.Imaging
         expect(imaging).toHaveProperty('BacklightCompensation')
         expect(imaging.BacklightCompensation).toHaveProperty('Level')
         expect(imaging.BacklightCompensation).toHaveProperty('Mode')
@@ -739,14 +739,14 @@ describe('#Media', () => {
   test('Camera.media.getVideoSources (Callback)', (done) => {
     Camera.media.getVideoSources((error, results) => {
       if (!error) {
-        let response = results.data.GetVideoSourcesResponse
+        const response = results.data.GetVideoSourcesResponse
         expect(response).toHaveProperty('VideoSources')
-        let videoSources = response.VideoSources
+        const videoSources = response.VideoSources
         expect(videoSources).toHaveProperty('$')
         expect(videoSources.$).toHaveProperty('token')
         expect(videoSources).toHaveProperty('Framerate')
         expect(videoSources).toHaveProperty('Imaging')
-        let imaging = videoSources.Imaging
+        const imaging = videoSources.Imaging
         expect(imaging).toHaveProperty('BacklightCompensation')
         expect(imaging.BacklightCompensation).toHaveProperty('Level')
         expect(imaging.BacklightCompensation).toHaveProperty('Mode')
@@ -803,9 +803,9 @@ describe('#Media', () => {
   test('Camera.media.getVideoSourceConfigurations (Promise)', () => {
     return Camera.media.getVideoSourceConfigurations()
       .then(results => {
-        let response = results.data.GetVideoSourceConfigurationsResponse
+        const response = results.data.GetVideoSourceConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Bounds')
@@ -823,9 +823,9 @@ describe('#Media', () => {
   test('Camera.media.getVideoSourceConfigurations (Callback)', (done) => {
     Camera.media.getVideoSourceConfigurations((error, results) => {
       if (!error) {
-        let response = results.data.GetVideoSourceConfigurationsResponse
+        const response = results.data.GetVideoSourceConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Bounds')
@@ -852,9 +852,9 @@ describe('#Media', () => {
   test('Camera.media.getVideoEncoderConfigurations (Promise)', () => {
     return Camera.media.getVideoEncoderConfigurations()
       .then(results => {
-        let response = results.data.GetVideoEncoderConfigurationsResponse
+        const response = results.data.GetVideoEncoderConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config.length).toBeTruthy()
       })
   })
@@ -862,9 +862,9 @@ describe('#Media', () => {
   test('Camera.media.getVideoEncoderConfigurations (Callback)', (done) => {
     Camera.media.getVideoEncoderConfigurations((error, results) => {
       if (!error) {
-        let response = results.data.GetVideoEncoderConfigurationsResponse
+        const response = results.data.GetVideoEncoderConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config.length).toBeTruthy()
       }
       done()
@@ -881,9 +881,9 @@ describe('#Media', () => {
   test('Camera.media.getAudioSources (Promise)', () => {
     return Camera.media.getAudioSources()
       .then(results => {
-        let response = results.data.GetAudioSourcesResponse
+        const response = results.data.GetAudioSourcesResponse
         expect(response).toHaveProperty('AudioSources')
-        let sources = response.AudioSources
+        const sources = response.AudioSources
         expect(sources).toHaveProperty('$')
         expect(sources.$).toHaveProperty('token')
         expect(sources).toHaveProperty('Channels')
@@ -893,9 +893,9 @@ describe('#Media', () => {
   test('Camera.media.getAudioSources (Callback)', (done) => {
     Camera.media.getAudioSources((error, results) => {
       if (!error) {
-        let response = results.data.GetAudioSourcesResponse
+        const response = results.data.GetAudioSourcesResponse
         expect(response).toHaveProperty('AudioSources')
-        let sources = response.AudioSources
+        const sources = response.AudioSources
         expect(sources).toHaveProperty('$')
         expect(sources.$).toHaveProperty('token')
         expect(sources).toHaveProperty('Channels')
@@ -914,9 +914,9 @@ describe('#Media', () => {
   test('Camera.media.getAudioSourceConfigurations (Promise)', () => {
     return Camera.media.getAudioSourceConfigurations()
       .then(results => {
-        let response = results.data.GetAudioSourceConfigurationsResponse
+        const response = results.data.GetAudioSourceConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Name')
@@ -928,9 +928,9 @@ describe('#Media', () => {
   test('Camera.media.getAudioSourceConfigurations (Callback)', (done) => {
     Camera.media.getAudioSourceConfigurations((error, results) => {
       if (!error) {
-        let response = results.data.GetAudioSourceConfigurationsResponse
+        const response = results.data.GetAudioSourceConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Name')
@@ -951,9 +951,9 @@ describe('#Media', () => {
   test('Camera.media.getAudioEncoderConfigurations (Promise)', () => {
     return Camera.media.getAudioEncoderConfigurations()
       .then(results => {
-        let response = results.data.GetAudioEncoderConfigurationsResponse
+        const response = results.data.GetAudioEncoderConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Bitrate')
@@ -975,9 +975,9 @@ describe('#Media', () => {
   test('Camera.media.getAudioEncoderConfigurations (Callback)', (done) => {
     Camera.media.getAudioEncoderConfigurations((error, results) => {
       if (!error) {
-        let response = results.data.GetAudioEncoderConfigurationsResponse
+        const response = results.data.GetAudioEncoderConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Bitrate')
@@ -1008,9 +1008,9 @@ describe('#Media', () => {
   test('Camera.media.getVideoAnalyticsConfigurations (Promise)', () => {
     return Camera.media.getVideoAnalyticsConfigurations()
       .then(results => {
-        let response = results.data.GetVideoAnalyticsConfigurationsResponse
+        const response = results.data.GetVideoAnalyticsConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('AnalyticsEngineConfiguration')
@@ -1027,9 +1027,9 @@ describe('#Media', () => {
   test('Camera.media.getVideoAnalyticsConfigurations (Callback)', (done) => {
     Camera.media.getVideoAnalyticsConfigurations((error, results) => {
       if (!error) {
-        let response = results.data.GetVideoAnalyticsConfigurationsResponse
+        const response = results.data.GetVideoAnalyticsConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('AnalyticsEngineConfiguration')
@@ -1055,9 +1055,9 @@ describe('#Media', () => {
   test('Camera.media.getMetadataConfigurations (Promise)', () => {
     return Camera.media.getMetadataConfigurations()
       .then(results => {
-        let response = results.data.GetMetadataConfigurationsResponse
+        const response = results.data.GetMetadataConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Analytics')
@@ -1081,9 +1081,9 @@ describe('#Media', () => {
   test('Camera.media.getMetadataConfigurations (Callback)', (done) => {
     Camera.media.getMetadataConfigurations((error, results) => {
       if (!error) {
-        let response = results.data.GetMetadataConfigurationsResponse
+        const response = results.data.GetMetadataConfigurationsResponse
         expect(response).toHaveProperty('Configurations')
-        let config = response.Configurations
+        const config = response.Configurations
         expect(config).toHaveProperty('$')
         expect(config.$).toHaveProperty('token')
         expect(config).toHaveProperty('Analytics')
@@ -1116,10 +1116,10 @@ describe('#Media', () => {
   test('Camera.media.getOSDs (Promise)', () => {
     return Camera.media.getOSDs()
       .then(results => {
-        let response = results.data.GetOSDsResponse
+        const response = results.data.GetOSDsResponse
         expect(response).toHaveProperty('OSDs')
         expect(response.OSDs).toBeArray()
-        let osd = response.OSDs[0]
+        const osd = response.OSDs[0]
         expect(osd).toHaveProperty('$')
         expect(osd.$).toHaveProperty('token')
         expect(osd).toHaveProperty('Position')
@@ -1150,10 +1150,10 @@ describe('#Media', () => {
   test('Camera.media.getOSDs (Callback)', (done) => {
     Camera.media.getOSDs(null, (error, results) => {
       if (!error) {
-        let response = results.data.GetOSDsResponse
+        const response = results.data.GetOSDsResponse
         expect(response).toHaveProperty('OSDs')
         expect(response.OSDs).toBeArray()
-        let osd = response.OSDs[0]
+        const osd = response.OSDs[0]
         expect(osd).toHaveProperty('$')
         expect(osd.$).toHaveProperty('token')
         expect(osd).toHaveProperty('Position')

@@ -27,7 +27,7 @@ function run () {
     // this should be the last test (obviously)
     return testCoreSystemReboot()
   }).then(() => {
-    let count = apiErrors.length
+    const count = apiErrors.length
     if (count) {
       console.error(`All tests ran, ${count} failed`)
       apiErrors.forEach(api => {
@@ -50,7 +50,7 @@ function run () {
 
 function testCore () {
   return new Promise((resolve, reject) => {
-    let RunCore = require('./run.core')
+    const RunCore = require('./run.core')
     RunCore.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
@@ -64,7 +64,7 @@ function testCore () {
 
 function testPtz () {
   return new Promise((resolve, reject) => {
-    let RunPtz = require('./run.ptz')
+    const RunPtz = require('./run.ptz')
     RunPtz.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
@@ -78,7 +78,7 @@ function testPtz () {
 
 function testMedia () {
   return new Promise((resolve, reject) => {
-    let RunMedia = require('./run.media')
+    const RunMedia = require('./run.media')
     RunMedia.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
@@ -92,7 +92,7 @@ function testMedia () {
 
 function testEvents () {
   return new Promise((resolve, reject) => {
-    let RunEvents = require('./run.events')
+    const RunEvents = require('./run.events')
     RunEvents.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
@@ -106,7 +106,7 @@ function testEvents () {
 
 function testAnalytics () {
   return new Promise((resolve, reject) => {
-    let RunAnalytics = require('./run.analytics')
+    const RunAnalytics = require('./run.analytics')
     RunAnalytics.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
@@ -120,7 +120,7 @@ function testAnalytics () {
 
 function testSnapshot () {
   return new Promise((resolve, reject) => {
-    let RunSnapshot = require('./run.snapshot')
+    const RunSnapshot = require('./run.snapshot')
     RunSnapshot.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
@@ -134,7 +134,7 @@ function testSnapshot () {
 
 function testCoreSystemReboot () {
   return new Promise((resolve, reject) => {
-    let RunReboot = require('./run.reboot')
+    const RunReboot = require('./run.reboot')
     RunReboot.run()
       .then(results => {
         apiErrors = apiErrors.concat(results)
