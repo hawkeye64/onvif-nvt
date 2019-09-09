@@ -90,11 +90,11 @@ class Ptz {
 
     if (typeof vectors !== 'undefined' && vectors !== null) {
       if ('x' in vectors && 'y' in vectors) {
-        soapBody += '<tt:PanTilt x="' + vectors['x'] + '" y="' + vectors['y'] + '"/>';
+        soapBody += '<tt:PanTilt x="' + vectors.x + '" y="' + vectors.y + '"/>';
       }
 
       if ('z' in vectors) {
-        soapBody += '<tt:Zoom x="' + vectors['z'] + '"/>';
+        soapBody += '<tt:Zoom x="' + vectors.z + '"/>';
       }
     }
 
@@ -111,7 +111,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getNode is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getNode is invalid:' + errMsg));
           return;
         }
       }
@@ -151,7 +151,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getConfiguration is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getConfiguration is invalid:' + errMsg));
           return;
         }
       }
@@ -187,7 +187,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getConfigurationOptions is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getConfigurationOptions is invalid:' + errMsg));
           return;
         }
       }
@@ -223,7 +223,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setConfiguration is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setConfiguration is invalid:' + errMsg));
           return;
         }
       }
@@ -266,7 +266,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getCompatibleConfigurations is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getCompatibleConfigurations is invalid:' + errMsg));
           return;
         }
       }
@@ -303,7 +303,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for absoluteMove is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for absoluteMove is invalid:' + errMsg));
           return;
         }
       }
@@ -358,7 +358,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for relativeMove is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for relativeMove is invalid:' + errMsg));
           return;
         }
       }
@@ -418,7 +418,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for continuousMove is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for continuousMove is invalid:' + errMsg));
           return;
         }
       }
@@ -478,7 +478,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for geoMove is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for geoMove is invalid:' + errMsg));
           return;
         }
       }
@@ -585,7 +585,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for stop is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for stop is invalid:' + errMsg));
           return;
         }
       }
@@ -645,7 +645,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getStatus is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getStatus is invalid:' + errMsg));
           return;
         }
       }
@@ -682,7 +682,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setPreset is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setPreset is invalid:' + errMsg));
           return;
         }
       }
@@ -747,7 +747,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getPresets is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getPresets is invalid:' + errMsg));
           return;
         }
       }
@@ -784,7 +784,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for gotoPreset is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for gotoPreset is invalid:' + errMsg));
           return;
         }
       }
@@ -839,7 +839,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for removePreset is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for removePreset is invalid:' + errMsg));
           return;
         }
       }
@@ -882,7 +882,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for gotoHomePosition is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for gotoHomePosition is invalid:' + errMsg));
           return;
         }
       }
@@ -931,7 +931,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setHomePosition is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setHomePosition is invalid:' + errMsg));
           return;
         }
       }
@@ -968,7 +968,7 @@ class Ptz {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for sendAuxiliaryCommand is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for sendAuxiliaryCommand is invalid:' + errMsg));
           return;
         }
       }

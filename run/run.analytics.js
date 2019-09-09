@@ -98,9 +98,9 @@ class RunAnalytics {
       this.camera.analytics.getSupportedAnalyticsModules(this.token)
         .then(results => {
           console.log('GetSupportedAnalyticsModules successful')
-          const response = results['data']['GetSupportedAnalyticsModulesResponse']
-          const modules = response['SupportedAnalyticsModules']
-          const description = modules['AnalyticsModuleDescription']
+          const response = results.data.GetSupportedAnalyticsModulesResponse
+          const modules = response.SupportedAnalyticsModules
+          const description = modules.AnalyticsModuleDescription
           description.forEach(desc => {
             if (!this.type) {
               this.type = desc.$.Name
@@ -123,8 +123,8 @@ class RunAnalytics {
       this.camera.analytics.getAnalyticsModules(this.token)
         .then(results => {
           console.log('GetAnalyticsModules successful')
-          const response = results['data']['GetAnalyticsModulesResponse']
-          const analyticsModule = response['AnalyticsModule']
+          const response = results.data.GetAnalyticsModulesResponse
+          const analyticsModule = response.AnalyticsModule
           if (analyticsModule && analyticsModule.length > 0) {
 
           }

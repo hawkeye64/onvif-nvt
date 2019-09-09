@@ -253,7 +253,7 @@ class Media {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for createProfile is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for createProfile is invalid:' + errMsg));
           return;
         }
       }
@@ -573,7 +573,7 @@ class Media {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getStreamUri is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getStreamUri is invalid:' + errMsg));
           return;
         }
       }
@@ -647,13 +647,13 @@ class Media {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getVideoSourceModes is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getVideoSourceModes is invalid:' + errMsg));
           return;
         }
       }
 
       if (errMsg = Util.isInvalidValue(videoSourceToken, 'string')) {
-        reject(new Error(`The "videoSourceToken" argument for getVideoSourceModes is invalid: ` + errMsg));
+        reject(new Error('The "videoSourceToken" argument for getVideoSourceModes is invalid: ' + errMsg));
         return;
       }
 
@@ -695,13 +695,13 @@ class Media {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for deleteOSD is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for deleteOSD is invalid:' + errMsg));
           return;
         }
       }
 
       if (errMsg = Util.isInvalidValue(OSDToken, 'string')) {
-        reject(new Error(`The "OSDToken" argument for deleteOSD is invalid: ` + errMsg));
+        reject(new Error('The "OSDToken" argument for deleteOSD is invalid: ' + errMsg));
         return;
       }
 
@@ -731,14 +731,14 @@ class Media {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getOSDs is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getOSDs is invalid:' + errMsg));
           return;
         }
       }
 
       if (typeof configurationToken !== 'undefined' && configurationToken !== null) {
         if (errMsg = Util.isInvalidValue(configurationToken, 'string')) {
-          reject(new Error(`The "configurationToken" argument for getOSDs is invalid: ` + errMsg));
+          reject(new Error('The "configurationToken" argument for getOSDs is invalid: ' + errMsg));
           return;
         }
       }
@@ -773,13 +773,13 @@ class Media {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getOSD is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getOSD is invalid:' + errMsg));
           return;
         }
       }
 
       if (errMsg = Util.isInvalidValue(OSDToken, 'string')) {
-        reject(new Error(`The "OSDToken" argument for getOSD is invalid: ` + errMsg));
+        reject(new Error('The "OSDToken" argument for getOSD is invalid: ' + errMsg));
         return;
       }
 

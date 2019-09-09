@@ -23,7 +23,7 @@ class Discovery {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for startProbe is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for startProbe is invalid:' + errMsg));
           return;
         }
       }
@@ -91,7 +91,7 @@ class Discovery {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for stopProbe is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for stopProbe is invalid:' + errMsg));
           return;
         }
       }
@@ -198,16 +198,16 @@ class Discovery {
 
     try {
       if ('Body' in parsed) {
-        const body = parsed['Body'];
+        const body = parsed.Body;
 
         if ('ProbeMatches' in body) {
-          const probeMatches = body['ProbeMatches'];
+          const probeMatches = body.ProbeMatches;
 
           if (probeMatches !== undefined) {
             if ('ProbeMatch' in probeMatches) {
-              const probeMatch = probeMatches['ProbeMatch'];
-              urn = probeMatch['EndpointReference']['Address'];
-              xaddrs = probeMatch['XAddrs'].split(/\s+/);
+              const probeMatch = probeMatches.ProbeMatch;
+              urn = probeMatch.EndpointReference.Address;
+              xaddrs = probeMatch.XAddrs.split(/\s+/);
 
               if (xaddrs.length > 1) {
                 xaddrs.forEach(addr => {
@@ -221,16 +221,16 @@ class Discovery {
                 service = xaddrs[0];
               }
 
-              if (typeof probeMatch['Scopes'] === 'string') {
-                scopes = probeMatch['Scopes'].split(/\s+/);
-              } else if (typeof probeMatch['Scopes'] === 'object' && typeof probeMatch['Scopes']['_'] === 'string') {
-                scopes = probeMatch['Scopes']['_'].split(/\s+/);
+              if (typeof probeMatch.Scopes === 'string') {
+                scopes = probeMatch.Scopes.split(/\s+/);
+              } else if (typeof probeMatch.Scopes === 'object' && typeof probeMatch.Scopes._ === 'string') {
+                scopes = probeMatch.Scopes._.split(/\s+/);
               }
 
-              if (typeof probeMatch['Types'] === 'string') {
-                types = probeMatch['Types'].split(/\s+/);
-              } else if (typeof probeMatch['Types'] === 'object' && typeof probeMatch['Types']['_'] === 'string') {
-                  types = probeMatch['Types']['_'].split(/\s+/);
+              if (typeof probeMatch.Types === 'string') {
+                types = probeMatch.Types.split(/\s+/);
+              } else if (typeof probeMatch.Types === 'object' && typeof probeMatch.Types._ === 'string') {
+                  types = probeMatch.Types._.split(/\s+/);
                 }
             }
           }

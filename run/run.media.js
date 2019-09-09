@@ -105,7 +105,7 @@ class RunMedia {
           const profiles = response.Profiles
           if (profiles.length > 0) {
             const profile = profiles[0]
-            this.profileToken = profile['$']['token']
+            this.profileToken = profile.$.token
           }
           console.log('GetProfiles successful')
           resolve(results)

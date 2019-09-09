@@ -175,18 +175,18 @@ class Core {
    * @param {string} body The body of the xml.
    */
   createRequest (body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     })
     return soapEnvelope
   };
 
   buildRequest (methodName, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
@@ -213,7 +213,7 @@ class Core {
         soapBody += xml
         soapBody += `&lt;/tds:${methodName}>`
       }
-      let soapEnvelope = this.createRequest(soapBody)
+      const soapEnvelope = this.createRequest(soapBody)
       this.soap.makeRequest('core', this.serviceAddress, methodName, soapEnvelope)
         .then(results => {
           resolve(results)
@@ -275,11 +275,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getServices (includeCapability, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getServices is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getServices is invalid:' + errMsg))
           return
         }
       }
@@ -333,11 +333,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getCapabilities (callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getCapabilities is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getCapabilities is invalid:' + errMsg))
           return
         }
       }
@@ -387,11 +387,11 @@ class Core {
    */
   setHostname (name, callback) {
     name = name || ''
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for setHostname is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for setHostname is invalid:' + errMsg))
           return
         }
       }
@@ -429,11 +429,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   setHostnameFromDHCP (fromDHCP, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for setHostnameFromDHCP is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for setHostnameFromDHCP is invalid:' + errMsg))
           return
         }
       }
@@ -471,31 +471,31 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDNS (callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getDNS is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getDNS is invalid:' + errMsg))
           return
         }
       }
       this.buildRequest('GetDNS')
         .then((result) => {
           try {
-            let di = result['data']['DNSInformation']
-            if (!di['SearchDomain']) {
-              di['SearchDomain'] = []
+            const di = result.data.DNSInformation
+            if (!di.SearchDomain) {
+              di.SearchDomain = []
             }
-            else if (!Array.isArray(di['SearchDomain'])) {
-              di['SearchDomain'] = [di['SearchDomain']]
+            else if (!Array.isArray(di.SearchDomain)) {
+              di.SearchDomain = [di.SearchDomain]
             }
-            if (!di['DNSManual']) {
-              di['DNSManual'] = []
+            if (!di.DNSManual) {
+              di.DNSManual = []
             }
-            else if (!Array.isArray(di['DNSManual'])) {
-              di['DNSManual'] = [di['DNSManual']]
+            else if (!Array.isArray(di.DNSManual)) {
+              di.DNSManual = [di.DNSManual]
             }
-            result['data'] = di
+            result.data = di
           }
           catch (e) {}
           resolve(result)
@@ -535,11 +535,11 @@ class Core {
    * ]
    */
   setDNS (fromDHCP, searchDomain, DNSManual, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for setDNS is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for setDNS is invalid:' + errMsg))
           return
         }
       }
@@ -568,13 +568,13 @@ class Core {
         }
 
         for (let i = 0; i &lt; DNSManual.length; i++) {
-          let d = DNSManual[i]
+          const d = DNSManual[i]
           if ((errMsg = Util.isInvalidValue(d, 'object'))) {
             reject(new Error(`A "DNSManual" property for setDNS is invalid(${JSON.stringify(d)}): ` + errMsg))
             return
           }
 
-          let type = d['type']
+          const type = d.type
           if ((errMsg = Util.isInvalidValue(type, 'string'))) {
             reject(new Error('The "type" property for setDNS is invalid: ' + errMsg))
             return
@@ -585,13 +585,13 @@ class Core {
           }
 
           if (type === 'IPv4') {
-            if ((errMsg = Util.isInvalidValue(d['IPv4Address'], 'string'))) {
+            if ((errMsg = Util.isInvalidValue(d.IPv4Address, 'string'))) {
               reject(new Error('The "IPv4Address" property for setDNS is invalid: ' + errMsg))
               return
             }
           }
           else if (type === 'IPv6') {
-            if ((errMsg = Util.isInvalidValue(d['IPv6Address'], 'string'))) {
+            if ((errMsg = Util.isInvalidValue(d.IPv6Address, 'string'))) {
               reject(new Error('The "IPv6Address" property for setDNS is invalid: ' + errMsg))
               return
             }
@@ -614,12 +614,12 @@ class Core {
         else {
           DNSManual.forEach((d) => {
             soapBody += '&lt;tds:DNSManual>'
-            soapBody += '&lt;tt:Type>' + d['type'] + '&lt;/tt:Type>'
-            if (d['type'] === 'IPv4') {
-              soapBody += '&lt;tt:IPv4Address>' + d['IPv4Address'] + '&lt;/tt:IPv4Address>'
+            soapBody += '&lt;tt:Type>' + d.type + '&lt;/tt:Type>'
+            if (d.type === 'IPv4') {
+              soapBody += '&lt;tt:IPv4Address>' + d.IPv4Address + '&lt;/tt:IPv4Address>'
             }
             else {
-              soapBody += '&lt;tt:IPv6Address>' + d['IPv6Address'] + '&lt;/tt:IPv6Address>'
+              soapBody += '&lt;tt:IPv6Address>' + d.IPv6Address + '&lt;/tt:IPv6Address>'
             }
             soapBody += '&lt;/tds:DNSManual>'
           })
@@ -675,11 +675,11 @@ class Core {
    * ]
    */
   setNTP (fromDHCP, NTPManual, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for setNTP is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for setNTP is invalid:' + errMsg))
           return
         }
       }
@@ -695,13 +695,13 @@ class Core {
         }
 
         for (let i = 0; i &lt; NTPManual.length; i++) {
-          let d = NTPManual[i]
+          const d = NTPManual[i]
           if ((errMsg = Util.isInvalidValue(d, 'object'))) {
             reject(new Error(`A "NTPManual" property for setNTP is invalid(${JSON.stringify(d)}): ` + errMsg))
             return
           }
 
-          let type = d['type']
+          const type = d.type
           if ((errMsg = Util.isInvalidValue(type, 'string'))) {
             reject(new Error('The "type" property for setNTP is invalid: ' + errMsg))
             return
@@ -712,13 +712,13 @@ class Core {
           }
 
           if (type === 'IPv4') {
-            if ((errMsg = Util.isInvalidValue(d['IPv4Address'], 'string'))) {
+            if ((errMsg = Util.isInvalidValue(d.IPv4Address, 'string'))) {
               reject(new Error('The "IPv4Address" property for setNTP is invalid: ' + errMsg))
               return
             }
           }
           else if (type === 'IPv6') {
-            if ((errMsg = Util.isInvalidValue(d['IPv6Address'], 'string'))) {
+            if ((errMsg = Util.isInvalidValue(d.IPv6Address, 'string'))) {
               reject(new Error('The "IPv6Address" property for setNTP is invalid: ' + errMsg))
               return
             }
@@ -735,12 +735,12 @@ class Core {
         else {
           NTPManual.forEach((d) => {
             soapBody += '&lt;tds:NTPManual>'
-            soapBody += '&lt;tt:Type>' + d['type'] + '&lt;/tt:Type>'
-            if (d['type'] === 'IPv4') {
-              soapBody += '&lt;tt:IPv4Address>' + d['IPv4Address'] + '&lt;/tt:IPv4Address>'
+            soapBody += '&lt;tt:Type>' + d.type + '&lt;/tt:Type>'
+            if (d.type === 'IPv4') {
+              soapBody += '&lt;tt:IPv4Address>' + d.IPv4Address + '&lt;/tt:IPv4Address>'
             }
             else {
-              soapBody += '&lt;tt:IPv6Address>' + d['IPv6Address'] + '&lt;/tt:IPv6Address>'
+              soapBody += '&lt;tt:IPv6Address>' + d.IPv6Address + '&lt;/tt:IPv6Address>'
             }
             soapBody += '&lt;/tds:NTPManual>'
           })
@@ -787,11 +787,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   setDynamicDNS (type, name, ttl, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for setDynamicDNS is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for setDynamicDNS is invalid:' + errMsg))
           return
         }
       }
@@ -828,7 +828,7 @@ class Core {
         soapBody += '&lt;tt:TTL>' + ttl + '&lt;/tt:TTL>'
       }
       soapBody += '&lt;/tds:SetDynamicDNS>'
-      let soapEnvelope = this.createRequest(soapBody)
+      const soapEnvelope = this.createRequest(soapBody)
 
       return this.soap.makeRequest('core', this.serviceAddress, 'SetDynamicDNS', soapEnvelope)
         .then((result) => {
@@ -948,11 +948,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDot11Status (interfaceToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getDot11Status is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getDot11Status is invalid:' + errMsg))
           return
         }
       }
@@ -998,11 +998,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   scanAvailableDot11Networks (interfaceToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for scanAvailableDot11Networks is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for scanAvailableDot11Networks is invalid:' + errMsg))
           return
         }
       }
@@ -1107,21 +1107,21 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemDateAndTime (callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getSystemDateAndTime is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getSystemDateAndTime is invalid:' + errMsg))
           return
         }
       }
 
       this.buildRequest('GetSystemDateAndTime')
         .then(results => {
-          let parsed = this.parseGetSystemDateAndTime(results['data'])
-          if (parsed &amp;&amp; parsed['date']) {
-            let deviceTime = parsed['date'].getTime()
-            let localTime = (new Date()).getTime()
+          const parsed = this.parseGetSystemDateAndTime(results.data)
+          if (parsed &amp;&amp; parsed.date) {
+            const deviceTime = parsed.date.getTime()
+            const localTime = (new Date()).getTime()
             this.timeDiff = deviceTime - localTime
             // console.log('this.timeDiff', this.timeDiff)
           }
@@ -1148,45 +1148,45 @@ class Core {
    * @param {object} sdt GetSystemDateAndTimeResponse converted to JSON.
    */
   parseGetSystemDateAndTime (sdt) {
-    let s0 = sdt
+    const s0 = sdt
     if (!s0) {
       return null
     }
-    let s1 = s0['GetSystemDateAndTimeResponse']
+    const s1 = s0.GetSystemDateAndTimeResponse
     if (!s1) {
       return null
     }
-    let s2 = s1['SystemDateAndTime']
+    const s2 = s1.SystemDateAndTime
     if (!s2) {
       return null
     }
 
-    let type = s2['DateTimeType'] || ''
+    const type = s2.DateTimeType || ''
     let dst = null
-    if (s2['DaylightSavings']) {
-      dst = (s2['DaylightSavings'] === 'true')
+    if (s2.DaylightSavings) {
+      dst = (s2.DaylightSavings === 'true')
     }
-    let tz = (s2['TimeZone'] &amp;&amp; s2['TimeZone']['TZ']) ? s2['TimeZone']['TZ'] : ''
+    const tz = (s2.TimeZone &amp;&amp; s2.TimeZone.TZ) ? s2.TimeZone.TZ : ''
     let date = null
-    if (s2['UTCDateTime']) {
-      let udt = s2['UTCDateTime']
-      let t = udt['Time']
-      let d = udt['Date']
-      if (t &amp;&amp; d &amp;&amp; t['Hour'] &amp;&amp; t['Minute'] &amp;&amp; t['Second'] &amp;&amp; d['Year'] &amp;&amp; d['Month'] &amp;&amp; d['Day']) {
+    if (s2.UTCDateTime) {
+      const udt = s2.UTCDateTime
+      const t = udt.Time
+      const d = udt.Date
+      if (t &amp;&amp; d &amp;&amp; t.Hour &amp;&amp; t.Minute &amp;&amp; t.Second &amp;&amp; d.Year &amp;&amp; d.Month &amp;&amp; d.Day) {
         date = new Date()
-        date.setUTCFullYear(parseInt(d['Year'], 10))
-        date.setUTCMonth(parseInt(d['Month'], 10) - 1)
-        date.setUTCDate(parseInt(d['Day'], 10))
-        date.setUTCHours(parseInt(t['Hour'], 10))
-        date.setUTCMinutes(parseInt(t['Minute'], 10))
-        date.setUTCSeconds(parseInt(t['Second'], 10))
+        date.setUTCFullYear(parseInt(d.Year, 10))
+        date.setUTCMonth(parseInt(d.Month, 10) - 1)
+        date.setUTCDate(parseInt(d.Day, 10))
+        date.setUTCHours(parseInt(t.Hour, 10))
+        date.setUTCMinutes(parseInt(t.Minute, 10))
+        date.setUTCSeconds(parseInt(t.Second, 10))
       }
     }
-    let res = {
-      'type': type,
-      'dst': dst,
-      'tz': tz,
-      'date': date
+    const res = {
+      type: type,
+      dst: dst,
+      tz: tz,
+      date: date
     }
     return res
   };
@@ -1225,11 +1225,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getSystemLog (logType, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getSystemLog is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getSystemLog is invalid:' + errMsg))
           return
         }
       }
@@ -1455,11 +1455,11 @@ class Core {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getDot1XConfiguration (dot1XConfigurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getDot11XConfiguration is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getDot11XConfiguration is invalid:' + errMsg))
           return
         }
       }
@@ -1677,13 +1677,13 @@ module.exports = Core
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 02 2019 08:49:48 GMT-0600 (MDT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Sep 09 2019 07:23:06 GMT-0600 (MDT)
 </footer>
 
 <script> prettyPrint(); </script>

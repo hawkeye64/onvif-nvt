@@ -63,8 +63,8 @@ class Soap {
     soap += ' xmlns:tt="http://www.onvif.org/ver10/schema"';
     soap += ' xmlns:ter="http://www.onvif.org/ver10/error"';
 
-    if (params['xmlns'] && Array.isArray(params['xmlns'])) {
-      params['xmlns'].forEach(ns => {
+    if (params.xmlns && Array.isArray(params.xmlns)) {
+      params.xmlns.forEach(ns => {
         const index = soap.indexOf(ns);
 
         if (index < 0) {
@@ -90,14 +90,14 @@ class Soap {
     soap += '<wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>';
     soap += '</wsa5:ReplyTo>';
 
-    if (params['username']) {
-      this.username = params['username'];
-      this.password = params['password'];
-      soap += this.createUserToken(params['diff'], params['username'], params['password']);
+    if (params.username) {
+      this.username = params.username;
+      this.password = params.password;
+      soap += this.createUserToken(params.diff, params.username, params.password);
     }
 
     soap += '</s:Header>';
-    soap += '<s:Body>' + params['body'] + '</s:Body>';
+    soap += '<s:Body>' + params.body + '</s:Body>';
     soap += '</s:Envelope>';
     soap = soap.replace(/\>\s+\</g, '><');
     return soap;
@@ -117,7 +117,7 @@ class Soap {
           return;
         }
 
-        const fault = this.getFault(results['parsed']);
+        const fault = this.getFault(results.parsed);
 
         if (fault) {
           Save.saveXml(service, methodName + '.Error', xml);
@@ -126,12 +126,12 @@ class Soap {
           err.soap = xml;
           reject(err);
         } else {
-          const parsed = this.parseResponse(methodName, results['parsed']);
+          const parsed = this.parseResponse(methodName, results.parsed);
 
           if (parsed) {
             const res = {
               soap: xml,
-              schemas: results['parsed']['$'] ? results['parsed']['$'] : '',
+              schemas: results.parsed.$ ? results.parsed.$ : '',
               data: parsed
             };
             Save.saveXml(service, methodName + '.Response', xml);
@@ -202,7 +202,7 @@ class Soap {
   }
 
   parseResponse(methodName, response) {
-    const s0 = response['Body'];
+    const s0 = response.Body;
 
     if (!s0) {
       return null;
@@ -220,8 +220,8 @@ class Soap {
   getFault(results) {
     let fault = '';
 
-    if ('Fault' in results['Body']) {
-      const bodyFault = results['Body']['Fault'];
+    if ('Fault' in results.Body) {
+      const bodyFault = results.Body.Fault;
       const r1 = this.parseForReason(bodyFault);
       const c1 = this.parseForCode(bodyFault);
       const d1 = this.parseForDetail(bodyFault);
@@ -238,16 +238,16 @@ class Soap {
     let code = '';
 
     if ('Code' in fault) {
-      const faultCode = fault['Code'];
+      const faultCode = fault.Code;
 
       if ('Value' in faultCode) {
-        const faultValue = faultCode['Value'];
+        const faultValue = faultCode.Value;
 
         if ('Subcode' in faultCode) {
-          const faultSubcode = faultCode['Subcode'];
+          const faultSubcode = faultCode.Subcode;
 
           if ('Value' in faultSubcode) {
-            const faultSubcodeValue = faultSubcode['Value'];
+            const faultSubcodeValue = faultSubcode.Value;
             code = faultValue + '|' + faultSubcodeValue;
           } else {
             code = faultSubcode;
@@ -265,15 +265,15 @@ class Soap {
     let detail = '';
 
     if ('Detail' in fault) {
-      const faultDetail = fault['Detail'];
+      const faultDetail = fault.Detail;
 
       if ('Text' in faultDetail) {
-        const faultText = faultDetail['Text'];
+        const faultText = faultDetail.Text;
 
         if (typeof faultText === 'string') {
           detail = faultText;
         } else if (typeof faultText === 'object' && '_' in faultText) {
-          detail = faultText['_'];
+          detail = faultText._;
         }
       }
     }
@@ -285,19 +285,19 @@ class Soap {
     let reason = '';
 
     if ('Reason' in fault) {
-      const faultReason = fault['Reason'];
+      const faultReason = fault.Reason;
 
       if ('Text' in faultReason) {
-        const faultText = faultReason['Text'];
+        const faultText = faultReason.Text;
 
         if (typeof faultText === 'string') {
           reason = faultText;
         } else if (typeof faultText === 'object' && '_' in faultText) {
-          reason = faultText['_'];
+          reason = faultText._;
         }
       }
     } else if ('faultstring' in fault) {
-      reason = fault['faultstring'];
+      reason = fault.faultstring;
     }
 
     return reason;

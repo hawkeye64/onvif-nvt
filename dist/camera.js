@@ -266,7 +266,7 @@ class Camera {
       let errMsg = '';
 
       if (errMsg = Util.isInvalidValue(address, 'string')) {
-        reject(new Error(`The "address" argument for connect is invalid: ` + errMsg));
+        reject(new Error('The "address" argument for connect is invalid: ' + errMsg));
         return;
       }
 
@@ -426,7 +426,7 @@ class Camera {
   coreGetCapabilities() {
     return new Promise((resolve, reject) => {
       this.core.getCapabilities().then(results => {
-        const c = results['data']['GetCapabilitiesResponse']['Capabilities'];
+        const c = results.data.GetCapabilitiesResponse.Capabilities;
 
         if (!c) {
           reject(new Error('Failed to initialize the device: No capabilities were found.'));
@@ -434,7 +434,7 @@ class Camera {
         }
 
         if ('Analytics' in c) {
-          const analytics = c['Analytics'];
+          const analytics = c.Analytics;
           this.checkForProxy(analytics);
 
           if (analytics && 'XAddr' in analytics) {
@@ -442,17 +442,17 @@ class Camera {
               this.add('analytics');
 
               if (this.analytics) {
-                const serviceAddress = new URL(analytics['XAddr']);
+                const serviceAddress = new URL(analytics.XAddr);
                 this.analytics.init(this.timeDiff, serviceAddress, this.username, this.password);
               }
             }
 
             if (this.analytics) {
-              if ('RuleSupport' in analytics && analytics['RuleSupport'] === 'true') {
+              if ('RuleSupport' in analytics && analytics.RuleSupport === 'true') {
                 this.analytics.ruleSupport = true;
               }
 
-              if ('AnalyticsModuleSupport' in analytics && analytics['AnalyticsModuleSupport'] === 'true') {
+              if ('AnalyticsModuleSupport' in analytics && analytics.AnalyticsModuleSupport === 'true') {
                 this.analytics.analyticsModuleSupport = true;
               }
             }
@@ -460,7 +460,7 @@ class Camera {
         }
 
         if ('Events' in c) {
-          const events = c['Events'];
+          const events = c.Events;
           this.checkForProxy(events);
 
           if (events && 'XAddr' in events) {
@@ -468,17 +468,17 @@ class Camera {
               this.add('events');
 
               if (this.events) {
-                const serviceAddress = new URL(events['XAddr']);
+                const serviceAddress = new URL(events.XAddr);
                 this.events.init(this.timeDiff, serviceAddress, this.username, this.password);
               }
             }
 
             if (this.events) {
-              if ('WSPullPointSupport' in events && events['WSPullPointSupport'] === 'true') {
+              if ('WSPullPointSupport' in events && events.WSPullPointSupport === 'true') {
                 this.analytics.wsPullPointSupport = true;
               }
 
-              if ('WSSubscriptionPolicySupport' in events && events['WSSubscriptionPolicySupport'] === 'true') {
+              if ('WSSubscriptionPolicySupport' in events && events.WSSubscriptionPolicySupport === 'true') {
                 this.analytics.wsSubscriptionPolicySupport = true;
               }
             }
@@ -486,7 +486,7 @@ class Camera {
         }
 
         if ('Imaging' in c) {
-          const imaging = c['Imaging'];
+          const imaging = c.Imaging;
           this.checkForProxy(imaging);
 
           if (imaging && 'XAddr' in imaging) {
@@ -494,7 +494,7 @@ class Camera {
               this.add('imaging');
 
               if (this.imaging) {
-                const serviceAddress = new URL(imaging['XAddr']);
+                const serviceAddress = new URL(imaging.XAddr);
                 this.imaging.init(this.timeDiff, serviceAddress, this.username, this.password);
               }
             }
@@ -502,7 +502,7 @@ class Camera {
         }
 
         if ('Media' in c) {
-          const media = c['Media'];
+          const media = c.Media;
           this.checkForProxy(media);
 
           if (media && 'XAddr' in media) {
@@ -510,7 +510,7 @@ class Camera {
               this.add('media');
 
               if (this.media) {
-                const serviceAddress = new URL(media['XAddr']);
+                const serviceAddress = new URL(media.XAddr);
                 this.media.init(this.timeDiff, serviceAddress, this.username, this.password);
               }
             }
@@ -518,7 +518,7 @@ class Camera {
         }
 
         if ('PTZ' in c) {
-          const ptz = c['PTZ'];
+          const ptz = c.PTZ;
           this.checkForProxy(ptz);
 
           if (ptz && 'XAddr' in ptz) {
@@ -526,7 +526,7 @@ class Camera {
               this.add('ptz');
 
               if (this.ptz) {
-                const serviceAddress = new URL(ptz['XAddr']);
+                const serviceAddress = new URL(ptz.XAddr);
                 this.ptz.init(this.timeDiff, serviceAddress, this.username, this.password);
               }
             }
@@ -544,7 +544,7 @@ class Camera {
   coreGetDeviceInformation() {
     return new Promise((resolve, reject) => {
       this.core.getDeviceInformation().then(results => {
-        this.deviceInformation = results['data']['GetDeviceInformationResponse'];
+        this.deviceInformation = results.data.GetDeviceInformationResponse;
         resolve();
       }).catch(error => {
         console.error(error);
@@ -556,10 +556,10 @@ class Camera {
   coreGetScopes() {
     return new Promise((resolve, reject) => {
       this.core.getScopes().then(results => {
-        const scopes = results['data']['GetScopesResponse']['Scopes'];
+        const scopes = results.data.GetScopesResponse.Scopes;
         this.deviceInformation.Ptz = false;
         scopes.forEach(scope => {
-          const s = scope['ScopeItem'];
+          const s = scope.ScopeItem;
 
           if (s.indexOf('onvif://www.onvif.org/hardware/') === 0) {
             const hardware = s.split('/').pop();
@@ -607,7 +607,7 @@ class Camera {
   mediaGetProfiles() {
     return new Promise((resolve, reject) => {
       this.media.getProfiles().then(results => {
-        const profiles = results['data']['GetProfilesResponse']['Profiles'];
+        const profiles = results.data.GetProfilesResponse.Profiles;
 
         if (!profiles) {
           reject(new Error('Failed to initialize the device: The targeted device does not any media profiles.'));
@@ -657,9 +657,9 @@ class Camera {
           const protocol = protocols[protocolIndex];
 
           if (protocol) {
-            const token = profile['$']['token'];
+            const token = profile.$.token;
             this.media.getStreamUri('RTP-Unicast', protocol, token).then(results => {
-              profile.StreamUri = results['data']['GetStreamUriResponse']['MediaUri'];
+              profile.StreamUri = results.data.GetStreamUriResponse.MediaUri;
               ++protocolIndex;
               getStreamUri();
             }).catch(error => {
@@ -689,13 +689,13 @@ class Camera {
         const profile = this.profileList[profileIndex];
 
         if (profile) {
-          this.media.getSnapshotUri(profile['$']['token']).then(results => {
+          this.media.getSnapshotUri(profile.$.token).then(results => {
             try {
               const service = {};
-              service.XAddr = results['data']['GetSnapshotUriResponse']['MediaUri']['Uri'];
+              service.XAddr = results.data.GetSnapshotUriResponse.MediaUri.Uri;
               this.checkForProxy(service);
-              profile.SnapshotUri = results['data']['GetSnapshotUriResponse']['MediaUri'];
-              profile.SnapshotUri['Uri'] = service.XAddr;
+              profile.SnapshotUri = results.data.GetSnapshotUriResponse.MediaUri;
+              profile.SnapshotUri.Uri = service.XAddr;
             } catch (e) {}
 
             ++profileIndex;

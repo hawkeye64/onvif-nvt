@@ -82,7 +82,7 @@ class RunPtz {
       this.camera.ptz.getNodes()
         .then(results => {
           console.log('GetNodes successful')
-          this.ptzNodeToken = results['data']['GetNodesResponse']['PTZNode']['$']['token']
+          this.ptzNodeToken = results.data.GetNodesResponse.PTZNode.$.token
           resolve(results)
         })
         .catch(error => {
@@ -117,7 +117,7 @@ class RunPtz {
       this.camera.ptz.getConfigurations()
         .then(results => {
           console.log('GetConfigurations successful')
-          this.ptzConfigurationToken = results['data']['GetConfigurationsResponse']['PTZConfiguration']['$']['token']
+          this.ptzConfigurationToken = results.data.GetConfigurationsResponse.PTZConfiguration.$.token
           resolve(results)
         })
         .catch(error => {
@@ -282,13 +282,13 @@ class RunPtz {
       this.camera.ptz.getPresets()
         .then(results => {
           console.log('GetPresets successful')
-          this.presets = results['data']['GetPresetsResponse']['Preset']
+          this.presets = results.data.GetPresetsResponse.Preset
           // verify presets not empty
           if (this.presets.length > 0) {
           // get the first preset and save it for gotoPreset
             const preset = this.presets[0]
             if (preset) {
-              this.presetToken = preset['$']['token']
+              this.presetToken = preset.$.token
             }
             // verify the test preset doesn't exist
             this.presets.forEach(preset => {
@@ -355,7 +355,7 @@ class RunPtz {
           .then(results => {
             console.log('SetPreset successful')
             // get token for the preset that was just added
-            this.testPresetNameToken = results['data']['SetPresetResponse']['PresetToken']
+            this.testPresetNameToken = results.data.SetPresetResponse.PresetToken
             resolve(results)
           })
           .catch(error => {
