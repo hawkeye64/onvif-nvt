@@ -47,8 +47,8 @@ class Soap {
    * @param {string} soap The XML to parse.
    */
   parse (soap) {
-    let promise = new Promise((resolve, reject) => {
-      let prefix = soap.substring(0, 2)
+    const promise = new Promise((resolve, reject) => {
+      const prefix = soap.substring(0, 2)
       if (prefix === '--') {
         // this is a multi-part xml with attachment
         // it is up to the receiver to parse. This is
@@ -58,15 +58,15 @@ class Soap {
         resolve({ raw: true, soap })
       }
       else {
-        let opts = {
-          'explicitRoot': false,
-          'explicitArray': false,
+        const opts = {
+          explicitRoot: false,
+          explicitArray: false,
           // 'ignoreAttrs'      : true,
-          'ignoreAttrs': false,
-          'tagNameProcessors': [function (name) {
+          ignoreAttrs: false,
+          tagNameProcessors: [function (name) {
             // strip namespaces
             /* eslint-disable no-useless-escape */
-            let m = name.match(/^([^\:]+)\:([^\:]+)$/)
+            const m = name.match(/^([^\:]+)\:([^\:]+)$/)
             /* eslint-enable no-useless-escape */
             return (m ? m[2] : name)
           }]
@@ -113,10 +113,10 @@ class Soap {
     soap += ' xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"'
     soap += ' xmlns:tt="http://www.onvif.org/ver10/schema"'
     soap += ' xmlns:ter="http://www.onvif.org/ver10/error"'
-    if (params['xmlns'] &amp;&amp; Array.isArray(params['xmlns'])) {
-      params['xmlns'].forEach((ns) => {
+    if (params.xmlns &amp;&amp; Array.isArray(params.xmlns)) {
+      params.xmlns.forEach((ns) => {
         // make sure we don't add it twice (hikvision will fail)
-        let index = soap.indexOf(ns)
+        const index = soap.indexOf(ns)
         if (index &lt; 0) {
           soap += ' ' + ns
         }
@@ -125,7 +125,7 @@ class Soap {
     soap += '>'
     soap += '&lt;s:Header>'
     if (params.subscriptionId) {
-      let address = this.getAddress(params.subscriptionId)
+      const address = this.getAddress(params.subscriptionId)
       if (address) {
         soap += '&lt;wsa5:To s:mustUnderstand="true">'
         soap += address
@@ -146,13 +146,13 @@ class Soap {
     soap += '&lt;wsa5:ReplyTo>'
     soap += '&lt;wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous&lt;/wsa5:Address>'
     soap += '&lt;/wsa5:ReplyTo>'
-    if (params['username']) {
-      this.username = params['username']
-      this.password = params['password']
-      soap += this.createUserToken(params['diff'], params['username'], params['password'])
+    if (params.username) {
+      this.username = params.username
+      this.password = params.password
+      soap += this.createUserToken(params.diff, params.username, params.password)
     }
     soap += '&lt;/s:Header>'
-    soap += '&lt;s:Body>' + params['body'] + '&lt;/s:Body>'
+    soap += '&lt;s:Body>' + params.body + '&lt;/s:Body>'
     soap += '&lt;/s:Envelope>'
 
     /* eslint-disable no-useless-escape */
@@ -170,7 +170,7 @@ class Soap {
    * @param {object=} params Used internally.
    */
   makeRequest (service, serviceAddress, methodName, soapEnvelope, params) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       Save.saveXml(service, methodName + '.Request', soapEnvelope)
       let xml = ''
       return this.runRequest(service, serviceAddress, methodName, soapEnvelope)
@@ -187,27 +187,27 @@ class Soap {
             return
           }
 
-          let fault = this.getFault(results['parsed'])
+          const fault = this.getFault(results.parsed)
           if (fault) {
             Save.saveXml(service, methodName + '.Error', xml)
-            let err = new Error(`${methodName}`)
+            const err = new Error(`${methodName}`)
             err.fault = fault
             err.soap = xml
             reject(err)
           }
           else {
-            let parsed = this.parseResponse(methodName, results['parsed'])
+            const parsed = this.parseResponse(methodName, results.parsed)
             if (parsed) {
-              let res = {
-                'soap': xml,
-                'schemas': results['parsed']['$'] ? results['parsed']['$'] : '',
-                'data': parsed
+              const res = {
+                soap: xml,
+                schemas: results.parsed.$ ? results.parsed.$ : '',
+                data: parsed
               }
               Save.saveXml(service, methodName + '.Response', xml)
               resolve(res)
             }
             else {
-              let err = new Error(methodName + ':The device seems to not support the ' + methodName + '() method.')
+              const err = new Error(methodName + ':The device seems to not support the ' + methodName + '() method.')
               reject(err)
             }
           }
@@ -246,13 +246,13 @@ class Soap {
         }
 
         // it's good, read it in
-        let xml = Fs.readFileSync(filePath, 'utf8')
+        const xml = Fs.readFileSync(filePath, 'utf8')
         resolve(xml)
       }
       else {
         // some cameras enable HTTP digest or digest realm,
         // so using 'Request' to handle this for us.
-        let options = {
+        const options = {
           method: 'POST',
           uri: serviceAddress.href,
           // gzip: true,
@@ -288,11 +288,11 @@ class Soap {
   };
 
   parseResponse (methodName, response) {
-    let s0 = response['Body']
+    const s0 = response.Body
     if (!s0) {
       return null
     }
-    let responseName = methodName + 'Response'
+    const responseName = methodName + 'Response'
     if (responseName in s0) {
       return s0
     }
@@ -307,11 +307,11 @@ class Soap {
    */
   getFault (results) {
     let fault = ''
-    if ('Fault' in results['Body']) {
-      let bodyFault = results['Body']['Fault']
-      let r1 = this.parseForReason(bodyFault)
-      let c1 = this.parseForCode(bodyFault)
-      let d1 = this.parseForDetail(bodyFault)
+    if ('Fault' in results.Body) {
+      const bodyFault = results.Body.Fault
+      const r1 = this.parseForReason(bodyFault)
+      const c1 = this.parseForCode(bodyFault)
+      const d1 = this.parseForDetail(bodyFault)
       fault = {}
       fault.reason = r1
       fault.code = c1
@@ -323,13 +323,13 @@ class Soap {
   parseForCode (fault) {
     let code = ''
     if ('Code' in fault) {
-      let faultCode = fault['Code']
+      const faultCode = fault.Code
       if ('Value' in faultCode) {
-        let faultValue = faultCode['Value']
+        const faultValue = faultCode.Value
         if ('Subcode' in faultCode) {
-          let faultSubcode = faultCode['Subcode']
+          const faultSubcode = faultCode.Subcode
           if ('Value' in faultSubcode) {
-            let faultSubcodeValue = faultSubcode['Value']
+            const faultSubcodeValue = faultSubcode.Value
             code = faultValue + '|' + faultSubcodeValue
           }
           else {
@@ -348,14 +348,14 @@ class Soap {
   parseForDetail (fault) {
     let detail = ''
     if ('Detail' in fault) {
-      let faultDetail = fault['Detail']
+      const faultDetail = fault.Detail
       if ('Text' in faultDetail) {
-        let faultText = faultDetail['Text']
+        const faultText = faultDetail.Text
         if (typeof faultText === 'string') {
           detail = faultText
         }
         else if (typeof faultText === 'object' &amp;&amp; '_' in faultText) {
-          detail = faultText['_']
+          detail = faultText._
         }
       }
     }
@@ -366,19 +366,19 @@ class Soap {
   parseForReason (fault) {
     let reason = ''
     if ('Reason' in fault) {
-      let faultReason = fault['Reason']
+      const faultReason = fault.Reason
       if ('Text' in faultReason) {
-        let faultText = faultReason['Text']
+        const faultText = faultReason.Text
         if (typeof faultText === 'string') {
           reason = faultText
         }
         else if (typeof faultText === 'object' &amp;&amp; '_' in faultText) {
-          reason = faultText['_']
+          reason = faultText._
         }
       }
     }
     else if ('faultstring' in fault) {
-      reason = fault['faultstring']
+      reason = fault.faultstring
     }
 
     return reason
@@ -397,14 +397,14 @@ class Soap {
     if (!pass) {
       pass = ''
     }
-    let created = (new Date(Date.now() + diff)).toISOString()
+    const created = (new Date(Date.now() + diff)).toISOString()
     // 10 second expiry
-    let expires = (new Date(Date.now() + diff + 10000)).toISOString()
-    let nonceBuffer = this.createNonce(16)
-    let nonceBase64 = nonceBuffer.toString('base64')
-    let shasum = Crypto.createHash('sha1')
+    const expires = (new Date(Date.now() + diff + 10000)).toISOString()
+    const nonceBuffer = this.createNonce(16)
+    const nonceBase64 = nonceBuffer.toString('base64')
+    const shasum = Crypto.createHash('sha1')
     shasum.update(Buffer.concat([nonceBuffer, Buffer.from(created), Buffer.from(pass)]))
-    let digest = shasum.digest('base64')
+    const digest = shasum.digest('base64')
     let soap = ''
     soap += '&lt;wsse:Security s:mustUnderstand="1">'
     soap += '  &lt;wsu:Timestamp wsu:Id="Time">'
@@ -422,7 +422,7 @@ class Soap {
   };
 
   createNonce (digit) {
-    let nonce = Buffer.alloc(digit)
+    const nonce = Buffer.alloc(digit)
     for (let i = 0; i &lt; digit; i++) {
       nonce.writeUInt8(Math.floor(Math.random() * 256), i)
     }
@@ -441,14 +441,14 @@ class Soap {
   getCustomSubscriptionIdXml (subscriptionId) {
     if (subscriptionId) {
       if (subscriptionId._) {
-        let id = subscriptionId._
+        const id = subscriptionId._
         let xml = null
         if (subscriptionId.$) {
-          let keys = Object.keys(subscriptionId.$)
-          let tag = keys[0]
-          let url = subscriptionId.$[tag]
+          const keys = Object.keys(subscriptionId.$)
+          const tag = keys[0]
+          const url = subscriptionId.$[tag]
           if (id &amp;&amp; tag &amp;&amp; url) {
-            let tags = tag.split(':')
+            const tags = tag.split(':')
             // don't need Action tag
             xml = '&lt;SubscriptionId s:mustUnderstand="1" s:IsReferenceParameter="1" ' + tags[0] + '="' + url + '">' + id + '&lt;/SubscriptionId>'
             console.log(xml)
@@ -472,13 +472,13 @@ module.exports = Soap
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 02 2019 08:49:48 GMT-0600 (MDT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Sep 09 2019 07:23:06 GMT-0600 (MDT)
 </footer>
 
 <script> prettyPrint(); </script>

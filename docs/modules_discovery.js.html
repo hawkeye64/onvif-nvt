@@ -72,11 +72,11 @@ class Discovery {
    * })
    */
   startProbe (callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for startProbe is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for startProbe is invalid:' + errMsg))
           return
         }
       }
@@ -112,7 +112,7 @@ class Discovery {
         this._discoveryWaitTimer = setTimeout(() => {
           this.stopProbe()
             .then(() => {
-              let deviceList = []
+              const deviceList = []
               Object.keys(this._devices).forEach((urn) => {
                 deviceList.push(this._devices[urn])
               })
@@ -151,11 +151,11 @@ class Discovery {
       this._discoveryWaitTimer = null
     }
 
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for stopProbe is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for stopProbe is invalid:' + errMsg))
           return
         }
       }
@@ -208,7 +208,7 @@ class Discovery {
     soapTemplate = soapTemplate.replace(/\s+/, ' ')
     /* eslint-enable no-useless-escape */
 
-    let soapSet = [];
+    const soapSet = [];
     ['NetworkVideoTransmitter', 'Device', 'NetworkVideoDisplay'].forEach((type) => {
       let s = soapTemplate
       s = s.replace('__type__', type)
@@ -216,19 +216,19 @@ class Discovery {
       soapSet.push(s)
     })
 
-    let soapList = []
+    const soapList = []
     for (let i = 0; i &lt; this._DISCOVERY_RETRY_MAX; i++) {
       soapSet.forEach((s) => {
         soapList.push(s)
       })
     }
 
-    let promise = new Promise((resolve, reject) => {
-      let send = () => {
+    const promise = new Promise((resolve, reject) => {
+      const send = () => {
         if (this._udp) {
-          let soapEnvelope = soapList.shift()
+          const soapEnvelope = soapList.shift()
           if (soapEnvelope) {
-            let buf = Buffer.from(soapEnvelope, 'utf8')
+            const buf = Buffer.from(soapEnvelope, 'utf8')
             this._udp.send(buf, 0, buf.length, this._PORT, this._MULTICAST_ADDRESS, (error, bytes) => {
               if (error) {
                 console.error(error) // TODO: Jeff temp
@@ -252,9 +252,9 @@ class Discovery {
   };
 
   parseResult (results, deviceInfo) {
-    let parsed = results.parsed
+    const parsed = results.parsed
     let urn = ''
-    let address = deviceInfo.address
+    const address = deviceInfo.address
     let service = ''
     let xaddrs = []
     let scopes = []
@@ -263,20 +263,20 @@ class Discovery {
 
     try {
       if ('Body' in parsed) {
-        let body = parsed['Body']
+        const body = parsed.Body
         if ('ProbeMatches' in body) {
-          let probeMatches = body['ProbeMatches']
+          const probeMatches = body.ProbeMatches
 
           // make sure the right data exists
           if (probeMatches !== undefined) {
             if ('ProbeMatch' in probeMatches) {
-              let probeMatch = probeMatches['ProbeMatch']
-              urn = probeMatch['EndpointReference']['Address']
-              xaddrs = probeMatch['XAddrs'].split(/\s+/)
+              const probeMatch = probeMatches.ProbeMatch
+              urn = probeMatch.EndpointReference.Address
+              xaddrs = probeMatch.XAddrs.split(/\s+/)
               // pick the appropriate service address if there is more than one
               if (xaddrs.length > 1) {
                 xaddrs.forEach(addr => {
-                  let index = addr.indexOf(deviceInfo.address)
+                  const index = addr.indexOf(deviceInfo.address)
                   if (index !== -1) {
                     service = addr
                   }
@@ -285,18 +285,18 @@ class Discovery {
               else {
                 service = xaddrs[0]
               }
-              if (typeof (probeMatch['Scopes']) === 'string') {
-                scopes = probeMatch['Scopes'].split(/\s+/)
+              if (typeof (probeMatch.Scopes) === 'string') {
+                scopes = probeMatch.Scopes.split(/\s+/)
               }
-              else if (typeof (probeMatch['Scopes']) === 'object' &amp;&amp; typeof (probeMatch['Scopes']['_']) === 'string') {
-                scopes = probeMatch['Scopes']['_'].split(/\s+/)
+              else if (typeof (probeMatch.Scopes) === 'object' &amp;&amp; typeof (probeMatch.Scopes._) === 'string') {
+                scopes = probeMatch.Scopes._.split(/\s+/)
               }
-              if (typeof (probeMatch['Types']) === 'string') {
-                types = probeMatch['Types'].split(/\s+/)
+              if (typeof (probeMatch.Types) === 'string') {
+                types = probeMatch.Types.split(/\s+/)
               }
               // added to support Pelco cameras (comes in as an object, not string)
-              else if (typeof (probeMatch['Types']) === 'object' &amp;&amp; typeof (probeMatch['Types']['_']) === 'string') {
-                types = probeMatch['Types']['_'].split(/\s+/)
+              else if (typeof (probeMatch.Types) === 'object' &amp;&amp; typeof (probeMatch.Types._) === 'string') {
+                types = probeMatch.Types._.split(/\s+/)
               }
             }
           }
@@ -325,15 +325,15 @@ class Discovery {
           }
         })
         probe = {
-          'urn': urn,
-          'name': name,
-          'address': address,
-          'service': service,
-          'hardware': hardware,
-          'location': location,
-          'types': types,
-          'xaddrs': xaddrs,
-          'scopes': scopes
+          urn: urn,
+          name: name,
+          address: address,
+          service: service,
+          hardware: hardware,
+          location: location,
+          types: types,
+          xaddrs: xaddrs,
+          scopes: scopes
         }
         this._devices[urn] = probe
       }
@@ -353,13 +353,13 @@ module.exports = Discovery
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 02 2019 08:49:48 GMT-0600 (MDT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Sep 09 2019 07:23:06 GMT-0600 (MDT)
 </footer>
 
 <script> prettyPrint(); </script>

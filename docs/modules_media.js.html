@@ -149,18 +149,18 @@ class Media {
    * @param {string} body The body of the xml.
    */
   createRequest (body) {
-    let soapEnvelope = this.soap.createRequest({
-      'body': body,
-      'xmlns': this.namespaceAttributes,
-      'diff': this.timeDiff,
-      'username': this.username,
-      'password': this.password
+    const soapEnvelope = this.soap.createRequest({
+      body: body,
+      xmlns: this.namespaceAttributes,
+      diff: this.timeDiff,
+      username: this.username,
+      password: this.password
     })
     return soapEnvelope
   };
 
   buildRequest (methodName, xml, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
@@ -187,7 +187,7 @@ class Media {
         soapBody += xml
         soapBody += `&lt;/trt:${methodName}>`
       }
-      let soapEnvelope = this.createRequest(soapBody)
+      const soapEnvelope = this.createRequest(soapBody)
       this.soap.makeRequest('media', this.serviceAddress, methodName, soapEnvelope)
         .then(results => {
           resolve(results)
@@ -208,7 +208,7 @@ class Media {
   }
 
   requestWithProfileToken (methodName, profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
@@ -244,7 +244,7 @@ class Media {
   }
 
   requestWithConfigurationToken (methodName, configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
@@ -280,7 +280,7 @@ class Media {
   }
 
   requestWithOptionalTokens (methodName, profileToken, configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
@@ -329,7 +329,7 @@ class Media {
   }
 
   addConfiguration (methodName, profileToken, configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
@@ -382,11 +382,11 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   createProfile (name, token, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for createProfile is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for createProfile is invalid:' + errMsg))
           return
         }
       }
@@ -1011,11 +1011,11 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getStreamUri (streamType, protocolType, profileToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getStreamUri is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getStreamUri is invalid:' + errMsg))
           return
         }
       }
@@ -1112,16 +1112,16 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getVideoSourceModes (videoSourceToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getVideoSourceModes is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getVideoSourceModes is invalid:' + errMsg))
           return
         }
       }
       if ((errMsg = Util.isInvalidValue(videoSourceToken, 'string'))) {
-        reject(new Error(`The "videoSourceToken" argument for getVideoSourceModes is invalid: ` + errMsg))
+        reject(new Error('The "videoSourceToken" argument for getVideoSourceModes is invalid: ' + errMsg))
         return
       }
 
@@ -1165,16 +1165,16 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   deleteOSD (OSDToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for deleteOSD is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for deleteOSD is invalid:' + errMsg))
           return
         }
       }
       if ((errMsg = Util.isInvalidValue(OSDToken, 'string'))) {
-        reject(new Error(`The "OSDToken" argument for deleteOSD is invalid: ` + errMsg))
+        reject(new Error('The "OSDToken" argument for deleteOSD is invalid: ' + errMsg))
         return
       }
 
@@ -1206,17 +1206,17 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getOSDs (configurationToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getOSDs is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getOSDs is invalid:' + errMsg))
           return
         }
       }
       if (typeof configurationToken !== 'undefined' &amp;&amp; configurationToken !== null) {
         if ((errMsg = Util.isInvalidValue(configurationToken, 'string'))) {
-          reject(new Error(`The "configurationToken" argument for getOSDs is invalid: ` + errMsg))
+          reject(new Error('The "configurationToken" argument for getOSDs is invalid: ' + errMsg))
           return
         }
       }
@@ -1251,16 +1251,16 @@ class Media {
    * @param {callback=} callback Optional callback, instead of a Promise.
    */
   getOSD (OSDToken, callback) {
-    let promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       let errMsg = ''
       if (typeof callback !== 'undefined' &amp;&amp; callback !== null) {
         if ((errMsg = Util.isInvalidValue(callback, 'function'))) {
-          reject(new Error(`The "callback" argument for getOSD is invalid:` + errMsg))
+          reject(new Error('The "callback" argument for getOSD is invalid:' + errMsg))
           return
         }
       }
       if ((errMsg = Util.isInvalidValue(OSDToken, 'string'))) {
-        reject(new Error(`The "OSDToken" argument for getOSD is invalid: ` + errMsg))
+        reject(new Error('The "OSDToken" argument for getOSD is invalid: ' + errMsg))
         return
       }
 
@@ -1313,13 +1313,13 @@ module.exports = Media
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Access.html">Access</a></li><li><a href="AccessRules.html">AccessRules</a></li><li><a href="Action.html">Action</a></li><li><a href="Analytics.html">Analytics</a></li><li><a href="Camera.html">Camera</a></li><li><a href="Core.html">Core</a></li><li><a href="Credential.html">Credential</a></li><li><a href="DeviceIO.html">DeviceIO</a></li><li><a href="Discovery.html">Discovery</a></li><li><a href="Display.html">Display</a></li><li><a href="Door.html">Door</a></li><li><a href="Events.html">Events</a></li><li><a href="Imaging.html">Imaging</a></li><li><a href="Media.html">Media</a></li><li><a href="Media2.html">Media2</a></li><li><a href="OnvifManager.html">OnvifManager</a></li><li><a href="Ptz.html">Ptz</a></li><li><a href="Receiver.html">Receiver</a></li><li><a href="Recording.html">Recording</a></li><li><a href="Replay.html">Replay</a></li><li><a href="Schedule.html">Schedule</a></li><li><a href="Search.html">Search</a></li><li><a href="Security.html">Security</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Soap.html">Soap</a></li><li><a href="Thermal.html">Thermal</a></li><li><a href="VideoAnalytics.html">VideoAnalytics</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 02 2019 08:49:48 GMT-0600 (MDT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Sep 09 2019 07:23:06 GMT-0600 (MDT)
 </footer>
 
 <script> prettyPrint(); </script>
