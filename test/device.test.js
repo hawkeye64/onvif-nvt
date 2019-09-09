@@ -14,7 +14,7 @@ describe('#Camera', () => {
     expect(camera.snapshot).toBeNull()
   })
 
-  test(`Camera::add(moduleName)`, () => {
+  test('Camera::add(moduleName)', () => {
     const Camera = require('../lib/camera')
     const camera = new Camera()
 

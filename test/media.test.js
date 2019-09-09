@@ -102,7 +102,7 @@ describe('#Media', () => {
           expect(profile.$).toHaveProperty('fixed')
           expect(profile.$).toHaveProperty('token')
           // save for other tests
-          profileToken = profile['$']['token']
+          profileToken = profile.$.token
           expect(profile).toHaveProperty('AudioEncoderConfiguration')
           expect(profile.AudioEncoderConfiguration).toHaveProperty('$')
           expect(profile.AudioEncoderConfiguration.$).toHaveProperty('token')
@@ -245,7 +245,7 @@ describe('#Media', () => {
           expect(profile.$).toHaveProperty('fixed')
           expect(profile.$).toHaveProperty('token')
           // save for other tests
-          profileToken = profile['$']['token']
+          profileToken = profile.$.token
           expect(profile).toHaveProperty('AudioEncoderConfiguration')
           expect(profile.AudioEncoderConfiguration).toHaveProperty('$')
           expect(profile.AudioEncoderConfiguration.$).toHaveProperty('token')

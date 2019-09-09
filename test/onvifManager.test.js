@@ -11,7 +11,7 @@ describe('OnvifManager', () => {
   })
 
   // Discovery
-  test('OnvifManager::add(\'discovery\')', () => {
+  test('OnvifManager::add("discovery")', () => {
     const OnvifManager = require('../lib/onvif-nvt')
     OnvifManager.add('discovery')
     expect(OnvifManager.discovery).not.toBeNull()
@@ -33,7 +33,7 @@ describe('OnvifManager', () => {
       })
   })
 
-  // test('OnvifManager throw on add(\'not-a-module\')', () => {
+  // test('OnvifManager throw on add("not-a-module")', () => {
   //   const OnvifManager = require('../lib/onvif-nvt')
   //   expect(OnvifManager.add('not-a-module')).toThrow()
   // })
