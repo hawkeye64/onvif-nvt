@@ -24,7 +24,7 @@ class OnvifManager {
       let errMsg = '';
 
       if (errMsg = Util.isInvalidValue(address, 'string')) {
-        reject(new Error(`The "address" argument for connect is invalid: ` + errMsg));
+        reject(new Error('The "address" argument for connect is invalid: ' + errMsg));
         return;
       }
 

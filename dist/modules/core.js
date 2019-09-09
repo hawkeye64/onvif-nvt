@@ -93,7 +93,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getServices is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getServices is invalid:' + errMsg));
           return;
         }
       }
@@ -139,7 +139,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getCapabilities is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getCapabilities is invalid:' + errMsg));
           return;
         }
       }
@@ -175,7 +175,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setHostname is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setHostname is invalid:' + errMsg));
           return;
         }
       }
@@ -206,7 +206,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setHostnameFromDHCP is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setHostnameFromDHCP is invalid:' + errMsg));
           return;
         }
       }
@@ -242,28 +242,28 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getDNS is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getDNS is invalid:' + errMsg));
           return;
         }
       }
 
       this.buildRequest('GetDNS').then(result => {
         try {
-          const di = result['data']['DNSInformation'];
+          const di = result.data.DNSInformation;
 
-          if (!di['SearchDomain']) {
-            di['SearchDomain'] = [];
-          } else if (!Array.isArray(di['SearchDomain'])) {
-            di['SearchDomain'] = [di['SearchDomain']];
+          if (!di.SearchDomain) {
+            di.SearchDomain = [];
+          } else if (!Array.isArray(di.SearchDomain)) {
+            di.SearchDomain = [di.SearchDomain];
           }
 
-          if (!di['DNSManual']) {
-            di['DNSManual'] = [];
-          } else if (!Array.isArray(di['DNSManual'])) {
-            di['DNSManual'] = [di['DNSManual']];
+          if (!di.DNSManual) {
+            di.DNSManual = [];
+          } else if (!Array.isArray(di.DNSManual)) {
+            di.DNSManual = [di.DNSManual];
           }
 
-          result['data'] = di;
+          result.data = di;
         } catch (e) {}
 
         resolve(result);
@@ -289,7 +289,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setDNS is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setDNS is invalid:' + errMsg));
           return;
         }
       }
@@ -327,7 +327,7 @@ class Core {
             return;
           }
 
-          const type = d['type'];
+          const type = d.type;
 
           if (errMsg = Util.isInvalidValue(type, 'string')) {
             reject(new Error('The "type" property for setDNS is invalid: ' + errMsg));
@@ -338,12 +338,12 @@ class Core {
           }
 
           if (type === 'IPv4') {
-            if (errMsg = Util.isInvalidValue(d['IPv4Address'], 'string')) {
+            if (errMsg = Util.isInvalidValue(d.IPv4Address, 'string')) {
               reject(new Error('The "IPv4Address" property for setDNS is invalid: ' + errMsg));
               return;
             }
           } else if (type === 'IPv6') {
-            if (errMsg = Util.isInvalidValue(d['IPv6Address'], 'string')) {
+            if (errMsg = Util.isInvalidValue(d.IPv6Address, 'string')) {
               reject(new Error('The "IPv6Address" property for setDNS is invalid: ' + errMsg));
               return;
             }
@@ -366,12 +366,12 @@ class Core {
         } else {
           DNSManual.forEach(d => {
             soapBody += '<tds:DNSManual>';
-            soapBody += '<tt:Type>' + d['type'] + '</tt:Type>';
+            soapBody += '<tt:Type>' + d.type + '</tt:Type>';
 
-            if (d['type'] === 'IPv4') {
-              soapBody += '<tt:IPv4Address>' + d['IPv4Address'] + '</tt:IPv4Address>';
+            if (d.type === 'IPv4') {
+              soapBody += '<tt:IPv4Address>' + d.IPv4Address + '</tt:IPv4Address>';
             } else {
-              soapBody += '<tt:IPv6Address>' + d['IPv6Address'] + '</tt:IPv6Address>';
+              soapBody += '<tt:IPv6Address>' + d.IPv6Address + '</tt:IPv6Address>';
             }
 
             soapBody += '</tds:DNSManual>';
@@ -407,7 +407,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setNTP is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setNTP is invalid:' + errMsg));
           return;
         }
       }
@@ -431,7 +431,7 @@ class Core {
             return;
           }
 
-          const type = d['type'];
+          const type = d.type;
 
           if (errMsg = Util.isInvalidValue(type, 'string')) {
             reject(new Error('The "type" property for setNTP is invalid: ' + errMsg));
@@ -442,12 +442,12 @@ class Core {
           }
 
           if (type === 'IPv4') {
-            if (errMsg = Util.isInvalidValue(d['IPv4Address'], 'string')) {
+            if (errMsg = Util.isInvalidValue(d.IPv4Address, 'string')) {
               reject(new Error('The "IPv4Address" property for setNTP is invalid: ' + errMsg));
               return;
             }
           } else if (type === 'IPv6') {
-            if (errMsg = Util.isInvalidValue(d['IPv6Address'], 'string')) {
+            if (errMsg = Util.isInvalidValue(d.IPv6Address, 'string')) {
               reject(new Error('The "IPv6Address" property for setNTP is invalid: ' + errMsg));
               return;
             }
@@ -464,12 +464,12 @@ class Core {
         } else {
           NTPManual.forEach(d => {
             soapBody += '<tds:NTPManual>';
-            soapBody += '<tt:Type>' + d['type'] + '</tt:Type>';
+            soapBody += '<tt:Type>' + d.type + '</tt:Type>';
 
-            if (d['type'] === 'IPv4') {
-              soapBody += '<tt:IPv4Address>' + d['IPv4Address'] + '</tt:IPv4Address>';
+            if (d.type === 'IPv4') {
+              soapBody += '<tt:IPv4Address>' + d.IPv4Address + '</tt:IPv4Address>';
             } else {
-              soapBody += '<tt:IPv6Address>' + d['IPv6Address'] + '</tt:IPv6Address>';
+              soapBody += '<tt:IPv6Address>' + d.IPv6Address + '</tt:IPv6Address>';
             }
 
             soapBody += '</tds:NTPManual>';
@@ -505,7 +505,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for setDynamicDNS is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for setDynamicDNS is invalid:' + errMsg));
           return;
         }
       }
@@ -636,7 +636,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getDot11Status is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getDot11Status is invalid:' + errMsg));
           return;
         }
       }
@@ -672,7 +672,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for scanAvailableDot11Networks is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for scanAvailableDot11Networks is invalid:' + errMsg));
           return;
         }
       }
@@ -732,16 +732,16 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getSystemDateAndTime is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getSystemDateAndTime is invalid:' + errMsg));
           return;
         }
       }
 
       this.buildRequest('GetSystemDateAndTime').then(results => {
-        const parsed = this.parseGetSystemDateAndTime(results['data']);
+        const parsed = this.parseGetSystemDateAndTime(results.data);
 
-        if (parsed && parsed['date']) {
-          const deviceTime = parsed['date'].getTime();
+        if (parsed && parsed.date) {
+          const deviceTime = parsed.date.getTime();
           const localTime = new Date().getTime();
           this.timeDiff = deviceTime - localTime;
         }
@@ -770,41 +770,41 @@ class Core {
       return null;
     }
 
-    const s1 = s0['GetSystemDateAndTimeResponse'];
+    const s1 = s0.GetSystemDateAndTimeResponse;
 
     if (!s1) {
       return null;
     }
 
-    const s2 = s1['SystemDateAndTime'];
+    const s2 = s1.SystemDateAndTime;
 
     if (!s2) {
       return null;
     }
 
-    const type = s2['DateTimeType'] || '';
+    const type = s2.DateTimeType || '';
     let dst = null;
 
-    if (s2['DaylightSavings']) {
-      dst = s2['DaylightSavings'] === 'true';
+    if (s2.DaylightSavings) {
+      dst = s2.DaylightSavings === 'true';
     }
 
-    const tz = s2['TimeZone'] && s2['TimeZone']['TZ'] ? s2['TimeZone']['TZ'] : '';
+    const tz = s2.TimeZone && s2.TimeZone.TZ ? s2.TimeZone.TZ : '';
     let date = null;
 
-    if (s2['UTCDateTime']) {
-      const udt = s2['UTCDateTime'];
-      const t = udt['Time'];
-      const d = udt['Date'];
+    if (s2.UTCDateTime) {
+      const udt = s2.UTCDateTime;
+      const t = udt.Time;
+      const d = udt.Date;
 
-      if (t && d && t['Hour'] && t['Minute'] && t['Second'] && d['Year'] && d['Month'] && d['Day']) {
+      if (t && d && t.Hour && t.Minute && t.Second && d.Year && d.Month && d.Day) {
         date = new Date();
-        date.setUTCFullYear(parseInt(d['Year'], 10));
-        date.setUTCMonth(parseInt(d['Month'], 10) - 1);
-        date.setUTCDate(parseInt(d['Day'], 10));
-        date.setUTCHours(parseInt(t['Hour'], 10));
-        date.setUTCMinutes(parseInt(t['Minute'], 10));
-        date.setUTCSeconds(parseInt(t['Second'], 10));
+        date.setUTCFullYear(parseInt(d.Year, 10));
+        date.setUTCMonth(parseInt(d.Month, 10) - 1);
+        date.setUTCDate(parseInt(d.Day, 10));
+        date.setUTCHours(parseInt(t.Hour, 10));
+        date.setUTCMinutes(parseInt(t.Minute, 10));
+        date.setUTCSeconds(parseInt(t.Second, 10));
       }
     }
 
@@ -847,7 +847,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getSystemLog is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getSystemLog is invalid:' + errMsg));
           return;
         }
       }
@@ -1008,7 +1008,7 @@ class Core {
 
       if (typeof callback !== 'undefined' && callback !== null) {
         if (errMsg = Util.isInvalidValue(callback, 'function')) {
-          reject(new Error(`The "callback" argument for getDot11XConfiguration is invalid:` + errMsg));
+          reject(new Error('The "callback" argument for getDot11XConfiguration is invalid:' + errMsg));
           return;
         }
       }
