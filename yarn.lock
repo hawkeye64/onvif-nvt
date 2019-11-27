@@ -1992,16 +1992,16 @@ eslint-plugin-import@^2.18.2:
     resolve "^1.11.0"
 
 eslint-plugin-jest@^23.0.4:
-  version "23.0.4"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.4.tgz#1ab81ffe3b16c5168efa72cbd4db14d335092aa0"
-  integrity sha512-OaP8hhT8chJNodUPvLJ6vl8gnalcsU/Ww1t9oR3HnGdEWjm/DdCCUXLOral+IPGAeWu/EwgVQCK/QtxALpH1Yw==
+  version "23.0.5"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.5.tgz#3c7c5e636c5a21677d2dfc8ba5424233ee2b9f27"
+  integrity sha512-etxXrWsFWzxsrxKwJnFC38uppH/vlJ3oF7Wmp/cxedqxRIxVhXup8e5y5MmtVXelevgxrgA1QS1vo8j889iK5Q==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
-eslint-plugin-jsdoc@=18.0.1:
-  version "18.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-18.0.1.tgz#c437d5f6ffa98a67b0755c4a4273444b9039f425"
-  integrity sha512-ofNW3JmuZD9Gqn+qp/M6vPUfyaWHtfiNdmuoYmjyBcf5Xh2SMe1dnFa+gTGpfZLrjvBCdIbjxryRiF2QdqlQ0g==
+eslint-plugin-jsdoc@^18.0.1:
+  version "18.1.5"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-18.1.5.tgz#bdab6f2ae1ee37b4acdb997d1ad24c3023881dd1"
+  integrity sha512-dfq1YA0z2WaosgbEX3QPf37TDUcrfcRRjJ0HBgJYuA4XIV2ICe7dFxhJ8halIlKL4VNhUZ5GMKO1r0CPRvBN0g==
   dependencies:
     comment-parser "^0.7.0"
     debug "^4.1.1"
