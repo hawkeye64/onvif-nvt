@@ -2,6 +2,48 @@ const Util = require('./utils/util');
 
 const URL = require('url-parse');
 
+const MODULE_MAP = {
+  access: './modules/access',
+  accessrules: './modules/accessrules',
+  action: './modules/action',
+  analytics: './modules/analytics',
+  core: './modules/core',
+  credential: './modules/credential',
+  deviceio: './modules/deviceio',
+  display: './modules/display',
+  door: './modules/door',
+  events: './modules/events',
+  imaging: './modules/imaging',
+  media: './modules/media',
+  media2: './modules/media2',
+  ptz: './modules/ptz',
+  receiver: './modules/receiver',
+  recording: './modules/recording',
+  replay: './modules/replay',
+  schedule: './modules/schedule',
+  search: './modules/search',
+  security: './modules/security',
+  snapshot: './utils/snapshot',
+  thermal: './modules/thermal',
+  videoanalytics: './modules/videoanalytics'
+};
+const MODULE_MAP_AFTER = {
+  core: function () {
+    this.core.init(this.serviceAddress, this.username, this.password);
+  },
+  media: function () {
+    this.media.init(this.timeDiff, this.serviceAddress, this.username, this.password);
+  },
+  snapshot: function () {
+    const defaultProfile = this.getDefaultProfile();
+
+    if (defaultProfile) {
+      const snapshotUri = defaultProfile.SnapshotUri.Uri;
+      this.snapshot.init(snapshotUri, this.username, this.password);
+    }
+  }
+};
+
 class Camera {
   constructor() {
     this.core = null;
@@ -40,225 +82,22 @@ class Camera {
   }
 
   add(name) {
-    switch (name) {
-      case 'access':
-        if (!this.access) {
-          const Access = require('./modules/access');
+    const mod = MODULE_MAP[name];
 
-          this.access = new Access();
-        }
-
-        break;
-
-      case 'accessrules':
-        if (!this.accessrules) {
-          const AccessRules = require('./modules/accessrules');
-
-          this.accessrules = new AccessRules();
-        }
-
-        break;
-
-      case 'action':
-        if (!this.action) {
-          const Action = require('./modules/action');
-
-          this.action = new Action();
-        }
-
-        break;
-
-      case 'analytics':
-        if (!this.analytics) {
-          const Analytics = require('./modules/analytics');
-
-          this.analytics = new Analytics();
-        }
-
-        break;
-
-      case 'core':
-        if (!this.core) {
-          const Core = require('./modules/core');
-
-          this.core = new Core();
-          this.core.init(this.serviceAddress, this.username, this.password);
-        }
-
-        break;
-
-      case 'credential':
-        if (!this.credential) {
-          const Credential = require('./modules/credential');
-
-          this.credential = new Credential();
-        }
-
-        break;
-
-      case 'deviceio':
-        if (!this.deviceio) {
-          const DeviceIO = require('./modules/deviceio');
-
-          this.deviceio = new DeviceIO();
-        }
-
-        break;
-
-      case 'display':
-        if (!this.display) {
-          const Display = require('./modules/display');
-
-          this.display = new Display();
-        }
-
-        break;
-
-      case 'door':
-        if (!this.door) {
-          const Door = require('./modules/door');
-
-          this.door = new Door();
-        }
-
-        break;
-
-      case 'events':
-        if (!this.events) {
-          const Events = require('./modules/events');
-
-          this.events = new Events();
-        }
-
-        break;
-
-      case 'imaging':
-        if (!this.imaging) {
-          const Imaging = require('./modules/imaging');
-
-          this.imaging = new Imaging();
-        }
-
-        break;
-
-      case 'media':
-        if (!this.media) {
-          const Media = require('./modules/media');
-
-          this.media = new Media();
-          this.media.init(this.timeDiff, this.serviceAddress, this.username, this.password);
-        }
-
-        break;
-
-      case 'media2':
-        if (!this.media2) {
-          const Media2 = require('./modules/media2');
-
-          this.media2 = new Media2();
-        }
-
-        break;
-
-      case 'ptz':
-        if (!this.ptz) {
-          const Ptz = require('./modules/ptz');
-
-          this.ptz = new Ptz();
-        }
-
-        break;
-
-      case 'receiver':
-        if (!this.receiver) {
-          const Receiver = require('./modules/receiver');
-
-          this.receiver = new Receiver();
-        }
-
-        break;
-
-      case 'recording':
-        if (!this.recording) {
-          const Recording = require('./modules/recording');
-
-          this.recording = new Recording();
-        }
-
-        break;
-
-      case 'replay':
-        if (!this.replay) {
-          const Replay = require('./modules/replay');
-
-          this.replay = new Replay();
-        }
-
-        break;
-
-      case 'schedule':
-        if (!this.schedule) {
-          const Schedule = require('./modules/schedule');
-
-          this.schedule = new Schedule();
-        }
-
-        break;
-
-      case 'search':
-        if (!this.search) {
-          const Search = require('./modules/search');
-
-          this.search = new Search();
-        }
-
-        break;
-
-      case 'security':
-        if (!this.security) {
-          const Security = require('./modules/security');
-
-          this.security = new Security();
-        }
-
-        break;
-
-      case 'snapshot':
-        if (!this.snapshot) {
-          const Snapshot = require('./utils/snapshot');
-
-          this.snapshot = new Snapshot();
-          const defaultProfile = this.getDefaultProfile();
-
-          if (defaultProfile) {
-            const snapshotUri = defaultProfile.SnapshotUri.Uri;
-            this.snapshot.init(snapshotUri, this.username, this.password);
-          }
-        }
-
-        break;
-
-      case 'thermal':
-        if (!this.thermal) {
-          const Thermal = require('./modules/thermal');
-
-          this.thermal = new Thermal();
-        }
-
-        break;
-
-      case 'videoanalytics':
-        if (!this.videoanalytics) {
-          const VideoAnalytics = require('./modules/videoanalytics');
-
-          this.videoanalytics = new VideoAnalytics();
-        }
-
-        break;
-
-      default:
-        throw new Error(`Module '${name}' does not exist. Cannot add to Camera.`);
+    if (!MODULE_MAP[name]) {
+      throw new Error(`Module '${name}' does not exist. Cannot add to Camera.`);
     }
+
+    if (this[name]) {
+      return;
+    }
+
+    const Inst = require(mod);
+
+    const after = MODULE_MAP_AFTER[name] || (() => {});
+
+    this[name] = new Inst();
+    after.call(this);
   }
 
   connect(address, port, username, password, servicePath, callback) {
