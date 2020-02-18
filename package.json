@@ -1,6 +1,6 @@
 {
   "name": "onvif-nvt",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "description": "Wrapper for ONVIF spec to control NVT (Network Video Transitter) devices.",
   "main": "./dist/onvif-nvt.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js lib test run",
     "lint-fix": "eslint --ext .js lib test run --fix",
     "test": "jest",
-    "test-ci": "npm run lint && jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test-ci": "yarn lint && jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "keywords": [
     "node",
