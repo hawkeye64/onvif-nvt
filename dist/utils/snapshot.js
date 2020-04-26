@@ -17,17 +17,22 @@ class Snapshot {
 
   getSnapshot(callback) {
     const promise = new Promise((resolve, reject) => {
-      Request({
+      const params = {
         method: 'GET',
         uri: this.snapshotUri,
         gzip: true,
-        encoding: 'binary',
-        auth: {
+        encoding: 'binary'
+      };
+
+      if (typeof this.username === 'string' && typeof this.password === 'string') {
+        params.auth = {
           user: this.username,
           pass: this.password,
           sendImmediately: false
-        }
-      }, (error, response, body) => {
+        };
+      }
+
+      Request(params, (error, response, body) => {
         if (error) {
           reject(error);
           return;

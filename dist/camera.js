@@ -395,7 +395,7 @@ class Camera {
   coreGetScopes() {
     return new Promise((resolve, reject) => {
       this.core.getScopes().then(results => {
-        const scopes = results.data.GetScopesResponse.Scopes;
+        const scopes = typeof results.data.GetScopesResponse.Scopes === 'undefined' || !Array.isArray(results.data.GetScopesResponse.Scopes) ? [] : results.data.GetScopesResponse.Scopes;
         this.deviceInformation.Ptz = false;
         scopes.forEach(scope => {
           const s = scope.ScopeItem;
@@ -465,6 +465,11 @@ class Camera {
 
   parseProfiles(profiles) {
     const profileList = [];
+
+    if (!Array.isArray(profiles)) {
+      profiles = [profiles];
+    }
+
     profiles.forEach(profile => {
       profileList.push(profile);
 
