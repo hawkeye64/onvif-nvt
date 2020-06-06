@@ -418,7 +418,7 @@ class Media {
   }
 
   getVideoEncoderConfigurationOptions(profileToken, configurationToken, callback) {
-    return this.requestWithOptionalTokens('GetCompatibleVideoEncoderConfigurations', profileToken, configurationToken, callback);
+    return this.requestWithOptionalTokens('GetVideoEncoderConfigurationOptions', profileToken, configurationToken, callback);
   }
 
   setVideoEncoderConfiguration() {
