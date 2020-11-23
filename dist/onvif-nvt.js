@@ -28,7 +28,8 @@ class OnvifManager {
         return;
       }
 
-      const c = this.cameras[address];
+      const cacheKey = `${address}:${port}`;
+      const c = this.cameras[cacheKey];
 
       if (c) {
         resolve(c);
@@ -41,7 +42,7 @@ class OnvifManager {
 
       const camera = new Camera();
       return camera.connect(address, port, username, password, servicePath).then(results => {
-        this.cameras[address] = camera;
+        this.cameras[cacheKey] = camera;
         resolve(camera);
       }).catch(error => {
         console.error(error);
