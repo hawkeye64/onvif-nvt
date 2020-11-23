@@ -56,7 +56,7 @@ expect.extend({
 })
 
 // Applies to all tests in this file
-var Camera = null
+let Camera = null
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
   Config.setDebugData(TestConfig.cameraType)
