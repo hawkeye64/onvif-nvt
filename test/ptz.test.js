@@ -54,10 +54,10 @@ expect.extend({
 })
 
 // Applies to all tests in this file
-var Camera = null
-var nodeToken = ''
-var configurationToken = ''
-var presetToken = ''
+let Camera = null
+let nodeToken = ''
+let configurationToken = ''
+let presetToken = ''
 
 beforeEach(() => {
   const OnvifManager = require('../lib/onvif-nvt')
