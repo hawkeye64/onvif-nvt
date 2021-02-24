@@ -312,7 +312,7 @@ class Camera {
               }
             }
 
-            if (this.events) {
+            if (this.events && this.analytics) {
               if ('WSPullPointSupport' in events && events.WSPullPointSupport === 'true') {
                 this.analytics.wsPullPointSupport = true;
               }
