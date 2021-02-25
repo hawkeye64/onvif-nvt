@@ -1,16 +1,16 @@
 module.exports = {
-  'extends': [
+  extends: [
     'standard',
     'plugin:promise/recommended'
   ],
   // add your custom rules here
-  'rules': {
+  rules: {
     // allow paren-less arrow functions
     'arrow-parens': 0,
     'one-var': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'brace-style': [2, 'stroustrup', { 'allowSingleLine': false }],
+    'brace-style': [2, 'stroustrup', { allowSingleLine: false }],
     'jest/no-disabled-tests': 'warn',
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'error',
@@ -46,7 +46,7 @@ module.exports = {
     'jsdoc/require-returns-description': 1,
     'jsdoc/require-returns-type': 0
   },
-  'plugins': [
+  plugins: [
     'standard',
     'jest',
     'node',
@@ -54,7 +54,7 @@ module.exports = {
     'import',
     'jsdoc'
   ],
-  'env': {
+  env: {
     'jest/globals': true
   }
 };
