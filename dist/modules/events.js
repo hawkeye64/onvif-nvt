@@ -249,8 +249,12 @@ class Events extends EventEmitter {
 
       let soapBody = '';
       soapBody = '<tev:PullMessages>';
-      soapBody += '<tev:Timeout>PT1M</tev:Timeout>';
-      soapBody += '<tev:MessageLimit>99</tev:MessageLimit>';
+      soapBody += '<tev:Timeout>';
+      soapBody += timeout;
+      soapBody += '</tev:Timeout>';
+      soapBody += '<tev:MessageLimit>';
+      soapBody += messageLimit.toString();
+      soapBody += '</tev:MessageLimit>';
       soapBody += '</tev:PullMessages>';
       this.buildRequest('PullMessages', soapBody, subscriptionId).then(results => {
         resolve(results);
