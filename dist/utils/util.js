@@ -13,8 +13,6 @@ function createUuidV4() {
   return uuid;
 }
 
-;
-
 function getTypeOfValue(value) {
   if (value === undefined) {
     return 'undefined';
@@ -49,21 +47,15 @@ function getTypeOfValue(value) {
   }
 }
 
-;
-
 function isValidCallback(callback) {
   return !!(callback && typeof callback === 'function');
 }
-
-;
 
 function execCallback(callback, arg1, arg2) {
   if (isValidCallback(callback)) {
     callback(arg1, arg2);
   }
 }
-
-;
 
 function isXml(xml) {
   if (!xml) {
@@ -131,7 +123,6 @@ function isInvalidValue(value, type, allowEmpty) {
   return '';
 }
 
-;
 const functions = {
   isValidCallback,
   execCallback,

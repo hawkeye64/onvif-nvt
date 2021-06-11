@@ -240,8 +240,6 @@ class Discovery {
       return null;
     }
 
-    ;
-
     if (urn && xaddrs.length > 0 && scopes.length > 0) {
       if (!this._devices[urn]) {
         let name = '';
