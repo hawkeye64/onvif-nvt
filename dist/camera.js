@@ -255,11 +255,11 @@ class Camera {
   checkForProxy(service) {
     const xaddrPath = new URL(service.XAddr);
 
-    if (xaddrPath.hostname === this.serviceAddress.hostname) {
+    if (xaddrPath.href === this.serviceAddress.href) {
       return;
     }
 
-    service.XAddr = this.rootPath + xaddrPath.pathname;
+    service.XAddr = this.rootPath + xaddrPath.pathname + xaddrPath.query;
   }
 
   coreGetCapabilities() {
