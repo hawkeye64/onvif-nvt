@@ -4,6 +4,7 @@ class OnvifManager {
   constructor() {
     this.discovery = null;
     this.cameras = {};
+    this.timeout = null;
   }
 
   add(name) {
@@ -59,6 +60,11 @@ class OnvifManager {
     } else {
       return promise;
     }
+  }
+
+  setTimeout(timeout) {
+    this.timeout = parseInt(timeout);
+    return this;
   }
 
 }

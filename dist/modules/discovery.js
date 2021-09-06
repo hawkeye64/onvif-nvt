@@ -230,8 +230,8 @@ class Discovery {
               if (typeof probeMatch.Types === 'string') {
                 types = probeMatch.Types.split(/\s+/);
               } else if (typeof probeMatch.Types === 'object' && typeof probeMatch.Types._ === 'string') {
-                  types = probeMatch.Types._.split(/\s+/);
-                }
+                types = probeMatch.Types._.split(/\s+/);
+              }
             }
           }
         }

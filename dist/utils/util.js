@@ -114,10 +114,10 @@ function isInvalidValue(value, type, allowEmpty) {
     if (value.match(/[^\x20-\x7e]/)) {
       return ' The value must consist of ascii characters.';
     } else if (type !== 'xml' && value.match(/[\<\>]/)) {
-        return ' Invalid characters were found in the value ("<", ">")';
-      } else if (type === 'xml' && !value.match(/[\<\>]/)) {
-          return ' Valid characters were found in the value for xml ("<", ">")';
-        }
+      return ' Invalid characters were found in the value ("<", ">")';
+    } else if (type === 'xml' && !value.match(/[\<\>]/)) {
+      return ' Valid characters were found in the value for xml ("<", ">")';
+    }
   }
 
   return '';
