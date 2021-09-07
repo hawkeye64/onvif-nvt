@@ -479,6 +479,10 @@ class Camera {
         if (this.ptz) {
           this.ptz.setDefaultProfileToken(profile.$.token);
         }
+
+        if (this.imaging) {
+          this.imaging.setDefaultProfileToken(profile.VideoSourceConfiguration.SourceToken);
+        }
       }
     });
     return profileList;
