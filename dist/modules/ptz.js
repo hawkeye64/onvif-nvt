@@ -1004,6 +1004,43 @@ class Ptz {
     }
   }
 
+  getPtzTours(profileToken, callback) {
+    const promise = new Promise((resolve, reject) => {
+      profileToken = profileToken || this.defaultProfileToken;
+      let errMsg = '';
+
+      if (typeof callback !== 'undefined' && callback !== null) {
+        if (errMsg = Util.isInvalidValue(callback, 'function')) {
+          reject(new Error('The "callback" argument for getPresets is invalid:' + errMsg));
+          return;
+        }
+      }
+
+      if (errMsg = Util.isInvalidValue(profileToken, 'string')) {
+        reject(new Error('The "profileToken" argument for getPresets is invalid: ' + errMsg));
+        return;
+      }
+
+      let soapBody = '';
+      soapBody += '<tptz:ProfileToken>' + profileToken + '</tptz:ProfileToken>';
+      this.buildRequest('GetPresetTours', soapBody).then(results => {
+        resolve(results);
+      }).catch(error => {
+        reject(error);
+      });
+    });
+
+    if (Util.isValidCallback(callback)) {
+      promise.then(results => {
+        callback(null, results);
+      }).catch(error => {
+        callback(error);
+      });
+    } else {
+      return promise;
+    }
+  }
+
 }
 
 module.exports = Ptz;
