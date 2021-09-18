@@ -8,6 +8,8 @@ const Request = require('request');
 
 const Config = require('./config');
 
+const Manager = require('../onvif-nvt');
+
 class Soap {
   constructor() {
     this.username = '';
@@ -185,6 +187,11 @@ class Soap {
             sendImmediately: false
           }
         };
+
+        if (Manager.timeout > 0) {
+          options.timeout = Manager.timeout;
+        }
+
         Request(options, (error, response, body) => {
           if (error) {
             console.error(error);

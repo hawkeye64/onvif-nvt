@@ -33,7 +33,10 @@
             <div class="class-description"><p>
 <a href="https://www.onvif.org/specs/srv/img/ONVIF-Imaging-Service-Spec-v1706.pdf">https://www.onvif.org/specs/srv/img/ONVIF-Imaging-Service-Spec-v1706.pdf</a><br>
 <a href="https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl">https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl</a><br>
-</p></div>
+</p>
+<h3>Functions</h3>
+<a href="Imaging.html#getImagingSettings">Imaging#getImagingSettings</a>
+<a href="Imaging.html#setImagingSettings">Imaging#setImagingSettings</a></div>
         
     
 </header>
@@ -96,7 +99,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line10">line 10</a>
+        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -152,7 +155,7 @@
     
 
     
-    <h4 class="name" id="createRequest"><span class="type-signature"></span>createRequest<span class="signature">(body)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getImagingSettings"><span class="type-signature"></span>getImagingSettings<span class="signature">(profileToken<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -160,144 +163,7 @@
 
 
 <div class="description">
-    Private function for creating a SOAP request.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>body</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The body of the xml.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line42">line 42</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="init"><span class="type-signature"></span>init<span class="signature">(timeDiff, serviceAddress, username<span class="signature-attributes">opt</span>, password<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Call this function directly after instantiating an Imaging object.
+    Get the ImagingConfiguration for the requested VideoSource.
 </div>
 
 
@@ -335,69 +201,7 @@
 
         <tr>
             
-                <td class="name"><code>timeDiff</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The onvif device's time difference.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>serviceAddress</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">An url object from url package - require('url').</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>username</code></td>
+                <td class="name"><code>profileToken</code></td>
             
 
             <td class="type">
@@ -423,20 +227,20 @@
 
             
 
-            <td class="description last">Optional only if the device does NOT have a user.</td>
+            <td class="description last">If no profileToken is provided, then the defaultProfileToken will be used.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>password</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type"><a href="global.html#callback">callback</a></span>
 
 
             
@@ -456,7 +260,7 @@
 
             
 
-            <td class="description last">Optional only if the device does NOT have a password.</td>
+            <td class="description last">Optional callback, instead of a Promise.</td>
         </tr>
 
     
@@ -497,7 +301,517 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line31">line 31</a>
+        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setDefaultProfileToken"><span class="type-signature"></span>setDefaultProfileToken<span class="signature">(profileToken)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets the default profile token. Reference token to the VideoSource where the current Imaging Preset should be requested.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>profileToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The profileToken to use when one is not passed to a method requiring one.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setImagingSettings"><span class="type-signature"></span>setImagingSettings<span class="signature">(profileToken<span class="signature-attributes">opt</span>, options, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the ImagingConfiguration for the requested VideoSource.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>profileToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">If no profileToken is provided, then the defaultProfileToken will be used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Imaging settings.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Brightness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">float</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Image brightness.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ColorSaturation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">float</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Color saturation of the image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Contrast</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">float</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Contrast of the image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Sharpness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">float</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Sharpness of the Video image.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#callback">callback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Optional callback, instead of a Promise.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules_imaging.js.html">modules/imaging.js</a>, <a href="modules_imaging.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -549,7 +863,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 11 2021 11:44:06 GMT-0600 (Mountain Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Sep 17 2021 12:22:59 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
